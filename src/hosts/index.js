@@ -2,6 +2,7 @@
  * @file hosts管理
  * @author zdying
  */
+var fs = require('fs');
 var parser = require('./parser');
 
 function Hosts(){
@@ -19,6 +20,7 @@ Hosts.prototype = {
      */
     addFile: function(filePath){
         var _files = this._files;
+        var self = this;
 
         if(filePath){
             if(!Array.isArray(filePath)){
@@ -28,6 +30,12 @@ Hosts.prototype = {
             filePath.forEach(function(file){
                 if(!(file in _files)){
                     _files[file] = {};
+                    fs.watchFile(file, {interval: 2000}, function(curr, prev){
+                        if(curr.mtime !== prev.mtime){
+                            log.debug(file.bold.green, 'changed.');
+                            self.update();
+                        }
+                    });
                 }
             });
 
@@ -51,6 +59,7 @@ Hosts.prototype = {
 
             filePath.forEach(function(file){
                 delete _files[file];
+                fs.unwatchFile(file);
             });
 
             this.update();
@@ -117,6 +126,9 @@ Hosts.prototype = {
                 _rules[domain] = parsedResult[domain];
             }
         }
+
+        log.debug('hosts updated.');
+        log.detail(JSON.stringify(_rules));
 
         return this;
     }

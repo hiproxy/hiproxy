@@ -3,6 +3,8 @@
  * @author zdying
  */
 
+var fs = require('fs');
+
 function Rewrite(){
     this._files = {};
     this._rules = {};
@@ -18,6 +20,7 @@ Rewrite.prototype = {
      */
     addFile: function(filePath){
         var _files = this._files;
+        var self = this;
 
         if(filePath){
             if(!Array.isArray(filePath)){
@@ -27,6 +30,12 @@ Rewrite.prototype = {
             filePath.forEach(function(file){
                 if(!(file in _files)){
                     _files[file] = {};
+                    fs.watchFile(file, {interval: 2000}, function(curr, prev){
+                        if(curr.mtime !== prev.mtime){
+                            log.debug(file.bold.green, 'changed.');
+                            self.update();
+                        }
+                    })
                 }
             });
 
@@ -41,8 +50,20 @@ Rewrite.prototype = {
      * @param {String|Array} filePath
      */
     deleteFile: function(filePath){
-        delete this._files[filePath];
+        var _files = this._files;
 
+        if(filePath){
+            if(!Array.isArray(filePath)){
+                filePath = [filePath];
+            }
+
+            filePath.forEach(function(file){
+                delete _files[file];
+                fs.unwatchFile(file);
+            });
+
+            this.update();
+        }
         return this;
     },
 
@@ -105,7 +126,8 @@ Rewrite.prototype = {
             }
         }
 
-        log.debug('rewrite updated:', JSON.stringify(this._rules));
+        log.debug('rewrite updated.');
+        log.detail(JSON.stringify(this._rules));
 
         return this;
     }
