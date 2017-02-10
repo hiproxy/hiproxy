@@ -38,4 +38,7 @@ jspm_packages
 
 # System
 .DS_Store
+
+# IDE
 .idea
+.vscode

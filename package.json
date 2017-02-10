@@ -2,7 +2,7 @@
   "name": "hiproxy",
   "version": "1.0.0",
   "description": "hiproxy is a Node.js proxy client",
-  "main": "src/proxy/index.js",
+  "main": "src/index.js",
   "bin": {
     "hiproxy": "bin/cli.js",
     "hip": "bin/cli.js"
