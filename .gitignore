@@ -38,3 +38,4 @@ jspm_packages
 
 # System
 .DS_Store
+.idea

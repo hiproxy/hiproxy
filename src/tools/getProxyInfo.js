@@ -3,13 +3,9 @@
  * @author zdying
  */
 
-var parseHosts = require('../tools/parseHosts');
-var parseRewrite = require('../tools/parseRewrite');
-
 var url = require('url');
 var fs = require('fs');
 
-var commands = require('../commands/index');
 var execCommand = require('./execCommand');
 //var replaceVar = require('../tools/replaceVar');
 
@@ -18,13 +14,12 @@ var execCommand = require('./execCommand');
  * @param {Object}  request 请求对象
  * @param {Object}  hostsRules 解析后的hosts规则
  * @param {Array}   rewriteRules 解析后的rewrite规则
- * @param {Object}  [domainCache={}] domain缓存对象, 存储hosts和rewrite中存在的域名, 提高匹配效率
  * @returns {Object}
  */
-module.exports = function getProxyInfo(request, hostsRules, rewriteRules, domainCache){
+module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
     var originUrl = request.url;
     var uri = url.parse(originUrl);
-    var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules, domainCache || {});
+    var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules);
     var host = !!hostsRules && hostsRules[uri.hostname];
 
     var hostname, port, path, proxyName, protocol;
@@ -112,7 +107,7 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules, domain
         proxyName = 'HIIPACK';
     }else if(host){
         hostname = host.split(':')[0];
-        port = Number(uri.port || host.split(':')[1]);
+        port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
         path = uri.path;
         proxyName = 'HIIPACK';
     }else{
@@ -145,13 +140,13 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules, domain
  * @param domainCache
  * @returns {*}
  */
-function getRewriteRule(urlObj, rewriteRules, domainCache){
+function getRewriteRule(urlObj, rewriteRules){
     var hostname = urlObj.hostname;
     var href = urlObj.href;
     var rewriteRule = null;
     var lastDeep = -1;
 
-    var domains = domainCache[hostname];
+    var domains = rewriteRules[hostname];
 
     if(!domains || !Array.isArray(domains)){
         return null

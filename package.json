@@ -2,9 +2,9 @@
   "name": "hiproxy",
   "version": "1.0.0",
   "description": "hiproxy is a Node.js proxy client",
-  "main": "index.js",
+  "main": "src/proxy/index.js",
   "bin": {
-    "hiproxy": "bin/hiproxy.js"
+    "hiproxy": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/zdying/hiproxy#readme",
   "dependencies": {
-    "colors": "^1.1.2",
     "simple-mime": "^0.1.0"
   }
 }

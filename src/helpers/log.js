@@ -3,16 +3,15 @@
  * @author zdying
  */
 
-var colors = require('colors');
 var iconMap = {
-        'debug'   : '➤',
-        'access'  : '✔',
-        'info'    : 'ℹ',
-        'error'   : '✘',
-        'warn'    : '⚠',
-        'success' : '✔',
-        'detail'  : '❄'
-    };
+    'debug'   : '➤',
+    'access'  : '✔',
+    'info'    : 'ℹ',
+    'error'   : '✘',
+    'warn'    : '⚠',
+    'success' : '✔',
+    'detail'  : '❄'
+};
 
 // for(var key in iconMap){
 //     console.log(iconMap[key]);
@@ -39,10 +38,10 @@ module.exports = {
 
         this.printMessage('access', 'green', true, [
             req.method.white,
-            (req.originalUrl || req.url).grey,
-            proxy ? ('==> '.bold.white + proxy.grey) : '',
-            String(statusCode)[colormap[statusCode] || 'grey'],
-            ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'grey']
+            (req.originalUrl || req.url).gray,
+            proxy ? ('==> '.bold.white + proxy.gray) : '',
+            String(statusCode)[colormap[statusCode] || 'gray'],
+            ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']
         ])
     },
     error: function(err){

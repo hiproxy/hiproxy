@@ -20,7 +20,7 @@ module.exports = function openBrowser(browser, url){
             }
 
             var command = browserPath + ' ' + proxyConfig[browser](dataDir, url, browserPath);
-            // var command = browserPath + ' --proxy-server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
+            // var command = browserPath + ' --proxy-_server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
             log.debug('open ==> ', command);
             require('child_process').exec(command, function(err){
                 if(err){

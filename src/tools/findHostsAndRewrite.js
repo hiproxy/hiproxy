@@ -10,9 +10,9 @@ module.exports = function findHostsAndRewrite(callback){
     var hosts = [];
     var rewrites = [];
 
-    setTimeout(function(){
+    // setTimeout(function(){
         log.debug('findHostsAndRewrite - find hosts and rewrite in', cwd.bold.green);
-    }, 100);
+    // }, 100);
 
     fs.readdir(cwd, function(err, files){
         if(err){

@@ -7,7 +7,7 @@
 
 var logger = log.namespace('proxy -> Server');
 
-var execResponseCommand = require('../execCommand');
+var execResponseCommand = require('../../../tools/execCommand');
 
 module.exports = {
     response: function(rewrite_rule, request, response){
