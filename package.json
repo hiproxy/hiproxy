@@ -4,7 +4,8 @@
   "description": "hiproxy is a Node.js proxy client",
   "main": "src/proxy/index.js",
   "bin": {
-    "hiproxy": "bin/cli.js"
+    "hiproxy": "bin/cli.js",
+    "hip": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
