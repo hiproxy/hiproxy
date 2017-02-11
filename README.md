@@ -1,6 +1,8 @@
 # hiproxy
 A Node.js proxy client
 
+[![Build Status](https://travis-ci.org/zdying/hiproxy.svg?branch=master)](https://travis-ci.org/zdying/hiproxy)
+
 # TODO
 
 ## 核心功能
