@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test/**/*.test.js",
-    "cover": "istanbul cover _mocha",
+    "cover": "istanbul cover _mocha test/**/*.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
