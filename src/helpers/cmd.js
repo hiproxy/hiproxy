@@ -29,7 +29,7 @@ module.exports = {
                 // 如果当前argv是参数
                 if(!next || next.indexOf('-') === 0){
                     // 如果下一个不是当前参数的值
-                    currValue = ''//true
+                    currValue = true;
                 }else{
                     currValue = next;
                     i++;
@@ -37,7 +37,7 @@ module.exports = {
             }
 
             if(isFullArg){
-                result[argName] = currValue;
+                result[toCamelCase(argName)] = currValue;
             }else if(isShortArg){
                 argName.split('').forEach(function(_argName, index){
                     result[_argName] = index === argName.length - 1 ? currValue : true;
@@ -52,6 +52,9 @@ module.exports = {
             currentOption = _options[option];
             currentAlias = currentOption.alias;
 
+            option = toCamelCase(option);
+            currentAlias = toCamelCase(currentAlias);
+
             if(currentAlias){
                 if(option in result){
                     result[currentAlias] = result[option];
@@ -63,12 +66,24 @@ module.exports = {
 
         var cmdName = result._[0];
 
-        console.log('result:', result);
-        console.log('\n\n');
+        // console.log('result:', result);
+        // console.log('\n\n');
 
-        if(cmdName && _cmds[cmdName]){
-            if(typeof _cmds[cmdName].fn === 'function'){
-                _cmds[cmdName].fn.apply(result, result._.slice(1))
+        if(cmdName){
+            if(_cmds[cmdName]){
+                if(result.help){
+                    console.log('help info for `' + cmdName + '`');
+                }else if(typeof _cmds[cmdName].fn === 'function'){
+                    _cmds[cmdName].fn.apply(result, result._.slice(1))
+                }
+            }else{
+                console.log('\n⚠️ 命令`' + cmdName + '`不存在\n');
+            }
+        }else{
+            if(result.version){
+                console.log('版本:1.1.0');
+            }else if(result.help){
+                console.log('full help info');
             }
         }
 
@@ -125,7 +140,29 @@ function isShortArgName(str){
     return str.indexOf('-') === 0;
 }
 
+function toCamelCase(str){
+    return str.replace(/-(\w)/g, function(match, letter){
+        return letter.toUpperCase();
+    })
+}
 
+// 默认参数
+module.exports
+    .option('version', {
+        default: true,
+        describe: '显示版本信息',
+        alias: 'v',
+        usage: 'hiproxy --version'
+    })
+    .option('help', {
+        default: true,
+        describe: '显示帮助信息',
+        alias: 'h',
+        usage: 'hiproxy [cmd] --help'
+    })
+
+// test
+/*
 var args = module.exports;
 
 args
@@ -153,6 +190,19 @@ args
         describe: 'open browser',
         alias: 'o',
         usage: 'open [browser]'
-    });
+    })
+    .option('sub-domains', {
+        default: '',
+        describe: 'sub domains',
+        alias: 'd',
+        usage: 'sub-domains [domains...]'
+    })
+    .option('P', {
+        default: '',
+        describe: 'output path',
+        alias: 'output-path',
+        usage: 'output-path <path>'
+    })
 
 args.parse();
+*/

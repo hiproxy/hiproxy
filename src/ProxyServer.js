@@ -72,7 +72,7 @@ ProxyServer.prototype = {
 
                 setTimeout(function(){
                     self._initEvent()._findFiles();
-                }, 0);
+                }, 20);
 
                 return servers;
             })

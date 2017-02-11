@@ -24,7 +24,7 @@ module.exports = {
         return log;
     },
     debug: function(){
-        /*program.debug && */this.printMessage('debug', 'magenta', arguments)
+        args.debug && this.printMessage('debug', 'magenta', arguments)
     },
     access: function(req, proxy){
         var statusCode = req.res.statusCode;
@@ -49,9 +49,9 @@ module.exports = {
 
         if(type === '[object Error]'){
             this.printMessage('error', 'red', err.message);
-            // if(program.detail){
+            if(args.detail){
                 this.printMessage('error', 'red', true, err.stack)
-            // }
+            }
         }else{
             this.printMessage('error', 'red', arguments)
         }
@@ -63,11 +63,11 @@ module.exports = {
         this.printMessage('info', 'magenta', arguments)
     },
     detail: function(){
-        /*program.detail && */this.printMessage('detail', 'green', arguments)
+        args.detail && this.printMessage('detail', 'green', arguments)
     },
     printMessage: function(group, groupColor, ignoreNamespace, message){
         var timeStr = '';
-        var grep = '';//program.grep;
+        var grep = args.grep;
 
         if(arguments.length === 3){
             message = ignoreNamespace;
@@ -82,9 +82,9 @@ module.exports = {
             message = this._namespace + ' - ' + message
         }
 
-        //if(program.logTime){
+        if(args.logTime){
             timeStr = '[' + new Date().toLocaleTimeString() + ']';
-        // }
+        }
 
         if(!grep || message.indexOf(grep) !== -1 || grep === group){
             console.log(timeStr + ' ' + iconMap[group || 'success'].bold[groupColor] + ' ' + message);
