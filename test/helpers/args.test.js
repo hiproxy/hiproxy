@@ -1,4 +1,23 @@
 var assert = require('assert');
+
+function captureStream(stream) {
+    var oldWrite = stream.write;
+    var buf = '';
+    stream.write = function (chunk, encoding, callback) {
+        buf += chunk.toString(); // chunk is a String or Buffer
+        oldWrite.apply(stream, arguments);
+    }
+
+    return {
+        unhook: function unhook() {
+            stream.write = oldWrite;
+        },
+        captured: function () {
+            return buf;
+        }
+    };
+}
+
 describe('helpers/args.js (Args Parse):\n', function (){
     var args = require('../../src/helpers/args');
     var startRes = '';
@@ -119,6 +138,54 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
         it('设置正确的上下文(this)', function (){
             assert.ok(startContext === _args);
+        });
+    });
+
+    describe('#other', function(){
+        var hook;
+        beforeEach(function () {
+            hook = captureStream(process.stdout);
+        });
+        afterEach(function () {
+            hook.unhook();
+        });
+
+        it('print full help info', function(){
+            args.parse('node cli.js --help'.split(' '));
+
+            assert.ok(hook.captured().indexOf('full help info') !== -1)
+        });
+
+        it('print version info', function(){
+            args.parse('node clis.js --version'.split(' '));
+
+            assert.ok(hook.captured().indexOf('版本') !== -1)
+        });
+
+        it('print error message when cmd not exists', function(){
+            args.parse('node clis.js test-cmd'.split(' '));
+            
+            assert.ok(hook.captured().indexOf('命令`test-cmd`不存在') !== -1);
+        });
+
+        it('cmd args error: "what <name>" ==> "node clis.js test"', function(){
+            var name = '';
+            args.command('what <name>', 'what name', function(_name){
+                name = _name;
+            })
+            args.parse('node clis.js what'.split(' '));
+            
+            assert.ok(hook.captured().indexOf('参数个数不对') !== -1 && name === '');
+        });
+
+        it('cmd args ok: "what <name>" ==> "node clis.js test zdying" callback get arg "name"', function(){
+            var name = '';
+            args.command('what <name>', 'what name', function(_name){
+                name = _name;
+            })
+            args.parse('node clis.js what zdying'.split(' '));
+
+            assert.ok(name === 'zdying');
         });
     });
 });

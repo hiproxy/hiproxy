@@ -130,7 +130,15 @@ module.exports = {
         };
 
         return this;
-    }
+    },
+
+    // help: function(){
+
+    // },
+
+    // version: function(ver){
+
+    // }
 };
 
 function isFullArgName(str){
