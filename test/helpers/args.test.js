@@ -156,6 +156,12 @@ describe('helpers/args.js (Args Parse):\n', function (){
             assert.ok(hook.captured().indexOf('full help info') !== -1)
         });
 
+        it('print help info for cmd', function(){
+            args.parse('node cli.js start --help'.split(' '));
+
+            assert.ok(hook.captured().indexOf('help info for `start`') !== -1)
+        });
+
         it('print version info', function(){
             args.parse('node clis.js --version'.split(' '));
 
@@ -178,14 +184,15 @@ describe('helpers/args.js (Args Parse):\n', function (){
             assert.ok(hook.captured().indexOf('参数个数不对') !== -1 && name === '');
         });
 
-        it('cmd args ok: "what <name>" ==> "node clis.js test zdying" callback get arg "name"', function(){
-            var name = '';
-            args.command('what <name>', 'what name', function(_name){
+        it('cmd args ok: "what <name> [age]" ==> "node clis.js test zdying" callback get arg "name"', function(){
+            var name = '', age = 0;
+            args.command('what <name> [age]', 'what name', function(_name, _age){
                 name = _name;
+                age = _age;
             })
-            args.parse('node clis.js what zdying'.split(' '));
+            args.parse('node clis.js what zdying 23'.split(' '));
 
-            assert.ok(name === 'zdying');
+            assert.ok(name === 'zdying' && age === '23');
         });
     });
 });
