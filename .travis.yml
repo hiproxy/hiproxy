@@ -7,8 +7,11 @@ node_js:
   - "iojs"
 install:
   - npm install --no-optional
+  - npm install coveralls istanbul mocha mocha-lcov-reporter
+
 after_success:
 - npm run coveralls
+
 cache:
   directories:
     - node_modules
