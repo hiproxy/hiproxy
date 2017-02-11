@@ -9,8 +9,9 @@ var _options = {};
 var _cmds = {};
 
 module.exports = {
-    parse: function(){
-        var argv = process.argv;
+    parse: function(_argv){
+        
+        var argv = Array.isArray(_argv) ? _argv : process.argv;
         var args = argv.slice(2);
         var curr, currValue, next, argName;
         var isFullArg, isShortArg;

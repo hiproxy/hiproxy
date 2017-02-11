@@ -2,13 +2,13 @@
 
 require('../src/helpers/color');
 var log = require('../src/helpers/log');
-var cmd = require('../src/helpers/cmd');
+var args = require('../src/helpers/args');
 var getLocalIP = require('../src/helpers/getLocalIP');
 
 global.log = log;
-global.cmd = cmd;
+global.args = args;
 
-cmd.command('start', '启动代理服务', function(){
+args.command('start', '启动代理服务', function(){
     var Proxy = require('./../src');
     // var openBrowser = require('./proxy/openBrowser');
 
@@ -31,7 +31,7 @@ cmd.command('start', '启动代理服务', function(){
     });
 });
 
-cmd
+args
     .option('port', {
         alias: 'p',
         describe: '端口号'
@@ -41,7 +41,7 @@ cmd
         describe: 'https中间人端口号'
     });
 
-global.args = cmd.parse();
+global.args = args.parse();
 
 function showImage(lines){
     lines = lines || [];

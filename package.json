@@ -8,7 +8,7 @@
     "hip": "bin/cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -27,5 +27,8 @@
   "homepage": "https://github.com/zdying/hiproxy#readme",
   "dependencies": {
     "simple-mime": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
