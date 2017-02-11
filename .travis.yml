@@ -7,3 +7,8 @@ node_js:
   - "iojs"
 install:
   - npm install --no-optional
+after_success:
+- npm run coveralls
+cache:
+  directories:
+    - node_modules
