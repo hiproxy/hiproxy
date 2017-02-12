@@ -1,0 +1,14 @@
+## test hosts
+
+# 普通hosts
+127.0.0.1 test.example.com
+192.168.0.1 test.example.cn www.example.cn
+
+# 带端口号
+127.0.0.1:8081 www.demo.com
+192.168.0.1:89 test.demo.cn www.demo.cn blog.demo.cn
+# 192.168.0.1:81 test.zdying.cn
+
+# 非法格式
+11.22.33.44 www.aaa.com/def
+12.34.56.78

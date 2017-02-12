@@ -85,7 +85,7 @@ ProxyServer.prototype = {
      * 停止代理服务
      */
     stop: function(){
-
+        
     },
 
     /**

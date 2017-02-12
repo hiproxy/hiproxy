@@ -36,13 +36,11 @@ module.exports = function parseHosts(filePath){
         var arr = line.split(/\s+/);
 
         if(arr.length < 2 || line.indexOf('/') !== -1){
-            setTimeout(function(){
-                log.debug('hosts -', line.bold.yellow, 'ignored')
-            }, 0)
-        }
-
-        for(var i = 1, len = arr.length; i < len; i++){
-            hostRules[arr[i]] = arr[0];
+            log.warn('hosts -', line.bold.yellow, 'ignored')
+        }else{
+            for(var i = 1, len = arr.length; i < len; i++){
+                hostRules[arr[i]] = arr[0];
+            }
         }
     });
 

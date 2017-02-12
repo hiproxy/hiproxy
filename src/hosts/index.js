@@ -2,6 +2,10 @@
  * @file hosts管理
  * @author zdying
  */
+global.log = require('../helpers/log');
+global.args = {
+    debug: true
+}
 var fs = require('fs');
 var parser = require('./parser');
 
@@ -30,7 +34,7 @@ Hosts.prototype = {
             filePath.forEach(function(file){
                 if(!(file in _files)){
                     _files[file] = {};
-                    fs.watchFile(file, {interval: 2000}, function(curr, prev){
+                    fs.watchFile(file, {interval: 500}, function(curr, prev){
                         if(curr.mtime !== prev.mtime){
                             log.debug(file.bold.green, 'changed.');
                             self.update();
@@ -71,10 +75,10 @@ Hosts.prototype = {
      * 添加Hosts规则
      * @returns this
      */
-    addHost: function(){
-        //TODO ...
-        return this;
-    },
+    // addHost: function(){
+    //     //TODO ...
+    //     return this;
+    // },
 
     /**
      * 获取解析后的规则
@@ -101,11 +105,11 @@ Hosts.prototype = {
      *
      * @returns this
      */
-    clearFiles: function(){
-        this._files = {};
+    // clearFiles: function(){
+    //     this._files = {};
 
-        return this;
-    },
+    //     return this;
+    // },
 
     /**
      * 更新Hosts规则
@@ -155,3 +159,9 @@ Hosts.parseFile = function(filePath){
 };
 
 module.exports = Hosts;
+
+var hosts = new Hosts();
+
+hosts.addFile(__dirname + '/../../test/hosts/hosts_2');
+
+console.log(hosts.getHost());
