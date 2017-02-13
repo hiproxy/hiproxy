@@ -19,7 +19,7 @@ function captureStream(stream) {
 }
 
 describe('helpers/args.js (Args Parse):\n', function (){
-    var args = require('../../src/helpers/args');
+    var args = require('../../src/helpers/args')();
     var startRes = '';
     var srartContext = '';
     var startArguments = [];

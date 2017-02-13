@@ -3,11 +3,10 @@
 var colors = require('colors');
 // var color = require('../src/helpers/color');
 var log = require('../src/helpers/log');
-var args = require('../src/helpers/args');
+var args = require('../src/helpers/args')();
 var getLocalIP = require('../src/helpers/getLocalIP');
 
 global.log = log;
-global.args = args;
 
 args.command('start', '启动代理服务', function(){
     var Proxy = require('./../src');
