@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var Hosts = require('../../src/hosts');
 var log = require('../../src/helpers/log');
-var colors = require('../../src/helpers/color');
+var colors = require('colors');
 global.args = {};
 global.log = log;
 
