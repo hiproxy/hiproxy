@@ -11,9 +11,10 @@ global.args = args;
 
 args.command('start', '启动代理服务', function(){
     var Proxy = require('./../src');
-    // var openBrowser = require('./proxy/openBrowser');
-
-    var proxy = new Proxy(this.port || 5525, this.middleManPort || 10010);
+    var cliArgs = this;
+    var port = cliArgs.port || 5525;
+    var httpsPort = cliArgs.middleManPort || 10010;
+    var proxy = new Proxy(port, httpsPort);
 
     proxy.start().then(function(servers){
         var proxyAddr = servers[0].address();
@@ -28,7 +29,12 @@ args.command('start', '启动代理服务', function(){
                 '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
                 ''
             ]);
-        })
+        });
+
+        console.log(cliArgs);
+        var open = cliArgs.open;
+        var browser = open === true ? 'chrome' : open;
+        browser && proxy.openBrowser(browser, '127.0.0.1:' + port);
     });
 });
 
@@ -40,7 +46,22 @@ args
     .option('middle-man-port', {
         alias: 'm',
         describe: 'https中间人端口号'
-    });
+    })
+    .option('open', {
+        alias: 'o',
+        describe: '打开浏览器'
+    })
+    .option('debug', {
+        alias: 'd',
+        describe: '显示调试信息'
+    })
+    .option('detail', {
+        alias: 'D',
+        describe: '显示详细调试信息'
+    })
+    .option('log-time', {
+        describe: '显示日志时间'
+    })
 
 global.args = args.parse();
 

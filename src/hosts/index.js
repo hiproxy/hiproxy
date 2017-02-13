@@ -2,10 +2,6 @@
  * @file hosts管理
  * @author zdying
  */
-global.log = require('../helpers/log');
-global.args = {
-    debug: true
-}
 var fs = require('fs');
 var parser = require('./parser');
 
@@ -132,7 +128,7 @@ Hosts.prototype = {
         }
 
         log.debug('hosts updated.');
-        log.detail(JSON.stringify(_rules));
+        log.detail('hosts rules:', JSON.stringify(_rules));
 
         return this;
     }
@@ -159,9 +155,3 @@ Hosts.parseFile = function(filePath){
 };
 
 module.exports = Hosts;
-
-var hosts = new Hosts();
-
-hosts.addFile(__dirname + '/../../test/hosts/hosts_2');
-
-console.log(hosts.getHost());

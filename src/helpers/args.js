@@ -150,6 +150,10 @@ function isShortArgName(str){
 }
 
 function toCamelCase(str){
+    if(!str){
+        return str;
+    }
+
     return str.replace(/-(\w)/g, function(match, letter){
         return letter.toUpperCase();
     })
