@@ -5,6 +5,7 @@ A Node.js proxy client
 [![Coverage Status](https://coveralls.io/repos/github/zdying/hiproxy/badge.svg?branch=master)](https://coveralls.io/github/zdying/hiproxy?branch=master)
 [![npm](https://img.shields.io/npm/v/hiproxy.svg)](https://www.npmjs.com/package/hiproxy)
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-orange.svg)](https://nodejs.org/)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/zdying/hiproxy/blob/master/LICENSE)
 
 # 安装
 
