@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-require('../src/helpers/color');
+var colors = require('colors');
+// var color = require('../src/helpers/color');
 var log = require('../src/helpers/log');
 var args = require('../src/helpers/args');
 var getLocalIP = require('../src/helpers/getLocalIP');
