@@ -1,6 +1,7 @@
 var assert = require('assert');
 var request = require('supertest');
 var http = require('http');
+var path = require('path');
 
 var Proxy = require('../../src/index');
 

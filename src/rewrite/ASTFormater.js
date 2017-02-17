@@ -173,19 +173,21 @@ function parseLocation(domain, location, res){
         url = replaceVar(url, loc);
         proxy = replaceVar(loc.props.proxy, loc);
 
-        funcs.forEach(function(fun){
-            var params = fun.params;
-            var name = fun.name;
+        replaceFuncVar(funcs, loc);
 
-            if(name === 'set'){
-                // 如果是 set 命令, 不替换第一个参数
-                fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), loc))
-            }else{
-                fun.params = replaceVar(fun.params, loc)
-            }
+        // funcs.forEach(function(fun){
+        //     var params = fun.params;
+        //     var name = fun.name;
 
-            // console.log('替换location的function参数:', name, fun.params);
-        });
+        //     if(name === 'set'){
+        //         // 如果是 set 命令, 不替换第一个参数
+        //         fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), loc))
+        //     }else{
+        //         fun.params = replaceVar(fun.params, loc)
+        //     }
+
+        //     // console.log('替换location的function参数:', name, fun.params);
+        // });
 
         props = merge({}, loc.props, {
             proxy: proxy
@@ -238,7 +240,7 @@ function execCommand(funcs, context, scope){
 //     });
 // }
 
-
+//TODO 上面有代码跟这个是一样的
 function replaceFuncVar(funcs, source){
     funcs.forEach(function(fun){
         var params = fun.params;

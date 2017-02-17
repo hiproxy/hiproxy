@@ -1,0 +1,23 @@
+# rewrite rules
+
+domain test.example.com {
+    # ssl_certificate     ./cert/hii.pack.com.crt;
+    # ssl_certificate_key ./cert/hii.pack.com.key;
+
+    set $local 127.0.0.1:45678;
+
+    # 默认
+    location / {
+        proxy_pass http://$local/;
+    }
+
+    # 文件
+    location /a.json {
+        proxy_pass http://$local/api/a.json;
+    }
+
+    # 目录
+    location /proj/api/ {
+        proxy_pass http://$local/api/;
+    }
+}
