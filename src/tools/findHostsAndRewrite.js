@@ -23,15 +23,22 @@ module.exports = function findHostsAndRewrite(callback){
             var curr = cwd + '/' + file;
             var hostPath, rewritePath;
 
+            if(file.indexOf('.') === 0){
+                return
+            }
+
             if(fs.statSync(curr).isDirectory()){
                 hostPath = curr + '/hosts';
                 rewritePath = curr + '/rewrite';
+                try{
+                    if(fs.statSync(hostPath).isFile()){
+                        hosts.push(hostPath)
+                    }
+                    if(fs.statSync(rewritePath).isFile()){
+                        rewrites.push(rewritePath)
+                    }
+                }catch(e){
 
-                if(fs.existsSync(hostPath)){
-                    hosts.push(hostPath)
-                }
-                if(fs.existsSync(rewritePath)){
-                    rewrites.push(rewritePath)
                 }
             }
         });

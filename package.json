@@ -1,6 +1,6 @@
 {
   "name": "hiproxy",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "hiproxy is a Node.js proxy client",
   "main": "src/index.js",
   "bin": {
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/zdying/hiproxy#readme",
   "dependencies": {
+    "colors": "^1.1.2",
     "simple-mime": "^0.1.0"
   },
   "devDependencies": {

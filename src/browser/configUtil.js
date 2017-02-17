@@ -12,29 +12,30 @@ var PAC_PATH = 'http://127.0.0.1:4936/proxy.pac';
 // var PAC_PATH = 'file://' + path.resolve(__hii__.cacheTmpdir, 'hiipack.pac');
 
 module.exports = {
-    chrome: function(dataDir, url){
+    chrome: function(dataDir, url, chromePath, proxy){
         return [
-            '--proxy-pac-url="' + PAC_PATH + '"',
+            // '--proxy-pac-url="' + proxy + '"',
+            '--proxy-server="' + proxy + '"',
             '--user-data-dir="'+ dataDir + '/chrome-cache' +'"',
             '--lang=local',
             url
         ].join(' ');
     },
 
-    opera: function(dataDir, url){
+    opera: function(dataDir, url, operaPath, proxy){
         return [
-            '--proxy-pac-url="' + PAC_PATH + '"',
+            '--proxy-pac-url="' + proxy + '"',
             '--user-data-dir="'+ dataDir + '/opera-cache' +'"',
             '--lang=local',
             url
         ].join(' ');
     },
 
-    safari: function(dataDir, url){
+    safari: function(dataDir, url, safariPath, proxy){
         return ''
     },
 
-    firefox: function(dataDir, url, firefoxPath){
+    firefox: function(dataDir, url, firefoxPath, proxy){
         // Firefox pac set
         // http://www.indexdata.com/connector-platform/enginedoc/proxy-auto.html
         // http://kb.mozillazine.org/Network.proxy.autoconfig_url
@@ -47,7 +48,7 @@ module.exports = {
         if(!fs.existsSync(prefsPath)){
             // 自动代理
             var prefs = [
-                'user_pref("network.proxy.autoconfig_url", "' + PAC_PATH + '");',
+                'user_pref("network.proxy.autoconfig_url", "' + proxy + '");',
                 'user_pref("network.proxy.type", 2);'
             ];
 
