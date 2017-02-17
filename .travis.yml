@@ -6,8 +6,7 @@ node_js:
   - "0.12.7"
   - "iojs"
 install:
-  - npm install --no-optional
-  - npm install coveralls istanbul mocha mocha-lcov-reporter
+  - npm install
 
 after_success:
 - npm run coveralls
