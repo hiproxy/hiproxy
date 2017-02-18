@@ -20,6 +20,7 @@ var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
 
 var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
+var createPacFile = require('./tools/createPacFile');
 
 function ProxyServer(httpPort, httpsPort){
     this.hosts = new Hosts();
@@ -88,7 +89,11 @@ ProxyServer.prototype = {
      * 停止代理服务
      */
     stop: function(){
-        
+        this.httpServer.close();
+
+        if(this.httpsServer){
+            this.httpsServer.close();
+        }
     },
 
     /**
@@ -134,7 +139,17 @@ ProxyServer.prototype = {
      * @param {String} url         要打开的url
      */
     openBrowser: function(browserName, url){
-        browser.open(browserName, url, 'http://127.0.0.1:' + this.httpPort);
+        // this.createPacFile().then(function(filePath){
+            // console.log('pacFile::', filePath);
+            browser.open(browserName, url, 'http://127.0.0.1:' + this.httpPort);
+        // });
+    },
+
+    createPacFile: function(){
+        var hosts = this.hosts.getHost();
+        var rewrite = this.rewrite.getRule();
+
+        return createPacFile(this.httpPort, {})
     }
 };
 

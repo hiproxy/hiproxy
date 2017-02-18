@@ -30,10 +30,14 @@ args.command('start', '启动代理服务', function(){
             ]);
         });
 
-        console.log(cliArgs);
         var open = cliArgs.open;
         var browser = open === true ? 'chrome' : open;
         browser && proxy.openBrowser(browser, '127.0.0.1:' + port);
+
+        // setTimeout(function(){
+        //     proxy.stop();
+        //     process.exit(0);
+        // }, 10000)
     });
 });
 

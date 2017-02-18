@@ -8,9 +8,9 @@
     "hip": "bin/cli.js"
   },
   "scripts": {
-    "test": "mocha test/**/*.test.js --no-color",
+    "mocha": "mocha test/**/*.test.js --no-color",
     "cover": "istanbul cover _mocha test/**/*.test.js --no-color",
-    "coveralls": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",

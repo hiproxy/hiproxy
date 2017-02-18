@@ -1,9 +1,0 @@
-# custom hosts with port :)
-# example
-#   127.0.0.1 hiipack.com
-#   127.0.0.1:8800 hiipack.com
-#   127.0.0.1:8800 hiipack.com hii.com
-
-127.0.0.1:8800 hiipack.com hii.com
-
-127.0.0.1 example.com example.com.cn

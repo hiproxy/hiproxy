@@ -7,7 +7,9 @@ describe('rewrite', function(){
         var tree = Rewrite.parseFile(path.join(__dirname, 'rewrite'));
         var domain1 = "test.example.com";
         var domain2 = "test.example.cn";
-console.log(';;;;;;;;;;;', JSON.stringify(tree, null, 4));
+
+        console.log(';;;;;;;;;;;', JSON.stringify(tree, null, 4));
+
         it('# 正确解析base rule: "test.example.cc => abc.com/def/"', function(){
             var loc = tree.domains['test.example.cc'].location[0];
             assert.equal(true, loc.isBaseRule);
