@@ -1,0 +1,25 @@
+t.ttt.com => {
+    location / {
+        proxy_pass http://127.0.0.1:61234/;
+    }
+
+    location /t/ {
+        proxy_pass http://127.0.0.1:61234/test/;
+
+        proxy_set_header Host t.ttt.com;
+        proxy_set_header Proxy_App hiproxy;
+
+        set_header set_header_field_1 1;
+        set_cookie cookie1 c1;
+        set_cookie cookie2 c2;
+    }
+
+    location /source/ {
+        alias ./static/;
+        root  index.html;
+    }
+
+    location /publish/ {
+        alias /usr/local/;
+    }
+}

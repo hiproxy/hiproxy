@@ -62,12 +62,19 @@ module.exports = {
         this.props.proxy = value;
     },
     'alias': function(value) {
+        this.props.alias = true;
+
         //TODO support relative path
         if(/^\//.test(value)){
+            // absolute path
             this.props.proxy = value;
-            this.props.alias = true;
         }else{
-            log.error('`alias`'.bold + "'s value should be an absolute path.");
+            // relative path
+            var _global = this.parent.parent;
+            var currentFilePath = _global.filePath;
+            var dirname = path.dirname(currentFilePath);
+
+            this.props.proxy = path.join(dirname, value);
         }
     },
     'root': function(value){
