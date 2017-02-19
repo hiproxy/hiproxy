@@ -12,9 +12,7 @@ describe('#http server', function(){
         testServer.listen(61234);
 
         proxy_server = new Proxy(8850);
-
         proxy_server.addRewriteFile(path.join(__dirname, 'rewrite'));
-
         proxy_server.start();
     });
 
@@ -38,7 +36,7 @@ describe('#http server', function(){
     });
 
     describe('#server response', function(){
-        it('requrest /', function(done){
+        it('request /', function(done){
             var server = new Proxy(8849);
             server.start().then(function(){
                 request('http://127.0.0.1:8849', function(err, response, body){
@@ -55,7 +53,7 @@ describe('#http server', function(){
     });
 
     describe('# proxy', function(){
-        it('requrest t.ttt.com/', function(done){
+        it('request t.ttt.com/', function(done){
             request({
                 uri : 'http://t.ttt.com/', 
                 proxy: 'http://127.0.0.1:8850' 
@@ -65,12 +63,10 @@ describe('#http server', function(){
                 }else{
                     done(err || new Error('Body not match'))
                 }
-
-                setver.stop();
             });
         });
 
-        it('requrest t.ttt.com/t/ proxy ok', function(done){
+        it('request t.ttt.com/t/ proxy ok', function(done){
             request({
                 uri : 'http://t.ttt.com/t/', 
                 proxy: 'http://127.0.0.1:8850' 
@@ -80,12 +76,10 @@ describe('#http server', function(){
                 }else{
                     done(err || new Error('Body not match'))
                 }
-
-                setver.stop();
             });
         });
 
-        it('requrest t.ttt.com/t/ header ok', function(done){
+        it('request t.ttt.com/t/ header ok', function(done){
             request({
                 uri : 'http://t.ttt.com/t/', 
                 proxy: 'http://127.0.0.1:8850' 
@@ -105,7 +99,7 @@ describe('#http server', function(){
             });
         });
 
-        it('requrest t.ttt.com/source/ (alias, root)', function(done){
+        it('request t.ttt.com/source/ (alias, root)', function(done){
             request({
                 uri : 'http://t.ttt.com/source/', 
                 proxy: 'http://127.0.0.1:8850' 
@@ -123,7 +117,7 @@ describe('#http server', function(){
             });
         });
 
-        it('requrest t.ttt.com/source/a.json', function(done){
+        it('request t.ttt.com/source/a.json', function(done){
             request({
                 uri : 'http://t.ttt.com/source/a.json', 
                 proxy: 'http://127.0.0.1:8850'
