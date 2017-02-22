@@ -45,9 +45,9 @@ ProxyServer.prototype = {
      * @param {Object} [settings.httpsPort]
      * @param {Object} [settings.rewriteExt]
      */
-    setUp: function(settings){
+    // setUp: function(settings){
 
-    },
+    // },
 
     /**
      * 启动代理服务
@@ -94,13 +94,19 @@ ProxyServer.prototype = {
         if(this.httpsServer){
             this.httpsServer.close();
         }
+
+        return this;
+    },
+
+    reset: function(){
+        
     },
 
     /**
      * 重启代理服务
      */
     restart: function(){
-
+        return this.stop().start();
     },
 
     /**
@@ -128,9 +134,9 @@ ProxyServer.prototype = {
      * @param {String} scope 指令作用域
      * @param {Function} fn  指令执行函数
      */
-    addDirective: function(name, scope, fn){
+    // addDirective: function(name, scope, fn){
 
-    },
+    // },
  
     /**
      * 打开浏览器窗口

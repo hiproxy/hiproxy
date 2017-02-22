@@ -38,6 +38,11 @@ args.command('start', '启动代理服务', function(){
         //     proxy.stop();
         //     process.exit(0);
         // }, 10000)
+
+        // setTimeout(function(){
+        //     console.log('重启');
+        //     proxy.restart();
+        // }, 10000)
     });
 });
 
