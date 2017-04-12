@@ -5,6 +5,7 @@
 
 'use strict';
 
+var log = require('../../../helpers/log');
 var logger = log.namespace('proxy -> Server');
 
 var execResponseCommand = require('../../../tools/execCommand');

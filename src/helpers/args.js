@@ -23,6 +23,7 @@ function args(){
         }
     };
     var _cmds = {};
+    var _version = '';
 
     return {
         parse: function(_argv){
@@ -97,9 +98,8 @@ function args(){
                 }
             }else{
                 if(result.version){
-                    console.log('版本:1.1.0');
+                    console.log('v' + _version);
                 }else if(result.help){
-                    console.log('full help info');
                     this.help();
                 }
             }
@@ -149,31 +149,34 @@ function args(){
         },
 
         help: function(){
-            // var lines = [];
-            // var maxLength = 0;
+            var lines = [];
+            var maxLength = 0;
 
-            // // options
-            // for(var opt in _options){
-            //     var optObj = _options[opt];
-            //     var describe = optObj.describe;
-            //     var alias = optObj.alias;
-            //     var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt;
-            //     var optStrLen = optStr.length;
+            // options
+            for(var opt in _options){
+                var optObj = _options[opt];
+                var describe = optObj.describe;
+                var alias = optObj.alias;
+                var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt;
+                var optStrLen = optStr.length;
 
-            //     if(optStrLen > maxLength){
-            //         maxLength = optStrLen;
-            //     }
+                if(optStrLen > maxLength){
+                    maxLength = optStrLen;
+                }
 
-            //     lines.push(optStr + ' $$' + optStrLen + '$$ ' + optObj.describe);
-            // }
+                lines.push(optStr + ' $$' + optStrLen + '$$ ' + optObj.describe);
+            }
 
-            // console.log(lines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
-            //     return new Array(maxLength - length + 1).join(' ');
-            // }))
+            // console.log('==> hiproxy@' + _version + ' <==');
+            console.log('Usage: hiproxy [options] [command]\n');
+            console.log(lines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
+                return new Array(maxLength - length + 1).join(' ');
+            }))
         },
 
         version: function(ver){
-
+            _version = ver;
+            return this;
         }
     }
 }

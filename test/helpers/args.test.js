@@ -50,6 +50,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
         alias: 'output-path'
     });
 
+    args.version('1.0.0');
+
     var argv = 
           '/path/to/node /path/to/file start ' 
         + 'subcmd '
@@ -153,7 +155,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
         it('print full help info', function(){
             args.parse('node cli.js --help'.split(' '));
 
-            assert.ok(hook.captured().indexOf('full help info') !== -1)
+            assert.ok(hook.captured().indexOf('Usage: hiproxy [options] [command]') !== -1)
         });
 
         it('print help info for cmd', function(){
@@ -164,8 +166,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
         it('print version info', function(){
             args.parse('node clis.js --version'.split(' '));
-
-            assert.ok(hook.captured().indexOf('版本') !== -1)
+            var output = hook.captured();
+            assert.ok(output.indexOf('v1.0.0') >= 0)
         });
 
         it('print error message when cmd not exists', function(){

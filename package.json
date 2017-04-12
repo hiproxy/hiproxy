@@ -8,6 +8,7 @@
     "hip": "bin/cli.js"
   },
   "scripts": {
+    "seq": "mocha test/seq/seq.test.js",
     "mocha": "mocha test/**/*.test.js --no-color",
     "cover": "istanbul cover _mocha test/**/*.test.js --no-color",
     "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls"

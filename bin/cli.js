@@ -47,6 +47,7 @@ args.command('start', '启动代理服务', function(){
 });
 
 args
+    .version('1.0.0')
     .option('port', {
         alias: 'p',
         describe: '端口号'
