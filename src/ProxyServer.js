@@ -46,6 +46,7 @@ ProxyServer.prototype = {
      * @param {Object} [settings.httpPort]
      * @param {Object} [settings.httpsPort]
      * @param {Object} [settings.rewriteExt]
+     * @private
      */
     // setUp: function(settings){
 
@@ -207,6 +208,10 @@ ProxyServer.prototype = {
             .on('request', listeners.request.bind(this))
             .on('connect', listeners.connect.bind(this));
 
+        // https中间人代理服务器事件绑定
+        // 中间人代理服务收到请求时：
+        //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
+        //  2. 如果是其他的请求，去请求资源
         httpsServer && httpsServer
             .on('request', function(req, res){
                 var url = req.url;

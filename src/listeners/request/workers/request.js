@@ -5,6 +5,11 @@
 
 'use strict';
 
+var url = require('url');
+var http = require('http');
+var https = require('https');
+var zlib = require('zlib');
+
 var log = require('../../../helpers/log');
 var logger = log.namespace('proxy -> Server');
 
@@ -12,11 +17,6 @@ var execResponseCommand = require('../../../tools/execCommand');
 
 module.exports = {
     response: function(rewrite_rule, request, response){
-        var url = require('url');
-        var http = require('http');
-        var https = require('https');
-        var zlib = require('zlib');
-
         var proxyOption = request.proxy_options;
         var isHTTPS = proxyOption.protocol === 'https:';
 
