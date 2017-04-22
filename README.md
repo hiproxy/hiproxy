@@ -27,6 +27,26 @@ hiproxy start -p 5525 --debug
 127.0.0.1:5525
 ```
 
+# Help
+
+```bash
+  Usage:
+
+    hiproxy [command] [option]
+
+  Commands:
+
+    start  启动代理服务
+
+  Options:
+
+    -v, --version   显示版本信息
+    -h, --help      显示帮助信息
+    -d, --debug     显示调试信息
+    -D, --detail    显示详细调试信息
+    --log-time      显示日志时间
+```
+
 # TODO
 
 ## 核心功能
