@@ -27,6 +27,111 @@ hiproxy start -p 5525 --debug
 127.0.0.1:5525
 ```
 
+# API
+
+<a name="ProxyServer"></a>
+
+## ProxyServer
+**Kind**: global class  
+
+* [ProxyServer](#ProxyServer)
+    * [new ProxyServer(httpPort, httpsPort)](#new_ProxyServer_new)
+    * [.start(httpPort, httpsPort)](#ProxyServer+start)
+    * [.stop()](#ProxyServer+stop)
+    * [.restart()](#ProxyServer+restart)
+    * [.addHostsFile(filePath)](#ProxyServer+addHostsFile)
+    * [.addRewriteFile(filePath)](#ProxyServer+addRewriteFile)
+    * [.openBrowser(browserName, url)](#ProxyServer+openBrowser)
+    * [.findConfigFiels([dir])](#ProxyServer+findConfigFiels) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+
+<a name="new_ProxyServer_new"></a>
+
+### new ProxyServer(httpPort, httpsPort)
+hiproxy代理服务器
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| httpPort | <code>Number</code> | http代理服务端口号 |
+| httpsPort | <code>Number</code> | https代理服务器端口号 |
+
+<a name="ProxyServer+start"></a>
+
+### proxyServer.start(httpPort, httpsPort)
+启动代理服务
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| httpPort | <code>Number</code> | http服务端口号 |
+| httpsPort | <code>Number</code> | https服务端口号 |
+
+<a name="ProxyServer+stop"></a>
+
+### proxyServer.stop()
+停止代理服务
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+<a name="ProxyServer+restart"></a>
+
+### proxyServer.restart()
+重启代理服务
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+<a name="ProxyServer+addHostsFile"></a>
+
+### proxyServer.addHostsFile(filePath)
+添加Hosts文件
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+
+| Param | Type |
+| --- | --- |
+| filePath | <code>String</code> \| <code>Array</code> | 
+
+<a name="ProxyServer+addRewriteFile"></a>
+
+### proxyServer.addRewriteFile(filePath)
+添加rewrite文件
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+
+| Param | Type |
+| --- | --- |
+| filePath | <code>String</code> \| <code>Array</code> | 
+
+<a name="ProxyServer+openBrowser"></a>
+
+### proxyServer.openBrowser(browserName, url)
+打开浏览器窗口
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| browserName | <code>String</code> | 浏览器名称 |
+| url | <code>String</code> | 要打开的url |
+
+<a name="ProxyServer+findConfigFiels"></a>
+
+### proxyServer.findConfigFiels([dir]) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+在指定工作空间（目录）下查找配置文件
+hiproxy会在指定的空间下所有一级目录下查找配置文件
+
+**Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
+**Access**: public  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [dir] | <code>String</code> | <code>process.cwd()</code> | 工作空间（目录） |
+
 # Help
 
 ```bash
