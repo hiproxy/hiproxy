@@ -9,19 +9,21 @@ var net = require('net');
 var url = require('url');
 var fs = require('fs');
 
-
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 
 var browser = require('./browser');
-
 var createServer = require('./tools/createServer');
-
 var listeners = require('./listeners');
-
 var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
 var createPacFile = require('./tools/createPacFile');
 
+/**
+ * hiproxy代理服务器
+ * @param {Number} httpPort http代理服务端口号
+ * @param {Number} httpsPort https代理服务器端口号
+ * @constructor
+ */
 function ProxyServer(httpPort, httpsPort){
     this.hosts = new Hosts();
     this.rewrite = new Rewrite();
@@ -54,6 +56,7 @@ ProxyServer.prototype = {
      * 
      * @param {Number} httpPort http服务端口号
      * @param {Number} httpsPort https服务端口号
+     * @public
      */
     start: function(httpPort, httpsPort){
         var self = this;
@@ -74,8 +77,8 @@ ProxyServer.prototype = {
                 self.httpsServer = httpsServer;
 
                 setTimeout(function(){
-                    _initEvent.call(self);
-                    _findFiles.call(self);
+                    self._initEvent();
+                    self.findConfigFiels();
                 }, 0);
 
                 return servers;
@@ -87,6 +90,7 @@ ProxyServer.prototype = {
 
     /**
      * 停止代理服务
+     * @public
      */
     stop: function(){
         this.httpServer.close();
@@ -104,6 +108,7 @@ ProxyServer.prototype = {
 
     /**
      * 重启代理服务
+     * @public
      */
     restart: function(){
         return this.stop().start();
@@ -113,18 +118,22 @@ ProxyServer.prototype = {
      * 添加Hosts文件
      * 
      * @param {String|Array} filePath
+     * @public
      */
     addHostsFile: function(filePath){
-        this.hosts.addFile(filePath)
+        this.hosts.addFile(filePath);
+        // this.createPacFile();
     },
 
     /**
      * 添加rewrite文件
      * 
      * @param {String|Array} filePath
+     * @public
      */
     addRewriteFile: function(filePath){
-        this.rewrite.addFile(filePath)
+        this.rewrite.addFile(filePath);
+        // this.createPacFile();
     },
 
     /**
@@ -143,10 +152,11 @@ ProxyServer.prototype = {
      * 
      * @param {String} browserName 浏览器名称
      * @param {String} url         要打开的url
+     * @public
      */
     openBrowser: function(browserName, url){
         // this.createPacFile().then(function(filePath){
-            // console.log('pacFile::', filePath);
+        //     console.log('pacFile::', filePath);
             browser.open(browserName, url, 'http://127.0.0.1:' + this.httpPort);
         // });
     },
@@ -156,68 +166,77 @@ ProxyServer.prototype = {
         var rewrite = this.rewrite.getRule();
 
         return createPacFile(this.httpPort, {})
+    },
+
+    /**
+     * 在指定工作空间（目录）下查找配置文件
+     * hiproxy会在指定的空间下所有一级目录下查找配置文件
+     * @param {String} [dir=process.cwd()] 工作空间（目录）
+     * @return {ProxyServer}
+     * @public
+     */
+    findConfigFiels: function(dir){
+        var self = this;
+
+        findHostsAndRewrite(dir, function(err, hosts, rewrites){
+            if(err){
+                return log.error(err);
+            }
+
+            log.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
+            log.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
+
+            // 将找到的Hosts文件解析并加入缓存
+            self.addHostsFile(hosts);
+
+            // 将找到的rewrite文件解析并加入缓存
+            self.addRewriteFile(rewrites)
+        });
+
+        return this;
+    },
+
+    _initEvent: function(){
+        var port = this.httpPort;
+        var url = 'http://127.0.0.1:' + port;
+        var pac = url + '/proxy.pac';
+        var server = this.httpServer;
+        var httpsServer = this.httpsServer;
+
+        server
+            .on('request', listeners.request.bind(this))
+            .on('connect', listeners.connect.bind(this));
+
+        httpsServer && httpsServer
+            .on('request', function(req, res){
+                var url = req.url;
+                var host = req.headers.host;
+                var protocol = req.client.encrypted ? 'https' : 'http';
+
+                log.debug('http middle man _server receive request ==>', protocol, host, url);
+
+                if(!url.match(/^\w+:\/\//)){
+                    req.url = protocol + '://' + host + url;
+                }
+
+                if(host === '127.0.0.1:' + this.httpsPort){
+                    res.end('the man in the middle page: ' + url);
+                    // if(url === '/'){
+                    //     res.end('the man in the middle.');
+                    // }else if(url === '/favicon.ico'){
+                    //     res.statusCode = 404;
+                    //     res.end('404 Not Found.');
+                    // }else{
+                    //     res.statusCode = 404;
+                    //     res.end('404 Not Found.');
+                    // }
+                }else{
+                    listeners.request.call(this, req, res);
+                }
+            }.bind(this));
+
+        return this;
     }
 };
-
-function _initEvent(){
-    var port = this.httpPort;
-    var url = 'http://127.0.0.1:' + port;
-    var pac = url + '/proxy.pac';
-    var server = this.httpServer;
-    var httpsServer = this.httpsServer;
-
-    server
-        .on('request', listeners.request.bind(this))
-        .on('connect', listeners.connect.bind(this));
-
-    httpsServer && httpsServer
-        .on('request', function(req, res){
-            var url = req.url;
-            var host = req.headers.host;
-            var protocol = req.client.encrypted ? 'https' : 'http';
-
-            log.debug('http middle man _server receive request ==>', protocol, host, url);
-
-            if(!url.match(/^\w+:\/\//)){
-                req.url = protocol + '://' + host + url;
-            }
-
-            if(host === '127.0.0.1:' + this.httpsPort){
-                res.end('the man in the middle page: ' + url);
-                // if(url === '/'){
-                //     res.end('the man in the middle.');
-                // }else if(url === '/favicon.ico'){
-                //     res.statusCode = 404;
-                //     res.end('404 Not Found.');
-                // }else{
-                //     res.statusCode = 404;
-                //     res.end('404 Not Found.');
-                // }
-            }else{
-                listeners.request.call(this, req, res);
-            }
-        }.bind(this));
-
-    return this;
-}
-
-function _findFiles(){
-    var self = this;
-
-    findHostsAndRewrite(function(err, hosts, rewrites){
-        if(err){
-            return log.error(err);
-        }
-
-        log.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
-        log.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
-
-        // 将找到的Hosts文件解析并加入缓存
-        self.addHostsFile(hosts);
-
-        // 将找到的rewrite文件解析并加入缓存
-        self.addRewriteFile(rewrites)
-    })
-}
 
 module.exports = ProxyServer;

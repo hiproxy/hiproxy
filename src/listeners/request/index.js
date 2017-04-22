@@ -1,3 +1,7 @@
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
+
 var aliasWorker = require('./workers/alias');
 var requestWorker = require('./workers/request');
 var getProxyInfo = require('../../tools/getProxyInfo');

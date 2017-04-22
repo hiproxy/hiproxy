@@ -5,8 +5,8 @@
 
 var fs = require('fs');
 
-module.exports = function findHostsAndRewrite(callback){
-    var cwd = process.cwd();
+module.exports = function findHostsAndRewrite(dir, callback){
+    var cwd = dir || process.cwd();
     var hosts = [];
     var rewrites = [];
 

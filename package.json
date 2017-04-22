@@ -30,6 +30,7 @@
   "homepage": "https://github.com/zdying/hiproxy#readme",
   "dependencies": {
     "colors": "^1.1.2",
+    "hemsl": "^1.0.6",
     "simple-mime": "^0.1.0"
   },
   "devDependencies": {
