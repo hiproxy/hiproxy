@@ -1,6 +1,6 @@
 {
   "name": "hiproxy",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.1",
   "description": "hiproxy is a Node.js proxy client",
   "main": "src/index.js",
   "bin": {

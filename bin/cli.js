@@ -65,7 +65,7 @@ args.command('start', {
 });
 
 args
-    .version('1.0.0')
+    .version('1.0.6')
     .bin('hiproxy')
     .option('debug', {
         alias: 'd',
@@ -80,6 +80,16 @@ args
     })
 
 global.args = args.parse(true);
+
+if(global.args._.length === 0){
+    showImage([
+        '',
+        '',
+        'welcome to use hiproxy'.bold,
+        'current version is ' + '1.0.6'.bold.green,
+        'You can try ' + '`hiproxy --help`'.underline + ' for more info'
+    ]);
+}
 
 function showImage(lines){
     lines = lines || [];
