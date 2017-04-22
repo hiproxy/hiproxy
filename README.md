@@ -90,9 +90,9 @@ hiproxy代理服务器
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
 **Access**: public  
 
-| Param | Type |
-| --- | --- |
-| filePath | <code>String</code> \| <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| filePath | <code>String</code> \| <code>Array</code> | `hosts`文件路径（绝对路径） |
 
 <a name="ProxyServer+addRewriteFile"></a>
 
@@ -102,9 +102,9 @@ hiproxy代理服务器
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
 **Access**: public  
 
-| Param | Type |
-| --- | --- |
-| filePath | <code>String</code> \| <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| filePath | <code>String</code> \| <code>Array</code> | `rewrite`文件路径（绝对路径） |
 
 <a name="ProxyServer+openBrowser"></a>
 
@@ -131,6 +131,7 @@ hiproxy会在指定的空间下所有一级目录下查找配置文件
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [dir] | <code>String</code> | <code>process.cwd()</code> | 工作空间（目录） |
+
 
 # Help
 

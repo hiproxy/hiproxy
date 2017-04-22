@@ -41,9 +41,13 @@ args.command('start', {
             browser && proxy.openBrowser(browser, '127.0.0.1:' + port);
 
             // setTimeout(function(){
+            //     console.log('停止服务');
             //     proxy.stop();
-            //     process.exit(0);
-            // }, 10000)
+            // }, 10000);
+            // setTimeout(function(){
+            //     console.log('启动服务');
+            //     proxy.start();
+            // }, 20000)
 
             // setTimeout(function(){
             //     console.log('重启');

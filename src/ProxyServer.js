@@ -118,7 +118,7 @@ ProxyServer.prototype = {
     /**
      * 添加Hosts文件
      * 
-     * @param {String|Array} filePath
+     * @param {String|Array} filePath `hosts`文件路径（绝对路径）
      * @public
      */
     addHostsFile: function(filePath){
@@ -129,7 +129,7 @@ ProxyServer.prototype = {
     /**
      * 添加rewrite文件
      * 
-     * @param {String|Array} filePath
+     * @param {String|Array} filePath `rewrite`文件路径（绝对路径）
      * @public
      */
     addRewriteFile: function(filePath){
