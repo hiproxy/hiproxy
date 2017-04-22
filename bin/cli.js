@@ -16,8 +16,9 @@ args.command('start', {
     fn: function(){
         var Proxy = require('./../src');
         var cliArgs = this;
+        var https = cliArgs.https;
         var port = cliArgs.port || 5525;
-        var httpsPort = cliArgs.middleManPort || 10010;
+        var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
         var proxy = new Proxy(port, httpsPort);
 
         proxy.start().then(function(servers){
@@ -53,15 +54,19 @@ args.command('start', {
 })
 .option('port <port>', {
     alias: 'p',
-    describe: '端口号'
+    describe: 'http代理服务端口号'
 })
-.option('middle-man-port', {
+.option('https', {
+    alias: 's',
+    describe: '启动https代理服务'
+})
+.option('middle-man-port <port>', {
     alias: 'm',
     describe: 'https中间人端口号'
 })
 .option('open', {
     alias: 'o',
-    describe: '打开浏览器'
+    describe: '打开浏览器窗口'
 });
 
 args
