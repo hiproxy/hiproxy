@@ -8,6 +8,9 @@
 var url = require('url');
 var net = require('net');
 
+/**
+ * 处理`CONNECT`请求
+ */
 module.exports = function connectHandler(request, socket, head){
     var urlObj = url.parse('https://' + request.url);
     var hostname = urlObj.hostname;

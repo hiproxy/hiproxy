@@ -27,7 +27,7 @@ args.command('start', {
     alias: 'm',
     describe: 'https中间人端口号'
 })
-.option('open', {
+.option('open [browser]', {
     alias: 'o',
     describe: '打开浏览器窗口'
 })
@@ -58,7 +58,7 @@ if(global.args._.length === 0 && Object.keys(global.args).length === 1){
         '',
         'welcome to use hiproxy'.bold,
         'current version is ' + '1.0.6'.bold.green,
-        'You can try ' + '`hiproxy --help`'.underline + ' for more info'
+        'You can try `' + 'hiproxy --help'.underline + '` for more info'
     ]);
 }
 
@@ -73,7 +73,7 @@ function showImage(lines){
     // console.log("         | |                   __/ |");
     // console.log("         |_|                  |___/ ");
 
-    console.log('');
+    // console.log('');
     console.log("  _     " + "_".bold.red + " ", lines[0] || '');
     console.log(" | |   " + "(_)".bold.red, lines[1] || '');
     console.log(" | |__  _ ", lines[2] || '');

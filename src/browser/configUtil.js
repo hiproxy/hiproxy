@@ -18,8 +18,6 @@ module.exports = {
             ? '--proxy-pac-url="' + proxyURL + '/proxy.pac"'
             : '--proxy-server="' + proxyURL + '"';
 
-            console.log('proxyOption:::::', usePacProxy);
-
         return [
             //'--proxy-pac-url="' + proxy + '"',
             // '--proxy-server="' + proxy + '"',

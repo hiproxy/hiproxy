@@ -39,20 +39,6 @@ ProxyServer.prototype = {
     constructor: ProxyServer,
 
     /**
-     * 配置服务器信息
-     * 
-     * @param {Object} settings
-     * @param {Object} [settings.log]
-     * @param {Object} [settings.httpPort]
-     * @param {Object} [settings.httpsPort]
-     * @param {Object} [settings.rewriteExt]
-     * @private
-     */
-    // setUp: function(settings){
-
-    // },
-
-    /**
      * 启动代理服务
      * 
      * @param {Number} httpPort http服务端口号
@@ -105,10 +91,6 @@ ProxyServer.prototype = {
         return this;
     },
 
-    reset: function(){
-        
-    },
-
     /**
      * 重启代理服务
      * @return {ProxyServer}
@@ -146,9 +128,10 @@ ProxyServer.prototype = {
      * @param {String} name  指令名称
      * @param {String} scope 指令作用域
      * @param {Function} fn  指令执行函数
+     * @private
      */
     // addDirective: function(name, scope, fn){
-
+    // 
     // },
  
     /**
@@ -171,6 +154,10 @@ ProxyServer.prototype = {
         }
     },
 
+    /**
+     * 创建自动配置代理文件
+     * @private
+     */
     createPacFile: function(){
         var hosts = this.hosts.getHost();
         var rewrite = this.rewrite.getRule();
