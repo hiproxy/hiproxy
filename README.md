@@ -36,12 +36,12 @@ hiproxy start -p 5525 --debug
 
 * [ProxyServer](#ProxyServer)
     * [new ProxyServer(httpPort, httpsPort)](#new_ProxyServer_new)
-    * [.start(httpPort, httpsPort)](#ProxyServer+start)
-    * [.stop()](#ProxyServer+stop)
-    * [.restart()](#ProxyServer+restart)
-    * [.addHostsFile(filePath)](#ProxyServer+addHostsFile)
-    * [.addRewriteFile(filePath)](#ProxyServer+addRewriteFile)
-    * [.openBrowser(browserName, url)](#ProxyServer+openBrowser)
+    * [.start(httpPort, httpsPort)](#ProxyServer+start) ⇒ <code>Promise</code>
+    * [.stop()](#ProxyServer+stop) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+    * [.restart()](#ProxyServer+restart) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+    * [.addHostsFile(filePath)](#ProxyServer+addHostsFile) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+    * [.addRewriteFile(filePath)](#ProxyServer+addRewriteFile) ⇒ <code>[ProxyServer](#ProxyServer)</code>
+    * [.openBrowser(browserName, url, [usePacProxy])](#ProxyServer+openBrowser) ⇒ <code>[ProxyServer](#ProxyServer)</code>
     * [.findConfigFiels([dir])](#ProxyServer+findConfigFiels) ⇒ <code>[ProxyServer](#ProxyServer)</code>
 
 <a name="new_ProxyServer_new"></a>
@@ -57,7 +57,7 @@ hiproxy代理服务器
 
 <a name="ProxyServer+start"></a>
 
-### proxyServer.start(httpPort, httpsPort)
+### proxyServer.start(httpPort, httpsPort) ⇒ <code>Promise</code>
 启动代理服务
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
@@ -70,21 +70,21 @@ hiproxy代理服务器
 
 <a name="ProxyServer+stop"></a>
 
-### proxyServer.stop()
+### proxyServer.stop() ⇒ <code>[ProxyServer](#ProxyServer)</code>
 停止代理服务
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
 **Access**: public  
 <a name="ProxyServer+restart"></a>
 
-### proxyServer.restart()
+### proxyServer.restart() ⇒ <code>[ProxyServer](#ProxyServer)</code>
 重启代理服务
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
 **Access**: public  
 <a name="ProxyServer+addHostsFile"></a>
 
-### proxyServer.addHostsFile(filePath)
+### proxyServer.addHostsFile(filePath) ⇒ <code>[ProxyServer](#ProxyServer)</code>
 添加Hosts文件
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
@@ -96,7 +96,7 @@ hiproxy代理服务器
 
 <a name="ProxyServer+addRewriteFile"></a>
 
-### proxyServer.addRewriteFile(filePath)
+### proxyServer.addRewriteFile(filePath) ⇒ <code>[ProxyServer](#ProxyServer)</code>
 添加rewrite文件
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
@@ -108,16 +108,17 @@ hiproxy代理服务器
 
 <a name="ProxyServer+openBrowser"></a>
 
-### proxyServer.openBrowser(browserName, url)
+### proxyServer.openBrowser(browserName, url, [usePacProxy]) ⇒ <code>[ProxyServer](#ProxyServer)</code>
 打开浏览器窗口
 
 **Kind**: instance method of <code>[ProxyServer](#ProxyServer)</code>  
 **Access**: public  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| browserName | <code>String</code> | 浏览器名称 |
-| url | <code>String</code> | 要打开的url |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| browserName | <code>String</code> |  | 浏览器名称 |
+| url | <code>String</code> |  | 要打开的url |
+| [usePacProxy] | <code>Boolean</code> | <code>false</code> | 是否使用自动代理 |
 
 <a name="ProxyServer+findConfigFiels"></a>
 
@@ -132,46 +133,3 @@ hiproxy会在指定的空间下所有一级目录下查找配置文件
 | --- | --- | --- | --- |
 | [dir] | <code>String</code> | <code>process.cwd()</code> | 工作空间（目录） |
 
-
-# Help
-
-```bash
-  Usage:
-
-    hiproxy [command] [option]
-
-  Commands:
-
-    start  启动代理服务
-
-  Options:
-
-    -v, --version   显示版本信息
-    -h, --help      显示帮助信息
-    -d, --debug     显示调试信息
-    -D, --detail    显示详细调试信息
-    --log-time      显示日志时间
-```
-
-# TODO
-
-## 核心功能
-
-- [x] ~~配置文件解析（Nginx风格配置文件）~~
-- [x] ~~HTTP代理~~
-- [x] ~~HTTPS代理~~
-- [ ] HTTPS证书生成
-- [x] ~~启动浏览器并设置代理~~
-- [x] 生成自动代理文件
-- [ ] 完善文档
-- [ ] 完善测试
-
-## 其他
-
-### Node.js API
-
-- [x] 基本API
-- [x] 配置文件查找位置接口
-- [ ] 配置文件名称扩展名接口
-- [ ] 指令扩展
-- [ ] ...

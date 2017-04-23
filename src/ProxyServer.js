@@ -104,22 +104,26 @@ ProxyServer.prototype = {
      * 添加Hosts文件
      * 
      * @param {String|Array} filePath `hosts`文件路径（绝对路径）
+     * @return {ProxyServer}
      * @public
      */
     addHostsFile: function(filePath){
         this.hosts.addFile(filePath);
         this.createPacFile();
+        return this;
     },
 
     /**
      * 添加rewrite文件
      * 
      * @param {String|Array} filePath `rewrite`文件路径（绝对路径）
+     * @return {ProxyServer} 
      * @public
      */
     addRewriteFile: function(filePath){
         this.rewrite.addFile(filePath);
         this.createPacFile();
+        return this;
     },
 
     /**
@@ -140,6 +144,7 @@ ProxyServer.prototype = {
      * @param {String} browserName 浏览器名称
      * @param {String} url         要打开的url
      * @param {Boolean} [usePacProxy=false] 是否使用自动代理
+     * @return {ProxyServer}
      * @public
      */
     openBrowser: function(browserName, url, usePacProxy){
@@ -152,6 +157,8 @@ ProxyServer.prototype = {
         }else{
             browser.open(browserName, url, httpPort, usePacProxy);
         }
+
+        return this;
     },
 
     /**
