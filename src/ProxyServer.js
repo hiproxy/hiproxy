@@ -57,6 +57,7 @@ ProxyServer.prototype = {
      * 
      * @param {Number} httpPort http服务端口号
      * @param {Number} httpsPort https服务端口号
+     * @return {Promise}
      * @public
      */
     start: function(httpPort, httpsPort){
@@ -91,6 +92,7 @@ ProxyServer.prototype = {
 
     /**
      * 停止代理服务
+     * @return {ProxyServer}
      * @public
      */
     stop: function(){
@@ -109,6 +111,7 @@ ProxyServer.prototype = {
 
     /**
      * 重启代理服务
+     * @return {ProxyServer}
      * @public
      */
     restart: function(){
@@ -123,7 +126,7 @@ ProxyServer.prototype = {
      */
     addHostsFile: function(filePath){
         this.hosts.addFile(filePath);
-        // this.createPacFile();
+        this.createPacFile();
     },
 
     /**
@@ -134,7 +137,7 @@ ProxyServer.prototype = {
      */
     addRewriteFile: function(filePath){
         this.rewrite.addFile(filePath);
-        // this.createPacFile();
+        this.createPacFile();
     },
 
     /**
@@ -153,20 +156,33 @@ ProxyServer.prototype = {
      * 
      * @param {String} browserName 浏览器名称
      * @param {String} url         要打开的url
+     * @param {Boolean} [usePacProxy=false] 是否使用自动代理
      * @public
      */
-    openBrowser: function(browserName, url){
-        // this.createPacFile().then(function(filePath){
-        //     console.log('pacFile::', filePath);
-            browser.open(browserName, url, 'http://127.0.0.1:' + this.httpPort);
-        // });
+    openBrowser: function(browserName, url, usePacProxy){
+        var httpPort = this.httpPort;
+
+        if(usePacProxy){
+            this.createPacFile().then(function(filePath){
+                browser.open(browserName, url, httpPort, usePacProxy);
+            });
+        }else{
+            browser.open(browserName, url, httpPort, usePacProxy);
+        }
     },
 
     createPacFile: function(){
         var hosts = this.hosts.getHost();
         var rewrite = this.rewrite.getRule();
 
-        return createPacFile(this.httpPort, {})
+        var allDomains = Object.keys(hosts).concat(Object.keys(rewrite));
+        var domains = {};
+        
+        allDomains.forEach(function(domain){
+            domains[domain] = 1;
+        });
+
+        return createPacFile(this.httpPort, domains)
     },
 
     /**

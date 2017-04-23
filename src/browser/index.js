@@ -35,7 +35,7 @@ var browsers = {
 };
 
 module.exports = {
-    open: function(browser, url, proxy){
+    open: function(browser, url, port, usePacProxy){
         // Firefox pac set
         // http://www.indexdata.com/connector-platform/enginedoc/proxy-auto.html
         // http://kb.mozillazine.org/Network.proxy.autoconfig_url
@@ -53,7 +53,7 @@ module.exports = {
                 browserPath = '"' + browserPath + '"';
             }
 
-            var command = browserPath + ' ' + configUtil[browser](dataDir, url, browserPath, proxy);
+            var command = browserPath + ' ' + configUtil[browser](dataDir, url, browserPath, port, usePacProxy);
             // var command = browserPath + ' --proxy-server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
             log.debug('open ==> ', command);
             child_process.exec(command, function(err){

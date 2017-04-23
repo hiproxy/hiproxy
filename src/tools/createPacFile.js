@@ -66,7 +66,7 @@ module.exports = function createPacFile(proxyPort, domains){
             FindProxyForURL.toString().replace(/^\s{8}/mg, '')
         ];
 
-        var pacFilePath = path.resolve(os.tmpdir(), 'hiproxy.pac');
+        var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
 
         return new Promise(function(resolve, reject){
             fs.writeFile(pacFilePath, txt.join(''), function(err){

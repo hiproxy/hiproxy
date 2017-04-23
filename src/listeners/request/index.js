@@ -16,7 +16,7 @@ module.exports = function requestHandler(request, response){
     }
 
     if(_url === '/proxy.pac'){
-        var pacFilePath = path.resolve(os.tmpdir(), 'hiipack.pac');
+        var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
 
         fs.readFile(pacFilePath, 'utf-8', function(err, str){
             response.end(str);

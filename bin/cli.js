@@ -13,48 +13,7 @@ global.log = log;
 args.command('start', {
     describe: '启动代理服务',
     usage: 'start [--port <port>] [-xodD]',
-    fn: function(){
-        var Proxy = require('./../src');
-        var cliArgs = this;
-        var https = cliArgs.https;
-        var port = cliArgs.port || 5525;
-        var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
-        var proxy = new Proxy(port, httpsPort);
-
-        proxy.start().then(function(servers){
-            var proxyAddr = servers[0].address();
-            var httpsAddr = servers[1] && servers[1].address();
-
-            getLocalIP().then(function(ip){
-                showImage([
-                    '',
-                    '',
-                    '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
-                    '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
-                    '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-                    ''
-                ]);
-            });
-
-            var open = cliArgs.open;
-            var browser = open === true ? 'chrome' : open;
-            browser && proxy.openBrowser(browser, '127.0.0.1:' + port);
-
-            // setTimeout(function(){
-            //     console.log('停止服务');
-            //     proxy.stop();
-            // }, 10000);
-            // setTimeout(function(){
-            //     console.log('启动服务');
-            //     proxy.start();
-            // }, 20000)
-
-            // setTimeout(function(){
-            //     console.log('重启');
-            //     proxy.restart();
-            // }, 10000)
-        });
-    }   
+    fn: startServer   
 })
 .option('port <port>', {
     alias: 'p',
@@ -71,6 +30,9 @@ args.command('start', {
 .option('open', {
     alias: 'o',
     describe: '打开浏览器窗口'
+})
+.option('pac-proxy', {
+    describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
 });
 
 args
@@ -90,7 +52,7 @@ args
 
 global.args = args.parse(true);
 
-if(global.args._.length === 0){
+if(global.args._.length === 0 && Object.keys(global.args).length === 1){
     showImage([
         '',
         '',
@@ -119,4 +81,47 @@ function showImage(lines){
     console.log(" | | | | |", lines[4] || '');
     console.log(" |_| |_|_|", lines[5] || '');
     console.log('');
+}
+
+function startServer(){
+    var Proxy = require('./../src');
+    var cliArgs = this;
+    var https = cliArgs.https;
+    var port = cliArgs.port || 5525;
+    var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
+    var proxy = new Proxy(port, httpsPort);
+
+    proxy.start().then(function(servers){
+        var proxyAddr = servers[0].address();
+        var httpsAddr = servers[1] && servers[1].address();
+
+        getLocalIP().then(function(ip){
+            showImage([
+                '',
+                '',
+                '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
+                '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
+                '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+                ''
+            ]);
+        });
+
+        var open = cliArgs.open;
+        var browser = open === true ? 'chrome' : open;
+        browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
+
+        // setTimeout(function(){
+        //     console.log('停止服务');
+        //     proxy.stop();
+        // }, 10000);
+        // setTimeout(function(){
+        //     console.log('启动服务');
+        //     proxy.start();
+        // }, 20000)
+
+        // setTimeout(function(){
+        //     console.log('重启');
+        //     proxy.restart();
+        // }, 10000)
+    });
 }

@@ -12,10 +12,18 @@ var PAC_PATH = 'http://127.0.0.1:4936/proxy.pac';
 // var PAC_PATH = 'file://' + path.resolve(__hii__.cacheTmpdir, 'hiipack.pac');
 
 module.exports = {
-    chrome: function(dataDir, url, chromePath, proxy){
+    chrome: function(dataDir, url, chromePath, port, usePacProxy){
+        var proxyURL = 'http://127.0.0.1:' + port;
+        var proxyOption = usePacProxy 
+            ? '--proxy-pac-url="' + proxyURL + '/proxy.pac"'
+            : '--proxy-server="' + proxyURL + '"';
+
+            console.log('proxyOption:::::', usePacProxy);
+
         return [
-            // '--proxy-pac-url="' + proxy + '"',
-            '--proxy-server="' + proxy + '"',
+            //'--proxy-pac-url="' + proxy + '"',
+            // '--proxy-server="' + proxy + '"',
+            proxyOption,
             '--user-data-dir="'+ dataDir + '/chrome-cache' +'"',
             '--lang=local',
             url
@@ -23,8 +31,13 @@ module.exports = {
     },
 
     opera: function(dataDir, url, operaPath, proxy){
+        var proxyURL = 'http://127.0.0.1:' + port;
+        var proxyOption = usePacProxy 
+            ? '--proxy-pac-url="' + proxyURL + '/proxy.pac"'
+            : '--proxy-server="' + proxyURL + '"';
+
         return [
-            '--proxy-pac-url="' + proxy + '"',
+            proxyOption,
             '--user-data-dir="'+ dataDir + '/opera-cache' +'"',
             '--lang=local',
             url
@@ -35,7 +48,7 @@ module.exports = {
         return ''
     },
 
-    firefox: function(dataDir, url, firefoxPath, proxy){
+    firefox: function(dataDir, url, firefoxPath, port, usePacProxy){
         // Firefox pac set
         // http://www.indexdata.com/connector-platform/enginedoc/proxy-auto.html
         // http://kb.mozillazine.org/Network.proxy.autoconfig_url
@@ -44,18 +57,19 @@ module.exports = {
 
         var dir = path.join(dataDir, 'firefox_cache');
         var prefsPath = path.join(dir, 'prefs.js');
+        var proxyURL = 'http://127.0.0.1:' + port;
 
         if(!fs.existsSync(prefsPath)){
             // 自动代理
             var prefs = [
-                'user_pref("network.proxy.autoconfig_url", "' + proxy + '");',
+                'user_pref("network.proxy.autoconfig_url", "' + proxyURL + '/proxy.pac' + '");',
                 'user_pref("network.proxy.type", 2);'
             ];
 
             // 直接代理
             // var prefs = [
             //     'user_pref("network.proxy.http", "127.0.0.1");',
-            //     'user_pref("network.proxy.http_port", 4936);',
+            //     'user_pref("network.proxy.http_port", ' + port + ');',
             //     'user_pref("network.proxy.type", 1);'
             // ];
 
