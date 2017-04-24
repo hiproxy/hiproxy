@@ -10,6 +10,12 @@ module.exports = function requestHandler(request, response){
     var _url = request.url;
     var start = Date.now();
 
+    /**
+     * the request event
+     * @event ProxyServer#request
+     * @property {http.IncomingMessage} request request object
+     * @property {http.ServerResponse} response response object
+     */
     this.emit('request', request, response, 'http-server');
 
     if(_url === '/'){
@@ -62,6 +68,11 @@ function setRequest(request){
     request.alias = proxyInfo.alias;
     request.newUrl = proxyInfo.newUrl;
 
+    /**
+     * the setoption event
+     * @event ProxyServer#setoption
+     * @property {Object} proxyOptions the proxy header options
+     */
     this.emit('setoption', request.proxy_options, 'http-server');
 
     return request;

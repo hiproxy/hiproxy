@@ -250,8 +250,10 @@ ProxyServer.prototype = {
                 var protocol = req.client.encrypted ? 'https' : 'http';
 
                 /**
-                 * request
+                 * the request event
                  * @event ProxyServer#request
+                 * @property {http.IncomingMessage} request request object
+                 * @property {http.ServerResponse} response response object
                  */
                 self.emit('request', req, res, 'https-server');
 
