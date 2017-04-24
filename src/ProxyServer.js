@@ -161,7 +161,7 @@ ProxyServer.prototype = {
 
         if(usePacProxy){
             this.createPacFile().then(function(success){
-                self._open(browserName, url, success);
+                self._open(browserName, url, true);
             })
         }else{
             this._open(browserName, url, false);
