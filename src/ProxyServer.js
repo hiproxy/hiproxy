@@ -8,7 +8,6 @@ var path = require('path');
 var net = require('net');
 var url = require('url');
 var fs = require('fs');
-var util = require('util');
 var EventEmitter = require('events');
 
 var Hosts = require('./hosts');
@@ -42,6 +41,8 @@ function ProxyServer(httpPort, httpsPort){
 
 ProxyServer.prototype = {
     constructor: ProxyServer,
+    // extends from EventEmitter
+    __proto__: EventEmitter.prototype,
 
     /**
      * 启动代理服务
@@ -285,6 +286,6 @@ ProxyServer.prototype = {
     }
 };
 
-util.inherits(ProxyServer, EventEmitter);
+// util.inherits(ProxyServer, EventEmitter);
 
 module.exports = ProxyServer;
