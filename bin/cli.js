@@ -84,12 +84,26 @@ function showImage(lines){
 }
 
 function startServer(){
-    var Proxy = require('./../src');
+    var Proxy = require('./../src/ProxyServer');
     var cliArgs = this;
     var https = cliArgs.https;
     var port = cliArgs.port || 5525;
     var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
     var proxy = new Proxy(port, httpsPort);
+
+    // proxy.on('started', function(data){
+    //     console.log('服务已经启动了：');
+    //     console.log(data);
+    // });
+
+    // proxy.on('request', function(req, res){
+    //     req.zdy = 'zdying';
+    //     log.info('request event:::', req.method, req.url);
+    // });
+
+    // proxy.on('response', function(data){
+    //     log.info('on response::::', data.toString());
+    // })
 
     proxy.start().then(function(servers){
         var proxyAddr = servers[0].address();

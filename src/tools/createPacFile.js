@@ -12,7 +12,7 @@ var dns = require('dns');
 
 module.exports = function createPacFile(proxyPort, localIP, domains){
     if(!domains || Object.keys(domains).length === 0){
-        return Promise.reject(new Error('Domain list is empty.'));
+        return Promise.reject('domain list is empty, can not create `proxy.pac` file.');
     }
     /**** 这个方法是生成到proxy.pac中的，hiproxy不会调用 ****/
     function FindProxyForURL(url, host) {

@@ -21,6 +21,8 @@ module.exports = {
             response: response
         }, 'response');
 
+        this.emit('setresponse', response, 'http-server');
+
         try{
             var stats = fs.statSync(request.newUrl);
             var filePath = request.newUrl;

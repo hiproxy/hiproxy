@@ -19,6 +19,7 @@ module.exports = {
     response: function(rewrite_rule, request, response){
         var proxyOption = request.proxy_options;
         var isHTTPS = proxyOption.protocol === 'https:';
+        var self = this;
 
         proxyOption.headers['accept-encoding'] = 'gzip,deflate';
 
@@ -37,6 +38,8 @@ module.exports = {
             execResponseCommand(rewrite_rule, {
                 response: response
             }, 'response');
+
+            self.emit('setresponse', response, 'http-server');
 
             // response.pipe(res);
             response.writeHead(res.statusCode, res.headers);
@@ -61,6 +64,7 @@ module.exports = {
 
                     unzipStream.on('data', function(chunk){
                         console.log('ondata =>', chunk.toString());
+                        self.emit('response', chunk);
                     });
 
                     unzipStream.on('error', function(err){
@@ -70,12 +74,18 @@ module.exports = {
                     res.pipe(unzipStream);
                 }else{
                     res.on('data', function(chunk){
+                        self.emit('response', chunk);
                         console.log('ondata =>', chunk.toString());
                     })
                 }
             }
 
             res.pipe(response);
+
+            res.on('data', function(chunk){
+                self.emit('response', chunk);
+                // console.log('ondata =>', chunk.toString());
+            })
 
             res.on('end', function(){
                 request.res = res;

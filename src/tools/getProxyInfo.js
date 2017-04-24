@@ -116,7 +116,7 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
         path = uri.path;
     }
 
-    return {
+    var proxyInfo = {
         proxy_options: {
             hostname: hostname,
             port: port,
@@ -130,7 +130,11 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
         rewrite_rule: rewrite,
         alias: alias,
         newUrl: newUrl
-    }
+    };
+
+    this.emit('getproxyinfo', proxyInfo, 'http-server');
+
+    return proxyInfo;
 };
 
 /**

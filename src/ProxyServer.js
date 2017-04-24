@@ -8,12 +8,12 @@ var path = require('path');
 var net = require('net');
 var url = require('url');
 var fs = require('fs');
+var util = require('util');
+var EventEmitter = require('events');
 
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
-
 var getLocalIP = require('./helpers/getLocalIP');
-
 var browser = require('./browser');
 var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
@@ -24,9 +24,12 @@ var createPacFile = require('./tools/createPacFile');
  * hiproxy代理服务器
  * @param {Number} httpPort http代理服务端口号
  * @param {Number} httpsPort https代理服务器端口号
+ * @extends EventEmitter
  * @constructor
  */
 function ProxyServer(httpPort, httpsPort){
+    EventEmitter.call(this);
+
     this.hosts = new Hosts();
     this.rewrite = new Rewrite();
 
@@ -69,6 +72,11 @@ ProxyServer.prototype = {
                     self._initEvent();
                     self.findConfigFiels();
                 }, 0);
+
+                self.emit('started', {
+                    servers: values.slice(1),
+                    localIP: values[0]
+                });
 
                 return values.slice(1);
             })
@@ -152,10 +160,8 @@ ProxyServer.prototype = {
         var self = this;
 
         if(usePacProxy){
-            this.createPacFile().then(function(filePath){
-                self._open(browserName, url, true);
-            }).catch(function(){
-                self._open(browserName, url, false);
+            this.createPacFile().then(function(success){
+                self._open(browserName, url, success);
             })
         }else{
             this._open(browserName, url, false);
@@ -185,6 +191,12 @@ ProxyServer.prototype = {
         });
 
         return createPacFile(this.httpPort, this.localIP, domains)
+            .then(function(){
+                return true
+            })
+            .catch(function(err){
+                return false
+            })
     },
 
     /**
@@ -216,6 +228,7 @@ ProxyServer.prototype = {
     },
 
     _initEvent: function(){
+        var self = this;
         var port = this.httpPort;
         var url = 'http://127.0.0.1:' + port;
         var pac = url + '/proxy.pac';
@@ -236,11 +249,19 @@ ProxyServer.prototype = {
                 var host = req.headers.host;
                 var protocol = req.client.encrypted ? 'https' : 'http';
 
+                /**
+                 * request
+                 * @event ProxyServer#request
+                 */
+                self.emit('request', req, res, 'https-server');
+
                 log.debug('http middle man _server receive request ==>', protocol, host, url);
 
                 if(!url.match(/^\w+:\/\//)){
                     req.url = protocol + '://' + host + url;
                 }
+
+                // console.log('req.zdy', req.zdy);
 
                 if(host === '127.0.0.1:' + this.httpsPort){
                     res.end('the man in the middle page: ' + url);
@@ -261,5 +282,7 @@ ProxyServer.prototype = {
         return this;
     }
 };
+
+util.inherits(ProxyServer, EventEmitter);
 
 module.exports = ProxyServer;

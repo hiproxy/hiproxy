@@ -10,6 +10,8 @@ module.exports = function requestHandler(request, response){
     var _url = request.url;
     var start = Date.now();
 
+    this.emit('request', request, response, 'http-server');
+
     if(_url === '/'){
         response.end('proxy file url: http://127.0.0.1:' + this.httpPort + '/proxy.pac');
         return
@@ -39,14 +41,15 @@ module.exports = function requestHandler(request, response){
 
     // 重定向到本地文件系统
     if(request.alias){
-        return aliasWorker.response(rewrite_rule, request, response);
+        return aliasWorker.response.call(this, rewrite_rule, request, response);
     }
 
-    return requestWorker.response(rewrite_rule, request, response);
+    return requestWorker.response.call(this, rewrite_rule, request, response);
 };
 
 function setRequest(request){
-    var proxyInfo = getProxyInfo(
+    var proxyInfo = getProxyInfo.call(
+        this,
         request,
         this.hosts.getHost(),
         this.rewrite.getRule()
@@ -58,6 +61,8 @@ function setRequest(request){
     request.PROXY = proxyInfo.PROXY;
     request.alias = proxyInfo.alias;
     request.newUrl = proxyInfo.newUrl;
+
+    this.emit('setoption', request.proxy_options, 'http-server');
 
     return request;
 }
