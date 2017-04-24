@@ -104,12 +104,12 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
             path = newUrlObj.path;
         }
 
-        proxyName = 'HIIPACK';
+        proxyName = 'HiProxy';
     }else if(host){
         hostname = host.split(':')[0];
         port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
         path = uri.path;
-        proxyName = 'HIIPACK';
+        proxyName = 'HiProxy';
     }else{
         hostname = uri.hostname;
         port = uri.port;

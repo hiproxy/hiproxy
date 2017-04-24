@@ -12,6 +12,8 @@ var fs = require('fs');
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 
+var getLocalIP = require('./helpers/getLocalIP');
+
 var browser = require('./browser');
 var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
@@ -48,28 +50,27 @@ ProxyServer.prototype = {
      */
     start: function(httpPort, httpsPort){
         var self = this;
-        var servers = [
+        var promises = [
+            getLocalIP(),
             createServer.create(httpPort || this.httpPort, false, this.rewrite)
         ];
 
         if(httpsPort || this.httpsPort){
-            servers.push(createServer.create(httpsPort || this.httpsPort, true, this.rewrite))
+            promises.push(createServer.create(httpsPort || this.httpsPort, true, this.rewrite))
         }
 
-        return Promise.all(servers)
-            .then(function(servers){
-                var httpServer = servers[0];
-                var httpsServer = servers[1];
-
-                self.httpServer = httpServer;
-                self.httpsServer = httpsServer;
-
+        return Promise.all(promises)
+            .then(function(values){
+                self.localIP = values[0];
+                self.httpServer = values[1];
+                self.httpsServer = values[2];
+                
                 setTimeout(function(){
                     self._initEvent();
                     self.findConfigFiels();
                 }, 0);
 
-                return servers;
+                return values.slice(1);
             })
             .catch(function(err){
                 log.error(err);
@@ -148,16 +149,23 @@ ProxyServer.prototype = {
      * @public
      */
     openBrowser: function(browserName, url, usePacProxy){
-        var httpPort = this.httpPort;
+        var self = this;
 
         if(usePacProxy){
             this.createPacFile().then(function(filePath){
-                browser.open(browserName, url, httpPort, usePacProxy);
-            });
+                self._open(browserName, url, true);
+            }).catch(function(){
+                self._open(browserName, url, false);
+            })
         }else{
-            browser.open(browserName, url, httpPort, usePacProxy);
+            this._open(browserName, url, false);
         }
 
+        return this;
+    },
+
+    _open: function(browserName, url, usePacProxy){
+        browser.open(browserName, url, this.httpPort, usePacProxy);
         return this;
     },
 
@@ -176,7 +184,7 @@ ProxyServer.prototype = {
             domains[domain] = 1;
         });
 
-        return createPacFile(this.httpPort, domains)
+        return createPacFile(this.httpPort, this.localIP, domains)
     },
 
     /**

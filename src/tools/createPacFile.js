@@ -10,13 +10,10 @@ var path = require('path');
 var os = require('os');
 var dns = require('dns');
 
-var getLocalIP = require('../helpers/getLocalIP');
-
-// var config = require('../../client/config');
-var localIP = '127.0.0.1';
-
-module.exports = function createPacFile(proxyPort, domains){
-
+module.exports = function createPacFile(proxyPort, localIP, domains){
+    if(!domains || Object.keys(domains).length === 0){
+        return Promise.reject(new Error('Domain list is empty.'));
+    }
     /**** 这个方法是生成到proxy.pac中的，hiproxy不会调用 ****/
     function FindProxyForURL(url, host) {
         host = host.toLowerCase();
@@ -53,31 +50,27 @@ module.exports = function createPacFile(proxyPort, domains){
         .replace(/\./g, '\\.')
         .replace(/\*/g, '.*');
 
-    return getLocalIP().then(function(ip){
-        localIP = ip;
+    var txt = [
+        'var SYS_PROXY = "' + (sysProxy ? 'PROXY ' + sysProxy : '') + '";\n',
+        'var PROXY = "PROXY ' + localIP + ':' + proxyPort+ '";\n',
+        'var DIRECT = "DIRECT";\n',
+        'var EXCLUDE_REG = /' + regText + '/;\n',
+        'var DOMAINS = ' + JSON.stringify(domains, null, 4) + ';\n\n',
 
-        var txt = [
-            'var SYS_PROXY = "' + (sysProxy ? 'PROXY ' + sysProxy : '') + '";\n',
-            'var PROXY = "PROXY ' + localIP + ':' + proxyPort+ '";\n',
-            'var DIRECT = "DIRECT";\n',
-            'var EXCLUDE_REG = /' + regText + '/;\n',
-            'var DOMAINS = ' + JSON.stringify(domains, null, 4) + ';\n\n',
+        FindProxyForURL.toString().replace(/^\s{8}/mg, '')
+    ];
 
-            FindProxyForURL.toString().replace(/^\s{8}/mg, '')
-        ];
+    var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
 
-        var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
-
-        return new Promise(function(resolve, reject){
-            fs.writeFile(pacFilePath, txt.join(''), function(err){
-                if(err){
-                    log.error(err);
-                    reject(err);
-                }else{
-                    log.debug('hiproxy.pac create success: ', pacFilePath);
-                    resolve(pacFilePath);
-                }
-            });
+    return new Promise(function(resolve, reject){
+        fs.writeFile(pacFilePath, txt.join(''), function(err){
+            if(err){
+                log.error(err);
+                reject(err);
+            }else{
+                log.debug('hiproxy.pac create success: ', pacFilePath);
+                resolve(pacFilePath);
+            }
         });
     });
 };
