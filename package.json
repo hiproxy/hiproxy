@@ -19,9 +19,15 @@
     "url": "git+https://github.com/zdying/hiproxy.git"
   },
   "keywords": [
+    "nodejs",
     "proxy",
-    "proxy",
-    "client"
+    "nginx",
+    "reverse-proxy",
+    "http-proxy",
+    "https-server",
+    "proxy-client",
+    "proxy-server",
+    "httpsport"
   ],
   "author": "zdying",
   "license": "MIT",
