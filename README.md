@@ -37,10 +37,7 @@ hiproxy start -p 5525 --debug
 var HiProxyServer = require('hiproxy');
 var proxy = new HiProxyServer(8848, 10086);
 
-proxy.on('start', function(data){
-  console.log('server started.');
-});
-
+// events
 proxy.on('request', function(req, res){
   req.someThing = 'some thing';
   console.log('new request =>', req.method, req.url);
