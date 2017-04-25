@@ -20,7 +20,7 @@ module.exports = function connectHandler(request, socket, head){
     var middleManPort = this.httpsPort;
 
     /**
-     * the connect event
+     * Emitted each time the server responds to a request with a `CONNECT` method.
      * @event ProxyServer#connect
      * @property {http.IncomingMessage} request request object
      * @property {net.Socket} socket socket object

@@ -21,6 +21,11 @@ module.exports = {
             response: response
         }, 'response');
 
+        /**
+         * Emitted each time the server set response info (eg: headers).
+         * @event ProxyServer#setResponse
+         * @property {http.ServerResponse} response request object
+         */
         this.emit('setResponse', response);
 
         try{

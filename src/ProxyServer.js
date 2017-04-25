@@ -75,7 +75,7 @@ ProxyServer.prototype = {
                 }, 0);
 
                 /**
-                 * the server(s) start event
+                 * Emitted when the hiproxy server(s) start.
                  * @event ProxyServer#start
                  * @property {Array} servers http/https server
                  * @property {String} localIP the local ip address
@@ -105,7 +105,7 @@ ProxyServer.prototype = {
         }
 
         /**
-         * the server(s) stop event
+         * Emitted when the hiproxy server(s) stop.
          * @event ProxyServer#stop
          */
         this.emit('stop');
@@ -131,7 +131,7 @@ ProxyServer.prototype = {
      */
     addHostsFile: function(filePath){
         /**
-         * the add hosts file event
+         * Emitted when add hosts file.
          * @event ProxyServer#addHostsFile
          * @property {Array|String} filePath rewrite file path(s)
          */
@@ -151,8 +151,8 @@ ProxyServer.prototype = {
      */
     addRewriteFile: function(filePath){
         /**
-         * the add rewrite file event
-         * @event ProxyServer#addHostsFile
+         * Emitted when add rewrite file.
+         * @event ProxyServer#addRewriteFile
          * @property {Array|String} filePath rewrite file path(s)
          */
         this.emit('addRewriteFile', filePath);
@@ -218,7 +218,7 @@ ProxyServer.prototype = {
         });
 
         /**
-         * the create pac file event
+         * Emitter when the `pac` proxy file is created or updated.
          * @event ProxyServer#creatPacFile
          * @property {Object} domains domain list
          */
@@ -284,8 +284,8 @@ ProxyServer.prototype = {
                 var protocol = req.client.encrypted ? 'https' : 'http';
 
                 /**
-                 * the request event
-                 * @event ProxyServer#request
+                 * Emitted each time there is a request to the https server.
+                 * @event ProxyServer#httpsRequest
                  * @property {http.IncomingMessage} request request object
                  * @property {http.ServerResponse} response response object
                  */

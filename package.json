@@ -11,7 +11,8 @@
     "seq": "mocha test/seq/seq.test.js",
     "mocha": "mocha test/**/*.test.js --no-color",
     "cover": "istanbul cover _mocha test/**/*.test.js --no-color",
-    "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls",
+    "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js"
   },
   "repository": {
     "type": "git",

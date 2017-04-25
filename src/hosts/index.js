@@ -138,7 +138,7 @@ Hosts.prototype = {
  * 解析规则
  * 
  * @param {String|Array} source
- * @returns
+ * @returns {Object}
  */
 Hosts.parse = function(source){
 
@@ -148,7 +148,7 @@ Hosts.parse = function(source){
  * 解析文件
  * 
  * @param {String|Array} filePath
- * @returns
+ * @returns {Object}
  */
 Hosts.parseFile = function(filePath){
     return parser(filePath)

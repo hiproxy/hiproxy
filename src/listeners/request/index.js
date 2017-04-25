@@ -2,8 +2,8 @@ var fs = require('fs');
 var os = require('os');
 var path = require('path');
 
-var aliasWorker = require('./workers/alias');
-var requestWorker = require('./workers/request');
+var aliasWorker = require('./alias');
+var requestWorker = require('./request');
 var getProxyInfo = require('../../tools/getProxyInfo');
 
 module.exports = function requestHandler(request, response){
@@ -11,7 +11,7 @@ module.exports = function requestHandler(request, response){
     var start = Date.now();
 
     /**
-     * the request event
+     * Emitted each time there is a request.
      * @event ProxyServer#request
      * @property {http.IncomingMessage} request request object
      * @property {http.ServerResponse} response response object
@@ -78,6 +78,13 @@ function setRequest(request){
         this.rewrite.getRule()
     );
 
+    /**
+     * Emitted each time the hiproxy server get proxy info for current request.
+     * @event ProxyServer#getProxyInfo
+     * @property {Object} proxyInfo proxy info object
+     */
+    this.emit('getProxyInfo', proxyInfo);
+
     request.proxy_options = proxyInfo.proxy_options;
     request.hosts_rule = proxyInfo.hosts_rule;
     request.rewrite_rule = proxyInfo.rewrite_rule;
@@ -86,11 +93,12 @@ function setRequest(request){
     request.newUrl = proxyInfo.newUrl;
 
     /**
-     * the setRequestOption event
-     * @event ProxyServer#setRequestOption
+     * Emitted each time the hiproxy server set request options (eg: headers and host) before request data from remote server
+     * @event ProxyServer#setRequest
+     * @property {http.IncomingMessage} request request
      * @property {Object} proxyOptions the proxy header options
      */
-    this.emit('setRequestOption', request.proxy_options);
+    this.emit('setRequest', request, request.proxy_options);
 
     return request;
 }

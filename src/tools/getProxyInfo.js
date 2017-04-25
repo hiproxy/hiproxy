@@ -14,6 +14,8 @@ var execCommand = require('./execCommand');
  * @param {Object}  request 请求对象
  * @param {Object}  hostsRules 解析后的hosts规则
  * @param {Array}   rewriteRules 解析后的rewrite规则
+ * @private
+ * @ignore
  * @returns {Object}
  */
 module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
@@ -131,8 +133,6 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
         alias: alias,
         newUrl: newUrl
     };
-
-    this.emit('getProxyInfo', proxyInfo);
 
     return proxyInfo;
 };

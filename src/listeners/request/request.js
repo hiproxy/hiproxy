@@ -39,6 +39,12 @@ module.exports = {
                 response: response
             }, 'response');
 
+            
+            /**
+             * Emitted each time the server set response info (eg: headers).
+             * @event ProxyServer#setResponse
+             * @property {http.ServerResponse} response request object
+             */
             self.emit('setResponse', response);
 
             // response.pipe(res);
@@ -64,7 +70,12 @@ module.exports = {
 
                     unzipStream.on('data', function(chunk){
                         console.log('ondata =>', chunk.toString());
-                        self.emit('response', chunk);
+                        /**
+                         * Emitted whenever the response stream received some chunk of data.
+                         * @event ProxyServer#data
+                         * @property {Buffer} data response data
+                         */
+                        self.emit('data', chunk);
                     });
 
                     unzipStream.on('error', function(err){
@@ -74,7 +85,12 @@ module.exports = {
                     res.pipe(unzipStream);
                 }else{
                     res.on('data', function(chunk){
-                        self.emit('response', chunk);
+                        /**
+                         * Emitted whenever the response stream received some chunk of data.
+                         * @event ProxyServer#data
+                         * @property {Buffer} data response data
+                         */
+                        self.emit('data', chunk);
                         console.log('ondata =>', chunk.toString());
                     })
                 }
@@ -83,12 +99,24 @@ module.exports = {
             res.pipe(response);
 
             res.on('data', function(chunk){
-                self.emit('response', chunk);
+                /**
+                 * Emitted whenever the response stream received some chunk of data.
+                 * @event ProxyServer#data
+                 * @property {Buffer} data response data
+                 */
+                self.emit('data', chunk);
                 // console.log('ondata =>', chunk.toString());
             })
 
             res.on('end', function(){
                 request.res = res;
+
+                /**
+                 * Emitted when a response is end. This event is emitted only once.
+                 * @event ProxyServer#response
+                 * @property {http.ServerResponse} response response object
+                 */
+                self.emit('response', response);
 
                 if(request.PROXY){
                     logger.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
