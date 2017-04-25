@@ -80,7 +80,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
   var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
 
   return new Promise(function (resolve, reject) {
-    fs.writeFile(pacFilePath, txt.join(''), function (err) {
+    fs.writeFile(pacFilePath, txt.join('\n'), function (err) {
       if (err) {
         log.error(err);
         reject(err);
