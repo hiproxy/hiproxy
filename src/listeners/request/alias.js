@@ -8,7 +8,7 @@
 var fs = require('fs');
 
 var getMimeType = require('simple-mime')('text/plain');
-var execResponseCommand = require('../../../tools/execCommand');
+var execResponseCommand = require('../../tools/execCommand');
 
 module.exports = {
     response: function(rewrite_rule, request, response){
