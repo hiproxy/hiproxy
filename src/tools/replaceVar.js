@@ -30,7 +30,7 @@ module.exports = function replaceVar (str, source) {
       var val = allProps[match];
 
       if (typeof val === 'string') {
-                // 替换首位的引号
+        // 替换首位的引号
         return val.replace(/^(['"])(.*)(\1)$/, '$2');
       } else {
         return match;
@@ -42,11 +42,11 @@ module.exports = function replaceVar (str, source) {
     return str;
   }
 
-    /*
-     * 遍历source源对象的所有属性，以及所有上层对象的属性
-     * 上层对象的同名属性不会覆盖下级的同名属性
-     * 将所有属性合并到一个对象（allProps）中
-     */
+  /*
+   * 遍历source源对象的所有属性，以及所有上层对象的属性
+   * 上层对象的同名属性不会覆盖下级的同名属性
+   * 将所有属性合并到一个对象（allProps）中
+   */
   while (currObj) {
     props = currObj.props;
 
@@ -68,8 +68,8 @@ module.exports = function replaceVar (str, source) {
       return replace(string);
     });
   } else if (strType === 'object') {
-    for (var key in str) {
-      str[key] = replace(str[key]);
+    for (var strKey in str) {
+      str[strKey] = replace(str[strKey]);
     }
   }
 

@@ -7,7 +7,7 @@ var os = require('os');
 var path = require('path');
 var configUtil = require('./configUtil');
 
-var child_process = require('child_process');
+var childProcess = require('child_process');
 
 var platform = os.platform();
 
@@ -36,11 +36,11 @@ var browsers = {
 
 module.exports = {
   open: function (browser, url, port, usePacProxy) {
-        // Firefox pac set
-        // http://www.indexdata.com/connector-platform/enginedoc/proxy-auto.html
-        // http://kb.mozillazine.org/Network.proxy.autoconfig_url
-        // user_pref("network.proxy.autoconfig_url", "http://us2.indexdata.com:9005/id/cf.pac");
-        // user_pref("network.proxy.type", 2);
+    // Firefox pac set
+    // http://www.indexdata.com/connector-platform/enginedoc/proxy-auto.html
+    // http://kb.mozillazine.org/Network.proxy.autoconfig_url
+    // user_pref("network.proxy.autoconfig_url", "http://us2.indexdata.com:9005/id/cf.pac");
+    // user_pref("network.proxy.type", 2);
 
     var browserPath = this.detect(browser);
 
@@ -54,9 +54,9 @@ module.exports = {
       }
 
       var command = browserPath + ' ' + configUtil[browser](dataDir, url, browserPath, port, usePacProxy);
-            // var command = browserPath + ' --proxy-server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
+      // var command = browserPath + ' --proxy-server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
       log.debug('open ==> ', command);
-      child_process.exec(command, function (err) {
+      childProcess.exec(command, function (err) {
         if (err) {
           console.log(err);
         }
@@ -77,24 +77,24 @@ module.exports = {
       switch (platform) {
         case 'darwin':
           cmd = 'mdfind "kMDItemCFBundleIdentifier==' + info.darwin + '" | head -1';
-          result = child_process.execSync(cmd).toString().trim();
+          result = childProcess.execSync(cmd).toString().trim();
           result += '/Contents/MacOS/' + info.appName;
           result = result.replace(/\s/g, '\\ ');
           break;
 
         case 'win32':
-                    // windows chrome path:
-                    // HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe
-                    // reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe" /v Path
+          // windows chrome path:
+          // HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe
+          // reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe" /v Path
 
           cmd = 'reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\' + info.win32 + '" /ve';
-                    // result:
-                    /*
-                    HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe
-                    (默认)    REG_SZ    C:\Program Files\Mozilla Firefox\firefox.exe
-                    */
+          // result:
+          /*
+          HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\firefox.exe
+          (默认)    REG_SZ    C:\Program Files\Mozilla Firefox\firefox.exe
+          */
 
-          result = child_process.execSync(cmd).toString().trim();
+          result = childProcess.execSync(cmd).toString().trim();
           result = result.split('\n').pop().split(/\s+REG_SZ\s+/).pop();
           result = result.replace(/^"|"$/g, '');
           break;

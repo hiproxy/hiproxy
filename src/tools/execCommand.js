@@ -8,19 +8,19 @@
 var getCommands = require('./../commands/getCommands');
 var commands = require('./../commands/index');
 
-module.exports = function (rewrite_rule, context, scope) {
-  if (!rewrite_rule || !context || !scope) {
+module.exports = function (rewriteRule, context, scope) {
+  if (!rewriteRule || !context || !scope) {
     return;
   }
 
-    // call response commands
-  var cmdsNeedToExec = getCommands(rewrite_rule, scope);
+  // call response commands
+  var cmdsNeedToExec = getCommands(rewriteRule, scope);
 
   if (Array.isArray(cmdsNeedToExec)) {
     log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(cmdsNeedToExec).bold);
 
     cmdsNeedToExec.reverse().forEach(function (command) {
-            // var inScope = responseScopeCmds.indexOf(command.name) !== -1;
+      // var inScope = responseScopeCmds.indexOf(command.name) !== -1;
       var name = command.name;
       var params = command.params || [];
       var func = commands[name];

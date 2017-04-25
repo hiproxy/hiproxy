@@ -16,23 +16,21 @@ Sequence.prototype = {
   constructor: Sequence,
 
   use: function (filter/*, fn1, fn2, fn3, ... */) {
-    var start = 0;
     var fns = [].slice.apply(arguments);
     var seqs = this.seqs;
     var target = seqs._default;
     var filterType = typeof filter;
-    var _filter = filter;
 
     if (filterType === 'string'/* || filter instanceof RegExp */) {
       fns = fns.slice(1);
       target = seqs[filter] || (seqs[filter] = []);
     } else if (filterType === 'function') {
-            // _filter = '';
+      // _filter = '';
     }
 
     fns.forEach(function (fn) {
       if (typeof fn === 'function') {
-                // fn.__filter__ = _filter;
+        // fn.__filter__ = _filter;
         target.push(fn);
       }
     });
@@ -42,14 +40,14 @@ Sequence.prototype = {
     var curr = this.seqs[filter][++this.__index__];
 
     if (err) {
-      this.catch(SyntaxErrorConstructor);
+      this.catch(err);
     } else {
       curr(this.context, this.next.bind(this, filter));
     }
   },
 
   catch: function (err) {
-
+    console.log(err);
   },
 
   run: function (filter, context, index) {

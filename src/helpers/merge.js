@@ -38,14 +38,14 @@ function merge (deep, target, source) {
       currentTargetType = type(currentTarget);
 
       if (deep && shouldMerge(currentValue) && currentTargetType === currentValueType) {
-                // 深拷贝并且当前值是可以merge的对象（array或者object）
+        // 深拷贝并且当前值是可以merge的对象（array或者object）
         if (currentValueType === 'array') {
           currentTarget.push.apply(currentTarget, currentValue);
         } else {
           merge(deep, currentTarget, currentValue);
         }
       } else {
-                // 非深拷贝或者不是对象
+        // 非深拷贝或者不是对象
         target[key] = currentValue;
       }
     }

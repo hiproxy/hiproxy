@@ -19,13 +19,13 @@ module.exports = function connectHandler (request, socket, head) {
   var hostRule = this.hosts.getHost(hostname);
   var middleManPort = this.httpsPort;
 
-    /**
-     * Emitted each time the server responds to a request with a `CONNECT` method.
-     * @event ProxyServer#connect
-     * @property {http.IncomingMessage} request request object
-     * @property {net.Socket} socket socket object
-     * @property {Buffer} head  head
-     */
+  /**
+   * Emitted each time the server responds to a request with a `CONNECT` method.
+   * @event ProxyServer#connect
+   * @property {http.IncomingMessage} request request object
+   * @property {net.Socket} socket socket object
+   * @property {Buffer} head  head
+   */
   this.emit('connect', request, socket, head);
 
   if (rewriteRule || hostRule) {
@@ -46,8 +46,8 @@ module.exports = function connectHandler (request, socket, head) {
     log.error('proxy error', e.message);
     socket.end();
   }).on('data', function (data) {
-        // console.log('proxy socker data:', data.toString());
-        // socket.write(data);
+    // console.log('proxy socker data:', data.toString());
+    // socket.write(data);
   });
 
   socket.pipe(proxySocket);

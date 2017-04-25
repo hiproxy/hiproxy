@@ -4,7 +4,6 @@
  */
 
 var url = require('url');
-var fs = require('fs');
 
 var execCommand = require('./execCommand');
 // var replaceVar = require('../tools/replaceVar');
@@ -28,7 +27,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
   protocol = uri.protocol;
 
-    // rewrite 优先级高于 hosts
+  // rewrite 优先级高于 hosts
   if (rewrite && rewrite.props.proxy) {
     var rewriteProps = rewrite.props;
     var proxy = rewriteProps.proxy;
@@ -38,32 +37,32 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     var protocolReg = /^(\w+:\/\/)/;
     var newUrl, newUrlObj;
 
-        // 如果代理地址中包含具体协议，删除原本url中的协议
-        // 最终替换位代理地址的协议
+    // 如果代理地址中包含具体协议，删除原本url中的协议
+    // 最终替换位代理地址的协议
     if (!alias && !isBaseRule && proxyUrlObj.protocol) {
       protocol = proxyUrlObj.protocol;
       originUrl = originUrl.replace(protocolReg, '');
     }
 
-        // TODO 替换其他props中的分组变量`$1`...`$N`, 比如下面的配置
-        // location ~ /\/(test|hot)\/(.*)/ {
-        //     proxy_set_header Proxy_Server_Source hiipack_regexp_$1;
-        //     proxy_pass http://$local/$1/$2?query=$query;
-        // }
+    // TODO 替换其他props中的分组变量`$1`...`$N`, 比如下面的配置
+    // location ~ /\/(test|hot)\/(.*)/ {
+    //     proxy_set_header Proxy_Server_Source hiipack_regexp_$1;
+    //     proxy_pass http://$local/$1/$2?query=$query;
+    // }
 
-        // var varSource = {
-        //     props: {
-        //         $query: uri.query,
-        //         $search: uri.search,
-        //         $ptah: uri.path
-        //     }
-        // };
-        //
-        // proxy = replaceVar(proxy, varSource);
+    // var varSource = {
+    //     props: {
+    //         $query: uri.query,
+    //         $search: uri.search,
+    //         $ptah: uri.path
+    //     }
+    // };
+    //
+    // proxy = replaceVar(proxy, varSource);
 
-        // 将原本url中的部分替换为代理地址
+    // 将原本url中的部分替换为代理地址
     if (rewrite.source.indexOf('~') === 0) {
-            // 正则表达式
+      // 正则表达式
       var sourceReg = null;
       var urlMatch = null;
 
@@ -71,7 +70,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
         sourceReg = toRegExp(rewrite.path, 'i');
         urlMatch = request.url.match(sourceReg);
 
-                // 这里可以不用判断urlMath是否为空, 因为getRewriteRule里面已经测试过
+        // 这里可以不用判断urlMath是否为空, 因为getRewriteRule里面已经测试过
         newUrl = proxy.replace(/\$(\d)/g, function (match, groupID) {
           return urlMatch[groupID];
         });
@@ -79,15 +78,15 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
         newUrl = proxy;
       }
     } else {
-            // 普通地址字符串
-            // 否则，把url中的source部分替换成proxy
+      // 普通地址字符串
+      // 否则，把url中的source部分替换成proxy
       newUrl = originUrl.replace(rewrite.source, proxy);
     }
 
-        // TODO 这里应该有个bug, props是共享的, 一个修改了,其他的也修改了
+    // TODO 这里应该有个bug, props是共享的, 一个修改了,其他的也修改了
     var context = {
       request: request
-            // props: rewrite.props
+      // props: rewrite.props
     };
 
     execCommand(rewrite, context, 'request');
@@ -96,7 +95,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     log.debug('newURL ==>', alias);
 
     if (alias) {
-            // 本地文件系统路径, 删除前面的协议部分
+      // 本地文件系统路径, 删除前面的协议部分
       newUrl = newUrl.replace(/^(\w+:\/\/)/, '');
     } else {
       newUrlObj = url.parse(newUrl);
@@ -172,7 +171,7 @@ function getRewriteRule (urlObj, rewriteRules) {
       log.debug('getRewriteRule - current location path =>', locPath.bold.green);
 
       if (locPath.indexOf('~') === 0) {
-                /** 正则表达式 **/
+        /** 正则表达式 **/
         var reg = toRegExp(locPath, 'i');
 
         if (reg.test(href)) {
@@ -183,34 +182,34 @@ function getRewriteRule (urlObj, rewriteRules) {
           }
 
           log.debug(
-                        'getRewriteRule -',
-                        'regexp match =>', locPath.match(reg),
-                        'deep =>', String(currentDeep).bold.green,
-                        'last deep =>', String(lastDeep).bold.green,
-                        'should replace last rule =>', String(currentDeep > lastDeep).bold.green
-                    );
+            'getRewriteRule -',
+            'regexp match =>', locPath.match(reg),
+            'deep =>', String(currentDeep).bold.green,
+            'last deep =>', String(lastDeep).bold.green,
+            'should replace last rule =>', String(currentDeep > lastDeep).bold.green
+          );
         }
       } else if (urlPath.indexOf(locPath) === 0) {
-                /** 非正则表达式 **/
-                // 如果url中path以location中的path开头
+        /** 非正则表达式 **/
+        // 如果url中path以location中的path开头
         currentDeep = locPath.replace(/^\/|\/$/g).split('/').length;
 
-                // 如果是'/', 长度设置为0
+        // 如果是'/', 长度设置为0
         if (currentDeep === 1 && locPath === '/') {
           currentDeep = 0;
         }
 
         log.debug('getRewriteRule -', 'get rewrite rule for url =>', urlObj.href.bold.green);
         log.debug(
-                    'getRewriteRule -',
-                    'current match location.path =>', locPath.bold.green,
-                    'deep =>', String(currentDeep).bold.green,
-                    'last deep =>', String(lastDeep).bold.green,
-                    'should replace last rule =>', String(currentDeep > lastDeep).bold.green
-                );
+          'getRewriteRule -',
+          'current match location.path =>', locPath.bold.green,
+          'deep =>', String(currentDeep).bold.green,
+          'last deep =>', String(lastDeep).bold.green,
+          'should replace last rule =>', String(currentDeep > lastDeep).bold.green
+        );
 
-                // 如果匹配的深度比上一次匹配的深度深（比上次匹配更精确）
-                // 替换成新匹配到的规则
+        // 如果匹配的深度比上一次匹配的深度深（比上次匹配更精确）
+        // 替换成新匹配到的规则
         if (currentDeep > lastDeep) {
           rewriteRule = loc;
           lastDeep = currentDeep;

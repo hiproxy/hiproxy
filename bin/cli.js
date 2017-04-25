@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var colors = require('colors');
+require('colors');
 // var color = require('../src/helpers/color');
 var log = require('../src/helpers/log');
 var Args = require('hemsl');
@@ -11,59 +11,59 @@ var args = new Args();
 global.log = log;
 
 args.command('start', {
-    describe: '启动代理服务',
-    usage: 'start [--port <port>] [-xodD]',
-    fn: startServer   
+  describe: '启动代理服务',
+  usage: 'start [--port <port>] [-xodD]',
+  fn: startServer
 })
 .option('port <port>', {
-    alias: 'p',
-    describe: 'http代理服务端口号'
+  alias: 'p',
+  describe: 'http代理服务端口号'
 })
 .option('https', {
-    alias: 's',
-    describe: '启动https代理服务'
+  alias: 's',
+  describe: '启动https代理服务'
 })
 .option('middle-man-port <port>', {
-    alias: 'm',
-    describe: 'https中间人端口号'
+  alias: 'm',
+  describe: 'https中间人端口号'
 })
 .option('open [browser]', {
-    alias: 'o',
-    describe: '打开浏览器窗口'
+  alias: 'o',
+  describe: '打开浏览器窗口'
 })
 .option('pac-proxy', {
-    describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
+  describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
 });
 
 args
     .version('1.0.6')
     .bin('hiproxy')
     .option('debug', {
-        alias: 'd',
-        describe: '显示调试信息'
+      alias: 'd',
+      describe: '显示调试信息'
     })
     .option('detail', {
-        alias: 'D',
-        describe: '显示详细调试信息'
+      alias: 'D',
+      describe: '显示详细调试信息'
     })
     .option('log-time', {
-        describe: '显示日志时间'
-    })
+      describe: '显示日志时间'
+    });
 
 global.args = args.parse(true);
 
-if(global.args._.length === 0 && Object.keys(global.args).length === 1){
-    showImage([
-        '',
-        '',
-        'welcome to use hiproxy'.bold,
-        'current version is ' + '1.0.6'.bold.green,
-        'You can try `' + 'hiproxy --help'.underline + '` for more info'
-    ]);
+if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
+  showImage([
+    '',
+    '',
+    'welcome to use hiproxy'.bold,
+    'current version is ' + '1.0.6'.bold.green,
+    'You can try `' + 'hiproxy --help'.underline + '` for more info'
+  ]);
 }
 
-function showImage(lines){
-    lines = lines || [];
+function showImage (lines) {
+  lines = lines || [];
     // console.log("  _     _                           ");
     // console.log(" | |   (_)                          ");
     // console.log(" | |__  _ _ __  _ __ _____  ___   _ ");
@@ -74,22 +74,22 @@ function showImage(lines){
     // console.log("         |_|                  |___/ ");
 
     // console.log('');
-    console.log("  _     " + "_".bold.red + " ", lines[0] || '');
-    console.log(" | |   " + "(_)".bold.red, lines[1] || '');
-    console.log(" | |__  _ ", lines[2] || '');
-    console.log(" | '_ \\| |", lines[3] || '');
-    console.log(" | | | | |", lines[4] || '');
-    console.log(" |_| |_|_|", lines[5] || '');
-    console.log('');
+  console.log('  _     ' + '_'.bold.red + ' ', lines[0] || '');
+  console.log(' | |   ' + '(_)'.bold.red, lines[1] || '');
+  console.log(' | |__  _ ', lines[2] || '');
+  console.log(" | '_ \\| |", lines[3] || '');
+  console.log(' | | | | |', lines[4] || '');
+  console.log(' |_| |_|_|', lines[5] || '');
+  console.log('');
 }
 
-function startServer(){
-    var Proxy = require('./../src/ProxyServer');
-    var cliArgs = this;
-    var https = cliArgs.https;
-    var port = cliArgs.port || 5525;
-    var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
-    var proxy = new Proxy(port, httpsPort);
+function startServer () {
+  var Proxy = require('./../src/ProxyServer');
+  var cliArgs = this;
+  var https = cliArgs.https;
+  var port = cliArgs.port || 5525;
+  var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
+  var proxy = new Proxy(port, httpsPort);
 
     // proxy.on('start', function(data){
     //     console.log('服务已经启动了：');
@@ -105,24 +105,24 @@ function startServer(){
     //     log.info('on response::::', data.toString());
     // })
 
-    proxy.start().then(function(servers){
-        var proxyAddr = servers[0].address();
-        var httpsAddr = servers[1] && servers[1].address();
+  proxy.start().then(function (servers) {
+    var proxyAddr = servers[0].address();
+    var httpsAddr = servers[1] && servers[1].address();
 
-        getLocalIP().then(function(ip){
-            showImage([
-                '',
-                '',
-                '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
-                '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
-                '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-                ''
-            ]);
-        });
+    getLocalIP().then(function (ip) {
+      showImage([
+        '',
+        '',
+        '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
+        '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
+        '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+        ''
+      ]);
+    });
 
-        var open = cliArgs.open;
-        var browser = open === true ? 'chrome' : open;
-        browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
+    var open = cliArgs.open;
+    var browser = open === true ? 'chrome' : open;
+    browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
 
         // setTimeout(function(){
         //     console.log('停止服务');
@@ -137,5 +137,5 @@ function startServer(){
         //     console.log('重启');
         //     proxy.restart();
         // }, 10000)
-    });
+  });
 }

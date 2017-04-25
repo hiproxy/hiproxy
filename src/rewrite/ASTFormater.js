@@ -24,23 +24,23 @@ module.exports = function formatAST (ASTTree) {
 
   var globalFuncs = res.commands = commands;// = parseCommand(commands);
 
-    // step 1: 执行全局命令(比如: `set $domain example.com`)
+  // step 1: 执行全局命令(比如: `set $domain example.com`)
   execCommand(globalFuncs, res, 'global');
 
-    // step 1.1: 替换全局变量中的变量
+  // step 1.1: 替换全局变量中的变量
   res.props = replaceVar(res.props, res);
 
-    // step 1.2: 替换全局指令中的变量
+  // step 1.2: 替换全局指令中的变量
   res.commands = replaceFuncVar(globalFuncs, res);
 
-    // replaceProps(res.props, res);
+  // replaceProps(res.props, res);
 
-    // step 2: 解析基本规则(比如: `example.com => other.com`)
+  // step 2: 解析基本规则(比如: `example.com => other.com`)
   parseBaseRule(baseRules, res);
 
   parseDomain(domains, res);
 
-    // console.log(JSON.stringify(res, null, 4));
+  // console.log(JSON.stringify(res, null, 4));
 
   return res;
 };
@@ -57,7 +57,7 @@ function parseBaseRule (baseRules, res) {
     var target = arr[1];
     var url = require('url');
 
-        // step 3: 替换基本规则中的变量
+    // step 3: 替换基本规则中的变量
     source = replaceVar(source, res);
     target = replaceVar(target, res);
 
@@ -87,7 +87,7 @@ function parseBaseRule (baseRules, res) {
 }
 
 function parseDomain (domains, res) {
-    // step 4: 解析Domain(比如: `example.com = { ... }`)
+  // step 4: 解析Domain(比如: `example.com = { ... }`)
   domains.forEach(function (domain) {
     var _domain = domain.domain;
     var location = domain.location;
@@ -100,33 +100,33 @@ function parseDomain (domains, res) {
     domain.parent = res;
     domain.parentID = res.__id__;
 
-        // step 5: 执行domain中的命令(比如: set $domain example.com)
-        // 这里必须先执行命令, 然后在替换值
-        // 这样才能保证domain里面的变量优先级高于上一级(全局)变量
+    // step 5: 执行domain中的命令(比如: set $domain example.com)
+    // 这里必须先执行命令, 然后在替换值
+    // 这样才能保证domain里面的变量优先级高于上一级(全局)变量
     execCommand(funcs, domain, 'domain');
 
-        // step 5.1: 替换domain规则中的变量
+    // step 5.1: 替换domain规则中的变量
 
-        // _domain属于顶层, 应该用上一层(全局)变量替换
+    // _domain属于顶层, 应该用上一层(全局)变量替换
     _domain = replaceVar(_domain, res);
 
-        // domain中的变量, 属于domain, 用domain的变量和上一层变量替换
+    // domain中的变量, 属于domain, 用domain的变量和上一层变量替换
     replaceVar(domain.props, domain);
 
-        // funcs里面的变量属于domain, 用domain的变量和上一层变量替换
+    // funcs里面的变量属于domain, 用domain的变量和上一层变量替换
     funcs.forEach(function (fun) {
       var params = fun.params;
       var name = fun.name;
 
       if (name === 'set') {
-                // 如果是 set 命令, 不替换第一个参数
+        // 如果是 set 命令, 不替换第一个参数
         fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), domain));
       } else {
         fun.params = replaceVar(fun.params, domain);
       }
     });
 
-        // step 6: 如果没有location, 直接返回domain对象
+    // step 6: 如果没有location, 直接返回domain对象
     if (!Array.isArray(location) || location.length === 0) {
       res.domains[_domain] = {
         source: _domain,
@@ -141,9 +141,9 @@ function parseDomain (domains, res) {
       res.domains[_domain] = domain;
     }
 
-        // res[_domain] = {
-        //     _domain: _domain
-        // };
+    // res[_domain] = {
+    //     _domain: _domain
+    // };
 
     domain.location = [];
     parseLocation(domain, location, res);
@@ -151,7 +151,7 @@ function parseDomain (domains, res) {
 }
 
 function parseLocation (domain, location, res) {
-    // step 7: 合并location
+  // step 7: 合并location
   location.forEach(function (loc) {
     var location = loc.location;
     var url = domain.domain + location;
@@ -163,37 +163,37 @@ function parseLocation (domain, location, res) {
     loc.parent = domain;
     loc.toJSON = toJSON;
 
-        // step 8: 执行location命令(比如: `set $domain example.com`)
+    // step 8: 执行location命令(比如: `set $domain example.com`)
     execCommand(funcs, loc, 'location');
 
     loc.props = replaceVar(loc.props, loc);
     location = replaceVar(location, loc);
 
-        // step 9: 替换location变量, 作用域为domain和上层(res)
+    // step 9: 替换location变量, 作用域为domain和上层(res)
     url = replaceVar(url, loc);
     proxy = replaceVar(loc.props.proxy, loc);
 
     replaceFuncVar(funcs, loc);
 
-        // funcs.forEach(function(fun){
-        //     var params = fun.params;
-        //     var name = fun.name;
+    // funcs.forEach(function(fun){
+    //     var params = fun.params;
+    //     var name = fun.name;
 
-        //     if(name === 'set'){
-        //         // 如果是 set 命令, 不替换第一个参数
-        //         fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), loc))
-        //     }else{
-        //         fun.params = replaceVar(fun.params, loc)
-        //     }
+    //     if(name === 'set'){
+    //         // 如果是 set 命令, 不替换第一个参数
+    //         fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), loc))
+    //     }else{
+    //         fun.params = replaceVar(fun.params, loc)
+    //     }
 
-        //     // console.log('替换location的function参数:', name, fun.params);
-        // });
+    //     // console.log('替换location的function参数:', name, fun.params);
+    // });
 
     props = merge({}, loc.props, {
       proxy: proxy
     });
 
-        // 替换正则表达式
+    // 替换正则表达式
     url = url.replace(/(.*?)~\/(.*)/, '~ /$1$2');
 
     domain.location.push({
@@ -202,7 +202,7 @@ function parseLocation (domain, location, res) {
       source: url,
       commands: funcs,
       props: props,
-            // location: loc,
+      // location: loc,
       parent: domain,
       parentID: domain.__id__,
       toJSON: toJSON
@@ -219,8 +219,8 @@ function execCommand (funcs, context, scope) {
       if (cmds.indexOf(func.name) !== -1) {
         commandFuncs[func.name].apply(context, func.params);
       } else {
-                // console.log(func.name, 'is not in the', scope, 'scope, skipped.');
-                // log.debug(func.name.bold.yellow, 'is not in the', scope, 'scope, skipped.')
+        // console.log(func.name, 'is not in the', scope, 'scope, skipped.');
+        // log.debug(func.name.bold.yellow, 'is not in the', scope, 'scope, skipped.')
       }
     });
   }
@@ -247,13 +247,13 @@ function replaceFuncVar (funcs, source) {
     var name = fun.name;
 
     if (name === 'set') {
-            // 如果是 set 命令, 不替换第一个参数
+      // 如果是 set 命令, 不替换第一个参数
       fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), source));
     } else {
       fun.params = replaceVar(fun.params, source);
     }
 
-        // console.log('替换function参数:', name, fun.params);
+    // console.log('替换function参数:', name, fun.params);
   });
 
   return funcs;

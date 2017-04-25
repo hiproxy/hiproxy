@@ -7,12 +7,12 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       var server = require('http').createServer().listen(port);
       server
-                .on('listening', function () {
-                  resolve(server);
-                })
-                .on('error', function (err) {
-                  reject(err);
-                });
+        .on('listening', function () {
+          resolve(server);
+        })
+        .on('error', function (err) {
+          reject(err);
+        });
     });
   },
 
@@ -53,12 +53,12 @@ module.exports = {
       var server = require('https').createServer(option).listen(port);
 
       server
-                .on('listening', function () {
-                  resolve(server);
-                })
-                .on('error', function (err) {
-                  reject(err);
-                });
+        .on('listening', function () {
+          resolve(server);
+        })
+        .on('error', function (err) {
+          reject(err);
+        });
     });
   }
 };

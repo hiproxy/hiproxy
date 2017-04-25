@@ -13,11 +13,11 @@ function Rewrite () {
 Rewrite.prototype = {
   constructor: Rewrite,
 
-    /**
-     * 添加rewrite配置文件
-     *
-     * @param {String|Array} filePath
-     */
+  /**
+   * 添加rewrite配置文件
+   *
+   * @param {String|Array} filePath
+   */
   addFile: function (filePath) {
     var _files = this._files;
     var self = this;
@@ -30,7 +30,7 @@ Rewrite.prototype = {
       filePath.forEach(function (file) {
         if (!(file in _files)) {
           _files[file] = {};
-          fs.watchFile(file, {interval: 2000}, function (curr, prev) {
+          fs.watchFile(file, { interval: 2000 }, function (curr, prev) {
             if (curr.mtime !== prev.mtime) {
               log.debug(file.bold.green, 'changed.');
               self.update();
@@ -44,11 +44,11 @@ Rewrite.prototype = {
     return this;
   },
 
-    /**
-     * 删除配置文件
-     *
-     * @param {String|Array} filePath
-     */
+  /**
+   * 删除配置文件
+   *
+   * @param {String|Array} filePath
+   */
   deleteFile: function (filePath) {
     var _files = this._files;
 
@@ -67,43 +67,43 @@ Rewrite.prototype = {
     return this;
   },
 
-    /**
-     * 添加规则
-     */
+  /**
+   * 添加规则
+   */
   addRule: function () {
 
   },
 
-    /**
-     * 根据domain和location获取转发规则
-     *
-     * @param {String} [domain]
-     */
+  /**
+   * 根据domain和location获取转发规则
+   *
+   * @param {String} [domain]
+   */
   getRule: function (domain) {
     return domain ? this._rules[domain] : this._rules;
   },
 
-    /**
-     * 清空所有的规则
-     */
+  /**
+   * 清空所有的规则
+   */
   clearRules: function () {
     this._rules = {};
 
     return this;
   },
 
-    /**
-     * 清空所有的配置文件
-     */
+  /**
+   * 清空所有的配置文件
+   */
   clearFiles: function () {
     this._files = {};
 
     return this;
   },
 
-    /**
-     * 更新规则
-     */
+  /**
+   * 更新规则
+   */
   update: function () {
     this.clearRules();
     var _files = this._files;
@@ -146,7 +146,7 @@ Rewrite.parseFile = function (filePath) {
   var ASTTree = AST(sourceCode, filePath);
   var tree = formatAST(ASTTree);
 
-    // console.log('rewrite.parseFile', filePath, tree);
+  // console.log('rewrite.parseFile', filePath, tree);
 
   return tree;
 };

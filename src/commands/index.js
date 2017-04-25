@@ -7,7 +7,7 @@ var path = require('path');
 var setHeader = require('./setHeader');
 
 module.exports = {
-    // proxy request config
+  // proxy request config
   'proxy_set_header': function (key, value) {
     log.debug('proxy_set_header -', key, value);
     this.request.headers[key] = value;
@@ -31,10 +31,10 @@ module.exports = {
     var headers = this.request.headers;
     var cookie = headers.cookie;
 
-    headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + '\s*=\s*([^;]*)\s*'), '');
+    headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + ' *= *([^;]*) *'), '');
   },
 
-    // response config
+  // response config
   'hide_cookie': function (key) {
     log.debug('hide_cookie -', key);
 
@@ -57,19 +57,19 @@ module.exports = {
     setHeader(this.response, 'Set-Cookie', key + '=' + value);
   },
 
-    // location commands
+  // location commands
   'proxy_pass': function (value) {
     this.props.proxy = value;
   },
   'alias': function (value) {
     this.props.alias = true;
 
-        // TODO support relative path
+    // TODO support relative path
     if (/^\//.test(value)) {
-            // absolute path
+      // absolute path
       this.props.proxy = value;
     } else {
-            // relative path
+      // relative path
       var _global = this.parent.parent;
       var currentFilePath = _global.filePath;
       var dirname = path.dirname(currentFilePath);
@@ -81,7 +81,7 @@ module.exports = {
     this.props.default = value;
   },
 
-    // domain commands
+  // domain commands
   'ssl_certificate': function (value) {
     var parent = this.parent;
     var rewriteFilePath = parent.filePath;
@@ -98,7 +98,7 @@ module.exports = {
     this.props.sslCertificateKey = path.join(dirname, value);
   },
 
-    // global commands
+  // global commands
   'set': function (key, value) {
     this.props[key] = value;
   }

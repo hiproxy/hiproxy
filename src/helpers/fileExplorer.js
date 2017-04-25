@@ -17,8 +17,8 @@ module.exports = {
           return;
         }
 
-                // TODO 这里需要考虑HTTPS
-                // var hostPort = program.https ? 'https://127.0.0.1' : '//127.0.0.1' + program.port;
+        // TODO 这里需要考虑HTTPS
+        // var hostPort = program.https ? 'https://127.0.0.1' : '//127.0.0.1' + program.port;
         var sourceUrl = /* hostPort + */'/__source__/image/';
         var docSVG = '<img class="file-icon" src="' + sourceUrl + 'Document.svg' + '"/>';
         var fileSVG = '<img class="file-icon" src="' + sourceUrl + 'File.svg' + '"/>';
@@ -42,13 +42,13 @@ module.exports = {
           '<ul>'
         ];
         html.push('<li>');
-        html.push('<a href="', url.replace(/\/([^\\\/]*?)\/?$/, '/'), '">', folderSVG, '../</a>');
+        html.push('<a href="', url.replace(/\/([^\\/]*?)\/?$/, '/'), '">', folderSVG, '../</a>');
         html.push('</li>');
 
         var filesItem = files.map(function (fileName) {
           if (fileName.slice(0, 1) === '.') {
             log.debug('hide system file/directory', fileName.bold);
-                        // 不显示系统隐藏文件
+            // 不显示系统隐藏文件
             return;
           }
 
