@@ -10,7 +10,7 @@ var http = require('http');
 var https = require('https');
 var zlib = require('zlib');
 
-var log = require('../../../helpers/log');
+var log = require('../../helpers/log');
 var logger = log.namespace('proxy -> Server');
 
 var execResponseCommand = require('../../tools/execCommand');
