@@ -47,7 +47,7 @@ proxy.on('request', function(req, res){
 });
 
 proxy.on('data', function(data){
-  log.info('on response =>', data.toString());
+  console.log('on response =>', data.toString());
 });
 
 proxy.start().then(function (servers) {
