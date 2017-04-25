@@ -13,7 +13,7 @@ var zlib = require('zlib');
 var log = require('../../../helpers/log');
 var logger = log.namespace('proxy -> Server');
 
-var execResponseCommand = require('../../../tools/execCommand');
+var execResponseCommand = require('../../tools/execCommand');
 
 module.exports = {
     response: function(rewrite_rule, request, response){
