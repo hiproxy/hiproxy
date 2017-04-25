@@ -105,10 +105,10 @@ proxy.start().then(function (servers) {
 
 # Documentation
 
-* [Usage Guide](doc/guide.md)
-* [API documentation](doc/api.md)
-* [Rewrite Config Guide](doc/rewrite_config.md)
-* [Hosts Config Guide](doc/hosts_config.md)
+* [Usage Guide](https://github.com/zdying/hiproxy/blob/master/doc/guide.md)
+* [API documentation](https://github.com/zdying/hiproxy/blob/master/doc/api.md)
+* [Rewrite Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_config.md)
+* [Hosts Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/hosts_config.md)
 
 # hosts config example
 
