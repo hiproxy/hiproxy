@@ -48,11 +48,62 @@ proxy.on('request', function(req, res){
 
 proxy.on('data', function(data){
   log.info('on response =>', data.toString());
-})
+});
 
 proxy.start().then(function (servers) {
   console.log('proxy server started at: 127.0.0.1:8848');
 });
+
+// stop proxy server
+// proxy.stop();
+
+// restart proxy server
+// proxy.restart();
+```
+
+# CLI commands and options
+
+## Commands and global options
+
+```
+  Usage:
+
+    hiproxy [command] [option]
+
+  Commands:
+
+    start  启动代理服务
+
+  Options:
+
+    -v, --version   显示版本信息
+    -h, --help      显示帮助信息
+    -d, --debug     显示调试信息
+    -D, --detail    显示详细调试信息
+    --log-time      显示日志时间
+```
+
+## Command help
+
+### start
+
+```
+  USAGE:
+
+    start [--port <port>] [-xodD]
+
+  DESCRIBE:
+
+    启动代理服务
+
+  OPTIONS:
+
+    -h, --help                    show help info
+    -p, --port <port>             http代理服务端口号
+    -s, --https                   启动https代理服务
+    -m, --middle-man-port <port>  https中间人端口号
+    -o, --open [browser]          打开浏览器窗口
+    --pac-proxy                   是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
 ```
 
 # Documentation
@@ -61,4 +112,47 @@ proxy.start().then(function (servers) {
 * [API documentation](doc/api.md)
 * [Rewrite Config Guide](doc/rewrite_config.md)
 * [Hosts Config Guide](doc/hosts_config.md)
+
+# hosts config example
+
+hiproxy supports enhanced version of `hosts`,
+the `hosts` file supports not only IP but also port numbers.
+
+```bash
+# comment
+127.0.0.1 example.com
+127.0.0.1:8800 blog.example.com life.example.com
+```
+
+# rewrite config example
+
+```bash
+set $port 8899;
+set $ip   127.0.0.1;
+set $online 210.0.0.0;
+
+domain example.com {
+  location / {
+    proxy_pass http://$online/;
+  }
+
+  location /blog/ {
+    proxy_pass http://$ip:$port/blog/;
+
+    proxy_set_header from 'hiproxy';
+
+    set_header proxy 'hiproxy';
+  }
+}
+```
+
+# Running tests
+
+```bash
+npm test
+```
+
+# License
+
+MIT
 
