@@ -40,7 +40,7 @@ describe('#http server', function(){
             var server = new Proxy(8849);
             server.start().then(function(){
                 request('http://127.0.0.1:8849', function(err, response, body){
-                    if(body === 'http://127.0.0.1:8849/proxy.pac'){
+                    if(body.indexOf('http://127.0.0.1:8849/proxy.pac') !== -1){
                         done()
                     }else{
                         done(err || new Error('Body not match'))
