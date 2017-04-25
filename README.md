@@ -133,3 +133,17 @@ hiproxy会在指定的空间下所有一级目录下查找配置文件
 | --- | --- | --- | --- |
 | [dir] | <code>String</code> | <code>process.cwd()</code> | 工作空间（目录） |
 
+
+# Events
+
+## start
+## request
+## httpsRequest
+## connect
+## setRequestOption
+## setResponse
+## response
+## close
+## addHostsFile
+## addRewriteFile
+## createPacFile

@@ -39,7 +39,7 @@ module.exports = {
                 response: response
             }, 'response');
 
-            self.emit('setresponse', response, 'http-server');
+            self.emit('setResponse', response);
 
             // response.pipe(res);
             response.writeHead(res.statusCode, res.headers);

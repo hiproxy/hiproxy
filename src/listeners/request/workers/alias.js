@@ -21,7 +21,7 @@ module.exports = {
             response: response
         }, 'response');
 
-        this.emit('setresponse', response, 'http-server');
+        this.emit('setResponse', response);
 
         try{
             var stats = fs.statSync(request.newUrl);

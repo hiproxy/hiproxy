@@ -74,7 +74,13 @@ ProxyServer.prototype = {
                     self.findConfigFiels();
                 }, 0);
 
-                self.emit('started', {
+                /**
+                 * the server(s) start event
+                 * @event ProxyServer#start
+                 * @property {Array} servers http/https server
+                 * @property {String} localIP the local ip address
+                 */
+                self.emit('start', {
                     servers: values.slice(1),
                     localIP: values[0]
                 });
@@ -98,6 +104,12 @@ ProxyServer.prototype = {
             this.httpsServer.close();
         }
 
+        /**
+         * the server(s) stop event
+         * @event ProxyServer#stop
+         */
+        this.emit('stop');
+
         return this;
     },
 
@@ -118,6 +130,13 @@ ProxyServer.prototype = {
      * @public
      */
     addHostsFile: function(filePath){
+        /**
+         * the add hosts file event
+         * @event ProxyServer#addHostsFile
+         * @property {Array|String} filePath rewrite file path(s)
+         */
+        this.emit('addHostsFile', filePath);
+
         this.hosts.addFile(filePath);
         this.createPacFile();
         return this;
@@ -131,6 +150,13 @@ ProxyServer.prototype = {
      * @public
      */
     addRewriteFile: function(filePath){
+        /**
+         * the add rewrite file event
+         * @event ProxyServer#addHostsFile
+         * @property {Array|String} filePath rewrite file path(s)
+         */
+        this.emit('addRewriteFile', filePath);
+
         this.rewrite.addFile(filePath);
         this.createPacFile();
         return this;
@@ -190,6 +216,13 @@ ProxyServer.prototype = {
         allDomains.forEach(function(domain){
             domains[domain] = 1;
         });
+
+        /**
+         * the create pac file event
+         * @event ProxyServer#creatPacFile
+         * @property {Object} domains domain list
+         */
+        this.emit('creatPacFile', domains);
 
         return createPacFile(this.httpPort, this.localIP, domains)
             .then(function(){
@@ -256,7 +289,7 @@ ProxyServer.prototype = {
                  * @property {http.IncomingMessage} request request object
                  * @property {http.ServerResponse} response response object
                  */
-                self.emit('request', req, res, 'https-server');
+                self.emit('httpsRequest', req, res);
 
                 log.debug('http middle man _server receive request ==>', protocol, host, url);
 

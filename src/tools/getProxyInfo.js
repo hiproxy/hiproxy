@@ -132,7 +132,7 @@ module.exports = function getProxyInfo(request, hostsRules, rewriteRules){
         newUrl: newUrl
     };
 
-    this.emit('getproxyinfo', proxyInfo, 'http-server');
+    this.emit('getProxyInfo', proxyInfo);
 
     return proxyInfo;
 };

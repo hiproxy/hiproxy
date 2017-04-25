@@ -91,7 +91,7 @@ function startServer(){
     var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
     var proxy = new Proxy(port, httpsPort);
 
-    // proxy.on('started', function(data){
+    // proxy.on('start', function(data){
     //     console.log('服务已经启动了：');
     //     console.log(data);
     // });

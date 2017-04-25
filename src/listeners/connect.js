@@ -19,6 +19,15 @@ module.exports = function connectHandler(request, socket, head){
     var hostRule = this.hosts.getHost(hostname);
     var middleManPort = this.httpsPort;
 
+    /**
+     * the connect event
+     * @event ProxyServer#connect
+     * @property {http.IncomingMessage} request request object
+     * @property {net.Socket} socket socket object
+     * @property {Buffer} head  head
+     */
+    this.emit('connect', request, socket, head);
+
     if(rewriteRule || hostRule) {
         hostname = '127.0.0.1';
         port = middleManPort;

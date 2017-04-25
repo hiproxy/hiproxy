@@ -16,10 +16,27 @@ module.exports = function requestHandler(request, response){
      * @property {http.IncomingMessage} request request object
      * @property {http.ServerResponse} response response object
      */
-    this.emit('request', request, response, 'http-server');
+    this.emit('request', request, response);
 
     if(_url === '/'){
-        response.end('proxy file url: http://127.0.0.1:' + this.httpPort + '/proxy.pac');
+        var pacURL = 'http://127.0.0.1:' + this.httpPort + '/proxy.pac';
+        var localIP = this.localIP;
+        var httpPort = this.httpPort;
+        var httpsPort = this.httpsPort;
+
+        response.write('<style>.red{color: #DC544B} .label{color: #10a3ca; font-weight: bold}</style>');
+        // response.write('<h1>hiproxy server</h1>');
+        response.write([
+            '<pre>',
+            " _     <span class=\"red\">_</span>  ",
+            "| |   <span class=\"red\">(_)</span> ",
+            "| |__  _    <span class=\"label\">Proxy address:</span> " + localIP + ":" + httpPort,
+            "| '_ \\| |   <span class=\"label\">Https address:</span> " + (httpsPort ? localIP + ":" + httpsPort : "disabled"),
+            "| | | | |   <span class=\"label\">Proxy file at:</span> <a href=\"" + pacURL + "\">" + pacURL + "</a>",
+            "|_| |_|_| ",
+            '</pre>'
+        ].join('\n'));
+        response.end();
         return
     }
 
@@ -69,11 +86,11 @@ function setRequest(request){
     request.newUrl = proxyInfo.newUrl;
 
     /**
-     * the setoption event
-     * @event ProxyServer#setoption
+     * the setRequestOption event
+     * @event ProxyServer#setRequestOption
      * @property {Object} proxyOptions the proxy header options
      */
-    this.emit('setoption', request.proxy_options, 'http-server');
+    this.emit('setRequestOption', request.proxy_options);
 
     return request;
 }
