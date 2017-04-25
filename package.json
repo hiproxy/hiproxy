@@ -1,7 +1,7 @@
 {
   "name": "hiproxy",
-  "version": "1.0.3",
-  "description": "hiproxy is a Node.js proxy client",
+  "version": "1.0.6",
+  "description": "hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support",
   "main": "src/index.js",
   "bin": {
     "hiproxy": "bin/cli.js",
