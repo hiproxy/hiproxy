@@ -7,21 +7,21 @@ A Node.js proxy client
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-orange.svg)](https://nodejs.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/zdying/hiproxy/blob/master/LICENSE)
 
-# 安装
+# Install
 
 ```bash
 npm install -g hiproxy
 ```
 
-# 使用
+# Usage
 
-1. 启动服务
+1. Start proxy server
 ```bash
 cd your_workspace
 hiproxy start -p 5525 --debug
 ```
 
-2. 设置代理
+2. Config proxy
 
 ```bash
 127.0.0.1:5525
