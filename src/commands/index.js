@@ -64,7 +64,6 @@ module.exports = {
   'alias': function (value) {
     this.props.alias = true;
 
-    // TODO support relative path
     if (/^\//.test(value)) {
       // absolute path
       this.props.proxy = value;
