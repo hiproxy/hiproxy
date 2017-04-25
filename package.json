@@ -44,7 +44,6 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run semistandard",
       "pre-push": "npm test"
     }
   }
