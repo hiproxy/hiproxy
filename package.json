@@ -1,6 +1,6 @@
 {
   "name": "hiproxy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "hiproxy is a Node.js proxy client",
   "main": "src/index.js",
   "bin": {
@@ -8,11 +8,11 @@
     "hip": "bin/cli.js"
   },
   "scripts": {
-    "seq": "mocha test/seq/seq.test.js",
-    "mocha": "mocha test/**/*.test.js --no-color",
-    "cover": "istanbul cover _mocha test/**/*.test.js --no-color",
-    "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls",
-    "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js"
+    "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js",
+    "semistandard": "semistandard \"src/**/*.js\" \"example/**/*.js\"",
+    "test": "nyc mocha test/**/*.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "report": "npm test && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -35,10 +35,17 @@
     "simple-mime": "^0.1.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.16",
-    "istanbul": "^0.4.5",
+    "codecov": "^2.1.0",
+    "ghooks": "^2.0.0",
     "mocha": "^3.2.0",
-    "mocha-lcov-reporter": "^1.2.0",
-    "request": "^2.79.0"
+    "nyc": "^10.2.0",
+    "request": "^2.79.0",
+    "semistandard": "^10.0.0"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run semistandard",
+      "pre-push": "npm test"
+    }
   }
 }
