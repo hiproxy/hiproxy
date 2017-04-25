@@ -4,14 +4,14 @@
  */
 'use strict';
 
-module.exports = function setHeader(response, name, value){
-    var header = response.getHeader(name);
+module.exports = function setHeader (response, name, value) {
+  var header = response.getHeader(name);
 
-    if(!Array.isArray(header)){
-        header = !!header ? [header] : [];
-    }
+  if (!Array.isArray(header)) {
+    header = header ? [header] : [];
+  }
 
-    header.push(value);
+  header.push(value);
 
-    response.setHeader(name, header);
+  response.setHeader(name, header);
 };

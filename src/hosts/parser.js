@@ -21,30 +21,30 @@ var fs = require('fs');
  * @param filePath
  * @returns {{}}
  */
-module.exports = function parseHosts(filePath){
-    var hostRules = {};
+module.exports = function parseHosts (filePath) {
+  var hostRules = {};
 
-    var hosts = fs.readFileSync(filePath);
+  var hosts = fs.readFileSync(filePath);
 
-    hosts.toString().split(/\n\r?/).forEach(function(line){
-        line = line.replace(/#.*$/, '');
+  hosts.toString().split(/\n\r?/).forEach(function (line) {
+    line = line.replace(/#.*$/, '');
 
-        if(line.trim() === ''){
-            return
-        }
+    if (line.trim() === '') {
+      return;
+    }
 
-        var arr = line.split(/\s+/);
+    var arr = line.split(/\s+/);
 
-        if(arr.length < 2 || line.indexOf('/') !== -1){
-            log.warn('hosts -', line.bold.yellow, 'ignored')
-        }else{
-            for(var i = 1, len = arr.length; i < len; i++){
-                hostRules[arr[i]] = arr[0];
-            }
-        }
-    });
+    if (arr.length < 2 || line.indexOf('/') !== -1) {
+      log.warn('hosts -', line.bold.yellow, 'ignored');
+    } else {
+      for (var i = 1, len = arr.length; i < len; i++) {
+        hostRules[arr[i]] = arr[0];
+      }
+    }
+  });
 
-    log.debug('hosts - hosts file parsed: ', JSON.stringify(hostRules));
+  log.debug('hosts - hosts file parsed: ', JSON.stringify(hostRules));
 
-    return hostRules
+  return hostRules;
 };

@@ -13,24 +13,24 @@ var types = require('./scope');
  * @param {String} [type] 过滤的类型
  * @returns {Array}
  */
-module.exports = function getCommonds(rewrite_rule, type){
-    var tmp = [];
-    var curr = rewrite_rule;
-    var currCMDs = [];
-    var typedCmds = type && types[type];
+module.exports = function getCommonds (rewrite_rule, type) {
+  var tmp = [];
+  var curr = rewrite_rule;
+  var currCMDs = [];
+  var typedCmds = type && types[type];
 
-    while(curr){
-        currCMDs = curr.commands || [];
+  while (curr) {
+    currCMDs = curr.commands || [];
 
-        if(currCMDs.length && typedCmds && typedCmds.length){
-            currCMDs = currCMDs.filter(function(cmdObj){
-                return typedCmds.indexOf(cmdObj.name) !== -1;
-            })
-        }
-
-        tmp = tmp.concat(currCMDs);
-        curr = curr.parent;
+    if (currCMDs.length && typedCmds && typedCmds.length) {
+      currCMDs = currCMDs.filter(function (cmdObj) {
+        return typedCmds.indexOf(cmdObj.name) !== -1;
+      });
     }
 
-    return tmp;
+    tmp = tmp.concat(currCMDs);
+    curr = curr.parent;
+  }
+
+  return tmp;
 };

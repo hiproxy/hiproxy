@@ -26,53 +26,53 @@ var createPacFile = require('./tools/createPacFile');
  * @extends EventEmitter
  * @constructor
  */
-function ProxyServer(httpPort, httpsPort){
-    EventEmitter.call(this);
+function ProxyServer (httpPort, httpsPort) {
+  EventEmitter.call(this);
 
-    this.hosts = new Hosts();
-    this.rewrite = new Rewrite();
+  this.hosts = new Hosts();
+  this.rewrite = new Rewrite();
 
-    this.httpPort = httpPort;
-    this.httpServer = null;
+  this.httpPort = httpPort;
+  this.httpServer = null;
 
-    this.httpsPort = httpsPort;
-    this.httpsServer = null;
+  this.httpsPort = httpsPort;
+  this.httpsServer = null;
 }
 
 ProxyServer.prototype = {
-    constructor: ProxyServer,
+  constructor: ProxyServer,
     // extends from EventEmitter
-    __proto__: EventEmitter.prototype,
+  __proto__: EventEmitter.prototype,
 
     /**
      * 启动代理服务
-     * 
+     *
      * @param {Number} httpPort http服务端口号
      * @param {Number} httpsPort https服务端口号
      * @return {Promise}
      * @public
      */
-    start: function(httpPort, httpsPort){
-        var self = this;
-        var promises = [
-            getLocalIP(),
-            createServer.create(httpPort || this.httpPort, false, this.rewrite)
-        ];
+  start: function (httpPort, httpsPort) {
+    var self = this;
+    var promises = [
+      getLocalIP(),
+      createServer.create(httpPort || this.httpPort, false, this.rewrite)
+    ];
 
-        if(httpsPort || this.httpsPort){
-            promises.push(createServer.create(httpsPort || this.httpsPort, true, this.rewrite))
-        }
+    if (httpsPort || this.httpsPort) {
+      promises.push(createServer.create(httpsPort || this.httpsPort, true, this.rewrite));
+    }
 
-        return Promise.all(promises)
-            .then(function(values){
-                self.localIP = values[0];
-                self.httpServer = values[1];
-                self.httpsServer = values[2];
-                
-                setTimeout(function(){
-                    self._initEvent();
-                    self.findConfigFiels();
-                }, 0);
+    return Promise.all(promises)
+            .then(function (values) {
+              self.localIP = values[0];
+              self.httpServer = values[1];
+              self.httpsServer = values[2];
+
+              setTimeout(function () {
+                self._initEvent();
+                self.findConfigFiels();
+              }, 0);
 
                 /**
                  * Emitted when the hiproxy server(s) start.
@@ -80,158 +80,158 @@ ProxyServer.prototype = {
                  * @property {Array} servers http/https server
                  * @property {String} localIP the local ip address
                  */
-                self.emit('start', {
-                    servers: values.slice(1),
-                    localIP: values[0]
-                });
+              self.emit('start', {
+                servers: values.slice(1),
+                localIP: values[0]
+              });
 
-                return values.slice(1);
+              return values.slice(1);
             })
-            .catch(function(err){
-                log.error(err);
-            })
-    },
+            .catch(function (err) {
+              log.error(err);
+            });
+  },
 
     /**
      * 停止代理服务
      * @return {ProxyServer}
      * @public
      */
-    stop: function(){
-        this.httpServer.close();
+  stop: function () {
+    this.httpServer.close();
 
-        if(this.httpsServer){
-            this.httpsServer.close();
-        }
+    if (this.httpsServer) {
+      this.httpsServer.close();
+    }
 
         /**
          * Emitted when the hiproxy server(s) stop.
          * @event ProxyServer#stop
          */
-        this.emit('stop');
+    this.emit('stop');
 
-        return this;
-    },
+    return this;
+  },
 
     /**
      * 重启代理服务
      * @return {ProxyServer}
      * @public
      */
-    restart: function(){
-        return this.stop().start();
-    },
+  restart: function () {
+    return this.stop().start();
+  },
 
     /**
      * 添加Hosts文件
-     * 
+     *
      * @param {String|Array} filePath `hosts`文件路径（绝对路径）
      * @return {ProxyServer}
      * @public
      */
-    addHostsFile: function(filePath){
+  addHostsFile: function (filePath) {
         /**
          * Emitted when add hosts file.
          * @event ProxyServer#addHostsFile
          * @property {Array|String} filePath rewrite file path(s)
          */
-        this.emit('addHostsFile', filePath);
+    this.emit('addHostsFile', filePath);
 
-        this.hosts.addFile(filePath);
-        this.createPacFile();
-        return this;
-    },
+    this.hosts.addFile(filePath);
+    this.createPacFile();
+    return this;
+  },
 
     /**
      * 添加rewrite文件
-     * 
+     *
      * @param {String|Array} filePath `rewrite`文件路径（绝对路径）
-     * @return {ProxyServer} 
+     * @return {ProxyServer}
      * @public
      */
-    addRewriteFile: function(filePath){
+  addRewriteFile: function (filePath) {
         /**
          * Emitted when add rewrite file.
          * @event ProxyServer#addRewriteFile
          * @property {Array|String} filePath rewrite file path(s)
          */
-        this.emit('addRewriteFile', filePath);
+    this.emit('addRewriteFile', filePath);
 
-        this.rewrite.addFile(filePath);
-        this.createPacFile();
-        return this;
-    },
+    this.rewrite.addFile(filePath);
+    this.createPacFile();
+    return this;
+  },
 
     /**
      * 添加指令
-     * 
+     *
      * @param {String} name  指令名称
      * @param {String} scope 指令作用域
      * @param {Function} fn  指令执行函数
      * @private
      */
     // addDirective: function(name, scope, fn){
-    // 
+    //
     // },
- 
+
     /**
      * 打开浏览器窗口
-     * 
+     *
      * @param {String} browserName 浏览器名称
      * @param {String} url         要打开的url
      * @param {Boolean} [usePacProxy=false] 是否使用自动代理
      * @return {ProxyServer}
      * @public
      */
-    openBrowser: function(browserName, url, usePacProxy){
-        var self = this;
+  openBrowser: function (browserName, url, usePacProxy) {
+    var self = this;
 
-        if(usePacProxy){
-            this.createPacFile().then(function(success){
-                self._open(browserName, url, true);
-            })
-        }else{
-            this._open(browserName, url, false);
-        }
+    if (usePacProxy) {
+      this.createPacFile().then(function (success) {
+        self._open(browserName, url, true);
+      });
+    } else {
+      this._open(browserName, url, false);
+    }
 
-        return this;
-    },
+    return this;
+  },
 
-    _open: function(browserName, url, usePacProxy){
-        browser.open(browserName, url, this.httpPort, usePacProxy);
-        return this;
-    },
+  _open: function (browserName, url, usePacProxy) {
+    browser.open(browserName, url, this.httpPort, usePacProxy);
+    return this;
+  },
 
     /**
      * 创建自动配置代理文件
      * @private
      */
-    createPacFile: function(){
-        var hosts = this.hosts.getHost();
-        var rewrite = this.rewrite.getRule();
+  createPacFile: function () {
+    var hosts = this.hosts.getHost();
+    var rewrite = this.rewrite.getRule();
 
-        var allDomains = Object.keys(hosts).concat(Object.keys(rewrite));
-        var domains = {};
-        
-        allDomains.forEach(function(domain){
-            domains[domain] = 1;
-        });
+    var allDomains = Object.keys(hosts).concat(Object.keys(rewrite));
+    var domains = {};
+
+    allDomains.forEach(function (domain) {
+      domains[domain] = 1;
+    });
 
         /**
          * Emitter when the `pac` proxy file is created or updated.
          * @event ProxyServer#creatPacFile
          * @property {Object} domains domain list
          */
-        this.emit('creatPacFile', domains);
+    this.emit('creatPacFile', domains);
 
-        return createPacFile(this.httpPort, this.localIP, domains)
-            .then(function(){
-                return true
+    return createPacFile(this.httpPort, this.localIP, domains)
+            .then(function () {
+              return true;
             })
-            .catch(function(err){
-                return false
-            })
-    },
+            .catch(function (err) {
+              return false;
+            });
+  },
 
     /**
      * 在指定工作空间（目录）下查找配置文件
@@ -240,83 +240,83 @@ ProxyServer.prototype = {
      * @return {ProxyServer}
      * @public
      */
-    findConfigFiels: function(dir){
-        var self = this;
+  findConfigFiels: function (dir) {
+    var self = this;
 
-        findHostsAndRewrite(dir, function(err, hosts, rewrites){
-            if(err){
-                return log.error(err);
-            }
+    findHostsAndRewrite(dir, function (err, hosts, rewrites) {
+      if (err) {
+        return log.error(err);
+      }
 
-            log.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
-            log.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
+      log.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
+      log.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
 
             // 将找到的Hosts文件解析并加入缓存
-            self.addHostsFile(hosts);
+      self.addHostsFile(hosts);
 
             // 将找到的rewrite文件解析并加入缓存
-            self.addRewriteFile(rewrites)
-        });
+      self.addRewriteFile(rewrites);
+    });
 
-        return this;
-    },
+    return this;
+  },
 
-    _initEvent: function(){
-        var self = this;
-        var port = this.httpPort;
-        var url = 'http://127.0.0.1:' + port;
-        var pac = url + '/proxy.pac';
-        var server = this.httpServer;
-        var httpsServer = this.httpsServer;
+  _initEvent: function () {
+    var self = this;
+    var port = this.httpPort;
+    var url = 'http://127.0.0.1:' + port;
+    var pac = url + '/proxy.pac';
+    var server = this.httpServer;
+    var httpsServer = this.httpsServer;
 
-        server
-            .on('request', listeners.request.bind(this))
-            .on('connect', listeners.connect.bind(this));
+    server
+        .on('request', listeners.request.bind(this))
+        .on('connect', listeners.connect.bind(this));
 
         // https中间人代理服务器事件绑定
         // 中间人代理服务收到请求时：
         //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
         //  2. 如果是其他的请求，去请求资源
-        httpsServer && httpsServer
-            .on('request', function(req, res){
-                var url = req.url;
-                var host = req.headers.host;
-                var protocol = req.client.encrypted ? 'https' : 'http';
+    httpsServer && httpsServer
+        .on('request', function (req, res) {
+          var url = req.url;
+          var host = req.headers.host;
+          var protocol = req.client.encrypted ? 'https' : 'http';
 
-                /**
-                 * Emitted each time there is a request to the https server.
-                 * @event ProxyServer#httpsRequest
-                 * @property {http.IncomingMessage} request request object
-                 * @property {http.ServerResponse} response response object
-                 */
-                self.emit('httpsRequest', req, res);
+            /**
+             * Emitted each time there is a request to the https server.
+             * @event ProxyServer#httpsRequest
+             * @property {http.IncomingMessage} request request object
+             * @property {http.ServerResponse} response response object
+             */
+          self.emit('httpsRequest', req, res);
 
-                log.debug('http middle man _server receive request ==>', protocol, host, url);
+          log.debug('http middle man _server receive request ==>', protocol, host, url);
 
-                if(!url.match(/^\w+:\/\//)){
-                    req.url = protocol + '://' + host + url;
-                }
+          if (!url.match(/^\w+:\/\//)) {
+            req.url = protocol + '://' + host + url;
+          }
 
-                // console.log('req.zdy', req.zdy);
+            // console.log('req.zdy', req.zdy);
 
-                if(host === '127.0.0.1:' + this.httpsPort){
-                    res.end('the man in the middle page: ' + url);
-                    // if(url === '/'){
-                    //     res.end('the man in the middle.');
-                    // }else if(url === '/favicon.ico'){
-                    //     res.statusCode = 404;
-                    //     res.end('404 Not Found.');
-                    // }else{
-                    //     res.statusCode = 404;
-                    //     res.end('404 Not Found.');
-                    // }
-                }else{
-                    listeners.request.call(this, req, res);
-                }
-            }.bind(this));
+          if (host === '127.0.0.1:' + this.httpsPort) {
+            res.end('the man in the middle page: ' + url);
+                // if(url === '/'){
+                //     res.end('the man in the middle.');
+                // }else if(url === '/favicon.ico'){
+                //     res.statusCode = 404;
+                //     res.end('404 Not Found.');
+                // }else{
+                //     res.statusCode = 404;
+                //     res.end('404 Not Found.');
+                // }
+          } else {
+            listeners.request.call(this, req, res);
+          }
+        }.bind(this));
 
-        return this;
-    }
+    return this;
+  }
 };
 
 // util.inherits(ProxyServer, EventEmitter);

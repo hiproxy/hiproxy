@@ -9,7 +9,7 @@
   },
   "scripts": {
     "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js",
-    "semistandard": "semistandard \"src/**/*.js\" \"example/**/*.js\"",
+    "semistandard": "semistandard src/**/*.js example/**/*.js",
     "test": "nyc mocha test/**/*.js",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html"

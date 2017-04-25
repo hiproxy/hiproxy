@@ -2,60 +2,59 @@
  * @file development环境配置文件
  * @author zdying
  */
-"use strict";
+'use strict';
 
-function type(obj){
-    return ({}).toString.call(obj).replace(/^\[object (\w+)\]$/, '$1').toLowerCase();
+function type (obj) {
+  return ({}).toString.call(obj).replace(/^\[object (\w+)\]$/, '$1').toLowerCase();
 }
 
-function shouldMerge(obj){
-    return obj && type(obj).match(/^(object|array)$/);
+function shouldMerge (obj) {
+  return obj && type(obj).match(/^(object|array)$/);
 }
 
-function merge(deep, target, source){
-    var startIndex = 2;
-    var args = [].slice.call(arguments, 0);
-    var argsLen = args.length;
-    var currentSource, currentValue, currentTarget, currentValueType, currentTargetType;
+function merge (deep, target, source) {
+  var startIndex = 2;
+  var args = [].slice.call(arguments, 0);
+  var argsLen = args.length;
+  var currentSource, currentValue, currentTarget, currentValueType, currentTargetType;
 
-    if(typeof deep !== 'boolean'){
-        target = deep;
-        deep = false;
-        startIndex = 1;
-    }
+  if (typeof deep !== 'boolean') {
+    target = deep;
+    deep = false;
+    startIndex = 1;
+  }
 
-    if(!target){
-        target = {};
-    }
+  if (!target) {
+    target = {};
+  }
 
-    for(var i = startIndex; i < argsLen; i++){
-        currentSource = args[i];
+  for (var i = startIndex; i < argsLen; i++) {
+    currentSource = args[i];
 
-        for(var key in currentSource){
-            currentValue = currentSource[key];
-            currentValueType = type(currentValue);
-            currentTarget = target[key];
-            currentTargetType = type(currentTarget);
+    for (var key in currentSource) {
+      currentValue = currentSource[key];
+      currentValueType = type(currentValue);
+      currentTarget = target[key];
+      currentTargetType = type(currentTarget);
 
-            if(deep && shouldMerge(currentValue) && currentTargetType === currentValueType){
+      if (deep && shouldMerge(currentValue) && currentTargetType === currentValueType) {
                 // 深拷贝并且当前值是可以merge的对象（array或者object）
-                if(currentValueType === 'array'){
-                    currentTarget.push.apply(currentTarget, currentValue)
-                }else{
-                    merge(deep, currentTarget, currentValue);
-                }
-            }else{
-                // 非深拷贝或者不是对象
-                target[key] = currentValue
-            }
+        if (currentValueType === 'array') {
+          currentTarget.push.apply(currentTarget, currentValue);
+        } else {
+          merge(deep, currentTarget, currentValue);
         }
+      } else {
+                // 非深拷贝或者不是对象
+        target[key] = currentValue;
+      }
     }
+  }
 
-    return target
+  return target;
 }
 
 module.exports = merge;
-
 
 // test
 

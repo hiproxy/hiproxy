@@ -1,5 +1,5 @@
 
 module.exports = {
-    request: require('./request/index'),
-    connect: require('./connect')
+  request: require('./request/index'),
+  connect: require('./connect')
 };
