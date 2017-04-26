@@ -50,17 +50,17 @@ function startServer () {
   var proxy = new Proxy(port, httpsPort);
 
   // proxy.on('start', function(data){
-  //     console.log('服务已经启动了：');
-  //     console.log(data);
+  //   console.log('服务已经启动了：');
+  //   console.log(data);
   // });
 
   // proxy.on('request', function(req, res){
-  //     req.zdy = 'zdying';
-  //     log.info('request event:::', req.method, req.url);
+  //   req.zdy = 'zdying';
+  //   log.info('request event:::', req.method, req.url);
   // });
 
   // proxy.on('response', function(data){
-  //     log.info('on response::::', data.toString());
+  //   log.info('on response::::', data.toString());
   // });
 
   proxy.start().then(function (servers) {
@@ -71,9 +71,9 @@ function startServer () {
       showImage([
         '',
         '',
-        '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
-        '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
-        '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+        '  Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
+        '  Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
+        '  Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
         ''
       ]);
     });
@@ -83,17 +83,17 @@ function startServer () {
     browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
 
     // setTimeout(function(){
-    //     console.log('停止服务');
-    //     proxy.stop();
+    //   console.log('停止服务');
+    //   proxy.stop();
     // }, 10000);
     // setTimeout(function(){
-    //     console.log('启动服务');
-    //     proxy.start();
+    //   console.log('启动服务');
+    //   proxy.start();
     // }, 20000)
 
     // setTimeout(function(){
-    //     console.log('重启');
-    //     proxy.restart();
+    //   console.log('重启');
+    //   proxy.restart();
     // }, 10000)
 
     global.hiServer = proxy;

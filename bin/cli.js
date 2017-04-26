@@ -8,7 +8,7 @@ var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
-var args = new Args();
+var _args = new Args();
 
 global.log = log;
 
@@ -16,11 +16,11 @@ global.log = log;
   var cmdConfig = require(path.join(__dirname, 'commands', cmd));
 
   if (cmdConfig && cmdConfig.command) {
-    args.command(cmdConfig);
+    _args.command(cmdConfig);
   }
 });
 
-args
+_args
     .version(packageInfo.version)
     .bin('hiproxy')
     .option('debug', {
@@ -35,7 +35,7 @@ args
       describe: '显示日志时间'
     });
 
-global.args = args.parse(true);
+global.args = _args.parse(true);
 
 if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
   showImage([
