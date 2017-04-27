@@ -43,8 +43,8 @@ if (global.args.daemon && !process.env.__daemon) {
   // 如果指定后台运行模块，并且不是child进程，启动child进程
   var spawn = require('child_process').spawn;
   var env = process.env;
-  var out = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'out.log'), 'a');
-  var err = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'err.log'), 'a');
+  var out = fs.openSync(path.join(__dirname, /* '../logs/', */ 'out.log'), 'a');
+  var err = fs.openSync(path.join(__dirname, /* '../logs/', */ 'err.log'), 'a');
 
   env.__daemon = true;
 
@@ -59,10 +59,10 @@ if (global.args.daemon && !process.env.__daemon) {
   // 没有指定后台运行，或者是child进程
   _args.execute();
 
-  //TODO 如果启动失败，不能更新pid
-  var pid = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'hiproxy.pid'), 'w');
-  fs.write(pid, process.pid, function(err){
-    if(err){
+  // TODO 如果启动失败，不能更新pid
+  var pid = fs.openSync(path.join(__dirname, /* '../logs/', */ 'hiproxy.pid'), 'w');
+  fs.write(pid, process.pid, function (err) {
+    if (err) {
       console.log('pid write error');
     }
   });
