@@ -2,7 +2,8 @@
 
 require('colors');
 var path = require('path');
-// var color = require('../src/helpers/color');
+var fs = require('fs');
+
 var log = require('../src/helpers/log');
 var Args = require('hemsl');
 var showImage = require('./showImage');
@@ -42,25 +43,29 @@ if (global.args.daemon && !process.env.__daemon) {
   // 如果指定后台运行模块，并且不是child进程，启动child进程
   var spawn = require('child_process').spawn;
   var env = process.env;
+  var out = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'out.log'), 'a');
+  var err = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'err.log'), 'a');
+
   env.__daemon = true;
+
   const child = spawn('node', [__filename].concat(process.argv.slice(2)), {
     env: env,
-    detached: true
+    detached: true,
+    stdio: ['ignore', out, err]
   });
-
-  var out = require('fs').createWriteStream(require('path').join(__dirname, 'out.txt'), {
-    flags: 'a'
-  });
-  // var err = require('fs').createWriteStream(require('path').join(__dirname, 'err.txt'));
-
-  child.stdout.pipe(out);
 
   child.unref();
-
-  // process.exit();
 } else {
   // 没有指定后台运行，或者是child进程
   _args.execute();
+
+  //TODO 如果启动失败，不能更新pid
+  var pid = fs.openSync(path.join(__dirname, /*'../logs/',*/ 'hiproxy.pid'), 'w');
+  fs.write(pid, process.pid, function(err){
+    if(err){
+      console.log('pid write error');
+    }
+  });
 }
 
 if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
