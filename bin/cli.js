@@ -58,7 +58,6 @@ if (global.args.daemon && !process.env.__daemon) {
   child.unref();
 
   // process.exit();
-
 } else {
   // 没有指定后台运行，或者是child进程
   _args.execute();
