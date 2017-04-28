@@ -61,7 +61,7 @@ module.exports = {
 
       var contentType = res.headers['content-type'];
 
-      if (global.program && global.program.proxyContentLog && /(text|json|javascript|css)/.test(contentType)) {
+      if (global.args && global.args.proxyContentLog && /(text|json|javascript|css)/.test(contentType)) {
         // 打印日志
         if (encoding === 'gzip' || encoding === 'deflate') {
           var unzipStream = zlib.createUnzip();
