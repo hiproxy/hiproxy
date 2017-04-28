@@ -5,14 +5,30 @@ global.args = {
   proxyContentLog: true
 };
 
+// TODO 临时方案
+global.log = proxy.logger;
+
 // events
 proxy.on('request', function (req, res) {
   req.someThing = 'some thing';
-  console.log('new request =>', req.method, req.url);
+  console.log('new request =>'.bold.red, req.method, (req.client.encrypted ? 'https' : 'http').bold.green, req.url, req.headers);
+});
+
+proxy.on('httpsRequest', function (req, res) {
+  req.someThing = 'some thing';
+  console.log('new https request =>'.bold.red, req.method, req.url, req.headers);
+});
+
+proxy.on('connect', function (req) {
+  console.log('new connect =>'.bold.red, req.method, req.url, req.headers);
 });
 
 proxy.on('data', function (data) {
-  console.log('on response =>', data.toString());
+  // console.log('on data =>', data.toString().length);
+});
+
+proxy.logger.on('data', function (level, msg) {
+  console.log(('[' + level + '] ').bold.green + msg);
 });
 
 proxy.start().then(function (servers) {

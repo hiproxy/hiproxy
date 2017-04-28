@@ -67,7 +67,7 @@ module.exports = {
           var unzipStream = zlib.createUnzip();
 
           unzipStream.on('data', function (chunk) {
-            console.log('ondata =>', chunk.toString());
+            // console.log('ondata =>', chunk.toString());
             /**
              * Emitted whenever the response stream received some chunk of data.
              * @event ProxyServer#data
@@ -89,7 +89,7 @@ module.exports = {
              * @property {Buffer} data response data
              */
             self.emit('data', chunk);
-            console.log('ondata =>', chunk.toString());
+            // console.log('ondata =>', chunk.toString());
           });
         }
       }

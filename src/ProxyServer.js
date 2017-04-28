@@ -3,11 +3,12 @@
  * @author zdying
  */
 
+require('colors');
 var EventEmitter = require('events');
-
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
+var Logger = require('./helpers/logger');
 var log = require('./helpers/log');
 var browser = require('./browser');
 var createServer = require('./tools/createServer');
@@ -29,6 +30,8 @@ function ProxyServer (httpPort, httpsPort) {
 
   this.hosts = new Hosts();
   this.rewrite = new Rewrite();
+
+  this.logger = new Logger(/*process.stdout, process.stderr*/);
 
   this.httpPort = httpPort;
   this.httpServer = null;
@@ -86,7 +89,7 @@ ProxyServer.prototype = {
         return values.slice(1);
       })
       .catch(function (err) {
-        log.error(err);
+        this.logger.error(err);
       });
   },
 
@@ -207,6 +210,7 @@ ProxyServer.prototype = {
   createPacFile: function () {
     var hosts = this.hosts.getHost();
     var rewrite = this.rewrite.getRule();
+    var logger = this.logger;
 
     var allDomains = Object.keys(hosts).concat(Object.keys(rewrite));
     var domains = {};
@@ -227,7 +231,7 @@ ProxyServer.prototype = {
         return true;
       })
       .catch(function (err) {
-        log.debug(err);
+        logger.debug(err);
         return false;
       });
   },
@@ -241,14 +245,15 @@ ProxyServer.prototype = {
    */
   findConfigFiels: function (dir) {
     var self = this;
+    var logger = this.logger;
 
     findHostsAndRewrite(dir, function (err, hosts, rewrites) {
       if (err) {
-        return log.error(err);
+        return logger.error(err);
       }
 
-      log.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
-      log.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
+      logger.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
+      logger.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
 
       // 将找到的Hosts文件解析并加入缓存
       self.addHostsFile(hosts);
@@ -282,6 +287,8 @@ ProxyServer.prototype = {
         var host = req.headers.host;
         var protocol = req.client.encrypted ? 'https' : 'http';
 
+        self.logger.debug('http middle man _server receive request ==>', protocol, host, url);
+
         /**
          * Emitted each time there is a request to the https server.
          * @event ProxyServer#httpsRequest
@@ -289,8 +296,7 @@ ProxyServer.prototype = {
          * @property {http.ServerResponse} response response object
          */
         self.emit('httpsRequest', req, res);
-
-        log.debug('http middle man _server receive request ==>', protocol, host, url);
+        // self.emit('request', req, res);
 
         if (!url.match(/^\w+:\/\//)) {
           req.url = protocol + '://' + host + url;
