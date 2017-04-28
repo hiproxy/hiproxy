@@ -55,6 +55,15 @@
     }
   },
   "semistandard": {
-    "globals": [ "log", "args", "it", "describe", "beforeEach", "afterEach", "before", "after"]
+    "globals": [
+      "log",
+      "args",
+      "it",
+      "describe",
+      "beforeEach",
+      "afterEach",
+      "before",
+      "after"
+    ]
   }
 }

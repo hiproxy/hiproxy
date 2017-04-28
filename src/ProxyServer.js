@@ -8,11 +8,14 @@ var EventEmitter = require('events');
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
+var log = require('./helpers/log');
 var browser = require('./browser');
 var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
 var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
 var createPacFile = require('./tools/createPacFile');
+
+global.log = log;
 
 /**
  * hiproxy代理服务器

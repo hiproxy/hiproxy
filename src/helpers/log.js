@@ -17,6 +17,10 @@ var iconMap = {
 //     console.log(iconMap[key]);
 // }
 
+if (!global.args) {
+  global.args = {};
+}
+
 module.exports = {
   namespace: function (name) {
     var log = Object.create(this);

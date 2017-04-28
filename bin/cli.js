@@ -3,14 +3,14 @@
 require('colors');
 var path = require('path');
 // var color = require('../src/helpers/color');
-var log = require('../src/helpers/log');
+// var log = require('../src/helpers/log');
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
 var _args = new Args();
 
-global.log = log;
+// global.log = log;
 
 'start stop restart list open'.split(' ').forEach(function (cmd) {
   var cmdConfig = require(path.join(__dirname, 'commands', cmd));
@@ -40,12 +40,27 @@ global.args = _args.parse(false);
 
 if (global.args.daemon && !process.env.__daemon) {
   // 如果指定后台运行模块，并且不是child进程，启动child进程
-  require('daemon')({
-    env: process.env,
-    stdout: process.stdout,
-    stderr: process.stderr
+  // var stream = require('stream');
+  // var outStream = new stream.Duplex();
+
+  // var fsStream = require('fs').createWriteStream(require('path').join(__dirname, '..', 'stdout.log'));
+
+  // outStream.pipe(fsStream);
+
+  // outStream.write('abc');
+
+  // console.log('daemon', __filename, process.argv);
+
+  var child = require('daemon').daemon(process.argv[1], process.argv.slice(2), {
+    env: process.env
+    // stdout: outStream
+    // stdout: process.stdout,
+    // stderr: process.stderr
   });
+
+  console.log('child::', child);
 } else {
+  // console.log('exe');
   // 没有指定后台运行，或者是child进程
   _args.execute();
 }
