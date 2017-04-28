@@ -143,6 +143,15 @@ domain example.com {
 }
 ```
 
+# Running example
+
+```
+cd example
+node index.js
+```
+
+* url => http://test.com
+
 # Running tests
 
 ```bash
