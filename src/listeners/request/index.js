@@ -46,6 +46,7 @@ module.exports = function requestHandler (request, response) {
 
     fs.readFile(pacFilePath, 'utf-8', function (err, str) {
       if (err) {
+        log.error('read pac file error:', err);
         response.end(err.message);
       } else {
         response.end(str);
