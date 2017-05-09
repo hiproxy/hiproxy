@@ -122,8 +122,6 @@ hiproxy会在指定的空间下所有一级目录下查找配置文件
 * ["setRequest"](#ProxyServer+event_setRequest)
 * ["setResponse"](#ProxyServer+event_setResponse)
 * ["data"](#ProxyServer+event_data)
-* ["data"](#ProxyServer+event_data)
-* ["data"](#ProxyServer+event_data)
 * ["response"](#ProxyServer+event_response)
 
 <a name="ProxyServer+event_start"></a>
@@ -283,30 +281,6 @@ Emitted whenever the response stream received some chunk of data.
 | data | <code>Buffer</code> | response data |
 
 <a name="ProxyServer+event_data"></a>
-
-### "data"
-Emitted whenever the response stream received some chunk of data.
-
-**Kind**: event emitted by [<code>ProxyServer</code>](#ProxyServer)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| data | <code>Buffer</code> | response data |
-
-<a name="ProxyServer+event_data"></a>
-
-### "data"
-Emitted whenever the response stream received some chunk of data.
-
-**Kind**: event emitted by [<code>ProxyServer</code>](#ProxyServer)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| data | <code>Buffer</code> | response data |
-
-<a name="ProxyServer+event_response"></a>
 
 ### "response"
 Emitted when a response is end. This event is emitted only once.
