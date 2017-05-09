@@ -1,20 +1,20 @@
 var assert = require('assert');
 var request = require('request');
 var http = require('http');
+var https = require('https');
 var path = require('path');
 
 var Proxy = require('../../src/index');
 var testServer = require('./server');
 
-describe('#http server', function () {
+describe('#https server', function () {
   var proxyServer;
   before(function () {
     testServer.listen(61234);
 
-    proxyServer = new Proxy(8850);
+    proxyServer = new Proxy(8850, 10011);
     proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
     proxyServer.start();
-    proxyServer.openBrowser('chrome', 'http://127.0.0.1:8850');
   });
 
   after(function () {
@@ -24,12 +24,12 @@ describe('#http server', function () {
 
   describe('#api', function () {
     it('#start()', function (done) {
-      var server = new Proxy(8848);
+      var server = new Proxy(8848, 10012);
       server.start().then(function () {
-        if (server.httpServer instanceof http.Server) {
+        if (server.httpsServer instanceof https.Server) {
           done();
         } else {
-          done(new Error('server.httpServer is not an instance of http.Server'));
+          done(new Error('server.httpsServer is not an instance of https.Server'));
         }
         server.stop();
       });
@@ -38,13 +38,16 @@ describe('#http server', function () {
 
   describe('#server response', function () {
     it('request /', function (done) {
-      var server = new Proxy(8849);
+      var server = new Proxy(8849, 10013);
       server.start().then(function () {
-        request('http://127.0.0.1:8849', function (err, response, body) {
-          if (body.indexOf('http://127.0.0.1:8849/proxy.pac') !== -1) {
-            done();
-          } else {
+        request({
+          url: 'https://127.0.0.1:10013/',
+          rejectUnauthorized: false
+        }, function (err, response, body) {
+          if (err) {
             done(err || new Error('Body not match'));
+          } else if(body.indexOf('the man in the middle page: /') !== -1) {
+            done();
           }
 
           server.stop();
@@ -56,8 +59,9 @@ describe('#http server', function () {
   describe('# proxy', function () {
     it('request t.ttt.com/', function (done) {
       request({
-        uri: 'http://t.ttt.com/',
-        proxy: 'http://127.0.0.1:8850'
+        uri: 'https://t.ttt.com/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
       }, function (err, response, body) {
         if (body === 'Hello, hiproxy') {
           done();
@@ -69,8 +73,9 @@ describe('#http server', function () {
 
     it('request t.ttt.com/t/ proxy ok', function (done) {
       request({
-        uri: 'http://t.ttt.com/t/',
-        proxy: 'http://127.0.0.1:8850'
+        uri: 'https://t.ttt.com/t/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
       }, function (err, response, body) {
         if (body === 'GET /test/ OK.') {
           done();
@@ -82,8 +87,9 @@ describe('#http server', function () {
 
     it('request t.ttt.com/t/ header ok', function (done) {
       request({
-        uri: 'http://t.ttt.com/t/',
-        proxy: 'http://127.0.0.1:8850'
+        uri: 'https://t.ttt.com/t/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
       }, function (err, response, body) {
         if (err) {
           return done(err);
@@ -102,8 +108,9 @@ describe('#http server', function () {
 
     it('request t.ttt.com/source/ (alias, root)', function (done) {
       request({
-        uri: 'http://t.ttt.com/source/',
-        proxy: 'http://127.0.0.1:8850'
+        uri: 'https://t.ttt.com/source/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
       }, function (err, response, body) {
         if (err) {
           return done(err);
@@ -120,8 +127,9 @@ describe('#http server', function () {
 
     it('request t.ttt.com/source/a.json', function (done) {
       request({
-        uri: 'http://t.ttt.com/source/a.json',
-        proxy: 'http://127.0.0.1:8850'
+        uri: 'https://t.ttt.com/source/a.json',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
       }, function (err, response, body) {
         if (err) {
           return done(err);

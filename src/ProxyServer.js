@@ -38,6 +38,8 @@ function ProxyServer (httpPort, httpsPort) {
 
   this.httpsPort = httpsPort;
   this.httpsServer = null;
+
+  // global.log = this.logger;
 }
 
 ProxyServer.prototype = {
