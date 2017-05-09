@@ -1,6 +1,6 @@
 var assert = require('assert');
 var request = require('request');
-var http = require('http');
+// var http = require('http');
 var https = require('https');
 var path = require('path');
 
@@ -46,7 +46,7 @@ describe('#https server', function () {
         }, function (err, response, body) {
           if (err) {
             done(err || new Error('Body not match'));
-          } else if(body.indexOf('the man in the middle page: /') !== -1) {
+          } else if (body.indexOf('the man in the middle page: /') !== -1) {
             done();
           }
 
