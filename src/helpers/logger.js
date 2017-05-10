@@ -19,7 +19,6 @@ Logger.prototype = {
 
   _printLog: function (level, msg) {
     var stdout = level === 'error' ? this.stderr : this.stdout;
-    var timeStr = '';
 
     if (args.logTime) {
       msg = '[' + new Date().toLocaleTimeString() + '] ' + msg;
@@ -50,7 +49,6 @@ Logger.prototype.access = function (req, proxy) {
     200: 'white'
   };
   var time = Date.now() - req._startTime;
-  var stdout = this.stdout;
   var msg = [
     req.method.white,
     (req.originalUrl || req.url).gray,
@@ -60,6 +58,6 @@ Logger.prototype.access = function (req, proxy) {
   ].join(' ');
 
   this._printLog('access', msg);
-}
+};
 
 module.exports = Logger;
