@@ -35,6 +35,13 @@ _args
     })
     .option('log-time', {
       describe: '显示日志时间'
+    })
+    .option('log-level', {
+      describe: '过滤日志级别，只有指定级别的日志才会显示',
+      default: 'access,error'
+    })
+    .option('grep <content>', {
+      describe: '过滤日志内容，只有保护过滤字符串的日志才会显示'
     });
 
 // 解析参数，但是不执行命令
@@ -75,7 +82,7 @@ if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
     '',
     '',
     'welcome to use hiproxy'.bold,
-    'current version is ' + '1.0.6'.bold.green,
+    'current version is ' + packageInfo.version.bold.green,
     'You can try `' + 'hiproxy --help'.underline + '` for more info'
   ]);
 }

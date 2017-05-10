@@ -10,8 +10,9 @@ module.exports = {
   describe: 'Open browser and set proxy (In development)',
   usage: 'open [option]',
   fn: function () {
-    console.log();
-    console.log('Browser opened');
-    console.log();
+    console.log('\ncoming soon...\n');
+    // console.log();
+    // console.log('Browser opened');
+    // console.log();
   }
 };

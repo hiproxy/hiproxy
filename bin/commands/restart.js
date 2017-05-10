@@ -10,8 +10,9 @@ module.exports = {
   describe: 'Restart the local proxy server (In development)',
   usage: 'reload [option]',
   fn: function () {
-    console.log();
-    console.log('Server reloaded');
-    console.log();
+    console.log('\ncoming soon...\n');
+    // console.log();
+    // console.log('Server reloaded');
+    // console.log();
   }
 };

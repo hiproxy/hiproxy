@@ -9,8 +9,9 @@ var http = require('http');
 var https = require('https');
 var zlib = require('zlib');
 
-var log = require('../../helpers/log');
-var logger = log.namespace('proxy -> Server');
+// var log = require('../../helpers/log');
+// var logger = log.namespace('proxy -> Server');
+// var logger = global.log;
 
 var execResponseCommand = require('../../tools/execCommand');
 
@@ -117,11 +118,11 @@ module.exports = {
         self.emit('response', response);
 
         if (request.PROXY) {
-          logger.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
+          log.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
             (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
         } else {
-          logger.access(request);
-          // logger.info('direc -', request.url.bold, Date.now() - start, 'ms');
+          log.access(request);
+          // log.info('direc -', request.url.bold, Date.now() - start, 'ms');
         }
       });
     });
@@ -131,8 +132,8 @@ module.exports = {
         response.statusCode = 404;
         response.end();
       } else {
-        logger.error('proxy error:', request.url);
-        logger.detail(e.stack);
+        log.error('proxy error:', request.url);
+        log.detail(e.stack);
         response.statusCode = 500;
         response.end(e.stack);
       }

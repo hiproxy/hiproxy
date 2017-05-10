@@ -9,14 +9,14 @@ var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./helpers/logger');
-var log = require('./helpers/log');
+// var log = require('./helpers/log');
 var browser = require('./browser');
 var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
 var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
 var createPacFile = require('./tools/createPacFile');
 
-global.log = log;
+// global.log = log;
 
 /**
  * hiproxy代理服务器
@@ -39,7 +39,7 @@ function ProxyServer (httpPort, httpsPort) {
   this.httpsPort = httpsPort;
   this.httpsServer = null;
 
-  // global.log = this.logger;
+  global.log = this.logger;
 }
 
 ProxyServer.prototype = {

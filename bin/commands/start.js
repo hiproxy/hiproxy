@@ -63,6 +63,19 @@ function startServer () {
   //   log.info('on response::::', data.toString());
   // });
 
+  proxy.logger.on('data', function (level, msg) {
+    var args = global.args;
+    var logLevel = (args.logLevel || 'access,error').split(',');
+    var grep = args.grep || '';
+
+    if(logLevel.indexOf(level) !== -1 && msg.indexOf(grep) !== -1) {
+      if(grep){
+        msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
+      }
+      console.log(('[' + level + ']').bold.red, msg);
+    }
+  });
+
   proxy.start().then(function (servers) {
     var proxyAddr = servers[0].address();
     var httpsAddr = servers[1] && servers[1].address();

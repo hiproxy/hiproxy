@@ -15,21 +15,51 @@ function Logger (stdout, stderr) {
 Logger.prototype = {
   constructor: Logger,
 
-  __proto__: EventEmitter.prototype
-};
+  __proto__: EventEmitter.prototype,
 
-// TODO access/debug/detail 需要优化，单独处理
-'access debug detail log info warn error'.split(' ').forEach(function (level) {
-  Logger.prototype[level] = function () {
+  _printLog: function (level, msg) {
     var stdout = level === 'error' ? this.stderr : this.stdout;
-    var msg = [].slice.call(arguments, 0).join(' ');
+    var timeStr = '';
+
+    if (args.logTime) {
+      msg = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+    }
 
     if (stdout && stdout.write) {
       stdout.write(msg);
     }
 
     this.emit('data', level, msg);
+  }
+};
+
+'log info warn error debug detail'.split(' ').forEach(function (level) {
+  Logger.prototype[level] = function () {
+    var msg = [].slice.call(arguments, 0).join(' ');
+
+    this._printLog(level, msg);
   };
 });
+
+Logger.prototype.access = function (req, proxy) {
+  var statusCode = req.res.statusCode;
+  var colormap = {
+    404: 'yellow',
+    500: 'red',
+    304: 'green',
+    200: 'white'
+  };
+  var time = Date.now() - req._startTime;
+  var stdout = this.stdout;
+  var msg = [
+    req.method.white,
+    (req.originalUrl || req.url).gray,
+    proxy ? ('==> '.bold.white + proxy.gray) : '',
+    String(statusCode)[colormap[statusCode] || 'gray'],
+    ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']
+  ].join(' ');
+
+  this._printLog('access', msg);
+}
 
 module.exports = Logger;
