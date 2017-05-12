@@ -112,6 +112,6 @@ function startServer () {
     global.hiServer = proxy;
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
-    proxy.logger.detail(err.stack)
-  })
+    proxy.logger.detail(err.stack);
+  });
 }

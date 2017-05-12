@@ -13,14 +13,14 @@ console.log(logDir);
 mkdirp(logDir);
 
 function mkdirp (dir) {
-  if (fs.existsSync(dir)){
+  if (fs.existsSync(dir)) {
     return;
   }
 
-  try{
+  try {
     fs.mkdirSync(dir);
-  }catch(err){
-    if(err.code == 'ENOENT'){
+  } catch (err) {
+    if (err.code === 'ENOENT') {
       mkdirp(path.dirname(dir));
       mkdirp(dir);
     }

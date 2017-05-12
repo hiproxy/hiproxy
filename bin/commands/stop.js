@@ -14,18 +14,18 @@ var pidFile = path.join(homedir, '.hiproxy', 'hiproxy.pid');
 
 module.exports = {
   command: 'stop',
-  describe: 'Stop the local proxy server (In development)',
+  describe: 'Stop the local proxy server',
   usage: 'stop',
   fn: function () {
     console.log();
     fs.readFile(pidFile, 'utf-8', function (err, data) {
-      if(err){
+      if (err) {
         console.log('hiproxy.pid file read error:', err.message);
-      }else if(data){
+      } else if (data) {
         process.kill(Number(data), 'SIGHUP');
-        fs.unlinkSync(pidFile);        
+        fs.unlinkSync(pidFile);
         console.log('Server stopped');
-      }else{
+      } else {
         console.log('There is hiproxy service is running...');
       }
       console.log();
