@@ -89,10 +89,10 @@ ProxyServer.prototype = {
         });
 
         return values.slice(1);
-      })
-      .catch(function (err) {
-        this.logger.error(err);
       });
+      // .catch(function (err) {
+      //   self.logger.error(err);
+      // });
   },
 
   /**

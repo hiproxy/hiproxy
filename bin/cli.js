@@ -5,11 +5,14 @@ var path = require('path');
 // var color = require('../src/helpers/color');
 // var log = require('../src/helpers/log');
 var fs = require('fs');
+var os = require('os');
 
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
+var homedir = os.homedir();
+var hiproxyDir = path.join(homedir, '.hiproxy');
 var _args = new Args();
 
 // global.log = log;
@@ -47,12 +50,20 @@ _args
 // 解析参数，但是不执行命令
 global.args = _args.parse(false);
 
+if(global.args.__error__){
+  return;
+}
+
 if (global.args.daemon && !process.env.__daemon) {
   // 如果指定后台运行模块，并且不是child进程，启动child进程
   var spawn = require('child_process').spawn;
+  var logsDir = path.join(hiproxyDir, 'logs');
+
+  mkdirp(logsDir);
+
   var env = process.env;
-  var out = fs.openSync(path.join(__dirname, /* '../logs/', */ 'out.log'), 'a');
-  var err = fs.openSync(path.join(__dirname, /* '../logs/', */ 'err.log'), 'a');
+  var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
+  var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
 
   env.__daemon = true;
 
@@ -62,19 +73,18 @@ if (global.args.daemon && !process.env.__daemon) {
     stdio: ['ignore', out, err]
   });
 
+  var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
+  fs.write(pid, child.pid, function (err) {
+    if (err) {
+      console.log('pid write error');
+    }
+  });
+
   child.unref();
 } else {
   // console.log('exe');
   // 没有指定后台运行，或者是child进程
   _args.execute();
-
-  // TODO 如果启动失败，不能更新pid
-  var pid = fs.openSync(path.join(__dirname, /* '../logs/', */ 'hiproxy.pid'), 'w');
-  fs.write(pid, process.pid, function (err) {
-    if (err) {
-      console.log('pid write error');
-    }
-  });
 }
 
 if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
@@ -85,4 +95,19 @@ if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
     'current version is ' + packageInfo.version.bold.green,
     'You can try `' + 'hiproxy --help'.underline + '` for more info'
   ]);
+}
+
+function mkdirp (dir) {
+  if (fs.existsSync(dir)){
+    return;
+  }
+
+  try{
+    fs.mkdirSync(dir);
+  }catch(err){
+    if(err.code == 'ENOENT'){
+      mkdirp(path.dirname(dir));
+      mkdirp(dir);
+    }
+  }
 }
