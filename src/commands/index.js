@@ -29,7 +29,7 @@ module.exports = {
     log.debug('proxy_hide_cookie -', key);
 
     var headers = this.request.headers;
-    var cookie = headers.cookie;
+    var cookie = headers.cookie || '';
 
     headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + ' *= *([^;]*) *'), '');
   },

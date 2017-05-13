@@ -136,4 +136,36 @@ describe('#http server', function () {
       });
     });
   });
+
+  describe('# commands', function () {
+    it('request t.ttt.com/', function (done) {
+      request({
+        uri: 'http://t.ttt.com/t/',
+        proxy: 'http://127.0.0.1:8850'
+      }, function (err, response, body) {
+        var headers = response.headers;
+        var set_header_field_1 = headers['set_header_field_1'];
+
+        if (set_header_field_1 == 1) {
+          done();
+        } else {
+          done(err || new Error('`set-header` result not right'));
+        }
+      });
+    });
+  });
+  describe('# commands', function () {
+    it('request t.ttt.com/', function (done) {
+      request({
+        uri: 'http://t.ttt.com/source/b.json',
+        proxy: 'http://127.0.0.1:8850'
+      }, function (err, response, body) {
+        if (response.statusCode == 404) {
+          done();
+        } else {
+          done(err || new Error('response status not right'));
+        }
+      });
+    });
+  })
 });
