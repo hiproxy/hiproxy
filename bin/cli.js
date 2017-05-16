@@ -17,7 +17,7 @@ var _args = new Args();
 
 // global.log = log;
 
-'start stop restart list open'.split(' ').forEach(function (cmd) {
+'start stop restart state open'.split(' ').forEach(function (cmd) {
   var cmdConfig = require(path.join(__dirname, 'commands', cmd));
 
   if (cmdConfig && cmdConfig.command) {
@@ -74,6 +74,17 @@ if (!global.args.__error__) {
     fs.write(pid, child.pid, function (err) {
       if (err) {
         console.log('pid write error');
+      }
+    });
+
+    var argsInfo = JSON.stringify({
+      cmd: process.argv,
+      args: global.args
+    }, null, 4);
+    var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
+    fs.write(argsFile, argsInfo, function (err) {
+      if (err) {
+        console.log('hiproxy.json write error');
       }
     });
 

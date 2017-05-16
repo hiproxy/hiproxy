@@ -77,7 +77,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
     '}'
   ];
 
-  var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
+  var pacFilePath = path.resolve(os.homedir(), '.hiproxy', 'proxy.pac');
 
   return new Promise(function (resolve, reject) {
     fs.writeFile(pacFilePath, txt.join('\n'), function (err) {
@@ -85,7 +85,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
         log.error(err);
         reject(err);
       } else {
-        log.debug('hiproxy.pac create success: ', pacFilePath);
+        log.debug('Proxy pac file create success: ', pacFilePath);
         resolve(pacFilePath);
       }
     });

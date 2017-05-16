@@ -42,7 +42,7 @@ module.exports = function requestHandler (request, response) {
   }
 
   if (_url === '/proxy.pac') {
-    var pacFilePath = path.resolve(os.tmpdir(), 'proxy.pac');
+    var pacFilePath = path.resolve(os.homedir(), '.hiproxy', 'proxy.pac');
 
     fs.readFile(pacFilePath, 'utf-8', function (err, str) {
       if (err) {
