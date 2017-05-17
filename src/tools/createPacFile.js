@@ -7,7 +7,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var os = require('os');
+var homedir = require('os-homedir');
 
 module.exports = function createPacFile (proxyPort, localIP, domains) {
   if (!domains || Object.keys(domains).length === 0) {
@@ -77,7 +77,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
     '}'
   ];
 
-  var pacFilePath = path.resolve(os.homedir(), '.hiproxy', 'proxy.pac');
+  var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
 
   return new Promise(function (resolve, reject) {
     fs.writeFile(pacFilePath, txt.join('\n'), function (err) {

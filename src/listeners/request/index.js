@@ -1,6 +1,6 @@
 var fs = require('fs');
-var os = require('os');
 var path = require('path');
+var homedir = require('os-homedir');
 
 var aliasWorker = require('./alias');
 var requestWorker = require('./request');
@@ -42,7 +42,7 @@ module.exports = function requestHandler (request, response) {
   }
 
   if (_url === '/proxy.pac') {
-    var pacFilePath = path.resolve(os.homedir(), '.hiproxy', 'proxy.pac');
+    var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
 
     fs.readFile(pacFilePath, 'utf-8', function (err, str) {
       if (err) {
