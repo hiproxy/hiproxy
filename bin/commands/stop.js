@@ -6,12 +6,11 @@
 'use strict';
 
 var fs = require('fs');
-var os = require('os');
 var path = require('path');
-var osHomedir = require('os-homedir');
-var homedir = osHomedir();
 
-var pidFile = path.join(homedir, '.hiproxy', 'hiproxy.pid');
+var homedir = require('os-homedir');
+
+var pidFile = path.join(homedir(), '.hiproxy', 'hiproxy.pid');
 
 module.exports = {
   command: 'stop',

@@ -5,15 +5,13 @@ var path = require('path');
 // var color = require('../src/helpers/color');
 // var log = require('../src/helpers/log');
 var fs = require('fs');
-var os = require('os');
-var osHomedir = require('os-homedir');
+var homedir = require('os-homedir');
 
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
-var homedir = osHomedir();
-var hiproxyDir = path.join(homedir, '.hiproxy');
+var hiproxyDir = path.join(homedir(), '.hiproxy');
 var _args = new Args();
 
 // global.log = log;

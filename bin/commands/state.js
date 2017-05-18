@@ -7,10 +7,9 @@
 
 var fs = require('fs');
 var path = require('path');
-var os = require('os');
-var osHomedir = require('os-homedir');
-var homedir = osHomedir();
-var hiproxyDir = path.join(homedir, '.hiproxy');
+
+var homedir = require('os-homedir');
+var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 var getLocalIP = require('../../src/helpers/getLocalIP');
 var showImage = require('../showImage');
