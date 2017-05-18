@@ -63,23 +63,23 @@ proxy.start().then(function (servers) {
 ## Commands and global options
 
 ```bash
-  Commands:
+Commands:
 
-    start   Start a local proxy server
-    stop    Stop the local proxy server
-    reload  Restart the local proxy server (In development)
-    state   Show all the servers state
-    open    Open browser and set proxy (In development)
+  start   Start a local proxy server
+  stop    Stop the local proxy server
+  reload  Restart the local proxy server (In development)
+  state   Show all the servers state
+  open    Open browser and set proxy (In development)
 
-  Options:
+Options:
 
-    -v, --version     显示版本信息
-    -h, --help        显示帮助信息
-    -D, --daemon      后台运行
-    --log-dir         后台运行时日志存放路径（绝对路径），默认为用户目录
-    --log-time        显示日志时间
-    --log-level       过滤日志级别，只有指定级别的日志才会显示
-    --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
+  -v, --version     显示版本信息
+  -h, --help        显示帮助信息
+  -D, --daemon      后台运行
+  --log-dir         后台运行时日志存放路径（绝对路径），默认为用户目录
+  --log-time        显示日志时间
+  --log-level       过滤日志级别，只有指定级别的日志才会显示
+  --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
 ```
 
 ## Command help
@@ -87,22 +87,22 @@ proxy.start().then(function (servers) {
 ### start
 
 ```bash
-  USAGE:
+USAGE:
 
-    start [--port <port>] [-xodD]
+  start [--port <port>] [-xodD]
 
-  DESCRIBE:
+DESCRIBE:
 
-    启动代理服务
+  启动代理服务
 
-  OPTIONS:
+OPTIONS:
 
-    -h, --help                    show help info
-    -p, --port <port>             http代理服务端口号
-    -s, --https                   启动https代理服务
-    -m, --middle-man-port <port>  https中间人端口号
-    -o, --open [browser]          打开浏览器窗口
-    --pac-proxy                   是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
+  -h, --help                    show help info
+  -p, --port <port>             http代理服务端口号
+  -s, --https                   启动https代理服务
+  -m, --middle-man-port <port>  https中间人端口号
+  -o, --open [browser]          打开浏览器窗口
+  --pac-proxy                   是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
 ```
 
 # Documentation
