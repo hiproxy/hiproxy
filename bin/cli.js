@@ -6,12 +6,13 @@ var path = require('path');
 // var log = require('../src/helpers/log');
 var fs = require('fs');
 var os = require('os');
+var osHomedir = require('os-homedir');
 
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
-var homedir = os.homedir();
+var homedir = osHomedir();
 var hiproxyDir = path.join(homedir, '.hiproxy');
 var _args = new Args();
 

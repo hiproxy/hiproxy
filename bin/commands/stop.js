@@ -8,7 +8,8 @@
 var fs = require('fs');
 var os = require('os');
 var path = require('path');
-var homedir = os.homedir();
+var osHomedir = require('os-homedir');
+var homedir = osHomedir();
 
 var pidFile = path.join(homedir, '.hiproxy', 'hiproxy.pid');
 

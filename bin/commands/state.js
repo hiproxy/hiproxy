@@ -8,8 +8,8 @@
 var fs = require('fs');
 var path = require('path');
 var os = require('os');
-
-var homedir = os.homedir();
+var osHomedir = require('os-homedir');
+var homedir = osHomedir();
 var hiproxyDir = path.join(homedir, '.hiproxy');
 
 var getLocalIP = require('../../src/helpers/getLocalIP');
