@@ -27,13 +27,20 @@ var _args = new Args();
 _args
     .version(packageInfo.version)
     .bin('hiproxy')
-    .option('debug', {
-      alias: 'd',
-      describe: '显示调试信息'
-    })
-    .option('detail', {
+    // .option('debug', {
+    //   alias: 'd',
+    //   describe: '显示调试信息'
+    // })
+    // .option('detail', {
+    //   alias: 'D',
+    //   describe: '显示详细调试信息'
+    // })
+    .option('daemon', {
       alias: 'D',
-      describe: '显示详细调试信息'
+      describe: '后台运行'
+    })
+    .option('log-dir', {
+      describe: '后台运行时日志存放路径（绝对路径），默认为用户目录'
     })
     .option('log-time', {
       describe: '显示日志时间'
@@ -55,7 +62,7 @@ if (!global.args.__error__) {
   if (global.args.daemon && !process.env.__daemon) {
     // 如果指定后台运行模块，并且不是child进程，启动child进程
     var spawn = require('child_process').spawn;
-    var logsDir = path.join(hiproxyDir, 'logs');
+    var logsDir = global.args.logDir || path.join(hiproxyDir, 'logs');
 
     mkdirp(logsDir);
 
