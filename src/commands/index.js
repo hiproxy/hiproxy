@@ -10,7 +10,14 @@ module.exports = {
   // proxy request config
   'proxy_set_header': function (key, value) {
     log.debug('proxy_set_header -', key, value);
-    this.request.headers[key] = value;
+    var headers = this.request.headers;
+    var oldValue = headers[key];
+
+    if (Array.isArray(oldValue)) {
+      oldValue.push(value);
+    } else {
+      headers[key] = value;
+    }
   },
   'proxy_hide_header': function (key, value) {
     log.debug('proxy_hide_header -', key, value);
