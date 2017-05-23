@@ -78,24 +78,6 @@ if (!global.args.__error__) {
       stdio: ['ignore', out, err]
     });
 
-    var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
-    fs.write(pid, child.pid, function (err) {
-      if (err) {
-        console.log('pid write error');
-      }
-    });
-
-    var argsInfo = JSON.stringify({
-      cmd: process.argv,
-      args: global.args
-    }, null, 4);
-    var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
-    fs.write(argsFile, argsInfo, function (err) {
-      if (err) {
-        console.log('hiproxy.json write error');
-      }
-    });
-
     child.unref();
   } else {
     // console.log('exe');

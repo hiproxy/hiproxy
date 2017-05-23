@@ -5,8 +5,13 @@
 
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+var homedir = require('os-homedir');
+
 var getLocalIP = require('../../src/helpers/getLocalIP');
 var showImage = require('../showImage');
+var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 module.exports = {
   command: 'start',
@@ -63,6 +68,7 @@ function startServer () {
   //   log.info('on response::::', data.toString());
   // });
 
+  // log format
   proxy.logger.on('data', function (level, msg) {
     var args = global.args;
     var logLevel = (args.logLevel || 'access,error').split(',');
@@ -72,7 +78,7 @@ function startServer () {
       if (grep) {
         msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
       }
-      console.log(('[' + level + ']').bold.red, msg);
+      console[level === 'error' ? 'error' : 'log'](('[' + level + ']').bold.red, msg);
     }
   });
 
@@ -109,9 +115,29 @@ function startServer () {
     //   proxy.restart();
     // }, 10000)
 
-    global.hiServer = proxy;
+    // global.hiServer = proxy;
+
+    // write server info to file.
+    var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
+    fs.write(pid, process.pid, function (err) {
+      if (err) {
+        console.log('pid write error');
+      }
+    });
+
+    var argsInfo = JSON.stringify({
+      cmd: process.argv,
+      args: global.args
+    }, null, 4);
+    var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
+    fs.write(argsFile, argsInfo, function (err) {
+      if (err) {
+        console.log('hiproxy.json write error');
+      }
+    });
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
+    process.exit(12);
   });
 }
