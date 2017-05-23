@@ -27,7 +27,6 @@ describe('#replaceVar', function () {
     }
   };
 
-
   it('should use source value', function () {
     var input = '$keyA';
     var result = replaceVar(input, location);
