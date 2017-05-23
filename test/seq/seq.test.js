@@ -8,32 +8,32 @@ describe('Sequence', function () {
   seq.use(
     '/group/',
     function fn1 (ctx, next) {
-      console.log('fn1:', ctx);
+      // console.log('fn1:', ctx);
       ctx.fn1 = true;
       next(null, { time: new Date() });
     },
     function fn11 (ctx, next) {
-      console.log('fn11:', ctx);
+      // console.log('fn11:', ctx);
       ctx.fn11 = true;
       next();
     }
   );
 
   seq.use(function fn2 (ctx, next) {
-    console.log('fn2:', ctx);
+    // console.log('fn2:', ctx);
     ctx.fn2 = true;
     next();
   });
 
   seq.use('/group/', function fn3 (ctx, next) {
-    console.log('fn3:', ctx);
+    // console.log('fn3:', ctx);
     ctx.fn3 = true;
 
     // next();
   });
 
   seq.use(function fn4 (ctx, next) {
-    console.log('fn4:', ctx);
+    // console.log('fn4:', ctx);
     ctx.fn4 = true;
   });
 

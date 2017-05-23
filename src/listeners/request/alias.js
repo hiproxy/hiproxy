@@ -41,11 +41,6 @@ module.exports = {
       // TODO 如果没有root，列出目录
       response.setHeader('Content-Type', getMimeType(filePath));
 
-      // TODO 这里不应该自己调用setHeader，应该继续增强commands中的命令
-      for (var key in response.headers) {
-        response.setHeader(key, response.headers[key]);
-      }
-
       return fs.createReadStream(filePath).pipe(response);
     } catch (e) {
       response.setHeader('Content-Type', 'text/html');

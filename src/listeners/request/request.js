@@ -62,7 +62,7 @@ module.exports = {
 
       var contentType = res.headers['content-type'];
 
-      if (global.args && global.args.proxyContentLog && /(text|json|javascript|css)/.test(contentType)) {
+      if (/(xml|text|html|plain|text|json|javascript|css)/.test(contentType)) {
         // 打印日志
         if (encoding === 'gzip' || encoding === 'deflate') {
           var unzipStream = zlib.createUnzip();
@@ -97,15 +97,15 @@ module.exports = {
 
       res.pipe(response);
 
-      res.on('data', function (chunk) {
-        /**
-         * Emitted whenever the response stream received some chunk of data.
-         * @event ProxyServer#data
-         * @property {Buffer} data response data
-         */
-        self.emit('data', chunk);
-        // console.log('ondata =>', chunk.toString());
-      });
+      // res.on('data', function (chunk) {
+      //   /**
+      //    * Emitted whenever the response stream received some chunk of data.
+      //    * @event ProxyServer#data
+      //    * @property {Buffer} data response data
+      //    */
+      //   self.emit('data', chunk);
+      //   // console.log('ondata =>', chunk.toString());
+      // });
 
       res.on('end', function () {
         request.res = res;

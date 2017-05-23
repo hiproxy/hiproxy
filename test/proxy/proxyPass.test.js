@@ -5,13 +5,15 @@ var path = require('path');
 var Proxy = require('../../src/index');
 var testServer = require('../testServer');
 
-describe('#proxy headers', function () {
+describe('#proxy pass', function () {
   var proxyServer;
   before(function () {
     testServer.listen(9000);
 
     proxyServer = new Proxy(9001);
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'base.rewrite'));
+    proxyServer.addHostsFile(path.join(__dirname, 'conf', 'base.hosts'));
+
     proxyServer.start();
   });
 
@@ -20,7 +22,7 @@ describe('#proxy headers', function () {
     proxyServer.stop();
   });
 
-  describe('#proxy_pass: test.example.com/ => 127.0.0.1:9000/test/', function () {
+  describe('test.example.com/ => 127.0.0.1:9000/test/', function () {
     it('/ => /test/', function (done) {
       request({
         uri: 'http://test.example.com/',
@@ -80,6 +82,40 @@ describe('#proxy headers', function () {
         assert.equal(body.url, '/test/post/2016/06?sort=hits&limit=10');
         assert.equal(body.query.sort, 'hits');
         assert.equal(body.query.limit, '10');
+        done();
+      });
+    });
+  });
+
+  describe('direct request(no rewrite rule)', function () {
+    it('http://127.0.0.1:9000/just/test/', function (done) {
+      request({
+        uri: 'http://127.0.0.1:9000/just/test/',
+        proxy: 'http://127.0.0.1:9001',
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(body.url, '/just/test/');
+        done();
+      });
+    });
+  });
+
+  describe('use hosts rewrite rule', function () {
+    it('should rewrite `www.example.com` to `127.0.0.1`', function (done) {
+      request({
+        uri: 'http://www.example.com:9000/just/test/',
+        proxy: 'http://127.0.0.1:9001',
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(body.url, '/just/test/');
         done();
       });
     });

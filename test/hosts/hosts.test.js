@@ -2,11 +2,11 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var Hosts = require('../../src/hosts');
-var log = require('../../src/helpers/log');
+var Logger = require('../../src/helpers/logger');
 require('colors');
 
 global.args = {};
-global.log = log;
+global.log = new Logger();
 
 describe('#hosts', function () {
   describe('#parse()', function () {
@@ -15,8 +15,6 @@ describe('#hosts', function () {
 
     hosts.addFile(path.join(__dirname, 'hosts'));
     rules = hosts.getHost();
-
-    console.log(rules);
 
     it('正确解析hosts文件成对象', function () {
       assert.ok(rules && typeof rules === 'object');

@@ -113,6 +113,7 @@ describe('#http server', function () {
 
         assert.equal('<p>hello, hiproxy</p>', body);
         assert.equal('text/html', headers['content-type']);
+        assert.equal('hiproxy_static', headers.server);
 
         done();
       });
