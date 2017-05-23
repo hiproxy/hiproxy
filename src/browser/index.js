@@ -45,7 +45,7 @@ module.exports = {
     var browserPath = this.detect(browser);
 
     if (!browserPath) {
-      log.error('can not find browser', browser.bold.yellow);
+      global.log && log.error('can not find browser', browser.bold.yellow);
     } else {
       var dataDir = path.join(os.tmpdir(), 'hiproxy');
 
@@ -55,7 +55,7 @@ module.exports = {
 
       var command = browserPath + ' ' + configUtil[browser](dataDir, url, browserPath, port, usePacProxy);
       // var command = browserPath + ' --proxy-server="http://127.0.0.1:' + 4936 + '"  --user-data-dir='+ dataDir +'  --lang=local  ' + url;
-      log.debug('open ==> ', command);
+      global.log && log.debug('open ==> ', command);
       childProcess.exec(command, function (err) {
         if (err) {
           console.log(err);

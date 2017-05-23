@@ -92,11 +92,15 @@ function startServer () {
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
-    process.exit(12);
+    process.exit(1);
   });
 }
 
 function writeServerInfoToFile () {
+  if (global.args.daemon) {
+    return;
+  }
+
   // process pid
   var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
   fs.write(pid, process.pid, function (err) {
