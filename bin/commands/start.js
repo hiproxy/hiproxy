@@ -54,20 +54,6 @@ function startServer () {
   var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
   var proxy = new Proxy(port, httpsPort);
 
-  // proxy.on('start', function(data){
-  //   console.log('服务已经启动了：');
-  //   console.log(data);
-  // });
-
-  // proxy.on('request', function(req, res){
-  //   req.zdy = 'zdying';
-  //   log.info('request event:::', req.method, req.url);
-  // });
-
-  // proxy.on('response', function(data){
-  //   log.info('on response::::', data.toString());
-  // });
-
   // log format
   proxy.logger.on('data', function (level, msg) {
     var args = global.args;
@@ -101,43 +87,33 @@ function startServer () {
     var browser = open === true ? 'chrome' : open;
     browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
 
-    // setTimeout(function(){
-    //   console.log('停止服务');
-    //   proxy.stop();
-    // }, 10000);
-    // setTimeout(function(){
-    //   console.log('启动服务');
-    //   proxy.start();
-    // }, 20000)
-
-    // setTimeout(function(){
-    //   console.log('重启');
-    //   proxy.restart();
-    // }, 10000)
-
-    // global.hiServer = proxy;
-
     // write server info to file.
-    var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
-    fs.write(pid, process.pid, function (err) {
-      if (err) {
-        console.log('pid write error');
-      }
-    });
-
-    var argsInfo = JSON.stringify({
-      cmd: process.argv,
-      args: global.args
-    }, null, 4);
-    var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
-    fs.write(argsFile, argsInfo, function (err) {
-      if (err) {
-        console.log('hiproxy.json write error');
-      }
-    });
+    writeServerInfoToFile();
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
     process.exit(12);
+  });
+}
+
+function writeServerInfoToFile () {
+  // process pid
+  var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
+  fs.write(pid, process.pid, function (err) {
+    if (err) {
+      console.log('pid write error');
+    }
+  });
+
+  // cli argv
+  var argsInfo = JSON.stringify({
+    cmd: process.argv,
+    args: global.args
+  }, null, 4);
+  var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
+  fs.write(argsFile, argsInfo, function (err) {
+    if (err) {
+      console.log('hiproxy.json write error');
+    }
   });
 }
