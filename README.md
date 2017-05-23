@@ -60,16 +60,16 @@ proxy.start().then(function (servers) {
 
 # CLI commands and options
 
-## Commands and global options
-
 ```bash
+> hiproxy --help
+
 Commands:
 
   start   Start a local proxy server
   stop    Stop the local proxy server
   reload  Restart the local proxy server (In development)
   state   Show all the servers state
-  open    Open browser and set proxy (In development)
+  open    Open browser and set proxy
 
 Options:
 
@@ -82,35 +82,13 @@ Options:
   --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
 ```
 
-## Command help
-
-### start
-
-```bash
-USAGE:
-
-  start [--port <port>] [-xodD]
-
-DESCRIBE:
-
-  启动代理服务
-
-OPTIONS:
-
-  -h, --help                    show help info
-  -p, --port <port>             http代理服务端口号
-  -s, --https                   启动https代理服务
-  -m, --middle-man-port <port>  https中间人端口号
-  -o, --open [browser]          打开浏览器窗口
-  --pac-proxy                   是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
-```
-
 # Documentation
 
 * [Usage Guide](https://github.com/zdying/hiproxy/blob/master/doc/guide.md)
 * [API documentation](https://github.com/zdying/hiproxy/blob/master/doc/api.md)
 * [Rewrite Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_config.md)
 * [Hosts Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/hosts_config.md)
+* [Command Line Commands and Options](https://github.com/zdying/hiproxy/blob/master/doc/cli_options.md)
 
 # hosts config example
 

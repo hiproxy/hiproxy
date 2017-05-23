@@ -39,7 +39,7 @@ _args
       alias: 'D',
       describe: '后台运行'
     })
-    .option('log-dir', {
+    .option('log-dir <dir>', {
       describe: '后台运行时日志存放路径（绝对路径），默认为用户目录'
     })
     .option('log-time', {
