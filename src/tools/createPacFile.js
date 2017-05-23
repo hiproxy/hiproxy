@@ -16,6 +16,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
 
   /** ** 这个方法是生成到proxy.pac中的，hiproxy不会调用 ****/
   /*eslint-disable */
+  /* istanbul ignore next */
   function FindProxyForURL (url, host) {
     host = host.toLowerCase();
 

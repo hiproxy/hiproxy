@@ -9,10 +9,11 @@
   },
   "scripts": {
     "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js",
-    "test": "nyc mocha test/**/*.js",
+    "test": "nyc mocha test/**/*.test.js",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
-    "semistandard": "semistandard"
+    "semistandard": "semistandard",
+    "t": "nyc mocha test/tool/*.test.js && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
