@@ -46,7 +46,7 @@ If you specify the option `--help` or `-h`, you will see the complete help infor
 
 This command will start a local proxy service on the specified port. You can specify whether the service is running in the background, if running in the background, all the log of the service will be rediret to the log files.
 
-The log file is located in the user's home directory by default. Of course, you can specify the log file's path via the option `--log-dir <dir>`.
+The log file is located in the user's home directory by default. Of course, you can specify the log file's path via the option `--log-dir <dir>`.
 
 ```bash
 > hiproxy start --help
