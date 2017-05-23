@@ -89,9 +89,9 @@ if (!global.args.__error__) {
     showImage([
       '',
       '',
-      'welcome to use hiproxy'.bold,
-      'current version is ' + packageInfo.version.bold.green,
-      'You can try `' + 'hiproxy --help'.underline + '` for more info'
+      '   Welcome to use hiproxy'.bold,
+      '   Current version is ' + packageInfo.version.bold.green,
+      '   Try `' + 'hiproxy --help'.underline + '` for more info'
     ]);
   }
 }

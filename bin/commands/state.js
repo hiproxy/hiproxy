@@ -45,27 +45,12 @@ module.exports = {
           '',
           '',
           // '  Process (pid): ' + pid,
-          '  Proxy address: '.bold.green + (ip + ':' + port).underline,
-          '  Https address: '.bold.magenta + (httpsPort ? (ip + ':' + httpsPort).underline : 'disabled'),
-          '  Proxy file at: '.bold.yellow + ('http://' + ip + ':' + port + '/proxy.pac').underline,
+          '    Proxy address: '.bold.green + (ip + ':' + port).underline,
+          '    Https address: '.bold.magenta + (httpsPort ? (ip + ':' + httpsPort).underline : 'disabled'),
+          '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + port + '/proxy.pac').underline,
           ''
         ]);
       });
-
-      // console.log(infoObj);
-
-      // console.log('\ncoming soon...\n');
-      // console.log();
-      // console.log('Current http services:');
-      // console.log();
-      // console.log('  +---------------+--------+-------------------------+---------+');
-      // console.log('  | Service Name  |  Port  |          Address        |  State  |');
-      // console.log('  +---------------+--------+-------------------------+---------+');
-      // console.log('  | Proxy Server  | 10010  | http://127.0.0.1:10010/ | Running |');
-      // console.log('  | Https Server  | 443    | https://127.0.0.1/      | Stopped |');
-      // console.log('  | Static Server | 80     | http://127.0.0.1/       | Stopped |');
-      // console.log('  +---------------+--------+-------------------------+---------+');
-      // console.log();
     } catch (e) {
       console.log();
       console.log('No hiproxy is running.');
