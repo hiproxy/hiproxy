@@ -1,6 +1,6 @@
 {
   "name": "hiproxy",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support",
   "main": "src/index.js",
   "bin": {
@@ -39,7 +39,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "hemsl": "^1.0.9",
-    "op-browser": "^1.0.2",
+    "op-browser": "^1.0.1",
     "os-homedir": "^1.0.2",
     "simple-mime": "^0.1.0"
   },
