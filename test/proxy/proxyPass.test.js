@@ -136,5 +136,20 @@ describe('#proxy pass', function () {
         done();
       });
     });
+
+    it('should return 404', function (done) {
+      request({
+        uri: 'http://ajfalbjclamkll',
+        proxy: 'http://127.0.0.1:9001',
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(response.statusCode, 404);
+        done();
+      });
+    });
   });
 });

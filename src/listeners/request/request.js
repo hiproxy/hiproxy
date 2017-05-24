@@ -123,19 +123,21 @@ module.exports = {
       });
     });
 
-    // proxy.on('error', function (e) {
-    //   if (e.code === 'ENOTFOUND') {
-    //     response.statusCode = 404;
-    //     response.end();
-    //   } else {
-    //     log.error('proxy error:', request.url);
-    //     log.detail(e.stack);
-    //     response.statusCode = 500;
-    //     response.end(e.stack);
-    //   }
-    //   request.res = response;
-    //   log.access(request);
-    // });
+    proxy.on('error', function (e) {
+      if (e.code === 'ENOTFOUND') {
+        response.statusCode = 404;
+        response.end();
+      } else {
+        response.statusCode = 500;
+        response.end(e.stack);
+      }
+
+      log.error('proxy error:', request.url);
+      log.detail(e.stack);
+
+      request.res = response;
+      log.access(request);
+    });
 
     request.pipe(proxy);
   }
