@@ -39,7 +39,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "hemsl": "^1.0.9",
-    "op-browser": "^1.0.0",
+    "op-browser": "^1.0.2",
     "os-homedir": "^1.0.2",
     "simple-mime": "^0.1.0"
   },
