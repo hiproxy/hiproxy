@@ -10,7 +10,7 @@ var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./helpers/logger');
 // var log = require('./helpers/log');
-var browser = require('./browser');
+var openBrowser = require('op-browser');
 var createServer = require('./tools/createServer');
 var listeners = require('./listeners');
 var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
@@ -201,7 +201,13 @@ ProxyServer.prototype = {
   },
 
   _open: function (browserName, url, usePacProxy) {
-    browser.open(browserName, url, this.httpPort, usePacProxy);
+    var proxyURL = 'http://127.0.0.1:' + this.httpPort;
+
+    if (usePacProxy) {
+      openBrowser.open(browserName, url, '', proxyURL + '/proxy.pac');
+    } else {
+      openBrowser.open(browserName, url, proxyURL, '');
+    }
     return this;
   },
 

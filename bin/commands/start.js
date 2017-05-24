@@ -97,7 +97,7 @@ function startServer () {
 }
 
 function writeServerInfoToFile () {
-  if (global.args.daemon) {
+  if (!global.args.daemon) {
     return;
   }
 

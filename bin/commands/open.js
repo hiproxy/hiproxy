@@ -8,7 +8,7 @@
 var fs = require('fs');
 var path = require('path');
 var homedir = require('os-homedir');
-var browser = require('../../src/browser');
+var openBrowser = require('op-browser');
 
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 
@@ -35,8 +35,13 @@ module.exports = {
       var info = JSON.parse(infoTxt);
       var args = info.args;
       var port = args.port || 5525;
+      var proxyURL = 'http://127.0.0.1:' + port;
 
-      browser.open(parsedArgs.browser || 'chrome', 'http://127.0.0.1:' + port, port, parsedArgs.pacProxy);
+      if (parsedArgs.pacProxy) {
+        openBrowser.open(parsedArgs.browser || 'chrome', proxyURL, '', proxyURL + '/proxy.pac');
+      } else {
+        openBrowser.open(parsedArgs.browser || 'chrome', proxyURL, proxyURL, '');
+      }
 
       console.log('Browser opened');
     } catch (err) {
