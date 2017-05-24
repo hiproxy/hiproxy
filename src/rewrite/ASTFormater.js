@@ -4,8 +4,6 @@
  */
 
 var commandFuncs = require('../commands/index');
-var merge = require('../helpers/merge');
-
 var replaceVar = require('../tools/replaceVar');
 var scopeCmds = require('../commands/scope');
 
@@ -189,9 +187,10 @@ function parseLocation (domain, location, res) {
     //     // console.log('替换location的function参数:', name, fun.params);
     // });
 
-    props = merge({}, loc.props, {
-      proxy: proxy
-    });
+    // props = merge({}, loc.props, {
+    //   proxy: proxy
+    // });
+    loc.props.proxy = proxy;
 
     // 替换正则表达式
     url = url.replace(/(.*?)~\/(.*)/, '~ /$1$2');
@@ -201,7 +200,7 @@ function parseLocation (domain, location, res) {
       originPath: loc.location,
       source: url,
       commands: funcs,
-      props: props,
+      props: loc.props,
       // location: loc,
       parent: domain,
       parentID: domain.__id__,

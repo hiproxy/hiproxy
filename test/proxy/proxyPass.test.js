@@ -120,4 +120,21 @@ describe('#proxy pass', function () {
       });
     });
   });
+
+  describe('status code', function () {
+    it('should return 404', function (done) {
+      request({
+        uri: 'http://127.0.0.1:9000/just/test/?statusCode=404',
+        proxy: 'http://127.0.0.1:9001',
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(response.statusCode, 404);
+        done();
+      });
+    });
+  });
 });
