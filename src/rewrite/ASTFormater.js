@@ -154,7 +154,6 @@ function parseLocation (domain, location, res) {
     var location = loc.location;
     var url = domain.domain + location;
     var proxy;
-    var props;
     var funcs = loc.commands || []; // parseCommand(loc.commands || []);
 
     loc.__id__ = '_location_' + location;
