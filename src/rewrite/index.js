@@ -49,23 +49,23 @@ Rewrite.prototype = {
    *
    * @param {String|Array} filePath
    */
-  deleteFile: function (filePath) {
-    var _files = this._files;
+  // deleteFile: function (filePath) {
+  //   var _files = this._files;
 
-    if (filePath) {
-      if (!Array.isArray(filePath)) {
-        filePath = [filePath];
-      }
+  //   if (filePath) {
+  //     if (!Array.isArray(filePath)) {
+  //       filePath = [filePath];
+  //     }
 
-      filePath.forEach(function (file) {
-        delete _files[file];
-        fs.unwatchFile(file);
-      });
+  //     filePath.forEach(function (file) {
+  //       delete _files[file];
+  //       fs.unwatchFile(file);
+  //     });
 
-      this.update();
-    }
-    return this;
-  },
+  //     this.update();
+  //   }
+  //   return this;
+  // },
 
   /**
    * 添加规则
@@ -95,11 +95,11 @@ Rewrite.prototype = {
   /**
    * 清空所有的配置文件
    */
-  clearFiles: function () {
-    this._files = {};
+  // clearFiles: function () {
+  //   this._files = {};
 
-    return this;
-  },
+  //   return this;
+  // },
 
   /**
    * 更新规则

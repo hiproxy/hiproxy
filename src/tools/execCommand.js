@@ -5,8 +5,8 @@
 
 'use strict';
 
-var getCommands = require('./../commands/getCommands');
-var commands = require('./../commands/index');
+var getCommands = require('../commands/getCommands');
+var commands = require('../commands/index');
 
 module.exports = function (rewriteRule, context, scope) {
   if (!rewriteRule || !context || !scope) {

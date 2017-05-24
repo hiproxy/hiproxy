@@ -9,7 +9,7 @@ var fs = require('fs');
 var path = require('path');
 var homedir = require('os-homedir');
 
-module.exports = function createPacFile (proxyPort, localIP, domains) {
+module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePath) {
   // if (!domains || Object.keys(domains).length === 0) {
   //   return Promise.reject(new Error('domain list is empty, can not create `proxy.pac` file.'));
   // }
@@ -63,7 +63,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains) {
     FindProxyForURL.toString().replace(/^\s{8}/mg, '')
   ];
 
-  var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
+  pacFilePath = pacFilePath || path.resolve(homedir(), '.hiproxy', 'proxy.pac');
 
   return new Promise(function (resolve, reject) {
     fs.writeFile(pacFilePath, txt.join('\n'), function (err) {
