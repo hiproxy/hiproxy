@@ -38,20 +38,17 @@ describe('#https server', function () {
 
   describe('#server response', function () {
     it('request /', function (done) {
-      var server = new Proxy(8849, 10013);
-      server.start().then(function () {
-        request({
-          url: 'https://127.0.0.1:10013/',
-          rejectUnauthorized: false
-        }, function (err, response, body) {
-          if (err) {
-            done(err || new Error('Body not match'));
-          } else if (body.indexOf('the man in the middle page: /') !== -1) {
-            done();
-          }
+      request({
+        url: 'https://127.0.0.1:10011/',
+        rejectUnauthorized: false
+      }, function (err, response, body) {
+        if (err) {
+          done(err || new Error('Body not match'));
+        } else if (body.indexOf('the man in the middle page: /') !== -1) {
+          done();
+        }
 
-          server.stop();
-        });
+        server.stop();
       });
     });
   });

@@ -37,51 +37,40 @@ describe('#http server', function () {
 
   describe('#server response', function () {
     it('request /', function (done) {
-      var server = new Proxy(8849);
-      server.start().then(function () {
-        request('http://127.0.0.1:8849', function (err, response, body) {
-          if (body.indexOf('http://127.0.0.1:8849/proxy.pac') !== -1) {
-            done();
-          } else {
-            done(err || new Error('Body not match'));
-          }
-
-          server.stop();
-        });
+      request('http://127.0.0.1:8850', function (err, response, body) {
+        if (body.indexOf('http://127.0.0.1:8850/proxy.pac') !== -1) {
+          done();
+        } else {
+          done(err || new Error('Body not match'));
+        }
       });
     });
 
     it('request /proxy.pac', function (done) {
-      var server = new Proxy(8849);
-      server.start().then(function () {
-        request('http://127.0.0.1:8849/proxy.pac', function (err, response, body) {
-          if (err) {
-            done(err);
-          }
+      request('http://127.0.0.1:8850/proxy.pac', function (err, response, body) {
+        if (err) {
+          done(err);
+        }
 
-          assert.equal(response.statusCode, 200);
-          assert.notEqual(body.indexOf('FindProxyForURL'), -1);
-          done();
+        assert.equal(response.statusCode, 200);
+        assert.notEqual(body.indexOf('FindProxyForURL'), -1);
+        done();
 
-          server.stop();
-        });
+        server.stop();
       });
     });
 
     it('request /favicon.ico', function (done) {
-      var server = new Proxy(8849);
-      server.start().then(function () {
-        request('http://127.0.0.1:8849/favicon.ico', function (err, response, body) {
-          if (err) {
-            done(err);
-          }
+      request('http://127.0.0.1:8850/favicon.ico', function (err, response, body) {
+        if (err) {
+          done(err);
+        }
 
-          assert.equal(response.statusCode, 200);
-          assert.equal(body, '');
-          done();
+        assert.equal(response.statusCode, 200);
+        assert.equal(body, '');
+        done();
 
-          server.stop();
-        });
+        server.stop();
       });
     });
   });
