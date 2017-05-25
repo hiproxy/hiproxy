@@ -77,7 +77,7 @@ module.exports = {
             console.log('error ==>', err);
           });
 
-          res.pipe(unzipStream);
+          res.pipe(unzipStream).pipe(response);
         } else {
           res.on('data', function (chunk) {
             /**
@@ -88,10 +88,9 @@ module.exports = {
             self.emit('data', chunk);
             // console.log('ondata =>', chunk.toString());
           });
+          res.pipe(response);
         }
       }
-
-      res.pipe(response);
 
       // res.on('data', function (chunk) {
       //   /**

@@ -50,6 +50,40 @@ describe('#http server', function () {
         });
       });
     });
+
+    it('request /proxy.pac', function (done) {
+      var server = new Proxy(8849);
+      server.start().then(function () {
+        request('http://127.0.0.1:8849/proxy.pac', function (err, response, body) {
+          if (err) {
+            done(err);
+          }
+
+          assert.equal(response.statusCode, 200);
+          assert.notEqual(body.indexOf('FindProxyForURL'), -1)
+          done();
+
+          server.stop();
+        });
+      });
+    });
+
+    it('request /favicon.ico', function (done) {
+      var server = new Proxy(8849);
+      server.start().then(function () {
+        request('http://127.0.0.1:8849/favicon.ico', function (err, response, body) {
+          if (err) {
+            done(err);
+          }
+
+          assert.equal(response.statusCode, 200);
+          assert.equal(body, '')
+          done();
+
+          server.stop();
+        });
+      });
+    });
   });
 
   describe('# proxy', function () {

@@ -5,6 +5,7 @@
 
 var http = require('http');
 var url = require('url');
+var zlib = require('zlib');
 var querystring = require('querystring');
 
 var server = http.createServer(function (req, res) {
@@ -26,11 +27,33 @@ var server = http.createServer(function (req, res) {
       body: querystring.parse(body)
     };
 
-    res.writeHead(query.statusCode || 200, {
-      'Content-Type': query.contentType || 'application/json',
-      'Server': 'Hiproxy Test Server'
-    });
-    res.end(query.responseBody || JSON.stringify(info));
+    var acceptEncoding = req.headers['accept-encoding'];
+    if (!acceptEncoding) {
+      acceptEncoding = '';
+    }
+
+    if (acceptEncoding.match(/\bgzip\b/)) {
+      zlib.gzip(query.responseBody || JSON.stringify(info), function (err, result) {
+        var statusCode = query.statusCode || 200;
+        if (err) {
+          statusCode = 500;
+          result = err;
+          res.end(err);
+        }
+        res.writeHead(statusCode, {
+          'Content-Type': query.contentType || 'application/json',
+          'Server': 'Hiproxy Test Server',
+          'Content-Encoding': 'gzip'
+        });
+        res.end(result);
+      });
+    } else {
+      res.writeHead(query.statusCode || 200, {
+        'Content-Type': query.contentType || 'application/json',
+        'Server': 'Hiproxy Test Server'
+      });
+      res.end(query.responseBody || JSON.stringify(info));
+    }
   });
 });
 
