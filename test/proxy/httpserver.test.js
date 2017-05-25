@@ -55,8 +55,6 @@ describe('#http server', function () {
         assert.equal(response.statusCode, 200);
         assert.notEqual(body.indexOf('FindProxyForURL'), -1);
         done();
-
-        server.stop();
       });
     });
 
@@ -69,8 +67,6 @@ describe('#http server', function () {
         assert.equal(response.statusCode, 200);
         assert.equal(body, '');
         done();
-
-        server.stop();
       });
     });
   });

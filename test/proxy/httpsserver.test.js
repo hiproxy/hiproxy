@@ -47,8 +47,6 @@ describe('#https server', function () {
         } else if (body.indexOf('the man in the middle page: /') !== -1) {
           done();
         }
-
-        server.stop();
       });
     });
   });
