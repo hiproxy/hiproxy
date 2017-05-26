@@ -87,6 +87,7 @@ Options:
 * [Usage Guide](https://github.com/zdying/hiproxy/blob/master/doc/guide.md)
 * [API documentation](https://github.com/zdying/hiproxy/blob/master/doc/api.md)
 * [Rewrite Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_config.md)
+* [Rewrite directives](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_directives.md)
 * [Hosts Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/hosts_config.md)
 * [Command Line Commands and Options](https://github.com/zdying/hiproxy/blob/master/doc/cli_options.md)
 
