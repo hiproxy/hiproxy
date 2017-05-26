@@ -1,14 +1,14 @@
-# 指令 {#command}
+# 指令 
 
 `指令`（也称：`命令`）用于设置变量，或者对`request`/`response`做一些操作。
 
-## hiproxy 支持的指令 {#supported-commands}
+## hiproxy 支持的指令 
 
-### 全局指令 {#global-commands}
+### 全局指令 
 
 > 全局指令，用来在全局作用域中做一些配置。
 
-#### set {#set}
+#### set 
 
 _作用_：定义变量
 
@@ -25,11 +25,11 @@ _例子_：
 set $server hiproxy;
 ```
 
-### 代理请求相关指令 {#res-scope}
+### 代理请求相关指令 
 
 > 代理请求相关的指令，用于操作代理服务向目标服务器发送请求的`Request`对象。
 
-#### proxy_pass {#proxy-pass}
+#### proxy_pass 
 
 _作用_：设置请求转发的目标地址
 
@@ -45,7 +45,7 @@ _例子_：
 proxy_pass http://some.example.com/some/path/;
 ```
 
-#### proxy_set_header {#proxy-set-header}
+#### proxy_set_header 
 
 _作用_：设置请求头部字段
 
@@ -62,7 +62,7 @@ _例子_：
 proxy_set_header Host some.example.com
 ```
 
-#### proxy_hide_header {#proxy-hide-header}
+#### proxy_hide_header 
 
 _作用_：删除请求头部字段
 
@@ -78,7 +78,7 @@ _例子_：
 proxy_set_header Host some.example.com
 ```
 
-#### proxy_set_cookie {#proxy-set-cookie}
+#### proxy_set_cookie 
 
 _作用_：设置请求Cookie
 
@@ -95,7 +95,7 @@ _例子_：
 proxy_set_cookie from hiproxy;
 ```
 
-#### proxy_hide_cookie {#proxy-hide-cookie}
+#### proxy_hide_cookie 
 
 _作用_：删除请求Cookie字段
 
@@ -111,11 +111,11 @@ _例子_：
 proxy_hide_cookie from;
 ```
 
-### 代理响应相关指令 {#res-scope}
+### 代理响应相关指令 
 
 > 代理响应相关的指令用于配置代理服务器响应浏览器的`Response`对象。
 
-#### set_header {#set-header}
+#### set_header 
 
 _作用_：添加Header字段
 
@@ -132,7 +132,7 @@ _例子_：
 set_header SERVER hiproxy;
 ```
 
-#### hide_header {#hide-header}
+#### hide_header 
 
 _作用_：删除Header字段
 
@@ -148,7 +148,7 @@ _例子_：
 hide_header Server;
 ```
 
-#### set_cookie {#set-cookie}
+#### set_cookie 
 
 _作用_：设置Cookie字段
 
@@ -165,7 +165,7 @@ _例子_：
 set_cookie SESSION_ID 2BF36A09CB35FD71E;
 ```
 
-#### hide_cookie {#hide-cookie}
+#### hide_cookie 
 
 _作用_：删除Cookie字段
 
@@ -181,7 +181,7 @@ _例子_：
 hide_cookie SESSION_ID;
 ```
 
-#### alias {#alias}
+#### alias 
 
 _作用_：将对应的`location`映射到本地目录
 
@@ -197,7 +197,7 @@ _例子_：
 alias /Users/zdying/some/path/;
 ```
 
-#### root {#root}
+#### root 
 
 _作用_：将对应的`location`映射到本地目录时的默认文件
 

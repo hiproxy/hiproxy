@@ -1,4 +1,4 @@
-# rewrite配置文件 {#rewrite-config}
+# rewrite配置文件 
 
 hiproxy 代理的配置文件必须位于项目根目录，文件名为：`rewrite`。
 
@@ -7,7 +7,7 @@ hiproxy 代理的配置文件必须位于项目根目录，文件名为：`rewri
 
 ## 代理使用方法
 
-### 推荐方式 {#recommand}
+### 推荐方式 
 
 要使用 hii 的代理功能，两个步骤即可：
 
@@ -26,7 +26,7 @@ hiproxy 代理的配置文件必须位于项目根目录，文件名为：`rewri
 * 没有hosts缓存问题
 * 新打开的窗口独立于其他的浏览器窗口，互不影响
 
-### 手动配置 {#config-yourself}
+### 手动配置 
 
 目前，hiproxy 打开的 Chrome 浏览器窗口，不会加载用户以前的配置、插件，这样从某种意义上不是很方便。
 
@@ -58,9 +58,9 @@ hiproxy 代理的配置文件必须位于项目根目录，文件名为：`rewri
  |_| |_|_| 
 ```
 
-# 配置语法 {#configsyntax}
+# 配置语法 
 
-## 变量 {#variable}
+## 变量 
 
 #### 语法
 
@@ -78,7 +78,7 @@ $var_name
 set $var_name value
 ```
 
-## domain {#domain}
+## domain 
 
 `domain` 用来指定一个域名，这个域名的所有配置都在 `domain` 块中。
 
@@ -104,7 +104,7 @@ $domain => {
 }
 ```
 
-## location {#location}
+## location 
 
 `location` 用来指定域名中的一个具体的路径，这个路径的所有配置都在 `location` 块中。
 
@@ -144,7 +144,7 @@ location $some/$path {
 } 
 ```
 
-## 命令 {#command}
+## 命令 
 
 命令用于设置一些变量，或者对`request`\/`response`做一些操作。
 
@@ -164,7 +164,7 @@ proxy_set_header Host some.example.com;
 set_cookie UserID some_user_id;
 ```
 
-## 注释 {#comment}
+## 注释 
 
 用来注释某些不需要的内容，**只支持单行注释**。
 
@@ -197,7 +197,7 @@ set var value; # 设置变量
 json.example.com => 127.0.0.1:8800;
 ```
 
-## 完整的例子 {#example}
+## 完整的例子 
 
 ```bash
 ## url rewrite rules
@@ -280,7 +280,7 @@ api.qunar.com => {
 ```
 
 
-# 作用域 {#scope}
+# 作用域 
 
 作用域主要使用于**变量查找**和**指令执行**。
 
