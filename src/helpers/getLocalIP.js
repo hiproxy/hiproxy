@@ -3,6 +3,7 @@
  * @author zdying
  */
 
+var dns = require('dns');
 var localIP = '';
 
 module.exports = function () {
@@ -12,7 +13,7 @@ module.exports = function () {
       return;
     }
 
-    require('dns').resolve(require('os').hostname(), function (err, addr) {
+    dns.resolve(require('os').hostname(), function (err, addr) {
       if (err) {
         localIP = '127.0.0.1';
         resolve(localIP);

@@ -20,10 +20,12 @@ Logger.prototype = {
   _printLog: function (level, msg) {
     var stdout = level === 'error' ? this.stderr : this.stdout;
 
+    /* istanbul ignore if */
     if (args.logTime) {
       msg = '[' + new Date().toLocaleTimeString() + '] ' + msg;
     }
 
+    /* istanbul ignore if */
     if (stdout && stdout.write) {
       stdout.write(msg);
     }
