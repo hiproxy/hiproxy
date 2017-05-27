@@ -90,6 +90,8 @@ module.exports = {
           });
           res.pipe(response);
         }
+      } else {
+        res.pipe(response);
       }
 
       // res.on('data', function (chunk) {
