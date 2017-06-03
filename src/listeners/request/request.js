@@ -91,6 +91,15 @@ module.exports = {
           res.pipe(response);
         }
       } else {
+        res.on('data', function (chunk) {
+            /**
+             * Emitted whenever the response stream received some chunk of data.
+             * @event ProxyServer#data
+             * @property {Buffer} data response data
+             */
+          self.emit('data', chunk);
+            // console.log('ondata =>', chunk.toString());
+        });
         res.pipe(response);
       }
 
