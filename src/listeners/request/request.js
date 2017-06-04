@@ -72,6 +72,7 @@ module.exports = {
           self.emit('data', chunk);
         });
 
+        /* istanbul ignore next */
         unzipStream.on('error', function (err) {
           console.log('error ==>', err);
           response.end(err.stack);
@@ -112,6 +113,7 @@ module.exports = {
     });
 
     proxy.on('error', function (e) {
+      /* istanbul ignore next */
       if (e.code === 'ENOTFOUND') {
         response.statusCode = 404;
         response.end();
