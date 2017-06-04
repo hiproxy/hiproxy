@@ -310,8 +310,6 @@ ProxyServer.prototype = {
           req.url = protocol + '://' + host + url;
         }
 
-        // console.log('req.zdy', req.zdy);
-
         if (host === '127.0.0.1:' + this.httpsPort) {
           res.end('the man in the middle page: ' + url);
           // if(url === '/'){

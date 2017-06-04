@@ -20,7 +20,6 @@ module.exports = {
     proxyOption.headers['accept-encoding'] = 'gzip,deflate';
 
     if (isHTTPS) {
-      // proxyOption.port = 443
       proxyOption.rejectUnauthorized = false;
     }
 
@@ -61,7 +60,7 @@ module.exports = {
       var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
 
       if (canUnZip && isTextFile) {
-        var unzipStream = zlib.createUnzip();
+        var unzipStream = encoding === 'gzip' ? zlib.createUnzip() : zlib.createInflate();
 
         unzipStream.on('data', function (chunk) {
           // console.log('ondata =>', chunk.toString())
@@ -75,6 +74,7 @@ module.exports = {
 
         unzipStream.on('error', function (err) {
           console.log('error ==>', err);
+          response.end(err.stack);
         });
 
         res.pipe(unzipStream).pipe(response);

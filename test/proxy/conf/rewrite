@@ -1,6 +1,6 @@
 t.ttt.com => {
-    ssl_certificate_key ./ssl/example.com.key;
-    ssl_certificate     ./ssl/example.com.crt;
+    ssl_certificate_key ../ssl/example.com.key;
+    ssl_certificate     ../ssl/example.com.crt;
 
     location / {
         proxy_pass http://127.0.0.1:61234/;
@@ -23,7 +23,7 @@ t.ttt.com => {
     }
 
     location /source/ {
-        alias ./static/;
+        alias ../static/;
         root  index.html;
 
         set_header server hiproxy_static;

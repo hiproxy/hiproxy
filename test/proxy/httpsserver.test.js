@@ -13,7 +13,7 @@ describe('#https server', function () {
     testServer.listen(61234);
 
     proxyServer = new Proxy(8850, 10011);
-    proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
+    proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'rewrite'));
     proxyServer.start();
     proxyServer.openBrowser('chrome', '127.0.0.1:8850', true);
   });
@@ -135,6 +135,36 @@ describe('#https server', function () {
 
         assert.equal('{"ret": true}', body);
         assert.equal('application/json', headers['content-type']);
+
+        done();
+      });
+    });
+
+    it('should return remote content when request https://www.example.com/', function (done) {
+      request({
+        uri: 'https://www.example.com/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        var statusCode = response.statusCode;
+
+        assert.equal(statusCode, 200);
+
+        done();
+      });
+    });
+
+    it('should return error content when request https://www.example-domain-not-exists.com/', function (done) {
+      request({
+        uri: 'https://www.example-domain-not-exists.com/',
+        proxy: 'http://127.0.0.1:8850',
+        rejectUnauthorized: false
+      }, function (err, response, body) {
+        assert.notEqual(err, null);
 
         done();
       });

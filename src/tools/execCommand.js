@@ -16,6 +16,7 @@ module.exports = function (rewriteRule, context, scope) {
   // call response commands
   var cmdsNeedToExec = getCommands(rewriteRule, scope);
 
+  /* istanbul ignore else */
   if (Array.isArray(cmdsNeedToExec)) {
     log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(cmdsNeedToExec).bold);
 
@@ -26,6 +27,7 @@ module.exports = function (rewriteRule, context, scope) {
       var func = commands[name];
       var isFunction = typeof func === 'function';
 
+      /* istanbul ignore else */
       if (isFunction) {
         log.debug('exec rewrite ' + scope + ' command', name.bold.green, 'with params', ('[' + params.join(',') + ']').bold.green);
         func.apply(context, params);

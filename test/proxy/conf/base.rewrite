@@ -9,6 +9,11 @@ domain blog.example.com {
         proxy_pass http://127.0.0.1:9000/blog/;
     }
 
+    location /ssl/ {
+        proxy_pass https://127.0.0.1:10020/;
+        proxy_set_header Host 127.0.0.1:10020;
+    }
+
     location ~ /\/api\// {
         proxy_pass http://127.0.0.1:9000/test/api/;
     }

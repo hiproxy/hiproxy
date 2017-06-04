@@ -10,7 +10,7 @@ describe('#proxy pass', function () {
   before(function () {
     testServer.listen(9000);
 
-    proxyServer = new Proxy(9001);
+    proxyServer = new Proxy(9001, 10020);
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'base.rewrite'));
     proxyServer.addHostsFile(path.join(__dirname, 'conf', 'base.hosts'));
 
@@ -148,6 +148,25 @@ describe('#proxy pass', function () {
         }
 
         assert.equal(response.statusCode, 404);
+        done();
+      });
+    });
+  });
+
+  describe('proxy to `https` server', function () {
+    it('should return remote `https` content', function (done) {
+      request({
+        uri: 'http://blog.example.com/ssl/',
+        proxy: 'http://127.0.0.1:9001'
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        console.log(body);
+
+        assert.equal(response.statusCode, 200);
+        assert.equal(body, 'the man in the middle page: /');
         done();
       });
     });
