@@ -20,16 +20,15 @@ module.exports = {
     proxyOption.headers['accept-encoding'] = 'gzip,deflate';
 
     if (isHTTPS) {
-      // proxyOption.port = 443;
+      // proxyOption.port = 443
       proxyOption.rejectUnauthorized = false;
     }
 
     var proxy = (isHTTPS ? https : http).request(proxyOption, function (res) {
       response.headers = res.headers;
 
-      var encoding = response.headers['content-encoding'];
-      // response.removeHeader('Content-Encoding');
-      // delete response.headers['content-encoding'];
+      // response.removeHeader('Content-Encoding')
+      // delete response.headers['content-encoding']
 
       execResponseCommand(rewriteRule, {
         response: response
@@ -42,76 +41,55 @@ module.exports = {
        */
       self.emit('setResponse', response);
 
-      // response.pipe(res);
+      // response.pipe(res)
       response.writeHead(res.statusCode, res.headers);
 
       /*
-      res.pause();
+      res.pause()
 
-      log.warn('request was paused:'.red, _url.bold.red);
+      log.warn('request was paused:'.red, _url.bold.red)
 
       setTimeout(function(){
-          res.resume();
-          log.warn('request was resumed:'.red, _url.bold.red);
+          res.resume()
+          log.warn('request was resumed:'.red, _url.bold.red)
       }, 5000)
       */
 
       var contentType = res.headers['content-type'];
+      var encoding = response.headers['content-encoding'];
+      var canUnZip = encoding === 'gzip' || encoding === 'deflate';
+      var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
 
-      if (/(xml|text|html|plain|text|json|javascript|css)/.test(contentType)) {
-        // 打印日志
-        if (encoding === 'gzip' || encoding === 'deflate') {
-          var unzipStream = zlib.createUnzip();
+      if (canUnZip && isTextFile) {
+        var unzipStream = zlib.createUnzip();
 
-          unzipStream.on('data', function (chunk) {
-            // console.log('ondata =>', chunk.toString());
-            /**
-             * Emitted whenever the response stream received some chunk of data.
-             * @event ProxyServer#data
-             * @property {Buffer} data response data
-             */
-            self.emit('data', chunk);
-          });
+        unzipStream.on('data', function (chunk) {
+          // console.log('ondata =>', chunk.toString())
+          /**
+           * Emitted whenever the response stream received some chunk of data.
+           * @event ProxyServer#data
+           * @property {Buffer} data response data
+           */
+          self.emit('data', chunk);
+        });
 
-          unzipStream.on('error', function (err) {
-            console.log('error ==>', err);
-          });
+        unzipStream.on('error', function (err) {
+          console.log('error ==>', err);
+        });
 
-          res.pipe(unzipStream).pipe(response);
-        } else {
-          res.on('data', function (chunk) {
-            /**
-             * Emitted whenever the response stream received some chunk of data.
-             * @event ProxyServer#data
-             * @property {Buffer} data response data
-             */
-            self.emit('data', chunk);
-            // console.log('ondata =>', chunk.toString());
-          });
-          res.pipe(response);
-        }
+        res.pipe(unzipStream).pipe(response);
       } else {
         res.on('data', function (chunk) {
-            /**
-             * Emitted whenever the response stream received some chunk of data.
-             * @event ProxyServer#data
-             * @property {Buffer} data response data
-             */
+          /**
+           * Emitted whenever the response stream received some chunk of data.
+           * @event ProxyServer#data
+           * @property {Buffer} data response data
+           */
           self.emit('data', chunk);
-            // console.log('ondata =>', chunk.toString());
+          // console.log('ondata =>', chunk.toString())
         });
         res.pipe(response);
       }
-
-      // res.on('data', function (chunk) {
-      //   /**
-      //    * Emitted whenever the response stream received some chunk of data.
-      //    * @event ProxyServer#data
-      //    * @property {Buffer} data response data
-      //    */
-      //   self.emit('data', chunk);
-      //   // console.log('ondata =>', chunk.toString());
-      // });
 
       res.on('end', function () {
         request.res = res;
@@ -128,7 +106,7 @@ module.exports = {
             (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
         } else {
           log.access(request);
-          // log.info('direc -', request.url.bold, Date.now() - start, 'ms');
+        // log.info('direc -', request.url.bold, Date.now() - start, 'ms')
         }
       });
     });
