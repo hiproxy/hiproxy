@@ -15,6 +15,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePat
   // }
 
   /** ** 这个方法是生成到proxy.pac中的，hiproxy不会调用 ****/
+  /* eslint-disable */
   /* istanbul ignore next */
   function FindProxyForURL (url, host) {
     host = host.toLowerCase();
@@ -35,6 +36,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePat
       return DIRECT;
     }
   }
+  /* eslint-enable */
 
   // 系统代理地址，如果设置了系统代理，不在hiipack代理范围内的，走这个代理
   var sysProxy = ''; // config.get('system_proxy');
