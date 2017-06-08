@@ -40,11 +40,11 @@ module.exports = {
       describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
     },
     'rewrite-file <files>': {
-      alias: 'R',
+      alias: 'r',
       describe: 'rewrite规则配置文件，多个文件使用`,`分割'
     },
     'hosts-file <files>': {
-      alias: 'H',
+      alias: 'c',
       describe: 'hosts文件，多个文件使用`,`分割'
     }
   }
