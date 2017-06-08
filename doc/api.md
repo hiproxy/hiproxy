@@ -29,7 +29,7 @@ hiproxy代理服务器
 
 <a name="ProxyServer+start"></a>
 
-### proxyServer.start(httpPort, httpsPort) ⇒ <code>Promise</code>
+### proxyServer.start([config]) ⇒ <code>Promise</code>
 启动代理服务
 
 **Kind**: instance method of [<code>ProxyServer</code>](#ProxyServer)  
@@ -37,8 +37,7 @@ hiproxy代理服务器
 
 | Param | Type | Description |
 | --- | --- | --- |
-| httpPort | <code>Number</code> | http服务端口号 |
-| httpsPort | <code>Number</code> | https服务端口号 |
+| config | <code>Object</code> | 配置字段 |
 
 <a name="ProxyServer+stop"></a>
 

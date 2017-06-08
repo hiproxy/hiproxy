@@ -50,20 +50,21 @@ ProxyServer.prototype = {
   /**
    * 启动代理服务
    *
-   * @param {Number} httpPort http服务端口号
-   * @param {Number} httpsPort https服务端口号
+   * @param {Object} config 配置字段
    * @return {Promise}
    * @public
    */
-  start: function (httpPort, httpsPort) {
+  start: function (config) {
     var self = this;
     var promises = [
       getLocalIP(),
-      createServer.create(httpPort || this.httpPort, false, this.rewrite)
+      createServer.create(this.httpPort, false, this.rewrite)
     ];
 
-    if (httpsPort || this.httpsPort) {
-      promises.push(createServer.create(httpsPort || this.httpsPort, true, this.rewrite));
+    config = config || {};
+
+    if (this.httpsPort) {
+      promises.push(createServer.create(this.httpsPort, true, this.rewrite));
     }
 
     return Promise.all(promises)
@@ -75,6 +76,7 @@ ProxyServer.prototype = {
         setTimeout(function () {
           self._initEvent();
           self.findConfigFiels();
+          self.addConfigFiles(config);
         }, 0);
 
         /**
@@ -140,6 +142,8 @@ ProxyServer.prototype = {
      */
     this.emit('addHostsFile', filePath);
 
+    this.logger.debug('add hosts file: ' + filePath);
+
     this.hosts.addFile(filePath);
     this.createPacFile();
     return this;
@@ -159,6 +163,8 @@ ProxyServer.prototype = {
      * @property {Array|String} filePath rewrite file path(s)
      */
     this.emit('addRewriteFile', filePath);
+
+    this.logger.debug('add rewrite file: ' + filePath);
 
     this.rewrite.addFile(filePath);
     this.createPacFile();
@@ -273,6 +279,19 @@ ProxyServer.prototype = {
     return this;
   },
 
+  /**
+   * 添加配置文件
+   */
+  addConfigFiles: function (config) {
+    if (config.hostsFile) {
+      this.addHostsFile(config.hostsFile.split(/\s*[,，]\s*/));
+    }
+
+    if (config.rewriteFile) {
+      this.addRewriteFile(config.rewriteFile.split(/\s*[,，]\s*/));
+    }
+  },
+
   _initEvent: function () {
     var self = this;
     // var port = this.httpPort;
@@ -329,7 +348,5 @@ ProxyServer.prototype = {
     return this;
   }
 };
-
-// util.inherits(ProxyServer, EventEmitter);
 
 module.exports = ProxyServer;
