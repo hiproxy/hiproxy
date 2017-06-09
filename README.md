@@ -2,12 +2,12 @@
 
 hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support.
 
-[![Build Status](https://travis-ci.org/zdying/hiproxy.svg?branch=master)](https://travis-ci.org/hiproxy/hiproxy)
-[![codecov](https://codecov.io/gh/zdying/hiproxy/branch/master/graph/badge.svg)](https://codecov.io/gh/hiproxy/hiproxy)
+[![Build Status](https://travis-ci.org/hiproxy/hiproxy.svg?branch=master)](https://travis-ci.org/hiproxy/hiproxy)
+[![codecov](https://codecov.io/gh/hiproxy/hiproxy/branch/master/graph/badge.svg)](https://codecov.io/gh/hiproxy/hiproxy)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat)](https://github.com/Flet/semistandard)
 [![npm](https://img.shields.io/npm/v/hiproxy.svg)](https://www.npmjs.com/package/hiproxy)
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-green.svg)](https://nodejs.org/)
-[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/zdying/hiproxy/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hiproxy/hiproxy/blob/master/LICENSE)
 
 # Install
 
@@ -84,12 +84,12 @@ Options:
 
 # Documentation
 
-* [Usage Guide](https://github.com/zdying/hiproxy/blob/master/doc/guide.md)
-* [API documentation](https://github.com/zdying/hiproxy/blob/master/doc/api.md)
-* [Rewrite Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_config.md)
-* [Rewrite directives](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_directives.md)
-* [Hosts Config Guide](https://github.com/zdying/hiproxy/blob/master/doc/hosts_config.md)
-* [Command Line Commands and Options](https://github.com/zdying/hiproxy/blob/master/doc/cli_options.md)
+* [Usage Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
+* [API documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
+* [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_config.md)
+* [Rewrite directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
+* [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
+* [Command Line Commands and Options](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
 
 # hosts config example
 
@@ -124,14 +124,9 @@ domain example.com {
 }
 ```
 
-# Running example
+# Example
 
-```
-cd example
-node index.js
-```
-
-* url => http://test.com
+Here is an Example project [https://github.com/hiproxy/hiproxy-example](https://github.com/hiproxy/hiproxy-example)
 
 # Running tests
 
