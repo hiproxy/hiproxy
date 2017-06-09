@@ -19,13 +19,9 @@ module.exports = {
   usage: 'start [--port <port>] [-xodD]',
   fn: startServer,
   options: {
-    'port': {
-      alias: 'p',
-      validate: /^\d+$/,
-      describe: 'server port'
-    },
     'port <port>': {
       alias: 'p',
+      validate: /^\d+$/,
       describe: 'http代理服务端口号'
     },
     'https': {
@@ -42,6 +38,14 @@ module.exports = {
     },
     'pac-proxy': {
       describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
+    },
+    'rewrite-file <files>': {
+      alias: 'r',
+      describe: 'rewrite规则配置文件，多个文件使用`,`分割'
+    },
+    'hosts-file <files>': {
+      alias: 'c',
+      describe: 'hosts文件，多个文件使用`,`分割'
     }
   }
 };
@@ -55,33 +59,10 @@ function startServer () {
   var proxy = new Proxy(port, httpsPort);
 
   // log format
-  proxy.logger.on('data', function (level, msg) {
-    var args = global.args;
-    var logLevel = (args.logLevel || 'access,error').split(',');
-    var grep = args.grep || '';
+  proxy.logger.on('data', showLog);
 
-    if (logLevel.indexOf(level) !== -1 && msg.indexOf(grep) !== -1) {
-      if (grep) {
-        msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
-      }
-      console[level === 'error' ? 'error' : 'log'](('[' + level + ']').bold.red, msg);
-    }
-  });
-
-  proxy.start().then(function (servers) {
-    var proxyAddr = servers[0].address();
-    var httpsAddr = servers[1] && servers[1].address();
-
-    getLocalIP().then(function (ip) {
-      showImage([
-        '',
-        '',
-        '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
-        '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
-        '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-        ''
-      ]);
-    });
+  proxy.start(cliArgs).then(function (servers) {
+    showStartedMessage(servers);
 
     var open = cliArgs.open;
     var browser = open === true ? 'chrome' : open;
@@ -96,6 +77,9 @@ function startServer () {
   });
 }
 
+/**
+ * 将服务信息写入到文件
+ */
 function writeServerInfoToFile () {
   if (!global.args.daemon) {
     return;
@@ -119,5 +103,45 @@ function writeServerInfoToFile () {
     if (err) {
       console.log('hiproxy.json write error');
     }
+  });
+}
+
+/**
+ * 显示日志
+ *
+ * @param {String} level 日志级别
+ * @param {String} msg   日志内容
+ */
+function showLog (level, msg) {
+  var args = global.args;
+  var logLevel = (args.logLevel || 'access,error').split(',');
+  var grep = args.grep || '';
+
+  if (logLevel.indexOf(level) !== -1 && msg.indexOf(grep) !== -1) {
+    if (grep) {
+      msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
+    }
+    console[level === 'error' ? 'error' : 'log'](('[' + level + ']').bold.red, msg);
+  }
+}
+
+/**
+ * 服务启动后，显示服务信息
+ *
+ * @param {Array} servers 启动的服务
+ */
+function showStartedMessage (servers) {
+  var proxyAddr = servers[0].address();
+  var httpsAddr = servers[1] && servers[1].address();
+
+  return getLocalIP().then(function (ip) {
+    showImage([
+      '',
+      '',
+      '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
+      '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
+      '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+      ''
+    ]);
   });
 }
