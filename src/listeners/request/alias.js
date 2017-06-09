@@ -39,17 +39,25 @@ module.exports = {
       }
 
       // TODO 如果没有root，列出目录
+      var stream = fs.createReadStream(filePath);
       response.setHeader('Content-Type', getMimeType(filePath));
 
-      return fs.createReadStream(filePath).pipe(response);
-    } catch (e) {
-      response.setHeader('Content-Type', 'text/html');
-      if (e.code === 'ENOENT') {
+      stream.on('error', function (e) {
         response.statusCode = 404;
         response.end('404 Not Found: <br><pre>' + e.stack + '</pre>');
+      });
+
+      return stream.pipe(response);
+    } catch (err) {
+      log.error(err);
+      response.setHeader('Content-Type', 'text/html');
+
+      if (err.code === 'ENOENT') {
+        response.statusCode = 404;
+        response.end('404 Not Found: <br><pre>' + err.stack + '</pre>');
       } else {
         response.statusCode = 500;
-        response.end('500 Server Internal Error: <br><pre>' + e.stack + '</pre>');
+        response.end('500 Server Internal Error: <br><pre>' + err.stack + '</pre>');
       }
     }
   }
