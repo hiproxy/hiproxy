@@ -5,14 +5,33 @@
 
 'use strict';
 
+var path = require('path');
+var childProcess = require('child_process');
+
+var homedir = require('os-homedir');
+var hiproxyDir = path.join(homedir(), '.hiproxy');
+
 module.exports = {
-  command: 'reload',
-  describe: 'Restart the local proxy server (In development)',
-  usage: 'reload [option]',
+  command: 'restart',
+  describe: 'Restart the local proxy service',
+  usage: 'restart',
   fn: function () {
-    console.log('\ncoming soon...\n');
-    // console.log();
-    // console.log('Server reloaded');
-    // console.log();
+    try {
+      var infoFile = path.join(hiproxyDir, 'hiproxy.json');
+      var info = require(infoFile);
+      var cmd = info.cmd;
+
+      childProcess.execSync([cmd[0], cmd[1], 'stop'].join(' '));
+      childProcess.execSync(cmd.join(' '));
+
+      console.log();
+      console.log('Service reloaded success :)');
+      console.log();
+    } catch (err) {
+      console.log();
+      console.log('Service reloaded failed :(');
+      console.log('\nerror info: ', err.message);
+      console.log();
+    }
   }
 };
