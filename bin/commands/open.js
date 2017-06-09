@@ -15,7 +15,7 @@ var hiproxyDir = path.join(homedir(), '.hiproxy');
 module.exports = {
   command: 'open',
   describe: 'Open browser and set proxy',
-  usage: 'open',
+  usage: 'open [options]',
   options: {
     'browser <browser>': {
       alias: 'b',
