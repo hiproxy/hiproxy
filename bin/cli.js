@@ -9,8 +9,8 @@ var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 
-var directives = require('../src/commands');
-var routers = require('../src/listeners/request/hiproxyRouter');
+// var directives = require('../src/commands');
+// var routers = require('../src/listeners/request/hiproxyRouter');
 
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 var _args = new Args();
