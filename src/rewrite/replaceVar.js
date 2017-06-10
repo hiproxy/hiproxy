@@ -29,9 +29,9 @@ module.exports = function replaceVar (str, source) {
     return str.replace(/\$[\w\d_]+/g, function (match) {
       var val = allProps[match];
 
-      if (typeof val === 'string') {
+      if (val !== undefined) {
         // 替换首尾的引号
-        return val.replace(/^(['"])(.*)(\1)$/, '$2');
+        return typeof val === 'string' ? val.replace(/^(['"])(.*)(\1)$/, '$2') : val;
       } else {
         return match;
       }

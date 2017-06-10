@@ -16,14 +16,6 @@ module.exports = function requestHandler (request, response) {
   // var hostname = urlObj.hostname;
   // var port = urlObj.port;
   var start = Date.now();
-  var hiproxyPageRoutes = [
-    '/',
-    '/proxy.pac',
-    '/favicon.ico'
-  ];
-  var hiproxyAPIRoutes = [
-    '/api'
-  ];
 
   /**
    * Emitted each time there is a request.
@@ -33,14 +25,10 @@ module.exports = function requestHandler (request, response) {
    */
   this.emit('request', request, response);
 
-  // hiproxy system page
-  if (hiproxyPageRoutes.indexOf(_url) !== -1) {
-    hiproxyRouter.render.call(this, _url, request, response);
-    return;
-  }
+  var render = hiproxyRouter.getRender(_url);
 
-  if (hiproxyAPIRoutes.indexOf(_url) !== -1) {
-    hiproxyRouter.api.call(this, _url, request, response);
+  if (render) {
+    render.call(this, _url, request, response);
     return;
   }
 

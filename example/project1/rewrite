@@ -1,0 +1,19 @@
+# rewrite rules
+# need plugin `hiproxy-plugin-test`
+
+set $gvar global-value;
+
+domain test.hiproxy.io {
+  set $host test.hiproxy.io;
+  add $addresult 9999 90000;
+
+  location / {
+    proxy_pass http://127.0.0.1:8000/;
+
+    add $add_value 1600 88;
+
+    set_header Add_Result $addresult;
+    set_header Global_Var $gvar;
+    set_header Test_Add_Value $add_value;
+  }
+}

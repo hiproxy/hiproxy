@@ -3,7 +3,7 @@
  * @author zdying
  */
 
-var commandFuncs = require('../commands/index');
+var commandFuncs = require('../commands/index').directives;
 var scopeCmds = require('../commands/scope');
 var replaceVar = require('./replaceVar');
 

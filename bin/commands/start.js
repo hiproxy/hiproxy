@@ -51,12 +51,14 @@ module.exports = {
 };
 
 function startServer () {
-  var Proxy = require('../../src/ProxyServer');
+  var Proxy = require('../../src/');
   var cliArgs = this;
   var https = cliArgs.https;
   var port = cliArgs.port || 5525;
   var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
   var proxy = new Proxy(port, httpsPort);
+
+  global.hiproxyServer = proxy;
 
   // log format
   proxy.logger.on('data', showLog);

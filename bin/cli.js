@@ -2,14 +2,15 @@
 
 require('colors');
 var path = require('path');
-// var color = require('../src/helpers/color');
-// var log = require('../src/helpers/log');
 var fs = require('fs');
 var homedir = require('os-homedir');
 
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
+
+var directives = require('../src/commands');
+var routers = require('../src/listeners/request/hiproxyRouter');
 
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 var _args = new Args();
@@ -23,6 +24,31 @@ var _args = new Args();
     _args.command(cmdConfig);
   }
 });
+
+/* ============ load plugin ============ */
+// var npmGlobalRoot = '/Users/zdy/.nvm/versions/node/v7.0.0/lib/node_modules';
+// var testPlugin = path.join(npmGlobalRoot, 'hiproxy-plugin-test');
+// var plugin = require(testPlugin);
+
+// // console.log(plugin);
+
+// // 添加Commands
+// var commands = plugin.commands || [];
+// commands.forEach(function (command) {
+//   _args.command(command);
+// });
+
+// // 添加directives
+// var customDirectives = plugin.directives || [];
+// customDirectives.forEach(function (directive) {
+//   directives.addDirective(directive);
+// });
+
+// // 添加router
+// var routes = plugin.routes;
+
+// routers.addRoute(routes);
+/* ===================================== */
 
 _args
     .version(packageInfo.version)

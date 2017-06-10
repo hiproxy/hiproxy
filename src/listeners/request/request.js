@@ -74,7 +74,7 @@ module.exports = {
 
         /* istanbul ignore next */
         unzipStream.on('error', function (err) {
-          console.log('error ==>', err);
+          log.error('error ==>', err);
           response.end(err.stack);
         });
 

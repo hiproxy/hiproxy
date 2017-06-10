@@ -11,7 +11,27 @@ var url = require('url');
 var fs = require('fs');
 var homedir = require('os-homedir');
 
+// hiproxy system pages
+var hiproxyPageRoutes = [
+  '/',
+  '/proxy.pac',
+  '/favicon.ico'
+];
+// hiproxy api pages
+var hiproxyAPIRoutes = [
+  '/api'
+];
+// custom routes defined in plugins
+var customPluginRoutes = {};
+
 module.exports = {
+  /**
+   * 渲染hiproxy页面
+   *·
+   * @param {String} route url
+   * @param {http.IncomingMessage} request 请求对象
+   * @param {http.ServerResponse}  response 响应对象
+   */
   render: function (route, request, response) {
     var urlObj = url.parse(request.url);
     var query = urlObj.query;
@@ -59,11 +79,18 @@ module.exports = {
     }
   },
 
+  /**
+   * 渲染hiproxy api页面
+   *
+   * @param {String} route url
+   * @param {http.IncomingMessage} request 请求对象
+   * @param {http.ServerResponse}  response 响应对象
+   */
   api: function (route, request, response) {
     var urlObj = url.parse(request.url);
     var query = querystring.parse(urlObj.query);
     var action = query.action;
-    var params = query.params;
+    var params = query.params || {};
 
     switch (action) {
       case 'stop':
@@ -84,5 +111,43 @@ module.exports = {
     }
 
     response.end('ok');
+  },
+
+  /**
+   * 添加Route
+   *
+   * @param {Array} routes routes配置对象数组
+   */
+  addRoute: function (routes) {
+    if (!Array.isArray(routes)) {
+      routes = [routes];
+    }
+
+    routes.forEach(function (route) {
+      var _route = route.route;
+      var render = route.render;
+
+      customPluginRoutes[_route] = render;
+    });
+  },
+
+  /**
+   * 根据route url获取渲染方法
+   *
+   * @param {String} route url
+   * @returns {Undefined|Function}
+   */
+  getRender: function (route) {
+    if (hiproxyPageRoutes.indexOf(route) !== -1) {
+      return this.render;
+    }
+
+    if (hiproxyAPIRoutes.indexOf(route) !== -1) {
+      return this.api;
+    }
+
+    if (route in customPluginRoutes) {
+      return customPluginRoutes[route];
+    }
   }
 };
