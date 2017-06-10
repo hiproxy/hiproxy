@@ -1,20 +1,29 @@
-var fs = require('fs');
-var url = require('url');
-var path = require('path');
-var homedir = require('os-homedir');
+// var fs = require('fs');
+// var url = require('url');
+// var path = require('path');
+// var homedir = require('os-homedir');
 
 var aliasWorker = require('./alias');
 var requestWorker = require('./request');
+var hiproxyRouter = require('./hiproxyRouter');
 var getProxyInfo = require('../../helpers/getProxyInfo');
 
 module.exports = function requestHandler (request, response) {
   var _url = request.url.split('?')[0];
-  var urlObj = url.parse(request.url);
+  // var urlObj = url.parse(request.url);
   // var pathName = urlObj.pathname;
-  var query = urlObj.query;
+  // var query = urlObj.query;
   // var hostname = urlObj.hostname;
   // var port = urlObj.port;
   var start = Date.now();
+  var hiproxyPageRoutes = [
+    '/',
+    '/proxy.pac',
+    '/favicon.ico'
+  ];
+  var hiproxyAPIRoutes = [
+    '/api'
+  ];
 
   /**
    * Emitted each time there is a request.
@@ -24,52 +33,14 @@ module.exports = function requestHandler (request, response) {
    */
   this.emit('request', request, response);
 
-  if (_url === '/') {
-    var pacURL = 'http://127.0.0.1:' + this.httpPort + '/proxy.pac';
-    var localIP = this.localIP;
-    var httpPort = this.httpPort;
-    var httpsPort = this.httpsPort;
-    var message = [
-      '<pre>',
-      ' _     <span class="red">_</span>  ',
-      '| |   <span class="red">(_)</span> ',
-      '| |__  _    <span class="label">Proxy address:</span> ' + localIP + ':' + httpPort,
-      '| \'_ \\| |   <span class="label">Https address:</span> ' + (httpsPort ? localIP + ':' + httpsPort : 'disabled'),
-      '| | | | |   <span class="label">Proxy file at:</span> <a href="' + pacURL + '?type=view">' + pacURL + '</a>',
-      '|_| |_|_| ',
-      '</pre>'
-    ];
-
-    response.writeHead(200, {
-      'Content-Type': 'text/html'
-    });
-    response.write('<style>.red{color: #DC544B} .label{color: #10a3ca; font-weight: bold}</style>');
-    // response.write('<h1>hiproxy server</h1>');
-    response.write(message.join('\n'));
-    response.end();
+  // hiproxy system page
+  if (hiproxyPageRoutes.indexOf(_url) !== -1) {
+    hiproxyRouter.render.call(this, _url, request, response);
     return;
   }
 
-  if (_url === '/proxy.pac') {
-    var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
-
-    fs.readFile(pacFilePath, 'utf-8', function (err, str) {
-      if (err) {
-        log.error('read pac file error:', err);
-        response.end(err.message);
-      } else {
-        var contentType = query && query.indexOf('type=view') !== -1 ? 'text/plain' : 'application/x-ns-proxy-autoconfig';
-        response.writeHead(200, {
-          'Content-Type': contentType
-        });
-        response.end(str);
-      }
-    });
-    return;
-  }
-
-  if (_url === '/favicon.ico') {
-    response.end('');
+  if (hiproxyAPIRoutes.indexOf(_url) !== -1) {
+    hiproxyRouter.api.call(this, _url, request, response);
     return;
   }
 
