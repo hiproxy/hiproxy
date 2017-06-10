@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var homedir = require('os-homedir');
 
-var createPacFile = require('../../src/tools/createPacFile');
+var createPacFile = require('../../src/helpers/createPacFile');
 
 describe('#replaceVar', function () {
   var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');

@@ -5,16 +5,15 @@
 
 require('colors');
 var EventEmitter = require('events');
+var openBrowser = require('op-browser');
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./helpers/logger');
-// var log = require('./helpers/log');
-var openBrowser = require('op-browser');
-var createServer = require('./tools/createServer');
+var createServer = require('./helpers/createServer');
 var listeners = require('./listeners');
-var findHostsAndRewrite = require('./tools/findHostsAndRewrite');
-var createPacFile = require('./tools/createPacFile');
+var findHostsAndRewrite = require('./helpers/findHostsAndRewrite');
+var createPacFile = require('./helpers/createPacFile');
 
 // global.log = log;
 

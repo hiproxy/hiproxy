@@ -5,8 +5,8 @@
 
 var url = require('url');
 
-var execCommand = require('./execCommand');
-// var replaceVar = require('../tools/replaceVar');
+var execCommand = require('../commands/execCommand');
+// var replaceVar = require('../rewrite/replaceVar');
 
 /**
  * 获取代理信息, 用于请求代理的地址

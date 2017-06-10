@@ -1,7 +1,7 @@
 var assert = require('assert');
 var path = require('path');
 
-var findHostsAndRewrite = require('../../src/tools/findHostsAndRewrite');
+var findHostsAndRewrite = require('../../src/helpers/findHostsAndRewrite');
 
 describe('#findHostsAndRewrite', function () {
   it('should has error when dir is not right', function (done) {

@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var replaceVar = require('../../src/tools/replaceVar');
+var replaceVar = require('../../src/helpers/replaceVar');
 
 describe('#replaceVar', function () {
   var _global = {

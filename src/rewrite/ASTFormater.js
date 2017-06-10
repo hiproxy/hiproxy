@@ -4,8 +4,8 @@
  */
 
 var commandFuncs = require('../commands/index');
-var replaceVar = require('../tools/replaceVar');
 var scopeCmds = require('../commands/scope');
+var replaceVar = require('./replaceVar');
 
 module.exports = function formatAST (ASTTree) {
   var res = {

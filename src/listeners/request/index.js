@@ -5,7 +5,7 @@ var homedir = require('os-homedir');
 
 var aliasWorker = require('./alias');
 var requestWorker = require('./request');
-var getProxyInfo = require('../../tools/getProxyInfo');
+var getProxyInfo = require('../../helpers/getProxyInfo');
 
 module.exports = function requestHandler (request, response) {
   var _url = request.url.split('?')[0];
