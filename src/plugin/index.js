@@ -77,7 +77,7 @@ module.exports = {
         var routes = plugin.routes;
         routers.addRoute(routes);
       } catch (err) {
-        console.error('Plugin', plugin, 'load error: ', err.message);
+        console.error('Plugin', plugin, 'load error: ', pluginFile, err.message);
         // log.detail(err);
       }
     });
