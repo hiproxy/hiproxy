@@ -37,7 +37,7 @@ module.exports = {
           });
         }
 
-        console.log('Found', plugins.length, 'plugins', plugins);
+        // console.log('Found', plugins.length, 'plugins', plugins);
 
         if (plugins.length > 0) {
           resolve(plugins);
@@ -57,8 +57,8 @@ module.exports = {
       try {
         var plugin = require(pluginFile);
 
-        console.log('Plugin file:', pluginFile);
-        console.log('Plugin info:', plugin);
+        // console.log('Plugin file:', pluginFile);
+        // console.log('Plugin info:', plugin);
 
         // 添加Commands
         var commands = plugin.commands || [];
