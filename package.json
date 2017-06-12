@@ -41,7 +41,8 @@
     "hemsl": "^1.0.9",
     "op-browser": "^1.0.1",
     "os-homedir": "^1.0.2",
-    "simple-mime": "^0.1.0"
+    "simple-mime": "^0.1.0",
+    "url-pattern": "^1.0.3"
   },
   "devDependencies": {
     "codecov": "^2.1.0",

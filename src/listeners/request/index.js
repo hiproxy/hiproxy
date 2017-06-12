@@ -28,7 +28,7 @@ module.exports = function requestHandler (request, response) {
   var render = hiproxyRouter.getRender(_url);
 
   if (render) {
-    render.call(this, _url, request, response);
+    render.call(this, request, response);
     return;
   }
 

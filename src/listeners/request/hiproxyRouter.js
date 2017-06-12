@@ -10,6 +10,7 @@ var path = require('path');
 var url = require('url');
 var fs = require('fs');
 var homedir = require('os-homedir');
+var Pattern = require('url-pattern');
 
 // hiproxy system pages
 var hiproxyPageRoutes = [
@@ -28,15 +29,15 @@ module.exports = {
   /**
    * 渲染hiproxy页面
    *·
-   * @param {String} route url
    * @param {http.IncomingMessage} request 请求对象
    * @param {http.ServerResponse}  response 响应对象
    */
-  render: function (route, request, response) {
+  render: function (request, response) {
     var urlObj = url.parse(request.url);
     var query = urlObj.query;
+    var pathname = urlObj.pathname;
 
-    if (route === '/') {
+    if (pathname === '/') {
       var pacURL = 'http://127.0.0.1:' + this.httpPort + '/proxy.pac';
       var localIP = this.localIP;
       var httpPort = this.httpPort;
@@ -59,7 +60,7 @@ module.exports = {
       // response.write('<h1>hiproxy server</h1>');
       response.write(message.join('\n'));
       response.end();
-    } else if (route === '/proxy.pac') {
+    } else if (pathname === '/proxy.pac') {
       var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
 
       fs.readFile(pacFilePath, 'utf-8', function (err, str) {
@@ -74,7 +75,7 @@ module.exports = {
           response.end(str);
         }
       });
-    } else if (route === '/favicon.ico') {
+    } else if (pathname === '/favicon.ico') {
       response.end('');
     }
   },
@@ -82,11 +83,10 @@ module.exports = {
   /**
    * 渲染hiproxy api页面
    *
-   * @param {String} route url
    * @param {http.IncomingMessage} request 请求对象
    * @param {http.ServerResponse}  response 响应对象
    */
-  api: function (route, request, response) {
+  api: function (request, response) {
     var urlObj = url.parse(request.url);
     var query = querystring.parse(urlObj.query);
     var action = query.action;
@@ -148,6 +148,8 @@ module.exports = {
 
     var routes = Object.keys(customPluginRoutes);
     var currRouteStr = null;
+    var pattern = null;
+    var matchResult = null;
 
     routes.sort(function (a, b) {
       return b.split('/').length - a.split('.').length;
@@ -155,17 +157,27 @@ module.exports = {
 
     for (var i = 0, len = routes.length; i < len; i++) {
       currRouteStr = routes[i];
-      if (!/\/$/.test(currRouteStr)) {
-        // 定义的route是文件，完全相等才匹配
-        if (route === currRouteStr) {
-          return customPluginRoutes[currRouteStr];
-        }
-      } else {
-        // 定义的route是目录，并且请求的url以这个route开始
-        if (route.indexOf(currRouteStr) === 0) {
-          return customPluginRoutes[currRouteStr];
-        }
+
+      pattern = new Pattern(currRouteStr);
+      matchResult = pattern.match(route);
+
+      if (matchResult) {
+        return function (req, res) {
+          return customPluginRoutes[currRouteStr](matchResult, req, res);
+        };
       }
+
+      // if (!/\/$/.test(currRouteStr)) {
+      //   // 定义的route是文件，完全相等才匹配
+      //   if (route === currRouteStr) {
+      //     return customPluginRoutes[currRouteStr];
+      //   }
+      // } else {
+      //   // 定义的route是目录，并且请求的url以这个route开始
+      //   if (route.indexOf(currRouteStr) === 0) {
+      //     return customPluginRoutes[currRouteStr];
+      //   }
+      // }
     }
   }
 };
