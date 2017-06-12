@@ -146,8 +146,26 @@ module.exports = {
       return this.api;
     }
 
-    if (route in customPluginRoutes) {
-      return customPluginRoutes[route];
+    var routes = Object.keys(customPluginRoutes);
+    var currRouteStr = null;
+
+    routes.sort(function (a, b) {
+      return b.split('/').length - a.split('.').length;
+    });
+
+    for (var i = 0, len = routes.length; i < len; i++) {
+      currRouteStr = routes[i];
+      if (!/\/$/.test(currRouteStr)) {
+        // 定义的route是文件，完全相等才匹配
+        if (route === currRouteStr) {
+          return customPluginRoutes[currRouteStr];
+        }
+      } else {
+        // 定义的route是目录，并且请求的url以这个route开始
+        if (route.indexOf(currRouteStr) === 0) {
+          return customPluginRoutes[currRouteStr];
+        }
+      }
     }
   }
 };

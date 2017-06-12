@@ -8,6 +8,7 @@ var homedir = require('os-homedir');
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
+var pluginManager = require('../src/plugin');
 
 // var directives = require('../src/commands');
 // var routers = require('../src/listeners/request/hiproxyRouter');
@@ -50,7 +51,16 @@ var _args = new Args();
 // routers.addRoute(routes);
 /* ===================================== */
 
-_args
+pluginManager.getInstalledPlugins().then(function (plugins) {
+  pluginManager.loadPlugins(plugins, _args);
+  run();
+}).catch(function (err) {
+  console.log('error:', err);
+  run();
+});
+
+function run () {
+  _args
     .version(packageInfo.version)
     .bin('hiproxy')
     // .option('debug', {
@@ -79,46 +89,47 @@ _args
       describe: '过滤日志内容，只有保护过滤字符串的日志才会显示'
     });
 
-// 解析参数，但是不执行命令
-global.args = _args.parse(false);
+  // 解析参数，但是不执行命令
+  global.args = _args.parse(false);
 
-mkdirp(hiproxyDir);
+  mkdirp(hiproxyDir);
 
-if (!global.args.__error__) {
-  if (global.args.daemon && !process.env.__daemon) {
-    // 如果指定后台运行模块，并且不是child进程，启动child进程
-    var spawn = require('child_process').spawn;
-    var logsDir = global.args.logDir || path.join(hiproxyDir, 'logs');
+  if (!global.args.__error__) {
+    if (global.args.daemon && !process.env.__daemon) {
+      // 如果指定后台运行模块，并且不是child进程，启动child进程
+      var spawn = require('child_process').spawn;
+      var logsDir = global.args.logDir || path.join(hiproxyDir, 'logs');
 
-    mkdirp(logsDir);
+      mkdirp(logsDir);
 
-    var env = process.env;
-    var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
-    var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
+      var env = process.env;
+      var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
+      var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
 
-    env.__daemon = true;
+      env.__daemon = true;
 
-    const child = spawn('node', [__filename].concat(process.argv.slice(2)), {
-      env: env,
-      detached: true,
-      stdio: ['ignore', out, err]
-    });
+      const child = spawn('node', [__filename].concat(process.argv.slice(2)), {
+        env: env,
+        detached: true,
+        stdio: ['ignore', out, err]
+      });
 
-    child.unref();
-  } else {
-    // console.log('exe');
-    // 没有指定后台运行，或者是child进程
-    _args.execute();
-  }
+      child.unref();
+    } else {
+      // console.log('exe');
+      // 没有指定后台运行，或者是child进程
+      _args.execute();
+    }
 
-  if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
-    showImage([
-      '',
-      '',
-      '   Welcome to use hiproxy'.bold,
-      '   Current version is ' + packageInfo.version.bold.green,
-      '   Try `' + 'hiproxy --help'.underline + '` for more info'
-    ]);
+    if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
+      showImage([
+        '',
+        '',
+        '   Welcome to use hiproxy'.bold,
+        '   Current version is ' + packageInfo.version.bold.green,
+        '   Try `' + 'hiproxy --help'.underline + '` for more info'
+      ]);
+    }
   }
 }
 
