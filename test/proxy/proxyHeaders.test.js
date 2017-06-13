@@ -26,6 +26,7 @@ describe('#proxy headers', function () {
         uri: 'http://test.example.com/',
         proxy: 'http://127.0.0.1:9001',
         json: true,
+        gzip: true,
         headers: {
           'set-cookie': ['a=1', 'b=2', 'c=3']
         }
@@ -34,6 +35,8 @@ describe('#proxy headers', function () {
           return done(err);
         }
         var headers = body.headers;
+
+        console.log('test.example.com', response.headers, body);
 
         assert.equal(headers.host, 'test.example.com');
         assert.equal(headers.proxy_app, 'hiproxy');
@@ -52,6 +55,7 @@ describe('#proxy headers', function () {
         uri: 'http://test.example.com/',
         proxy: 'http://127.0.0.1:9001',
         json: true,
+        gzip: true,
         headers: {
           'A': 'aa',
           'B': 'bb',

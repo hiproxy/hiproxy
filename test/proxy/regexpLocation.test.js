@@ -25,6 +25,7 @@ describe('#proxy location regexp', function () {
       request({
         uri: 'http://blog.example.com/api/',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -43,6 +44,7 @@ describe('#proxy location regexp', function () {
       request({
         uri: 'http://blog.example.com/post/1',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -58,6 +60,7 @@ describe('#proxy location regexp', function () {
       request({
         uri: 'http://blog.example.com/post/2016/06',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -73,6 +76,7 @@ describe('#proxy location regexp', function () {
       request({
         uri: 'http://blog.example.com/post/2016/06?sort=hits&limit=10',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {

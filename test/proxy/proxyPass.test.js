@@ -27,7 +27,8 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://test.example.com/',
         proxy: 'http://127.0.0.1:9001',
-        json: true
+        json: true,
+        gzip: true
       }, function (err, response, body) {
         if (err) {
           return done(err);
@@ -43,6 +44,7 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://test.example.com/post',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -58,6 +60,7 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://test.example.com/post/2016/06',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -73,6 +76,7 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://test.example.com/post/2016/06?sort=hits&limit=10',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -92,6 +96,7 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://127.0.0.1:9000/just/test/',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
@@ -109,6 +114,7 @@ describe('#proxy pass', function () {
       request({
         uri: 'http://www.example.com:9000/just/test/',
         proxy: 'http://127.0.0.1:9001',
+        gzip: true,
         json: true
       }, function (err, response, body) {
         if (err) {
