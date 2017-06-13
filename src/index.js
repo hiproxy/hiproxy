@@ -21,10 +21,11 @@ var createPacFile = require('./helpers/createPacFile');
  * hiproxy代理服务器
  * @param {Number} httpPort http代理服务端口号
  * @param {Number} httpsPort https代理服务器端口号
+ * @param {String} dir 指定的工作路径
  * @extends EventEmitter
  * @constructor
  */
-function ProxyServer (httpPort, httpsPort) {
+function ProxyServer (httpPort, httpsPort, dir) {
   EventEmitter.call(this);
 
   this.hosts = new Hosts();
@@ -37,6 +38,8 @@ function ProxyServer (httpPort, httpsPort) {
 
   this.httpsPort = httpsPort;
   this.httpsServer = null;
+
+  this.dir = dir;
 
   global.log = this.logger;
 }
@@ -74,7 +77,7 @@ ProxyServer.prototype = {
 
         setTimeout(function () {
           self._initEvent();
-          self.findConfigFiels();
+          self.findConfigFiels(self.dir);
           self.addConfigFiles(config);
         }, 0);
 

@@ -54,8 +54,8 @@ var _args = new Args();
 pluginManager.getInstalledPlugins().then(function (plugins) {
   pluginManager.loadPlugins(plugins, _args);
   run();
-}).catch(function (err) {
-  console.log('error:', err);
+}).catch(function () {
+  // console.log('error:', err);
   run();
 });
 
@@ -87,6 +87,9 @@ function run () {
     })
     .option('grep <content>', {
       describe: '过滤日志内容，只有保护过滤字符串的日志才会显示'
+    })
+    .option('workspace <dir>', {
+      describe: '指定工作路径'
     });
 
   // 解析参数，但是不执行命令

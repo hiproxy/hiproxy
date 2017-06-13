@@ -46,6 +46,10 @@ module.exports = {
     'hosts-file <files>': {
       alias: 'c',
       describe: 'hosts文件，多个文件使用`,`分割'
+    },
+    'workspace <dir>': {
+      alias: 'w',
+      describe: '指定工作路径'
     }
   }
 };
@@ -56,7 +60,9 @@ function startServer () {
   var https = cliArgs.https;
   var port = cliArgs.port || 5525;
   var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
-  var proxy = new Proxy(port, httpsPort);
+
+  var workspace = cliArgs.workspace || process.cwd();
+  var proxy = new Proxy(port, httpsPort, workspace);
 
   global.hiproxyServer = proxy;
 
@@ -135,14 +141,15 @@ function showLog (level, msg) {
 function showStartedMessage (servers) {
   var proxyAddr = servers[0].address();
   var httpsAddr = servers[1] && servers[1].address();
+  var workspace = global.args.workspace || process.cwd();
 
   return getLocalIP().then(function (ip) {
     showImage([
       '',
-      '',
       '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
       '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
       '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+      '    Workspace at: '.bold.blue + workspace.underline,
       ''
     ]);
   });

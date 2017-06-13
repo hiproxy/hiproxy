@@ -41,4 +41,7 @@ jspm_packages
 
 # IDE
 .idea
-.vscode
+.vscode.vscode
+
+# yarn
+yarn.lock
