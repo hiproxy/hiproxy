@@ -1,6 +1,6 @@
 # hiproxy
 
-![hiproxy](https://avatars0.githubusercontent.com/u/29273417?v=3&s=200)
+<img src="https://avatars0.githubusercontent.com/u/29273417?v=3&amp;s=200" alt="hiproxy" style="width: 120px;">
 
 hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support.
 
