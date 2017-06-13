@@ -54,8 +54,8 @@ var _args = new Args();
 pluginManager.getInstalledPlugins().then(function (plugins) {
   pluginManager.loadPlugins(plugins, _args);
   run();
-}).catch(function (err) {
-  console.log('error:', err);
+}).catch(function () {
+  // console.log('error:', err);
   run();
 });
 
