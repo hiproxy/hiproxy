@@ -75,10 +75,7 @@ module.exports = {
         /* istanbul ignore next */
         unzipStream.on('error', function (err) {
           log.error('error ==>', err);
-          response.end(err.stack);
         });
-
-        res.pipe(unzipStream).pipe(response);
       } else {
         res.on('data', function (chunk) {
           /**
@@ -89,8 +86,9 @@ module.exports = {
           self.emit('data', chunk);
           // console.log('ondata =>', chunk.toString())
         });
-        res.pipe(response);
       }
+
+      res.pipe(response);
 
       res.on('end', function () {
         request.res = res;
