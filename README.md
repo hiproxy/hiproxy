@@ -1,5 +1,7 @@
 # hiproxy
 
+![hiproxy](https://github.com/hiproxy/hiproxy/raw/master/logo.svg)
+
 hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support.
 
 [![Build Status](https://travis-ci.org/hiproxy/hiproxy.svg?branch=master)](https://travis-ci.org/hiproxy/hiproxy)
