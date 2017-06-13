@@ -42,6 +42,7 @@ module.exports = {
       var localIP = this.localIP;
       var httpPort = this.httpPort;
       var httpsPort = this.httpsPort;
+      var dir = this.dir;
       var message = [
         '<pre>',
         ' _     <span class="red">_</span>  ',
@@ -49,7 +50,7 @@ module.exports = {
         '| |__  _    <span class="label">Proxy address:</span> ' + localIP + ':' + httpPort,
         '| \'_ \\| |   <span class="label">Https address:</span> ' + (httpsPort ? localIP + ':' + httpsPort : 'disabled'),
         '| | | | |   <span class="label">Proxy file at:</span> <a href="' + pacURL + '?type=view">' + pacURL + '</a>',
-        '|_| |_|_| ',
+        '|_| |_|_|   <span class="label">Workspace at: </span> ' + dir,
         '</pre>'
       ];
 
