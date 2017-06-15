@@ -1,5 +1,5 @@
 # Contributing
-We are open to, and grateful for, any of your contributions.  By contributing to HiProxy, you agree to abide by the [code of conduct](https://github.com/reactjs/react-redux/blob/master/CODE_OF_CONDUCT.md).
+We are open to, and grateful for, any of your contributions.  By contributing to HiProxy, you agree to abide by the [code of conduct](https://github.com/hiproxy/hiproxy/blob/master/CODE_OF_CONDUCT.md).
 
 ## Reporting Issues and Asking Questions
 Before opening an issue, please search the [issue tracker](https://github.com/hiproxy/hiproxy/issues) to make sure your issue hasn't already been reported.
