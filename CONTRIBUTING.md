@@ -4,12 +4,18 @@ We are open to, and grateful for, any of your contributions.  By contributing to
 ## Reporting Issues and Asking Questions
 Before opening an issue, please search the [issue tracker](https://github.com/hiproxy/hiproxy/issues) to make sure your issue hasn't already been reported.
 
-### New Features
-
+## New Features
 Please open an issue with a proposal for a new feature or refactoring before starting on the work. We don't want you to waste your efforts on a pull request that we won't want to accept.
 
+## Contribution Content
+Hiproxy is currently under development, you can choose the following content to contribute:
 
-## Steps for contributing
+1. Features: add new features for hiproxy, such as new commands, directives and new pages.
+2. Documentation: At present, hiproxy's documentation is not perfect, you can first understand the use of hiproxy, and then write the usage documentation or technical documentation.
+3. Test: At present, hiproxy's test case is not perfect, there are many test cases missing, you can first understand the use scenes of hiproxy, and then write the test.
+4. Website: hiproxy currently does not have its own domain name and website, you can help hiproxy design or develop a website.
+
+## Steps for Contributing
 1. [Create an issue](https://github.com/hiproxy/hiproxy/issues/new) for the bug you want to fix or the feature that you want to add.
 2. Create your own [fork](https://github.com/hiproxy/hiproxy) on github, then checkout your fork.
 3. Write your code in your local copy. It's good practice to create a branch based off the `master` branch for each new issue you work on, although not compulsory.
