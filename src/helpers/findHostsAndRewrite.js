@@ -4,6 +4,7 @@
  */
 
 var fs = require('fs');
+var path = require('path');
 
 module.exports = function findHostsAndRewrite (dir, callback) {
   var cwd = dir || process.cwd();
@@ -20,7 +21,7 @@ module.exports = function findHostsAndRewrite (dir, callback) {
     }
 
     files.forEach(function (file) {
-      var curr = cwd + '/' + file;
+      var curr = path.join(cwd, file);
       var hostPath, rewritePath;
 
       if (file.indexOf('.') === 0) {
@@ -28,8 +29,8 @@ module.exports = function findHostsAndRewrite (dir, callback) {
       }
 
       if (fs.statSync(curr).isDirectory()) {
-        hostPath = curr + '/hosts';
-        rewritePath = curr + '/rewrite';
+        hostPath = path.join(curr, 'hosts');
+        rewritePath = path.join(curr, 'rewrite');
 
         try {
           if (fs.statSync(hostPath).isFile()) {
