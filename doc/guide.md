@@ -18,7 +18,7 @@ hiproxy会在当前工作空间下查找所有项目中的hosts文件和rewrite�
 npm install hiproxy -g
 ```
 
-也可以使用`yarn`来安装：
+也可以使用`yarn`来安装：
 
 ```bash
 yarn global add hiproxy
