@@ -24,12 +24,12 @@ npm install hiproxy -g
 yarn global add hiproxy
 ```
 
-如果要体验最新的功能（可能不稳定），你也可以直接从github源码安装：
+如果要体验最新的功能（可能不稳定），你也可以直接从github源码安装：
 ```bash
 npm install -g hiproxy/hiproxy
 ```
 
-### Clone示例项目
+### Clone示例项目
 
 我们已经写好了三个简单的项目，你只需要把她克隆到本地，直接启动服务就好了。
 
@@ -37,7 +37,7 @@ npm install -g hiproxy/hiproxy
 # 克隆源码
 git blone https://github.com/hiproxy/hiproxy-example.git
 
-# 进入源码根目录
+# 进入源码根目录
 cd hiproxy-example
 
 # 安装依赖
@@ -86,7 +86,7 @@ npm install
 127.0.0.1:8002 news.example.com
 ```
 
-在blog-app中，还有一个`rewrite`文件，内容如下：
+在blog-app中，还有一个`rewrite`文件，内容如下：
 
 ```bash
 # rewrite rules
@@ -112,13 +112,13 @@ domain blog.example.io {
 
 在示例项目根目录执行`npm start`。
 
-然后进入workpace目录，启动hiproxy服务：
+然后进入workpace目录，启动hiproxy服务：
 
 ```bash
 hiproxy start --open --port 8008 --pac-proxy
 ```
 
-执行上面的命令之后，hiproxy会在当前工作空间`workspace`中，查找所有项目（`main-app`/`blog-app`/`news-app`）的hosts文件和rewrite文件，解析里面配置的信息。监听到新请求之后，根据这里面配置的规则转发请求或者返回本地文件。
+执行上面的命令之后，hiproxy会在当前工作空间`workspace`中，查找所有项目（`main-app`/`blog-app`/`news-app`）的hosts文件和rewrite文件，解析里面配置的信息。监听到新请求之后，根据这里面配置的规则转发请求或者返回本地文件。
 
 然后hiproxy自动打开一个浏览器窗口，并配置好代理。
 
