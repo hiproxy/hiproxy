@@ -2,7 +2,10 @@
 
 <img src="https://avatars0.githubusercontent.com/u/29273417?v=3" alt="hiproxy" width="120" height="120">
 
-hiproxy is a lightweight Node.js proxy client with hosts and nginx-like config support.
+
+hiproxy is a lightweight web proxy tool based on Node.js. The main purpose is to solve the problem of *host management* and *reverse proxy* encountered by multiple developers during the development process. So that in the development, no longer need to modify the system hosts and start a Nginx service. Hiproxy extends the syntax of hosts to support port numbers. In addition, hiproxy also supports the configuration of proxies through a syntax similar to the nginx configuration file.
+
+hiproxy是一个基于Node.js开发的轻量级网络代理工具，主要目的是为了解决多个开发者在开发过程中遇到的hosts管理和反向代理的问题。使得在开发时，不再需要修改系统hosts和启动一个Nginx服务。hiproxy扩展了hosts的语法，支持端口号。此外，hiproxy还支持通过类似于nginx配置文件的语法来配置代理。
 
 [![Build Status](https://travis-ci.org/hiproxy/hiproxy.svg?branch=master)](https://travis-ci.org/hiproxy/hiproxy)
 [![codecov](https://codecov.io/gh/hiproxy/hiproxy/branch/master/graph/badge.svg)](https://codecov.io/gh/hiproxy/hiproxy)
@@ -88,6 +91,7 @@ Options:
 
 * [Usage Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
 * [API documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
+* [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/plugin_guide.md)
 * [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_config.md)
 * [Rewrite directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
 * [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
