@@ -40,7 +40,9 @@ module.exports = {
       return {
         privateKey: privateKey,
         publicKey: certificate.publicKey,
-        certificate: certificate
+        certificate: certificate,
+        certificatePem: crtContent,
+        privateKeyPem: keyContent
       };
     } else {
       log.debug('create new CA certificate, CA name:', CAName);

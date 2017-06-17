@@ -151,8 +151,8 @@ function showStartedMessage (servers) {
       '    Proxy address: '.bold.green + (ip + ':' + proxyAddr.port).underline,
       '    Https address: '.bold.magenta + (httpsAddr ? (ip + ':' + httpsAddr.port).underline : 'disabled'),
       '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-      '    Workspace at:  '.bold.blue + workspace.underline,
-      ''
+      '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
+      '    Workspace at : '.bold.blue + workspace.underline
     ]);
   });
 }

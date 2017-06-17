@@ -16,6 +16,7 @@ var Pattern = require('url-pattern');
 var hiproxyPageRoutes = [
   '/',
   '/proxy.pac',
+  '/ssl-certificate',
   '/favicon.ico'
 ];
 // hiproxy api pages
@@ -38,7 +39,7 @@ module.exports = {
     var pathname = urlObj.pathname;
 
     if (pathname === '/') {
-      var pacURL = 'http://127.0.0.1:' + this.httpPort + '/proxy.pac';
+      var rootURL = 'http://127.0.0.1:' + this.httpPort;
       var localIP = this.localIP;
       var httpPort = this.httpPort;
       var httpsPort = this.httpsPort;
@@ -46,11 +47,11 @@ module.exports = {
       var message = [
         '<pre>',
         ' _     <span class="red">_</span>  ',
-        '| |   <span class="red">(_)</span> ',
-        '| |__  _    <span class="label">Proxy address:</span> ' + localIP + ':' + httpPort,
-        '| \'_ \\| |   <span class="label">Https address:</span> ' + (httpsPort ? localIP + ':' + httpsPort : 'disabled'),
-        '| | | | |   <span class="label">Proxy file at:</span> <a href="' + pacURL + '?type=view">' + pacURL + '</a>',
-        '|_| |_|_|   <span class="label">Workspace at: </span> ' + dir,
+        '| |   <span class="red">(_)</span>   <span class="label">Proxy address:</span> ' + localIP + ':' + httpPort,
+        '| |__  _    <span class="label">Https address:</span> ' + (httpsPort ? localIP + ':' + httpsPort : 'disabled'),
+        '| \'_ \\| |   <span class="label">Proxy file at:</span> <a href="' + rootURL + '/proxy.pac?type=view">' + rootURL + '/proxy.pac</a>',
+        '| | | | |   <span class="label">SSL/TLS cert :</span> <a href="' + rootURL + '/ssl-certificate">' + rootURL + '/ssl-certificate</a>',
+        '|_| |_|_|   <span class="label">Workspace at : </span> ' + dir,
         '</pre>'
       ];
 
@@ -78,6 +79,18 @@ module.exports = {
       });
     } else if (pathname === '/favicon.ico') {
       response.end('');
+    } else if (pathname === '/ssl-certificate') {
+      var certTool = require('../../cert');
+      var cert = certTool.getCACertificate();
+      var content = cert.certificatePem;
+
+      response.writeHead(200, {
+        'Content-Disposition': 'attachment; filename="Hiproxy_Custom_CA_Certificate.pem"',
+        'Content-Type': 'application/force-download',
+        'Content-Transfer-Encoding': 'binary',
+        'Content-Length': content.length
+      });
+      response.end(content);
     }
   },
 
