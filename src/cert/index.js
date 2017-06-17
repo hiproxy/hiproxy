@@ -103,7 +103,7 @@ module.exports = {
     cert.validity.notAfter.setDate(cert.validity.notBefore.getDate() + days);
 
     cert.setSubject(attributes);
-    cert.setIssuer(caCert.certificate.subject.attributes || attributes);
+    cert.setIssuer(caCert ? caCert.certificate.subject.attributes : attributes);
     cert.setExtensions(extensions);
 
     // sign certificate
