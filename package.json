@@ -39,6 +39,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "hemsl": "^1.0.9",
+    "node-forge": "^0.7.1",
     "op-browser": "^1.0.1",
     "os-homedir": "^1.0.2",
     "simple-mime": "^0.1.0",

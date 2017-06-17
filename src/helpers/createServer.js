@@ -1,3 +1,5 @@
+var certTool = require('../cert');
+
 module.exports = {
   create: function (port, isSSL, rewrite) {
     return isSSL ? this._createHTTPSServer(port, rewrite) : this._createHTTPServer(port, rewrite);
@@ -21,6 +23,7 @@ module.exports = {
     var path = require('path');
     var fs = require('fs');
     var tls = require('tls');
+    var self = this;
 
     var defaultCert = {
       key: path.resolve(__dirname, '../../ssl/cert/localhost.key'),
@@ -35,16 +38,31 @@ module.exports = {
         var certObj = domainRewriteRule.length > 0 && domainRewriteRule[0].props;
 
         if (certObj && certObj.sslCertificateKey && certObj.sslCertificate) {
+          // 如果配置了证书，使用配置的证书
+          // TODO 缓存证书内容，避免每次都去读取
           cb(null, tls.createSecureContext({
             key: fs.readFileSync(certObj.sslCertificateKey),
             cert: fs.readFileSync(certObj.sslCertificate)
           }));
           log.debug('SNI callback [', domain.bold.green, ']:', JSON.stringify(certObj));
         } else {
-          cb(null, tls.createSecureContext({
-            key: fs.readFileSync(defaultCert.key),
-            cert: fs.readFileSync(defaultCert.cert)
-          }));
+          // 如果没有配置证书，自动生成证书
+          self._getCertInfoByHostsName(domain, function (err, certInfo) {
+            if (err) {
+              log.debug('the original certificate info for `' + domain + '`', certInfo);
+            } else {
+              log.debug('get the original certificate info for `' + domain + '` failed', err);
+            }
+
+            var cert = certTool.createCertificate(domain, null, certInfo);
+
+            log.debug('new certificate for `' + domain + '` has been created');
+
+            cb(null, tls.createSecureContext({
+              key: cert.privateKey, // fs.readFileSync(defaultCert.key),
+              cert: cert.certificate // fs.readFileSync(defaultCert.cert)
+            }));
+          });
           log.warn('No keys/certificates for domain requested:', domain.bold.yellow);
         }
       }
@@ -61,5 +79,27 @@ module.exports = {
           reject(err);
         });
     });
+  },
+
+  /**
+   * 获取线上证书的信息
+   */
+  _getCertInfoByHostsName: function (hostname, callback) {
+    var https = require('https');
+    var options = {
+      host: hostname,
+      port: 443,
+      method: 'GET'
+    };
+
+    var req = https.request(options, function (res) {
+      callback(null, res.connection.getPeerCertificate(true));
+    });
+
+    req.on('error', function (err) {
+      callback(err, null);
+    });
+
+    req.end();
   }
 };
