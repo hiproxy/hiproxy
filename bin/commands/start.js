@@ -64,6 +64,8 @@ function startServer () {
   var workspace = cliArgs.workspace || process.cwd();
   var proxy = new Proxy(port, httpsPort, workspace);
 
+  process.stdout.write('\u001B[2J\u001B[0;0f');
+
   global.hiproxyServer = proxy;
 
   // log format

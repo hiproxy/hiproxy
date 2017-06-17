@@ -74,7 +74,7 @@ module.exports = {
 
     var extensions = options.extensions || [
       {name: 'basicConstraints', cA: isCa}
-    ].concat(defaultFields.attributes);
+    ]; // .concat(defaultFields.extensions);
 
     if (!isCa) {
       extensions.push({
@@ -110,19 +110,26 @@ module.exports = {
     cert.sign((caCert || keys).privateKey, forge.md.sha256.create());
 
     // PEM-format keys and cert
-    var pem = {
-      privateKey: forge.pki.privateKeyToPem(keys.privateKey),
-      publicKey: forge.pki.publicKeyToPem(keys.publicKey),
-      certificate: forge.pki.certificateToPem(cert)
-    };
+    // var pem = {
+    //   privateKey: pki.privateKeyToPem(keys.privateKey),
+    //   publicKey: pki.publicKeyToPem(keys.publicKey),
+    //   certificate: pki.certificateToPem(cert)
+    // };
 
     var certDir = path.join(homedir(), '.hiproxy', 'cert');
     mkdirp(certDir);
     var fileName = domain.replace(/\s+/g, '_');
-    writeFile(fileName + '.key', certDir, pem.privateKey);
-    writeFile(fileName + '.pem', certDir, pem.certificate);
+    writeFile(fileName + '.key', certDir, pki.privateKeyToPem(keys.privateKey));
+    writeFile(fileName + '.pem', certDir, pki.certificateToPem(cert));
 
-    return pem;
+    return {
+      privateKey: keys.privateKey,
+      publicKey: keys.publicKey,
+      certificate: cert,
+      privateKeyPem: pki.privateKeyToPem(keys.privateKey),
+      publicKeyPem: pki.publicKeyToPem(keys.publicKey),
+      certificatePem: pki.certificateToPem(cert)
+    };
   }
 };
 

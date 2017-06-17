@@ -59,8 +59,8 @@ module.exports = {
             log.debug('new certificate for `' + domain + '` has been created');
 
             cb(null, tls.createSecureContext({
-              key: cert.privateKey, // fs.readFileSync(defaultCert.key),
-              cert: cert.certificate // fs.readFileSync(defaultCert.cert)
+              key: cert.privateKeyPem, // fs.readFileSync(defaultCert.key),
+              cert: cert.certificatePem // fs.readFileSync(defaultCert.cert)
             }));
           });
           log.warn('No keys/certificates for domain requested:', domain.bold.yellow);
