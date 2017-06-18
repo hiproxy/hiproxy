@@ -169,7 +169,7 @@ describe('#proxy pass', function () {
           return done(err);
         }
 
-        console.log(body);
+        // console.log(body);
 
         assert.equal(response.statusCode, 200);
         assert.equal(body, 'the man in the middle page: /');

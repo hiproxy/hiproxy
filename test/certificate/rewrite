@@ -1,0 +1,6 @@
+domain example.io {
+  location / {
+    alias ./;
+    root rewrite;
+  }
+}

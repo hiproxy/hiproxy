@@ -36,7 +36,7 @@ describe('#proxy headers', function () {
         }
         var headers = body.headers;
 
-        console.log('test.example.com', response.headers, body);
+        // console.log('test.example.com', response.headers, body);
 
         assert.equal(headers.host, 'test.example.com');
         assert.equal(headers.proxy_app, 'hiproxy');
