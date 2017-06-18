@@ -6,7 +6,8 @@
 var url = require('url');
 
 var execCommand = require('../commands/execCommand');
-// var replaceVar = require('../rewrite/replaceVar');
+var replaceVar = require('../rewrite/replaceVar');
+var clone = require('../helpers/utils').clone;
 
 /**
  * 获取代理信息, 用于请求代理的地址
@@ -59,6 +60,12 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // };
     //
     // proxy = replaceVar(proxy, varSource);
+
+    // 根据请求信息，设置全局变量
+    setGlobalVars(rewrite, request);
+    // 再次替换变量的值
+    replaceVar(rewrite.props, rewrite);
+    replaceFuncVar(rewrite.commands, rewrite);
 
     // 将原本url中的部分替换为代理地址
     if (rewrite.source.indexOf('~') === 0) {
@@ -220,7 +227,14 @@ function getRewriteRule (urlObj, rewriteRules) {
 
   log.debug('getProxyInfo -', href, '==>', JSON.stringify(rewriteRule));
 
-  return rewriteRule;
+  // 首先删除parent，防止clone的时候循环引用
+  var oldP = rewriteRule.parent;
+  rewriteRule.parent = null;
+
+  var newRule = clone(rewriteRule);
+  newRule.parent = oldP;
+
+  return newRule;
 }
 
 function toRegExp (str, flags) {
@@ -229,4 +243,46 @@ function toRegExp (str, flags) {
   var arr = str.split(' O_o ');
 
   return new RegExp(arr[0], flags === undefined ? arr[2] : flags);
+}
+
+// TODO 优化重复代码
+function replaceFuncVar (funcs, source) {
+  funcs.forEach(function (fun) {
+    var params = fun.params;
+    var name = fun.name;
+
+    if (name === 'set') {
+      // 如果是 set 命令, 不替换第一个参数
+      fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), source));
+    } else {
+      fun.params = replaceVar(fun.params, source);
+    }
+
+    // console.log('替换function参数:', name, fun.params);
+  });
+
+  return funcs;
+}
+
+function setGlobalVars (rewrite, request) {
+  var props = rewrite.props;
+  var urlObj = url.parse(request.url);
+  var headers = request.headers;
+
+  var vars = {
+    $host: urlObj.host,
+    $hostname: urlObj.hostname,
+    $search: urlObj.search,
+    $query_string: urlObj.query,
+    $port: urlObj.port,
+    $path: urlObj.path,
+    $scheme: urlObj.protocol.replace(':', ''),
+    $request_uri: urlObj.href,
+    $http_user_agent: headers['user-agent'],
+    $http_cookie: headers.cookie
+  };
+
+  for (var key in vars) {
+    props[key] = vars[key];
+  }
 }

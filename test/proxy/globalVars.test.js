@@ -1,0 +1,50 @@
+var assert = require('assert');
+var request = require('request');
+var path = require('path');
+
+var Proxy = require('../../src/index');
+var testServer = require('../testServer');
+
+describe('#global vars', function () {
+  var proxyServer;
+  before(function () {
+    testServer.listen(9000);
+
+    proxyServer = new Proxy(9001);
+    proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'global_var.rewrite'));
+    proxyServer.start();
+  });
+
+  after(function () {
+    testServer.close();
+    proxyServer.stop();
+  });
+
+  describe('#base: ~ /api/ => /test/api/', function () {
+    it('should replace global variable rightly', function (done) {
+      request({
+        uri: 'http://blog.example.com/api/?action=list&id=123',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true,
+        headers: {
+          'User-Agent': 'hiproxy tester',
+          'Cookie': 'userId=26C9D-083DAE-82843-23-3DA13B23; uname=orzg;'
+        }
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        var headers = response.headers;
+
+        assert.equal(headers.host, 'blog.example.com');
+        assert.equal(headers.port, 9000);
+        assert.equal(headers['query-string'], 'action=list&id=123');
+        assert.equal(headers.scheme, 'http');
+
+        done();
+      });
+    });
+  });
+});

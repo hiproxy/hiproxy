@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var type = require('../helpers/type');
+var type = require('../helpers/utils').type;
 
 /**
  * 替换字符串/对象/数组中的变量

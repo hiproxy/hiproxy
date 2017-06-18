@@ -21,7 +21,7 @@ Logger.prototype = {
     var stdout = level === 'error' ? this.stderr : this.stdout;
 
     /* istanbul ignore if */
-    if (args.logTime) {
+    if (global.args && args.logTime) {
       msg = '[' + new Date().toLocaleTimeString() + '] ' + msg;
     }
 
