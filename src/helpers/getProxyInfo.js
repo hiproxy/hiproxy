@@ -227,12 +227,9 @@ function getRewriteRule (urlObj, rewriteRules) {
 
   log.debug('getProxyInfo -', href, '==>', JSON.stringify(rewriteRule));
 
-  // 首先删除parent，防止clone的时候循环引用
-  var oldP = rewriteRule.parent;
-  rewriteRule.parent = null;
-
-  var newRule = clone(rewriteRule);
-  newRule.parent = oldP;
+  // 不克隆parent，防止clone的时候循环引用
+  var newRule = clone(rewriteRule, ['parent']);
+  newRule.parent = rewriteRule.parent;
 
   return newRule;
 }

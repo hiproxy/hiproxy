@@ -46,5 +46,31 @@ describe('#global vars', function () {
         done();
       });
     });
+
+    it('should replace global variable rightly', function (done) {
+      request({
+        uri: 'http://blog.example.com/api/?action=list&id=456',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true,
+        headers: {
+          'User-Agent': 'hiproxy tester',
+          'Cookie': 'userId=26C9D-083DAE-82843-23-3DA13B23; uname=orzg;'
+        }
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        var headers = response.headers;
+
+        assert.equal(headers.host, 'blog.example.com');
+        assert.equal(headers.port, 9000);
+        assert.equal(headers['query-string'], 'action=list&id=456');
+        assert.equal(headers.scheme, 'http');
+
+        done();
+      });
+    });
   });
 });

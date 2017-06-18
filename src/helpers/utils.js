@@ -8,15 +8,17 @@
 exports.clone = clone;
 exports.type = type;
 
-function clone (obj) {
+function clone (obj, blackList) {
   if (obj == null || typeof obj !== 'object') {
     return obj;
   }
 
   var temp = new obj.constructor();
 
+  blackList = !Array.isArray(blackList) ? [] : blackList;
+
   for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (blackList.indexOf(key) === -1 && obj.hasOwnProperty(key)) {
       temp[key] = clone(obj[key]);
     }
   }
