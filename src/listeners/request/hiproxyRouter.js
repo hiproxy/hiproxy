@@ -78,7 +78,10 @@ module.exports = {
         }
       });
     } else if (pathname === '/favicon.ico') {
-      response.end('');
+      response.writeHead(200, {
+        'Content-Type': 'application/x-ico'
+      });
+      fs.createReadStream(path.join(__dirname, 'favicon.ico')).pipe(response);
     } else if (pathname === '/ssl-certificate') {
       var certTool = require('../../cert');
       var cert = certTool.getCACertificate();
