@@ -66,7 +66,7 @@ describe('#http server', function () {
         }
 
         assert.equal(response.statusCode, 200);
-        assert.equal(body, '');
+        assert.equal(response.headers['content-type'], 'application/x-ico');
         done();
       });
     });
