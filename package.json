@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zdying/hiproxy.git"
+    "url": "git+https://github.com/hiproxy/hiproxy.git"
   },
   "keywords": [
     "nodejs",
@@ -33,9 +33,9 @@
   "author": "zdying",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zdying/hiproxy/issues"
+    "url": "https://github.com/hiproxy/hiproxy/issues"
   },
-  "homepage": "https://github.com/zdying/hiproxy#readme",
+  "homepage": "https://github.com/hiproxy/hiproxy#readme",
   "dependencies": {
     "colors": "^1.1.2",
     "hemsl": "^1.0.9",
