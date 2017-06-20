@@ -7,6 +7,10 @@ domain blog.example.com {
         set_header Port $port;
         set_header Scheme $scheme;
         set_header Query-String $query_string;
+        set_header User-Agent $http_user_agent;
+        set_header Cookie-UserID $cookie_userid;
+        set_header Cookie-Uname $cookie_uname; 
+        set_header Accept-Encoding-Value $http_accept_encoding; 
     }
 
     # location /ssl/ {

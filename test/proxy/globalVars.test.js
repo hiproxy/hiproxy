@@ -47,16 +47,12 @@ describe('#global vars', function () {
       });
     });
 
-    it('should replace global variable rightly', function (done) {
+    it('should replace global variable rightly and has no effect with other request', function (done) {
       request({
         uri: 'http://blog.example.com/api/?action=list&id=456',
         proxy: 'http://127.0.0.1:9001',
         gzip: true,
-        json: true,
-        headers: {
-          'User-Agent': 'hiproxy tester',
-          'Cookie': 'userId=26C9D-083DAE-82843-23-3DA13B23; uname=orzg;'
-        }
+        json: true
       }, function (err, response, body) {
         if (err) {
           return done(err);
@@ -68,6 +64,53 @@ describe('#global vars', function () {
         assert.equal(headers.port, 9000);
         assert.equal(headers['query-string'], 'action=list&id=456');
         assert.equal(headers.scheme, 'http');
+
+        done();
+      });
+    });
+
+    it('should replace global variable rightly - $http_name', function (done) {
+      request({
+        uri: 'http://blog.example.com/api/?action=list&id=789',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true,
+        headers: {
+          'Accept-Encoding': 'gzip',
+          'User-Agent': 'hiproxy tester'
+        }
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        var headers = response.headers;
+
+        assert.equal(headers['user-agent'], 'hiproxy tester');
+        assert.equal(headers['accept-encoding-value'], 'gzip');
+
+        done();
+      });
+    });
+
+    it('should replace global variable rightly - $cookie_name', function (done) {
+      request({
+        uri: 'http://blog.example.com/api/?action=list&id=789',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true,
+        headers: {
+          'Cookie': 'userId=26C9D-083DAE-82843-23-3DA13B23; uname=orzg;'
+        }
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        var headers = response.headers;
+
+        assert.equal(headers['cookie-userid'], '26C9D-083DAE-82843-23-3DA13B23');
+        assert.equal(headers['cookie-uname'], 'orzg');
 
         done();
       });

@@ -7,7 +7,9 @@ var url = require('url');
 
 var execCommand = require('../commands/execCommand');
 var replaceVar = require('../rewrite/replaceVar');
-var clone = require('../helpers/utils').clone;
+var utils = require('../helpers/utils');
+var clone = utils.clone;
+var parseCookie = utils.parseCookie;
 
 /**
  * 获取代理信息, 用于请求代理的地址
@@ -265,19 +267,35 @@ function setGlobalVars (rewrite, request) {
   var props = rewrite.props;
   var urlObj = url.parse(request.url);
   var headers = request.headers;
+  var cookies = parseCookie(headers.cookie);
+  var tmpKey = '';
 
   var vars = {
     $host: urlObj.host,
     $hostname: urlObj.hostname,
-    $search: urlObj.search,
-    $query_string: urlObj.query,
-    $port: urlObj.port,
-    $path: urlObj.path,
-    $scheme: urlObj.protocol.replace(':', ''),
-    $request_uri: urlObj.href,
-    $http_user_agent: headers['user-agent'],
-    $http_cookie: headers.cookie
+    $search: urlObj.search || '',
+    $query_string: urlObj.query || '',
+    $port: urlObj.port || '80',
+    $scheme: (urlObj.protocol || '').replace(':', ''),
+    $request_uri: urlObj.path || '',
+    $request_filename: urlObj.pathname || '',
+    $hash: urlObj.hash || '',
+    $uri: urlObj.href
   };
+
+  // $cookie_name
+  for (var cookie in cookies) {
+    tmpKey = cookie.toLowerCase().replace(/-/, '_');
+    vars['$cookie_' + tmpKey] = cookies[cookie] || '';
+  }
+
+  // $http_name
+  // arbitrary request header field; the last part of a variable name is the field name
+  // converted to lower case with dashes replaced by underscores
+  for (var header in headers) {
+    tmpKey = header.toLowerCase().replace(/-/, '_');
+    vars['$http_' + tmpKey] = headers[header] || '';
+  }
 
   for (var key in vars) {
     props[key] = vars[key];
