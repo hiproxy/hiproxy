@@ -39,7 +39,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePat
   /* eslint-enable */
 
   // 系统代理地址，如果设置了系统代理，不在hiipack代理范围内的，走这个代理
-  var sysProxy = ''; // config.get('system_proxy');
+  var sysProxy = global.args ? global.args.sysProxy : ''; // config.get('system_proxy');
   // 不需要代理的域名
   var proxyExclude = ''; // config.get('proxy_exclude');
 

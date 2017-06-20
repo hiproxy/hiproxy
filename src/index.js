@@ -4,8 +4,10 @@
  */
 
 require('colors');
+var path = require('path');
 var EventEmitter = require('events');
 var openBrowser = require('op-browser');
+var homedir = require('os-homedir');
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
@@ -210,11 +212,12 @@ ProxyServer.prototype = {
 
   _open: function (browserName, url, usePacProxy) {
     var proxyURL = 'http://127.0.0.1:' + this.httpPort;
+    var dataDir = path.join(homedir(), '.hiproxy', 'data-dir');
 
     if (usePacProxy) {
-      openBrowser.open(browserName, url, '', proxyURL + '/proxy.pac');
+      openBrowser.open(browserName, url, '', proxyURL + '/proxy.pac', dataDir);
     } else {
-      openBrowser.open(browserName, url, proxyURL, '');
+      openBrowser.open(browserName, url, proxyURL, '', dataDir);
     }
     return this;
   },
