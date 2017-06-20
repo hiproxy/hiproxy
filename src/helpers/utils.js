@@ -45,13 +45,13 @@ function parseCookie (cookie) {
     return {};
   }
 
-  let res = {};
-  let arr = cookie.split(/\s*;\s*/);
+  var res = {};
+  var arr = cookie.split(/\s*;\s*/);
 
   arr.forEach((field) => {
-    let kv = field.split('=');
-    let key = kv[0];
-    let value = kv.slice(1).join('=');
+    var kv = field.split('=');
+    var key = kv[0];
+    var value = kv.slice(1).join('=');
 
     if (key) {
       if (key in res) {
