@@ -14,6 +14,19 @@ hiproxy是一个基于Node.js开发的轻量级网络代理工具，主要目的
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-green.svg)](https://nodejs.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hiproxy/hiproxy/blob/master/LICENSE)
 
+# Why Hiproxy
+
+在前端开发中，如果我们通常会遇到下面的一些问题：
+
+1. 调试线上页面的样式或者交互问题，如果要在本地进行开发，需要能运行后端的项目（Node.js或者Java等项目），如果后端项目环境比较复杂，前端工程师在本地搭建一套后端环境，可能代价比较大。
+2. 如果有多个前端工程，采用一个域名，部分工程需要请求线上资源，部分工程请求本地。
+3. 为解决跨域等问题，本地开发时需要修改Response Header。
+4. 本地开发https站点时，证书不受信任。
+
+我们会使用Nginx来解决上面的问题。Nginx很优秀，也是我们前端开发工程师的一个非常好的朋友。Nginx的配置文件风格，非常直观，编写配置效率很高。但是，使用Nginx的时候，我们同时需要使用hosts，把相关请求发送到本地的Nginx服务。而且，大部分情况下，Nginx的配置文件并不会被提交到代码仓库，所以团队中其他开发者之间会互相拷贝配置文件，这样效率比较地，而且一个人修改了，其他人的配置没有随之更新。对于多个域名的配置，也都是放到一个统一的目录，然后在主配置里面include，这样也不太方便。
+
+于是有了hiproxy。
+
 # Install
 
 ```bash
