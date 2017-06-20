@@ -27,6 +27,19 @@ hiproxy是一个基于Node.js开发的轻量级网络代理工具，主要目的
 
 于是有了hiproxy。
 
+# Features
+
+* 支持Nginx风格的配置文件格式
+* 支持hosts以及扩展（支持端口号）
+* 支持插件扩展rewrite指令、CLI命令和页面
+* 支持HTTPS证书自动生成
+* 支持代理自动配置（Proxy auto-config）
+* 支持后台启动，日志输出到文件
+* 支持配置文件自动查找
+* 支持打开浏览器窗口并自动配置代理
+* 提供Node.js API
+* ...
+
 # Install
 
 ```bash
