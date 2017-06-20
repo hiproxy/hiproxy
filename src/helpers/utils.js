@@ -48,7 +48,7 @@ function parseCookie (cookie) {
   var res = {};
   var arr = cookie.split(/\s*;\s*/);
 
-  arr.forEach((field) => {
+  arr.forEach(function (field) {
     var kv = field.split('=');
     var key = kv[0];
     var value = kv.slice(1).join('=');
