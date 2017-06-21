@@ -10,7 +10,7 @@ hiproxy提供了一套插件开发机制，这个机制很简单：插件开发�
 
 hiproxy插件必须满足三个条件：
 
-1. 插件必须作为一个独立的npm模块，这个模块需要导出一个对象，包括三个属性。
+1. __插件必须作为一个独立的npm模块，这个模块需要导出一个对象，包括三个属性__
 ```js
 module.exports = {
   // CLI commands
@@ -32,9 +32,9 @@ module.exports = {
 
 例子：<https://github.com/hiproxy/hiproxy-plugin-example/blob/master/index.js#L14-L23>
 
-2. 插件模块必须**安装到全局**
+2. __插件模块必须安装到全局__
 
-3. 插件名称必须以`hiproxy-plugin-`开头
+3. __插件名称必须以`hiproxy-plugin-`开头__
 
 <br />
 
