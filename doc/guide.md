@@ -110,9 +110,13 @@ domain blog.example.io {
 
 克隆完源码并安装好依赖后，就可以启动示例项目提供的服务了。
 
-在示例项目根目录执行`npm start`。
+1. 在示例项目根目录执行下面的命令，启动测试服务：
 
-然后进入workpace目录，启动hiproxy服务：
+```bash
+npm start
+```
+
+2. 然后进入workpace目录，启动hiproxy服务：
 
 ```bash
 hiproxy start --open --port 8008 --pac-proxy
@@ -124,7 +128,7 @@ hiproxy start --open --port 8008 --pac-proxy
 
 ### 访问页面
 
-打开的浏览器，默认打开了hiproxy的首页，里面可以查看到一些简要信息。你可以点击自动代理文件链接，查看自动代理文件(pac文件)的内容。
+打开的浏览器，默认打开了hiproxy的首页，里面可以查看到一些简要信息。你可以点击自动代理文件链接，查看自动代理文件(pac文件)的内容。
 
 你可以尝试访问下面的几个链接：
 
