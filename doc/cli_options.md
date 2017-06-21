@@ -27,7 +27,7 @@ If you specify the option `--help` or `-h`, you will see the complete help infor
 
     start   Start a local proxy server
     stop    Stop the local proxy server
-    reload  Restart the local proxy server (In development)
+    reload  Restart the local proxy server
     state   Show all the servers state
     open    Open browser and set proxy
 
