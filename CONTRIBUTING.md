@@ -15,6 +15,37 @@ Hiproxy is currently under development, you can choose the following content to 
 3. **Test**: At present, hiproxy's test case is not perfect, there are many test cases missing, you can first understand the use scenes of hiproxy, and then write the test.
 4. **Website**: hiproxy currently does not have its own domain name and website, you can help hiproxy design or develop a website.
 
+## Code Style
+
+hiproxy use [semistandard](https://github.com/Flet/semistandard) code style. The main rules:
+
+- **semicolons**
+- **2 spaces** – for indentation
+- **Single quotes for strings** – except to avoid escaping
+- **No unused variables** – this one catches *tons* of bugs!
+- **Never start a line with `(`, `[`, or `` ` ``**
+  - This is the **only** gotcha with omitting semicolons – *automatically checked for you!*
+  - [More details](https://github.com/feross/standard/blob/master/RULES.md#semicolons)
+- **Space after keywords** `if (condition) { ... }`
+- **Space after function name** `function name (arg) { ... }`
+- Always use `===` instead of `==` – but `obj == null` is allowed to check `null || undefined`.
+- Always handle the node.js `err` function parameter
+- Always prefix browser globals with `window` – except `document` and `navigator` are okay
+  - Prevents accidental use of poorly-named browser globals like `open`, `length`,
+    `event`, and `name`.
+    
+For more details, check <https://github.com/feross/standard>
+
+## Test
+
+Before you submit a pull request. You should pass the auto test case. And if you change some code, you should also add new test case for the changed code or function.
+
+You can use the following command to perform the test:
+
+```
+npm test
+```
+
 ## Steps for Contributing
 1. [Create an issue](https://github.com/hiproxy/hiproxy/issues/new) for the bug you want to fix or the feature that you want to add.
 2. Create your own [fork](https://github.com/hiproxy/hiproxy) on github, then checkout your fork.
