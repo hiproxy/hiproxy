@@ -14,7 +14,7 @@ hiproxy是一个基于Node.js开发的轻量级网络代理工具，主要目的
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-green.svg)](https://nodejs.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hiproxy/hiproxy/blob/master/LICENSE)
 
-# Why Hiproxy
+## Why Hiproxy
 
 在前端开发中，如果我们通常会遇到下面的一些问题：
 
@@ -34,7 +34,7 @@ hosts、反向代理、https和缓存这些琐碎的事情，能不能统一解�
 
 于是有了hiproxy。
 
-# Features
+## Features
 
 * 支持Nginx风格的配置文件格式，配置简单直观
 * 支持hosts以及扩展（支持端口号）
@@ -47,15 +47,15 @@ hosts、反向代理、https和缓存这些琐碎的事情，能不能统一解�
 * 提供Node.js API
 * ...
 
-# Install
+## Install
 
 ```bash
 npm install -g hiproxy
 ```
 
-# Usage
+## Usage
 
-## CLI
+### CLI
 
 1. Start proxy server
 ```bash
@@ -68,7 +68,7 @@ hiproxy start -p 5525 --debug --workspace <path-to-your-workspace>
 127.0.0.1:5525
 ```
 
-## Node.js API
+### Node.js API
 
 ```js
 var HiProxyServer = require('hiproxy');
@@ -95,7 +95,7 @@ proxy.start().then(function (servers) {
 // proxy.restart();
 ```
 
-# CLI commands and options
+## CLI commands and options
 
 ```bash
 > hiproxy --help
@@ -119,7 +119,7 @@ Options:
   --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
 ```
 
-# Documentation
+## Documentation
 
 * [Usage Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
 * [API documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
@@ -129,7 +129,7 @@ Options:
 * [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
 * [Command Line Commands and Options](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
 
-# hosts config example
+## hosts config example
 
 hiproxy supports enhanced version of `hosts`,
 the `hosts` file supports not only IP but also port numbers.
@@ -140,7 +140,7 @@ the `hosts` file supports not only IP but also port numbers.
 127.0.0.1:8800 blog.example.com life.example.com
 ```
 
-# rewrite config example
+## rewrite config example
 
 ```bash
 set $port 8899;
@@ -162,17 +162,35 @@ domain example.com {
 }
 ```
 
-# Example
+## Example
 
 Here is an Example project [https://github.com/hiproxy/hiproxy-example](https://github.com/hiproxy/hiproxy-example)
 
-# Running tests
+## Running tests
 
 ```bash
 npm test
 ```
 
-# License
+## Built With
 
-MIT
+* [hemsl](https://www.npmjs.com/package/hemsl) - a lightweight Node.js command line argv parser and command executor.
+* [colors](https://www.npmjs.com/package/colors) - get color and style in your node.js console.
+* [node-forge](https://www.npmjs.com/package/node-forge) - JavaScript implementations of network transports, cryptography, ciphers, PKI, message digests, and various utilities.
+* [op-browser](https://www.npmjs.com/package/op-browser) - Open browser window and set proxy.
+* [os-homedir](https://www.npmjs.com/package/os-homedir) - Node.js 4 `os.homedir()` ponyfill.
+* [url-pattern](https://www.npmjs.com/package/url-pattern) - easier than regex string matching patterns for urls and other strings. turn strings into data or data into strings.
+* [simple-mime](https://www.npmjs.com/package/simple-mime) - A simple mime database.
+
+Thanks to the authors of the above libraries to provide such a useful library.
+
+## Authors
+
+* zdying - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
+
+See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/hiproxy/hiproxy/blob/master/LICENSE) file for details
 
