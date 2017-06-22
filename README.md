@@ -172,6 +172,13 @@ Here is an Example project [https://github.com/hiproxy/hiproxy-example](https://
 npm test
 ```
 
+## Authors
+
+* __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
+* __Alfred Sang (aka i5ting)__ - _CTO of Aircos, top trainer of StuQ, author of the open source project Moa.js, and also an evangelist of Node.js._
+
+See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.
+
 ## Built With
 
 * [hemsl](https://www.npmjs.com/package/hemsl) - a lightweight Node.js command line argv parser and command executor.
@@ -183,13 +190,6 @@ npm test
 * [simple-mime](https://www.npmjs.com/package/simple-mime) - A simple mime database.
 
 Thanks to the authors of the above libraries to provide such a useful library.
-
-## Authors
-
-* __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
-* __Alfred Sang (aka i5ting)__ - _CTO of Aircos, top trainer of StuQ, author of the open source project Moa.js, and also an evangelist of Node.js._
-
-See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.
 
 ## License
 
