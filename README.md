@@ -186,7 +186,8 @@ Thanks to the authors of the above libraries to provide such a useful library.
 
 ## Authors
 
-* zdying - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
+* __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
+* __Alfred Sang (aka i5ting)__ - _CTO of Aircos, top trainer of StuQ, author of the open source project Moa.js, and also an evangelist of Node.js._
 
 See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.
 
