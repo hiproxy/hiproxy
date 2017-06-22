@@ -172,6 +172,10 @@ Here is an Example project [https://github.com/hiproxy/hiproxy-example](https://
 npm test
 ```
 
+## Contributing
+
+Please read [CONTRIBUTING.md](https://github.com/hiproxy/hiproxy/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
 ## Authors
 
 * __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
