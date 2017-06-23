@@ -37,10 +37,12 @@ module.exports = {
     var urlObj = url.parse(request.url);
     var query = urlObj.query;
     var pathname = urlObj.pathname;
+    var headers = request.headers;
+    var host = headers.host;
 
     if (pathname === '/') {
-      var rootURL = 'http://127.0.0.1:' + this.httpPort;
-      var localIP = this.localIP;
+      var rootURL = 'http://' + host;
+      var localIP = host.split(':')[0]; // this.localIP;
       var httpPort = this.httpPort;
       var httpsPort = this.httpsPort;
       var dir = this.dir;
