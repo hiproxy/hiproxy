@@ -15,16 +15,20 @@ var path = require('path');
  * https://en.wikipedia.org/wiki/Glob_(programming)
  *
  * @param {Array|String} patterns 要匹配的模式
+ * @param {String} [root=process.cwd()] 相对路径的根目录
  * @param {Boolean} [ignoreCase=false] 是否忽略大小写，默认区分大小写
  * @returns {Array} 满足条件的文件列表
  */
-module.exports = function (patterns, ignoreCase) {
+module.exports = function (patterns, root, ignoreCase) {
   var result = [];
+
+  root = root || process.cwd();
+
   if (!Array.isArray(patterns)) {
-    result = glob(patterns, ignoreCase);
+    result = glob(patterns, root, ignoreCase);
   } else {
     result = [].concat.apply([], patterns.map(function (pattern) {
-      return glob(pattern, ignoreCase);
+      return glob(pattern, root, ignoreCase);
     }));
   }
 
@@ -39,12 +43,12 @@ module.exports = function (patterns, ignoreCase) {
   return uniqueResult;
 };
 
-function glob (pattern, ignoreCase) {
+function glob (pattern, root, ignoreCase) {
   if (pattern.charAt(pattern.length - 1) === '/') {
     throw Error('File pattern should not be directory.');
   }
 
-  pattern = path.resolve(pattern);
+  pattern = path.resolve(root, pattern);
 
   pattern = pattern
     // 里面的`.(){}`一定是`.(){}`这些字符
@@ -129,14 +133,14 @@ function glob (pattern, ignoreCase) {
   return result;
 }
 
-// console.log(module.exports('/Users/zdy/github/hiproxy/*/*.Md', true));
+// console.log(module.exports('/Users/zdy/github/hiproxy/*/*.Md', null, true));
 // console.log(module.exports('/Users/zdy/github/hiproxy/*/[^_0-9]+.md'));
 // console.log(module.exports('/Users/zdy/github/hiproxy/*/[!_0-9]+.md'));
 
-// console.log(module.exports('./*/*.Md', true));
+// console.log(module.exports('./*/*.Md', null, true));
 // console.log(module.exports('./*/[^_0-9]+.md'));
 // console.log(module.exports('../hiproxy/*/[!_0-9]+.md'));
 
 // console.log(module.exports('./doc/[_a-z]+.md'));
 // console.log(module.exports(['./*/*.md', './.*']));
-// console.log(module.exports(['./README.md', './*.md', './test/testServer.js', './doc/*.js', './.*']));
+// console.log(module.exports(['README.md', './*.md', './test/testServer.js', './doc/*.js', './.*'], './'));

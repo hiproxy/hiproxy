@@ -14,8 +14,8 @@ var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./helpers/logger');
 var createServer = require('./helpers/createServer');
 var listeners = require('./listeners');
-var findHostsAndRewrite = require('./helpers/findHostsAndRewrite');
 var createPacFile = require('./helpers/createPacFile');
+var glob = require('./helpers/glob');
 
 // global.log = log;
 
@@ -79,8 +79,8 @@ ProxyServer.prototype = {
 
         setTimeout(function () {
           self._initEvent();
-          self.findConfigFiels(self.dir);
-          self.addConfigFiles(config);
+          self.findConfigFiels(self.dir, config);
+          // self.addConfigFiles(config);
         }, 0);
 
         /**
@@ -262,24 +262,31 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  findConfigFiels: function (dir) {
+  findConfigFiels: function (dir, config) {
     var self = this;
     var logger = this.logger;
+    var hostsPattern = config.hostsFile;
+    var rewritePattern = config.rewriteFile;
 
-    findHostsAndRewrite(dir, function (err, hosts, rewrites) {
-      if (err) {
-        return logger.error(err);
-      }
+    if (hostsPattern == null) {
+      hostsPattern = ['./*/hosts'];
+    }
 
-      logger.debug('findHostsAndRewrite - hosts [', hosts.join(', ').bold.green, ']');
-      logger.debug('findHostsAndRewrite - rewrites [', (rewrites.join(', ')).bold.green, ']');
+    if (rewritePattern == null) {
+      rewritePattern = ['./*/rewrite'];
+    }
 
-      // 将找到的Hosts文件解析并加入缓存
-      self.addHostsFile(hosts);
+    var hostsFiles = glob(hostsPattern, dir);
+    var rewriteFiles = glob(rewritePattern, dir);
 
-      // 将找到的rewrite文件解析并加入缓存
-      self.addRewriteFile(rewrites);
-    });
+    logger.debug('add hosts [', hostsFiles.join(', ').bold.green, ']');
+    logger.debug('add rewrites [', (rewriteFiles.join(', ')).bold.green, ']');
+
+    // 将找到的Hosts文件解析并加入缓存
+    self.addHostsFile(hostsFiles);
+
+    // 将找到的rewrite文件解析并加入缓存
+    self.addRewriteFile(rewriteFiles);
 
     return this;
   },
@@ -287,15 +294,15 @@ ProxyServer.prototype = {
   /**
    * 添加配置文件
    */
-  addConfigFiles: function (config) {
-    if (config.hostsFile) {
-      this.addHostsFile(config.hostsFile);
-    }
+  // addConfigFiles: function (config) {
+  //   if (config.hostsFile) {
+  //     this.addHostsFile(config.hostsFile);
+  //   }
 
-    if (config.rewriteFile) {
-      this.addRewriteFile(config.rewriteFile);
-    }
-  },
+  //   if (config.rewriteFile) {
+  //     this.addRewriteFile(config.rewriteFile);
+  //   }
+  // },
 
   _initEvent: function () {
     var self = this;
