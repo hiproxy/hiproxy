@@ -289,11 +289,11 @@ ProxyServer.prototype = {
    */
   addConfigFiles: function (config) {
     if (config.hostsFile) {
-      this.addHostsFile(config.hostsFile.split(/\s*[,，]\s*/));
+      this.addHostsFile(config.hostsFile);
     }
 
     if (config.rewriteFile) {
-      this.addRewriteFile(config.rewriteFile.split(/\s*[,，]\s*/));
+      this.addRewriteFile(config.rewriteFile);
     }
   },
 
