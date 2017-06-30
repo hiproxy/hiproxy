@@ -31,7 +31,7 @@ However, when using Nginx, we also need to use hosts at the same time, and proxy
 
 In addition, in most cases, Nginx's configuration files will not be submitted to the code repository, so the other developers in the team will copy the configuration file between each other, so that the efficiency is relatively low, and a person to modify the configuration file, other people's configuration file will not be updated. We put a number of domain name configuration file into one directory, and then included in the main configuration, it is not convenient.
 
-We can have a better way to solve these problems like __Hosts__, __reverse proxy__, __https__ and __DNS cache__?
+We can have a better way to solve these problems like ___Hosts___, ___reverse proxy___, ___https___ and ___DNS cache___?
 
 So with hiproxy.
 
