@@ -1,0 +1,19 @@
+# echo test
+domain echo.hiproxy.org {
+  # rewrite / to 8000;
+
+  location / {
+    echo <h1>hello_echo</h1>;
+  }
+
+  location /multiple {
+    echo <h1>hello_echo</h1>;
+    echo <p>test echo directive</p>;
+    echo <div>;
+    echo   <span>div &gt; span</span>;
+    echo </div>;
+    echo <p>finish</p>;
+    
+    # proxy_pass http://127.0.0.1:8000/;
+  }
+}

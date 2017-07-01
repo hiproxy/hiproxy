@@ -62,8 +62,9 @@ describe('rewrite', function () {
       // source:
       //      proxy_set_header A bbb;
       //      set $local 127.0.0.1:45678;
+      //      set $str str_domain_scope;
 
-      assert.equal(2, commands.length);
+      assert.equal(3, commands.length);
       assert.deepEqual(
         {
           'name': 'proxy_set_header',
@@ -84,6 +85,16 @@ describe('rewrite', function () {
         },
         commands[1]
       );
+      assert.deepEqual(
+        {
+          'name': 'set',
+          'params': [
+            '$str',
+            'str_domain_scope'
+          ]
+        },
+        commands[2]
+      );
     });
 
     it('# domain.location', function () {
@@ -103,7 +114,7 @@ describe('rewrite', function () {
       var location = domain.location[0];
       var commands = location.commands;
 
-      assert.equal(2, commands.length);
+      assert.equal(3, commands.length);
       assert.deepEqual(
         {
           'name': 'set',
@@ -116,12 +127,22 @@ describe('rewrite', function () {
       );
       assert.deepEqual(
         {
+          'name': 'set',
+          'params': [
+            '$str',
+            'str_location_scope'
+          ]
+        },
+        location.commands[1]
+      );
+      assert.deepEqual(
+        {
           'name': 'proxy_pass',
           'params': [
             'http://$local/'
           ]
         },
-        location.commands[1]
+        location.commands[2]
       );
     });
   });
@@ -179,6 +200,18 @@ describe('rewrite', function () {
 
     it('# 正确解析全局commands set', function () {
       assert.deepEqual('globalvarvalue', tree.props['$globalvar']);
+    });
+
+    it('# 局部变量优先级高于上一级变量', function () {
+      var domain = tree.domains['test.example.com'];
+      var location = domain.location[0];
+      var props = tree.props;
+
+      console.log(JSON.stringify(domain, null, 4));
+
+      assert.deepEqual('str', props['$str']);
+      assert.deepEqual('str_domain_scope', domain.props['$str']);
+      assert.deepEqual('str_location_scope', location.props['$str']);
     });
   });
 });

@@ -109,9 +109,13 @@ module.exports = function parseRewrite (sourceCode, filePath) {
 
 function parseCommand (command) {
   var array = command.split(/\s+/);
+  var params = array.slice(1);
+  var strReg = /^(\w+)\s+(['"])(.*)\2$/;
+  var match = command.match(strReg);
+  var isString = match && match[2] != null && match[3] != null;
   return {
     name: array[0],
-    params: array.slice(1)
+    params: isString ? [match[3]] : params
   };
 }
 

@@ -21,10 +21,12 @@ domain test.example.com {
     proxy_set_header A bbb;
 
     set $local 127.0.0.1:45678;
+    set $str str_domain_scope;
 
     # 默认
     location / {
         set $cookie count_$number1;
+        set $str str_location_scope;
         proxy_pass http://$local/;
     }
 

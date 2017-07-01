@@ -23,6 +23,17 @@ module.exports = {
       proxyOption.rejectUnauthorized = false;
     }
 
+    if (!request.proxyPass && !proxyOption.hostname) {
+      log.debug(request.url, 'has no proxy_pass');
+      execResponseCommand(rewriteRule, {
+        response: response
+      }, 'response');
+      if (!response.finished) {
+        response.end('');
+      }
+      return;
+    }
+
     var proxy = (isHTTPS ? https : http).request(proxyOption, function (res) {
       response.headers = res.headers;
 

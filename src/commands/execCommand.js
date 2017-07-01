@@ -20,7 +20,7 @@ module.exports = function (rewriteRule, context, scope) {
   if (Array.isArray(cmdsNeedToExec)) {
     log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(cmdsNeedToExec).bold);
 
-    cmdsNeedToExec.reverse().forEach(function (command) {
+    cmdsNeedToExec.forEach(function (command) {
       // var inScope = responseScopeCmds.indexOf(command.name) !== -1;
       var name = command.name;
       var params = command.params || [];

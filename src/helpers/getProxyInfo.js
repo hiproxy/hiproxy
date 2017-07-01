@@ -31,12 +31,12 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   protocol = uri.protocol;
 
   // rewrite 优先级高于 hosts
-  if (rewrite && rewrite.props.proxy) {
+  if (rewrite /* && rewrite.props.proxy */) {
     var rewriteProps = rewrite.props;
-    var proxy = rewriteProps.proxy;
+    var proxy = rewriteProps.proxy || '';
     var isBaseRule = rewrite.isBaseRule;
     var alias = rewriteProps.alias;
-    var proxyUrlObj = url.parse(rewriteProps.proxy);
+    var proxyUrlObj = url.parse(proxy);
     var protocolReg = /^(\w+:\/\/)/;
     var newUrl, newUrlObj;
 
@@ -46,22 +46,6 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       protocol = proxyUrlObj.protocol;
       originUrl = originUrl.replace(protocolReg, '');
     }
-
-    // TODO 替换其他props中的分组变量`$1`...`$N`, 比如下面的配置
-    // location ~ /\/(test|hot)\/(.*)/ {
-    //     proxy_set_header Proxy_Server_Source hiipack_regexp_$1;
-    //     proxy_pass http://$local/$1/$2?query=$query;
-    // }
-
-    // var varSource = {
-    //     props: {
-    //         $query: uri.query,
-    //         $search: uri.search,
-    //         $ptah: uri.path
-    //     }
-    // };
-    //
-    // proxy = replaceVar(proxy, varSource);
 
     // 根据请求信息，设置全局变量
     setGlobalVars(rewrite, request);
@@ -109,7 +93,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     } else {
       newUrlObj = url.parse(newUrl);
 
-      hostname = newUrlObj.hostname;
+      hostname = newUrlObj.hostname || '';
       port = newUrlObj.port;
       path = newUrlObj.path;
     }
@@ -135,6 +119,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       headers: request.headers,
       protocol: protocol
     },
+    proxyPass: proxy,
     PROXY: proxyName,
     hosts_rule: host,
     rewrite_rule: rewrite,

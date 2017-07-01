@@ -69,6 +69,7 @@ function setRequest (request) {
   request.PROXY = proxyInfo.PROXY;
   request.alias = proxyInfo.alias;
   request.newUrl = proxyInfo.newUrl;
+  request.proxyPass = proxyInfo.proxyPass;
 
   /**
    * Emitted each time the hiproxy server set request options (eg: headers and host) before request data from remote server

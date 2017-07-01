@@ -173,8 +173,7 @@ describe('#http server', function () {
         }
       });
     });
-  });
-  describe('# commands', function () {
+
     it('request t.ttt.com/', function (done) {
       request({
         uri: 'http://t.ttt.com/source/b.json',
@@ -185,6 +184,18 @@ describe('#http server', function () {
         } else {
           done(err || new Error('response status not right'));
         }
+      });
+    });
+
+    it('should get var value rightly(location > domain > global)', function (done) {
+      request({
+        uri: 'http://t.ttt.com/',
+        proxy: 'http://127.0.0.1:8850'
+      }, function (err, response, body) {
+        assert.equal(err, null);
+        assert.equal(response.headers.str, 'str_domain_scope, str_location_scope');
+
+        done();
       });
     });
   });

@@ -20,7 +20,8 @@ module.exports = {
     'set_header',
     'set_cookie',
     'hide_header',
-    'hide_cookie'
+    'hide_cookie',
+    'echo'
   ],
   domain: [
     'set',

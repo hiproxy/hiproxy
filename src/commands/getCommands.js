@@ -28,7 +28,7 @@ module.exports = function getCommonds (rewriteRule, scope) {
       });
     }
 
-    tmp = tmp.concat(currCMDs);
+    tmp = currCMDs.concat(tmp);
     curr = curr.parent;
   }
 

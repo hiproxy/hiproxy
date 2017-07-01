@@ -64,6 +64,10 @@ module.exports = {
     setHeader(this.response, 'Set-Cookie', key + '=' + value);
   },
 
+  'echo': function () {
+    this.response.write([].join.call(arguments, ' '));
+  },
+
   // location commands
   'proxy_pass': function (value) {
     this.props.proxy = value;
