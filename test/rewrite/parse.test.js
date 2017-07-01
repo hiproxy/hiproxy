@@ -207,8 +207,6 @@ describe('rewrite', function () {
       var location = domain.location[0];
       var props = tree.props;
 
-      console.log(JSON.stringify(domain, null, 4));
-
       assert.deepEqual('str', props['$str']);
       assert.deepEqual('str_domain_scope', domain.props['$str']);
       assert.deepEqual('str_location_scope', location.props['$str']);

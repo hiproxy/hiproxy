@@ -26,8 +26,10 @@ module.exports = {
     if (!request.proxyPass && !proxyOption.hostname) {
       log.debug(request.url, 'has no proxy_pass');
       execResponseCommand(rewriteRule, {
-        response: response
+        response: response,
+        rewriteRule: rewriteRule
       }, 'response');
+      // TODO 什么时候end()? 这是个问题，有时候我们进行异步操作，这时候，直接执行end()，异步操作的write等将失败。
       if (!response.finished) {
         response.end('');
       }
@@ -41,7 +43,8 @@ module.exports = {
       // delete response.headers['content-encoding']
 
       execResponseCommand(rewriteRule, {
-        response: response
+        response: response,
+        rewriteRule: rewriteRule
       }, 'response');
 
       /**

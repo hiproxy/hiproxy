@@ -3,6 +3,7 @@
  * @author zdying
  */
 
+var fs = require('fs');
 var path = require('path');
 var setHeader = require('./setHeader');
 
@@ -66,6 +67,31 @@ module.exports = {
 
   'echo': function () {
     this.response.write([].join.call(arguments, ' '));
+  },
+
+  'send_file': function (value) {
+    var filePath = '';
+
+    if (/^\//.test(value)) {
+      // absolute path
+      filePath = value;
+    } else {
+      // relative path
+      var _global = this.rewriteRule.parent.parent;
+      var currentFilePath = _global.filePath;
+      var dirname = path.dirname(currentFilePath);
+
+      filePath = path.join(dirname, value);
+    }
+
+    try {
+      this.response.end(fs.readFileSync(filePath));
+    } catch (err) {
+      this.response.writeHead(err.code === 'ENOENT' ? 404 : 500, {
+        'Content-Type': 'text/html'
+      });
+      this.response.end('File send error: <br/>' + err.stack);
+    }
   },
 
   // location commands

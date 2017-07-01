@@ -32,6 +32,12 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
   // rewrite 优先级高于 hosts
   if (rewrite /* && rewrite.props.proxy */) {
+    // 根据请求信息，设置全局变量
+    setGlobalVars(rewrite, request);
+    // 再次替换变量的值
+    replaceVar(rewrite.props, rewrite);
+    replaceFuncVar(rewrite.commands, rewrite);
+
     var rewriteProps = rewrite.props;
     var proxy = rewriteProps.proxy || '';
     var isBaseRule = rewrite.isBaseRule;
@@ -47,29 +53,9 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       originUrl = originUrl.replace(protocolReg, '');
     }
 
-    // 根据请求信息，设置全局变量
-    setGlobalVars(rewrite, request);
-    // 再次替换变量的值
-    replaceVar(rewrite.props, rewrite);
-    replaceFuncVar(rewrite.commands, rewrite);
-
     // 将原本url中的部分替换为代理地址
     if (rewrite.source.indexOf('~') === 0) {
-      // 正则表达式
-      var sourceReg = null;
-      var urlMatch = null;
-
-      if (proxy.match(/\$\d/g)) {
-        sourceReg = toRegExp(rewrite.path, 'i');
-        urlMatch = request.url.match(sourceReg);
-
-        // 这里可以不用判断urlMath是否为空, 因为getRewriteRule里面已经测试过
-        newUrl = proxy.replace(/\$(\d)/g, function (match, groupID) {
-          return urlMatch[groupID];
-        });
-      } else {
-        newUrl = proxy;
-      }
+      newUrl = proxy;
     } else {
       // 普通地址字符串
       // 否则，把url中的source部分替换成proxy
@@ -280,6 +266,19 @@ function setGlobalVars (rewrite, request) {
   for (var header in headers) {
     tmpKey = header.toLowerCase().replace(/-/, '_');
     vars['$http_' + tmpKey] = headers[header] || '';
+  }
+
+  // RegExp group
+  if (rewrite.source.indexOf('~') === 0) {
+    // 正则表达式
+    var sourceReg = toRegExp(rewrite.path, 'i');
+    var urlMatch = request.url.match(sourceReg);
+
+    if (Array.isArray(urlMatch)) {
+      for (var i = 1; i < 9; i++) {
+        vars['$' + i] = urlMatch[i] || '';
+      }
+    }
   }
 
   for (var key in vars) {

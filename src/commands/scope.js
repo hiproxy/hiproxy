@@ -21,7 +21,8 @@ module.exports = {
     'set_cookie',
     'hide_header',
     'hide_cookie',
-    'echo'
+    'echo',
+    'send_file'
   ],
   domain: [
     'set',
