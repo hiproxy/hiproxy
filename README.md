@@ -18,7 +18,7 @@ hiproxy is a lightweight web proxy tool based on Node.js. The main purpose is to
 
 In front-end development, if we usually encounter some of the following problems:
 
-1. Debug online page problems, to be developed locally, you need to run back-end projects (Node.js or Java and other projects), front-end engineers to __build a set of back-end environment, may be more expensive__.
+1. Debug online page problems, to be developed locally, you need to run back-end projects (Node.js or Java and other projects), front-end engineers to __build a set of back-end environment, may be very difficult__.
 2. If there are multiple front-end projects, using __a common domain name__, some projects need to request online resources, part of the project request local.
 3. To solve cross-domain and other issues, local development need to __modify the Response Header__.
 4. When test https pages, __the self-signed certificate is not trusted__.
