@@ -2,8 +2,15 @@
 
 <img src="https://avatars0.githubusercontent.com/u/29273417?v=3" alt="hiproxy" width="120" height="120">
 
+**hiproxy** is a lightweight web proxy tool based on [Node.js][node]. The primary purpose of **hiproxy** is to solve the problem of host management and reverse proxy needs of developers.
 
-hiproxy is a lightweight web proxy tool based on Node.js. The main purpose is to solve the problem of *host management* and *reverse proxy* encountered by multiple developers during the development process. So that in the development, no longer need to modify the system hosts and start a Nginx service. Hiproxy extends the syntax of hosts to support port numbers. In addition, hiproxy also supports the configuration of proxies through a syntax similar to the nginx configuration file.
+For example, if you are working as a team and each of the developers in the team need a different proxy setting, you will no longer need to modify your hosts file or use a web server like [Nginx][nginx] as a reverse proxy.
+
+**hiproxy** extends the syntax of hosts file to support **port numbers**. Besides, hiproxy also supports configuration through a syntax similar to the [Nginx configuration file][nginx-config].
+
+[nginx]: https://nginx.org/
+[nginx-config]: http://nginx.org/en/docs/beginners_guide.html "nginx Beginner’s Guide"
+[node]: https://nodejs.org "Node.js"
 
 [中文版文档](https://github.com/hiproxy/hiproxy/blob/master/README-zh.md)
 
