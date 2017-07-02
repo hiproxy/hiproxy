@@ -52,10 +52,11 @@ var _args = new Args();
 /* ===================================== */
 
 pluginManager.getInstalledPlugins().then(function (plugins) {
-  pluginManager.loadPlugins(plugins, _args);
+  if (plugins && plugins.length > 0) {
+    pluginManager.loadPlugins(plugins, _args);
+  }
   run();
 }).catch(function () {
-  // console.log('error:', err);
   run();
 });
 

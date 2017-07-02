@@ -19,9 +19,10 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       fs.readdir(root, function (err, files) {
         var plugins = [];
+        /* istanbul ignore if */
         if (err) {
           console.error('plugin root dir read error: ', err.message);
-          reject(err);
+          reject(plugins);
         } else {
           files.forEach(function (file) {
             var fullPath = path.join(root, file);
@@ -30,20 +31,14 @@ module.exports = {
                 plugins.push(fullPath);
               }
             } catch (err) {
+              /* istanbul ignore next */
               console.error('get file state error', err);
               // log && log.detail(err);
-              reject(err);
             }
           });
         }
 
-        // console.log('Found', plugins.length, 'plugins', plugins);
-
-        if (plugins.length > 0) {
-          resolve(plugins);
-        } else {
-          reject(Error('Did not find any plugins.'));
-        }
+        resolve(plugins);
       });
     });
   },
@@ -77,6 +72,7 @@ module.exports = {
         var routes = plugin.routes;
         routers.addRoute(routes);
       } catch (err) {
+        /* istanbul ignore next */
         console.error('Plugin', plugin, 'load error: ', pluginFile, err.message);
         // log.detail(err);
       }

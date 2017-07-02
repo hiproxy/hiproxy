@@ -151,6 +151,13 @@ module.exports = {
   },
 
   /**
+   * 获取已经添加的路由信息
+   */
+  getRoutes: function () {
+    return customPluginRoutes;
+  },
+
+  /**
    * 根据route url获取渲染方法
    *
    * @param {String} route url
