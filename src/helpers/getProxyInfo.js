@@ -88,7 +88,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   } else if (host) {
     hostname = host.split(':')[0];
     // port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
-    port = host.split(':')[1] || (protocol === 'https:' ? 443 : 80);
+    port = host.split(':')[1] || uri.port || (protocol === 'https:' ? 443 : 80);
     path = uri.path;
     proxyName = 'HiProxy';
   } else {
