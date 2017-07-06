@@ -136,7 +136,7 @@ module.exports = {
 };
 
 function writeFile (fileName, basedir, content) {
-  fs.writeFile(path.join(basedir, fileName), content, function (err) {
+  fs.writeFile(path.join(basedir, fileName), content.replace(/\r\n/g, '\n'), function (err) {
     if (err) {
       console.log(err);
     }
