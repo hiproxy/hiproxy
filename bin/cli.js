@@ -14,7 +14,15 @@ var pluginManager = require('../src/plugin');
 // var routers = require('../src/listeners/request/hiproxyRouter');
 
 var hiproxyDir = path.join(homedir(), '.hiproxy');
-var _args = new Args();
+var _args = new Args({
+  colors: {
+    paragraph: 'white',
+    title: 'white',
+    command: 'white',
+    parameter: 'white',
+    option: 'white'
+  }
+});
 
 // global.log = log;
 
@@ -74,20 +82,20 @@ function run () {
     // })
     .option('daemon', {
       alias: 'D',
-      describe: '后台运行'
+      describe: 'Run hiproxy in background'
     })
     .option('log-dir <dir>', {
-      describe: '后台运行时日志存放路径（绝对路径），默认为用户目录'
+      describe: 'The log directory when run in background, default: user home directory'
     })
     .option('log-time', {
-      describe: '显示日志时间'
+      describe: 'Show time info before every log message'
     })
     .option('log-level', {
-      describe: '过滤日志级别，只有指定级别的日志才会显示',
+      describe: 'The log levels, format: <level1>[,<lavel2[,...]]',
       default: 'access,error'
     })
     .option('grep <content>', {
-      describe: '过滤日志内容，只有保护过滤字符串的日志才会显示'
+      describe: 'Filter the log data'
     });
 
   // 解析参数，但是不执行命令

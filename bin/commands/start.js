@@ -5,6 +5,8 @@
 
 'use strict';
 
+require('colors');
+
 var fs = require('fs');
 var path = require('path');
 var homedir = require('os-homedir');
@@ -22,37 +24,37 @@ module.exports = {
     'port <port>': {
       alias: 'p',
       validate: /^\d+$/,
-      describe: 'http代理服务端口号'
+      describe: 'HTTP proxy port, default: 5525'
     },
     'https': {
       alias: 's',
-      describe: '启动https代理服务'
+      describe: 'Enable HTTPS proxy'
     },
     'middle-man-port <port>': {
       alias: 'm',
-      describe: 'https中间人端口号'
+      describe: 'The ' + 'Man-In-The-Middle'.underline + 'HTTPS proxy port, default: 10010'
     },
     'open [browser]': {
       alias: 'o',
-      describe: '打开浏览器窗口'
+      describe: 'Open a browser window and use hiproxy proxy'
     },
     'pac-proxy': {
-      describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
+      describe: 'Use ' + 'Proxy auto-configuration (PAC)'.underline
     },
     'sys-proxy <path>': {
-      describe: '系统代理，在使用自动代理时，不匹配hiproxy配置规则的代理将会使用这个代理'
+      describe: 'Your own proxy server path, format: <ip>[:port], only works when use PAC'
     },
     'rewrite-file <files>': {
       alias: 'r',
-      describe: 'rewrite规则配置文件，多个文件使用`,`分割'
+      describe: 'rewrite'.underline + ' config files, format: <file1>[,<file2>[,...]]'
     },
     'hosts-file <files>': {
       alias: 'c',
-      describe: 'hosts文件，多个文件使用`,`分割'
+      describe: 'hosts'.underline + ' files, format: <file1>[,<file2>[,...]]'
     },
     'workspace <dir>': {
       alias: 'w',
-      describe: '指定工作路径'
+      describe: 'The workspace'
     }
   }
 };

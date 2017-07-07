@@ -56,11 +56,5 @@ module.exports = {
       console.log('No hiproxy is running.');
       console.log();
     }
-  },
-  options: {
-    'type': {
-      default: 'service',
-      alias: 'S'
-    }
   }
 };

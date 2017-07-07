@@ -20,10 +20,10 @@ module.exports = {
     'browser <browser>': {
       alias: 'b',
       validate: /^(chrome|firefox|opera)$/,
-      describe: '浏览器名称，默认：chrome，可选值：chrome,firefox,opera'
+      describe: 'Browser name, default: chrome. Valid alues: chrome,firefox,opera'
     },
     'pac-proxy': {
-      describe: '是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理'
+      describe: 'Use Proxy auto-configuration (PAC)'
     }
   },
   fn: function () {
