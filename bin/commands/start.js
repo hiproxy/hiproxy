@@ -129,12 +129,28 @@ function showLog (level, msg) {
   var args = global.args;
   var logLevel = (args.logLevel || 'access,error').split(',');
   var grep = args.grep || '';
+  var colorMap = {
+    access: 'green',
+    info: 'blue',
+    warn: 'yellow',
+    debug: 'magenta',
+    detail: 'cyan',
+    error: 'red'
+  };
+  var prefix = '';
+  var color = '';
+  var consoleMethod = '';
 
   if (logLevel.indexOf(level) !== -1 && msg.indexOf(grep) !== -1) {
     if (grep) {
       msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
     }
-    console[level === 'error' ? 'error' : 'log'](('[' + level + ']').bold.red, msg);
+
+    prefix = '[' + level + ']';
+    color = colorMap[level] || 'white';
+    consoleMethod = level === 'error' ? 'error' : 'log';
+
+    console[consoleMethod](prefix.bold[color], msg);
   }
 }
 
