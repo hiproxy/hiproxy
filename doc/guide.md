@@ -35,7 +35,7 @@ npm install -g hiproxy/hiproxy
 
 ```bash
 # 克隆源码
-git blone https://github.com/hiproxy/hiproxy-example.git
+git clone https://github.com/hiproxy/hiproxy-example.git
 
 # 进入源码根目录
 cd hiproxy-example
