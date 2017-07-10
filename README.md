@@ -64,7 +64,7 @@ npm install -g hiproxy
 
 ### CLI
 
-Start proxy server"
+Start proxy server:
 
 ```bash
 hiproxy start -p 5525 --debug --workspace ${PATH_TO_WORKSPACE}
