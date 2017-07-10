@@ -11,6 +11,8 @@ var fs = require('fs');
 var path = require('path');
 var homedir = require('os-homedir');
 
+var checkServerStarted = require('../../src/helpers/checkServerStarted');
+var mkdirp = require('../../src/helpers/mkdirp');
 var getLocalIP = require('../../src/helpers/getLocalIP');
 var showImage = require('../showImage');
 var hiproxyDir = path.join(homedir(), '.hiproxy');
@@ -25,6 +27,10 @@ module.exports = {
       alias: 'p',
       validate: /^\d+$/,
       describe: 'HTTP proxy port, default: 5525'
+    },
+    'daemon': {
+      alias: 'D',
+      describe: 'Run hiproxy in background'
     },
     'https': {
       alias: 's',
@@ -60,8 +66,48 @@ module.exports = {
 };
 
 function startServer () {
+  var self = this;
+  if (!global.args.__error__) {
+    checkServerStarted().then(function () {
+      if (global.args.daemon && !process.env.__daemon) {
+        _daemonServer();
+      } else {
+        _startServer(self);
+      }
+      // write server info to file.
+      writeServerInfoToFile();
+    }).catch(function (e) {
+      console.log(e);
+    });
+  }
+}
+function _daemonServer () {
+  // 如果指定后台运行模块，并且不是child进程，启动child进程
+  var spawn = require('child_process').spawn;
+  var logsDir = global.args.logDir || path.join(hiproxyDir, 'logs');
+
+  mkdirp(logsDir);
+
+  var env = process.env;
+  var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
+  var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
+  var binPath = path.resolve(__filename, '../../cli.js');
+
+  env.__daemon = true;
+
+  const child = spawn('node', [binPath].concat(process.argv.slice(2)), {
+    env: env,
+    detached: true,
+    stdio: ['ignore', out, err]
+  });
+
+  child.unref();
+  console.log('The Hiproxy server is running in background.');
+}
+
+function _startServer (ctx) {
   var Proxy = require('../../src/');
-  var cliArgs = this;
+  var cliArgs = ctx;
   var https = cliArgs.https;
   var port = cliArgs.port || 5525;
   var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
@@ -82,9 +128,6 @@ function startServer () {
     var open = cliArgs.open;
     var browser = open === true ? 'chrome' : open;
     browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
-
-    // write server info to file.
-    writeServerInfoToFile();
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
@@ -96,10 +139,6 @@ function startServer () {
  * 将服务信息写入到文件
  */
 function writeServerInfoToFile () {
-  if (!global.args.daemon) {
-    return;
-  }
-
   // process pid
   var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
   fs.write(pid, process.pid, function (err) {
@@ -108,17 +147,19 @@ function writeServerInfoToFile () {
     }
   });
 
-  // cli argv
-  var argsInfo = JSON.stringify({
-    cmd: process.argv,
-    args: global.args
-  }, null, 4);
-  var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
-  fs.write(argsFile, argsInfo, function (err) {
-    if (err) {
-      console.log('hiproxy.json write error');
-    }
-  });
+  if (global.args.daemon) {
+    // cli argv
+    var argsInfo = JSON.stringify({
+      cmd: process.argv,
+      args: global.args
+    }, null, 4);
+    var argsFile = fs.openSync(path.join(hiproxyDir, 'hiproxy.json'), 'w');
+    fs.write(argsFile, argsInfo, function (err) {
+      if (err) {
+        console.log('hiproxy.json write error');
+      }
+    });
+  }
 }
 
 /**

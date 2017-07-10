@@ -2,13 +2,14 @@
 
 require('colors');
 var path = require('path');
-var fs = require('fs');
 var homedir = require('os-homedir');
 
 var Args = require('hemsl');
 var showImage = require('./showImage');
 var packageInfo = require('../package');
 var pluginManager = require('../src/plugin');
+
+var mkdirp = require('../src/helpers/mkdirp');
 
 // var directives = require('../src/commands');
 // var routers = require('../src/listeners/request/hiproxyRouter');
@@ -80,10 +81,6 @@ function run () {
     //   alias: 'D',
     //   describe: '显示详细调试信息'
     // })
-    .option('daemon', {
-      alias: 'D',
-      describe: 'Run hiproxy in background'
-    })
     .option('log-dir <dir>', {
       describe: 'The log directory when run in background, default: user home directory'
     })
@@ -103,56 +100,15 @@ function run () {
 
   mkdirp(hiproxyDir);
 
-  if (!global.args.__error__) {
-    if (global.args.daemon && !process.env.__daemon) {
-      // 如果指定后台运行模块，并且不是child进程，启动child进程
-      var spawn = require('child_process').spawn;
-      var logsDir = global.args.logDir || path.join(hiproxyDir, 'logs');
+  _args.execute();
 
-      mkdirp(logsDir);
-
-      var env = process.env;
-      var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
-      var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
-
-      env.__daemon = true;
-
-      const child = spawn('node', [__filename].concat(process.argv.slice(2)), {
-        env: env,
-        detached: true,
-        stdio: ['ignore', out, err]
-      });
-
-      child.unref();
-    } else {
-      // console.log('exe');
-      // 没有指定后台运行，或者是child进程
-      _args.execute();
-    }
-
-    if (global.args._.length === 0 && Object.keys(global.args).length === 1) {
-      showImage([
-        '',
-        '',
-        '   Welcome to use hiproxy'.bold,
-        '   Current version is ' + packageInfo.version.bold.green,
-        '   Try `' + 'hiproxy --help'.underline + '` for more info'
-      ]);
-    }
-  }
-}
-
-function mkdirp (dir) {
-  if (fs.existsSync(dir)) {
-    return;
-  }
-
-  try {
-    fs.mkdirSync(dir);
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      mkdirp(path.dirname(dir));
-      mkdirp(dir);
-    }
+  if (!global.args.__error__ && global.args._.length === 0 && Object.keys(global.args).length === 1) {
+    showImage([
+      '',
+      '',
+      '   Welcome to use hiproxy'.bold,
+      '   Current version is ' + packageInfo.version.bold.green,
+      '   Try `' + 'hiproxy --help'.underline + '` for more info'
+    ]);
   }
 }
