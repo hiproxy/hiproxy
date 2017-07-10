@@ -77,7 +77,7 @@ function startServer () {
       // write server info to file.
       writeServerInfoToFile();
     }).catch(function (e) {
-      console.log(e);
+      console.log(e.message);
     });
   }
 }
