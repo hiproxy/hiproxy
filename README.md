@@ -2,8 +2,15 @@
 
 <img src="https://avatars0.githubusercontent.com/u/29273417?v=3" alt="hiproxy" width="120" height="120">
 
+**hiproxy** is a lightweight web proxy tool based on [Node.js][node]. The primary purpose of **hiproxy** is to solve the problem of host management and reverse proxy needs of developers.
 
-hiproxy is a lightweight web proxy tool based on Node.js. The main purpose is to solve the problem of *host management* and *reverse proxy* encountered by multiple developers during the development process. So that in the development, no longer need to modify the system hosts and start a Nginx service. Hiproxy extends the syntax of hosts to support port numbers. In addition, hiproxy also supports the configuration of proxies through a syntax similar to the nginx configuration file.
+For example, if you are working as a team and each of the developers in the team need a different proxy setting, you will no longer need to modify your hosts file or use a web server like [Nginx][nginx] as a reverse proxy.
+
+**hiproxy** extends the syntax of hosts file to support **port numbers**. Besides, hiproxy also supports configuration through a syntax similar to the [Nginx configuration file][nginx-config].
+
+[nginx]: https://nginx.org/
+[nginx-config]: http://nginx.org/en/docs/beginners_guide.html "nginx Beginner’s Guide"
+[node]: https://nodejs.org "Node.js"
 
 [中文版文档](https://github.com/hiproxy/hiproxy/blob/master/README-zh.md)
 
@@ -14,41 +21,40 @@ hiproxy is a lightweight web proxy tool based on Node.js. The main purpose is to
 [![Node.js version](https://img.shields.io/badge/node-%3E%3D0.12.7-green.svg)](https://nodejs.org/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/hiproxy/hiproxy/blob/master/LICENSE)
 
-## Why Hiproxy
+## Why Hiproxy?
 
-In front-end development, if we usually encounter some of the following problems:
+If you are a front-end developer, it is not uncommon for you to encounter the following problems:
 
-1. Debug online page problems, to be developed locally, you need to run back-end projects (Node.js or Java and other projects), front-end engineers to __build a set of back-end environment, may be very difficult__.
-2. If there are multiple front-end projects, using __a common domain name__, some projects need to request online resources, part of the project request local.
-3. To solve cross-domain and other issues, local development need to __modify the Response Header__.
-4. When test https pages, __the self-signed certificate is not trusted__.
-5. Because the exists of __DNS cache__. Change system hosts will not take effect immediately.
-6. Also you like __Nginx config syntax__.
+**Debugging web pages locally**: To develop your web projects in a local development environment, you’ll have to run a back-end server (such as a **Node.js** *express* application, or a **Java SpringBoot** application). As a front-end developer, you might not be familiar with the back-end technology stack, simply setting up the development environment can consume a lot of your time.
 
-We will use Nginx to solve the above problem. Nginx is excellent and a very good friend of our front-end engineers. Nginx configuration file style, very intuitive, the preparation of high efficiency configuration.
+**Cross-Origin Issues**: While developing your front-end projects locally, you might need to solve cross-domain and cross-origin resource sharing issues. To address these problems, you will need to modify the response header. 
 
-However, when using Nginx, we also need to use hosts at the same time, and proxy the relevant request to the local Nginx service.
 
-In addition, in most cases, Nginx's configuration files will not be submitted to the code repository, so the other developers in the team will copy the configuration file between each other, so that the efficiency is relatively low, and a person to modify the configuration file, other people's configuration file will not be updated. We put a number of domain name configuration file into one directory, and then included in the main configuration, it is not convenient.
+**Self-Signed Certificates**: You’ll often need to test https pages. When you visit https pages with a self-signed certificate, your browser will raise security warnings.
 
-We can have a better way to solve these problems like ___Hosts___, ___reverse proxy___, ___https___ and ___DNS cache___?
+One common way to modify the response header is to put a **proxy** as a “man in the middle”. *NGINX*, for example, has a nice syntax that you can configure as a reverse-proxy to handle all these needs.
 
-So with hiproxy.
+
+Although NGINX is a great tool to address all the above problems, when setting up NGINX, you’ll also modify your hosts file a lot to proxy the requests to a local NGINX service. This can especially turn out to be a burden if you are working on multiple projects.
+
+Can we have a better way to solve this problem?
+
+Well, yes. Meet **hiproxy**!
+
 
 ## Features
 
-* Support Nginx-config style configuration file syntax, simple and intuitive configuration
-* Support extended hosts and (support port number)
-* Supports plugin extensions to rewrite directives, CLI commands and pages
-* Support for automatic generation and management of HTTPS certificates
-* Support for proxy auto-configuration (Proxy auto-config)
-* Support run service on background, and redirect console output to log file
-* Support configuration file to automatically find
-* Support to open the browser window and automatically configure the proxy
-* Provide the Node.js API
-* ...
+* **Nginx.config-style configuration** file syntax with a simple and intuitive configuration
+* **Extended** hosts configuration with **port numbers**.
+* **Plugin extensions** to rewrite *directives*, *command line interface*, and *pages*
+* Automatic generation and management of **TLS certificates**
+* **Auto-detection** of configuration file
+* **Proxy auto-configuration**
+* You can run hiproxy as a **background service** and redirect its output to a log file.
+* You can open a browser window and configure your proxy from its **web interface**.
+* **hiproxy** provides a **Node.js API** for fine-tuning and lower-level control.
 
-## Install
+## Installation
 
 ```bash
 npm install -g hiproxy
@@ -58,12 +64,13 @@ npm install -g hiproxy
 
 ### CLI
 
-1. Start proxy server
+Start proxy server"
+
 ```bash
-hiproxy start -p 5525 --debug --workspace <path-to-your-workspace>
+hiproxy start -p 5525 --debug --workspace ${PATH_TO_WORKSPACE}
 ```
 
-2. Config proxy
+Configure proxy:
 
 ```bash
 127.0.0.1:5525
@@ -96,7 +103,7 @@ proxy.start().then(function (servers) {
 // proxy.restart();
 ```
 
-## CLI commands and options
+## CLI Usage
 
 ```bash
 > hiproxy --help
@@ -111,29 +118,28 @@ Commands:
 
 Options:
 
-  -v, --version     显示版本信息
-  -h, --help        显示帮助信息
-  -D, --daemon      后台运行
-  --log-dir         后台运行时日志存放路径（绝对路径），默认为用户目录
-  --log-time        显示日志时间
-  --log-level       过滤日志级别，只有指定级别的日志才会显示
-  --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
+  -v, --version
+  -h, --help
+  -D, --daemon
+  --log-dir
+  --log-time
+  --log-level
+  --grep <content>
 ```
 
 ## Documentation
 
-* [Usage Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
-* [API documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
+* [User Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
+* [API Documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
 * [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/plugin_guide.md)
 * [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_config.md)
-* [Rewrite directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
+* [Rewrite Directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
 * [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
-* [Command Line Commands and Options](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
+* [Command Line Interface](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
 
-## hosts config example
+### Hosts Configuration Example
 
-hiproxy supports enhanced version of `hosts`,
-the `hosts` file supports not only IP but also port numbers.
+**hiproxy** supports enhanced version of `hosts`, the `hosts` file supports not only IP but also **port numbers**.
 
 ```bash
 # comment
@@ -141,7 +147,7 @@ the `hosts` file supports not only IP but also port numbers.
 127.0.0.1:8800 blog.example.com life.example.com
 ```
 
-## rewrite config example
+### Rewrite Configuration Example
 
 ```bash
 set $port 8899;
@@ -163,11 +169,11 @@ domain example.com {
 }
 ```
 
-## Example
+## Sample Project
 
-Here is an Example project [https://github.com/hiproxy/hiproxy-example](https://github.com/hiproxy/hiproxy-example)
+[Here is an example project that you can play with](https://github.com/hiproxy/hiproxy-example).
 
-## Running tests
+## Running Tests
 
 ```bash
 npm test
@@ -199,4 +205,10 @@ Thanks to the authors of the above libraries to provide such a useful library.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/hiproxy/hiproxy/blob/master/LICENSE) file for details
+
+## Code of Conduct
+
+We are committed to making participation in this project a harassment-free experience for everyone, regardless of the level of experience, gender, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, or nationality.
+
+[See the code of conduct for details](CODE_OF_CONDUCT.md).
 
