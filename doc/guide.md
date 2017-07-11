@@ -12,9 +12,19 @@ hiproxy会在当前工作空间下查找所有项目中的hosts文件和rewrite�
 
 ## 理念
 
+### 工作空间
+
 hiproxy服务是基于工作空间（workspace）这个概念的。也就是说，hiproxy启动的时候，需要指定一个工作空间（`--workspace ${WORKSPACE}`或者`-w ${WORKSPACE}`），如果不指定，默认采用当前启动hiproxy服务的目录。
 
 工作空间里面可以存放多个项目，每个项目拥有自己的hosts文件和rewrite规则配置文件。hiproxy启动的时候，会自动查找工作空间下所有项目的配置文件。如果不指定配置文件的文件名称，会**默认查找项目根目录下文件名为`hosts`和`rewrite`的文件**。
+
+### hosts
+
+...
+
+### rewrite
+
+...
 
 ## 体验
 
