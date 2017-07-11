@@ -31,7 +31,9 @@ Hosts.prototype = {
         if (!(file in _files)) {
           _files[file] = {};
           fs.watchFile(file, { interval: 500 }, function (curr, prev) {
-            if (curr.mtime !== prev.mtime) {
+            if (Date.parse(curr.ctime) === 0) {
+              self.deleteFile(file);
+            } else if (Date.parse(curr.mtime) !== Date.parse(prev.mtime)) {
               log.debug(file.bold.green, 'changed.');
               self.update();
             }

@@ -31,7 +31,9 @@ Rewrite.prototype = {
         if (!(file in _files)) {
           _files[file] = {};
           fs.watchFile(file, { interval: 2000 }, function (curr, prev) {
-            if (curr.mtime !== prev.mtime) {
+            if (Date.parse(curr.ctime) === 0) {
+              self.deleteFile(file);
+            } else if (Date.parse(curr.mtime) !== Date.parse(prev.mtime)) {
               log.debug(file.bold.green, 'changed.');
               self.update();
             }
@@ -49,23 +51,23 @@ Rewrite.prototype = {
    *
    * @param {String|Array} filePath
    */
-  // deleteFile: function (filePath) {
-  //   var _files = this._files;
+  deleteFile: function (filePath) {
+    var _files = this._files;
 
-  //   if (filePath) {
-  //     if (!Array.isArray(filePath)) {
-  //       filePath = [filePath];
-  //     }
+    if (filePath) {
+      if (!Array.isArray(filePath)) {
+        filePath = [filePath];
+      }
 
-  //     filePath.forEach(function (file) {
-  //       delete _files[file];
-  //       fs.unwatchFile(file);
-  //     });
+      filePath.forEach(function (file) {
+        delete _files[file];
+        fs.unwatchFile(file);
+      });
 
-  //     this.update();
-  //   }
-  //   return this;
-  // },
+      this.update();
+    }
+    return this;
+  },
 
   /**
    * 添加规则
