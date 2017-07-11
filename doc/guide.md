@@ -4,13 +4,21 @@ hiproxy是一个基于Node.js开发的轻量级网络代理工具，主要目的
 
 hiproxy扩展了hosts的语法，支持端口号。此外，hiproxy还支持通过类似于nginx配置文件的语法来配置代理。
 
+此外，hiproxy还会自动生成和管理https证书，只需要导入hiproxy的根证书，以后再也不会有自签名证书不被信任的问题。
+
 hiproxy会在当前工作空间下查找所有项目中的hosts文件和rewrite配置文件，然后启动一个浏览器窗口，并自动为这一个浏览器窗口配置好代理。这个窗口独立于其他窗口，其他浏览器的网络请求不会经过hiproxy代理，只有这个窗口中的请求，才会经过hiproxy处理。
 
 当接收到请求后，hiproxy会查找hosts或者rewrite中的配置信息，根据配置信息去请求相应的资源返回给浏览器。这样你没有修改系统的hosts文件，也没有启动一个Nginx服务来做反向代理，但是你已经实现了网络的代理和转发。
 
+## 理念
+
+hiproxy服务是基于工作空间（workspace）这个概念的。也就是说，hiproxy启动的时候，需要指定一个工作空间（`--workspace ${WORKSPACE}`或者`-w ${WORKSPACE}`），如果不指定，默认采用当前启动hiproxy服务的目录。
+
+工作空间里面可以存放多个项目，每个项目拥有自己的hosts文件和rewrite规则配置文件。hiproxy启动的时候，会自动查找工作空间下所有项目的配置文件。如果不指定配置文件的文件名称，会**默认查找项目根目录下文件名为`hosts`和`rewrite`的文件**。
+
 ## 体验
 
-我们已经准备了一个工作空间示例，可以查看<https://github.com/hiproxy/hiproxy-example>。下面介绍一下，如果使用这个项目来体验hiproxy。
+我们已经准备了一个工作空间示例，可以查看<https://github.com/hiproxy/hiproxy-example>。下面介绍一下，如何使用这个项目来体验hiproxy。
 
 ### 安装hiproxy
 
