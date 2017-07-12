@@ -77,7 +77,9 @@ function startServer () {
       // write server info to file.
       writeServerInfoToFile();
     }).catch(function (e) {
+      console.log();
       console.log(e.message);
+      console.log();
     });
   }
 }
@@ -102,7 +104,9 @@ function _daemonServer () {
   });
 
   child.unref();
+  console.log();
   console.log('The Hiproxy server is running in background.');
+  console.log();
 }
 
 function _startServer (ctx) {

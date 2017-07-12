@@ -13,7 +13,7 @@ var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 module.exports = {
   command: 'restart',
-  describe: 'Restart the local proxy service',
+  describe: 'Restart the local proxy service (Only works in daemon mode)',
   usage: 'restart',
   fn: function () {
     try {
@@ -30,7 +30,8 @@ module.exports = {
     } catch (err) {
       console.log();
       console.log('Service reloaded failed :(');
-      console.log('\nerror info: ', err.message);
+      console.log();
+      console.log('[Error] Command <restart> will only work in daemon mode.');
       console.log();
     }
   }
