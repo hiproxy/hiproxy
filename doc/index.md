@@ -15,7 +15,6 @@
 * [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/find_conf.md)
 * [hosts](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/hosts.md)
 * [rewrite](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite.md)
-
   * [介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_introduction.md)
   * [作用域](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_scope.md)
   * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md)
