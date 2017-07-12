@@ -6,7 +6,7 @@
 * [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/installation.md)
 * [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/run_example.md)
 * [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/play_with_your_project.md)
-* [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/ssl_certificate.md)
+* [命令行命令和参数](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/cli_options.md)
 
 
 ## Configuration
@@ -20,6 +20,7 @@
   * [作用域](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_scope.md)
   * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md)
   * [全局变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_global_variable.md)
+* [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/ssl_certificate.md)
 
 
 ## Node.js API
