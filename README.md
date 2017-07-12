@@ -136,6 +136,7 @@ Options:
 * [Rewrite Directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
 * [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
 * [Command Line Interface](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
+* [FAQ](https://github.com/hiproxy/hiproxy/blob/master/doc/faq.md)
 
 ### Hosts Configuration Example
 
