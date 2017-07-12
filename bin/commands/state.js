@@ -16,7 +16,7 @@ var showImage = require('../showImage');
 
 module.exports = {
   command: 'state',
-  describe: 'Show all the servers state',
+  describe: 'Show all the servers state (Only works in daemon mode)',
   usage: 'state [option]',
   fn: function () {
     try {
@@ -53,7 +53,7 @@ module.exports = {
       });
     } catch (e) {
       console.log();
-      console.log('No hiproxy is running.');
+      console.log('[Error] Command <state> will only work in daemon mode.');
       console.log();
     }
   }
