@@ -12,16 +12,27 @@ var pki = forge.pki;
 var md5 = forge.md.md5;
 var homedir = require('os-homedir');
 var mkdirp = require('../helpers/mkdirp');
-
+var certDir = path.join(homedir(), '.hiproxy', 'cert');
 var defaultFields = require('./defaultFields');
-
 var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
+
+mkdirp(certDir);
 
 module.exports = {
   getCACertificate: function (CAName) {
     CAName = CAName || DEFAULT_CA_NAME;
 
-    var certDir = path.join(homedir(), '.hiproxy', 'cert', CAName.replace(/\s+/g, '_'));
+    var certInfo = this.getCertificateByFileName(CAName);
+    if (certInfo) {
+      return certInfo;
+    } else {
+      log.debug('create new CA certificate, CA name:', CAName);
+      return this._createCertificate(null, CAName, {isCa: true});
+    }
+  },
+
+  getCertificateByFileName: function (fileName) {
+    var certDir = path.join(homedir(), '.hiproxy', 'cert', fileName.replace(/\s+/g, '_'));
     var keyPath = certDir + '.key';
     var crtPath = certDir + '.pem';
     var keyContent = '';
@@ -30,34 +41,48 @@ module.exports = {
     var privateKey = null;
 
     if (fs.existsSync(keyPath) && fs.existsSync(crtPath)) {
-      keyContent = fs.readFileSync(keyPath);
-      crtContent = fs.readFileSync(crtPath);
-      certificate = pki.certificateFromPem(crtContent);
-      privateKey = pki.privateKeyFromPem(keyContent);
+      try {
+        keyContent = fs.readFileSync(keyPath);
+        crtContent = fs.readFileSync(crtPath);
+        certificate = pki.certificateFromPem(crtContent);
+        privateKey = pki.privateKeyFromPem(keyContent);
 
-      log.debug('ca certificate:', [keyPath, crtPath]);
+        log.debug('get certificate file:', [keyPath, crtPath]);
 
-      return {
-        privateKey: privateKey,
-        publicKey: certificate.publicKey,
-        certificate: certificate,
-        certificatePem: crtContent,
-        privateKeyPem: keyContent
-      };
+        return {
+          privateKey: privateKey,
+          publicKey: certificate.publicKey,
+          certificate: certificate,
+          certificatePem: crtContent,
+          privateKeyPem: keyContent
+        };
+      } catch (e) {
+        return null;
+      }
     } else {
-      log.debug('create new CA certificate, CA name:', CAName);
-      return this._createCertificate(null, CAName, {isCa: true});
+      log.debug('certificate file:', [keyPath, crtPath], 'not exists.');
+      return null;
     }
   },
 
-  createCertificate: function (domain, CAName, oldCertInfo) {
+  createCertificate: function (domain, CAName, certInfo) {
     var caCert = this.getCACertificate(CAName);
-    var cert = this._createCertificate(caCert, domain, null, oldCertInfo);
+    var CN = (certInfo && certInfo.subject && certInfo.subject.CN) || domain;
+    var cachedCert = this.getCertificateByFileName(CN);
+    var cert = cachedCert;
+
+    if (!cachedCert) {
+      log.debug('No cached cetrificate', CN ? 'CN:' + CN : '');
+      cert = this._createCertificate(caCert, domain, null, certInfo);
+    } else {
+      log.debug('Use cached certificate', CN ? 'CN:' + CN : '');
+    }
 
     return cert;
   },
 
-  _createCertificate: function (caCert, domain, options, oldCertInfo) {
+  _createCertificate: function (caCert, domain, options, certInfo) {
+    log.debug('Generate new certificate:', domain);
     // Generating 1024-bit key-pair...'
     var keys = pki.rsa.generateKeyPair(1024);
     // Creating self-signed certificate...
@@ -69,33 +94,40 @@ module.exports = {
 
     var days = options.days || 365;
     var isCa = options.isCa || false;
-
+    var subject = certInfo ? certInfo.subject : {};
+    var subjectaltname = certInfo ? certInfo.subjectaltname.split(/,\s+/) : ['DNS:' + domain];
     var attributes = options.attributes || [
-      {name: 'commonName', value: domain}
+      {name: 'commonName', value: subject.CN || domain}
     ].concat(defaultFields.attributes);
 
     var extensions = options.extensions || [
       {name: 'basicConstraints', cA: isCa}
     ]; // .concat(defaultFields.extensions);
+    var san = {
+      name: 'subjectAltName',
+      altNames: [
+        {
+          type: 6, // URI
+          value: 'http://hiproxy.org/'
+        }
+      ]
+    };
+
+    subjectaltname.forEach(function (sn) {
+      var info = sn.split(':');
+      var map = {IP: 7, DNS: 2};
+      var type = map[info[0]];
+
+      if (type) {
+        san.altNames.push({
+          type: type,
+          value: info[1]
+        });
+      }
+    });
 
     if (!isCa) {
-      extensions.push({
-        name: 'subjectAltName',
-        altNames: [
-          {
-            type: 6, // URI
-            value: 'https://github.com/hiproxy'
-          },
-          // {
-          //   type: 7, // IP
-          //   ip: '127.0.0.1'
-          // },
-          {
-            type: 2,
-            value: domain
-          }
-        ]
-      });
+      extensions.push(san);
     }
 
     cert.publicKey = keys.publicKey;
@@ -118,9 +150,7 @@ module.exports = {
     //   certificate: pki.certificateToPem(cert)
     // };
 
-    var certDir = path.join(homedir(), '.hiproxy', 'cert');
-    mkdirp(certDir);
-    var fileName = domain.replace(/\s+/g, '_');
+    var fileName = (subject.CN || domain).replace(/\s+/g, '_');
     writeFile(fileName + '.key', certDir, pki.privateKeyToPem(keys.privateKey));
     writeFile(fileName + '.pem', certDir, pki.certificateToPem(cert));
 

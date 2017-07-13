@@ -48,15 +48,14 @@ module.exports = {
         } else {
           // 如果没有配置证书，自动生成证书
           self._getCertInfoByHostsName(domain, function (err, certInfo) {
-            if (err) {
-              log.debug('the original certificate info for `' + domain + '`', certInfo);
+            if (!err) {
+              log.debug('The original certificate info for `' + domain + '`');
+              log.detail('Original certificate info:', JSON.stringify(certInfo));
             } else {
-              log.debug('get the original certificate info for `' + domain + '` failed', err);
+              log.warn('Get the original certificate info for `' + domain + '` failed', err);
             }
 
             var cert = certTool.createCertificate(domain, null, certInfo);
-
-            log.debug('new certificate for `' + domain + '` has been created');
 
             cb(null, tls.createSecureContext({
               key: cert.privateKeyPem, // fs.readFileSync(defaultCert.key),
@@ -93,7 +92,7 @@ module.exports = {
     };
 
     var req = https.request(options, function (res) {
-      callback(null, res.connection.getPeerCertificate(true));
+      callback(null, res.connection.getPeerCertificate());
     });
 
     req.on('error', function (err) {
