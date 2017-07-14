@@ -43,8 +43,8 @@
 
 不同作用域中的指令执行时，this值也不同，下面列举了所有作用域指令对应的this值:
 
-- **global**: 整个rewrite对象-`{props: <Object>, domains: <Array>, commands: <Array>}}`
-- **domain**: domain对象-`{domain: '...', props: <Object>, location: <Array>, commands: <Array>}}`
+- **global**: 整个rewrite对象-`{props: <Object>, domains: <Array>, commands: <Array>}}`
+- **domain**: domain对象-`{domain: <String>, props: <Object>, location: <Array>, commands: <Array>}}`
 - **location**: location对象-`{props: <Object>, location: <String>, commands: <Array>}}`
 - **request**: `{request: <http.IncomingMessage>}`
 - **response**: `{response: <http.ServerResponse>}`
