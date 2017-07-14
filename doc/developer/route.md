@@ -22,9 +22,9 @@ hiproxy启动服务之后，可以访问`http://127.0.0.1:<port>/`页面查看�
 
 当用户访问对应的页面时，`render()`方法会被调用，传入三个参数`(route, request, response)`。
 
-- `route`: `<Object>`，url模式匹配后的对象，比如配置了`/test(/:pageName)`之后，访问`/test/home`时`route`的值为：`{pageName: 'home'}`。
-- `request`: `<http.IncomingMessage>`，http请求对象。
-- `response`: `<http.ServerResponse>`，http响应对象。
+- **route**: `<Object>`，url模式匹配后的对象，比如配置了`/test(/:pageName)`之后，访问`/test/home`时`route`的值为：`{pageName: 'home'}`。
+- **request**: `<http.IncomingMessage>`，http请求对象。
+- **response**: `<http.ServerResponse>`，http响应对象。
 
 ## 示例
 
