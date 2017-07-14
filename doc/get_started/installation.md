@@ -21,7 +21,7 @@ npm install -g hiproxy@beta
 npm install -g hiproxy/hiproxy
 ```
 
-**提示：**如果您还没有安装Node.js，可以到[Node.js官网](https://nodejs.org/en/)下载安装。
+**提示**：如果您还没有安装Node.js，可以到[Node.js官网](https://nodejs.org/en/)下载安装。
 
 ## 通过yarn安装
 
