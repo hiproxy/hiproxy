@@ -37,7 +37,7 @@
 
 ### 参数
 
-处理函数会被调用是，会传入rewrite配置文件中这个指令对应的参数，例如配置了指令`proxy_set_header Host hiproxy.org`，那么在执行**处理函数**时，传入的参数为：`('Host', 'hiproxy.org')`
+处理函数会被调用是，会传入rewrite配置文件中这个指令对应的参数，例如配置了指令`proxy_set_header Host hiproxy.org`，那么在执行**处理函数**时，传入的参数为：`('Host', 'hiproxy.org')`
 
 ### this
 
