@@ -10,7 +10,7 @@ hiproxy提供了一套插件开发机制，这个机制很简单：插件开发�
 
 hiproxy插件必须满足三个条件：
 
-1. __插件必须作为一个独立的npm模块，这个模块需要导出一个对象，包括三个属性__
+1. __插件必须作为一个独立的npm模块，这个模块需要导出一个对象，这个对象可以指定三个属性__
 ```js
 module.exports = {
   // CLI commands
@@ -24,17 +24,19 @@ module.exports = {
 };
 ```
 
-* **commands**: `<Array>`，用来扩展`hiproxy`的CLI命令，数组中每个对象作为一个命令配置，具体配置见[命令配置](cli_command.md)。
+* **commands**: `<Array>`，用来扩展`hiproxy`的**CLI命令**，数组中每个对象作为一个命令配置，具体配置见[命令配置](cli_command.md)。
 
-* **directives**: `<Array>`，用来扩展`hiproxy`的rewrite指令，数组中每个对象作为一个指令配置，具体配置见[指令配置](rewrite_directive.md)。
+* **directives**: `<Array>`，用来扩展`hiproxy`的**rewrite指令**，数组中每个对象作为一个指令配置，具体配置见[指令配置](rewrite_directive.md)。
 
-* **routes**: `<Array>`，用来扩展`hiproxy`的页面路由，数组中每个对象作为一个路由配置，具体配置见[路由配置](route.md)。
+* **routes**: `<Array>`，用来扩展`hiproxy`的**页面路由**，数组中每个对象作为一个路由配置，具体配置见[路由配置](route.md)。
 
 2. __插件模块必须安装到全局__
 
 3. __插件名称必须以`hiproxy-plugin-`开头__
 
-例子：<https://github.com/hiproxy/hiproxy-plugin-example/blob/master/index.js#L14-L23>
+## 代码示例
+
+<https://github.com/hiproxy/hiproxy-plugin-example/blob/master/index.js#L14-L23>
 
 ## 温馨提示
 
