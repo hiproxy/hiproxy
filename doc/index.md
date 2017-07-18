@@ -18,7 +18,7 @@
   * [介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_introduction.md) ![](http://progressed.io/bar/90)
   * [作用域](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_scope.md) ![](http://progressed.io/bar/100)
   * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md) ![](http://progressed.io/bar/90)
-  * [全局变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_global_variable.md) ![](http://progressed.io/bar/0)
+  * [内置变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_built_in_variable.md) ![](http://progressed.io/bar/0)
 * [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/ssl_certificate.md) ![](http://progressed.io/bar/0)
 
 
