@@ -13,11 +13,11 @@
 
 * [hiproxy配置简介](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/introduction.md) ![](http://progressed.io/bar/0)
 * [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/find_conf.md) ![](http://progressed.io/bar/0)
-* [hosts](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/hosts.md) ![](http://progressed.io/bar/0)
-* [rewrite](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite.md) ![](http://progressed.io/bar/0)
-  * [介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_introduction.md) ![](http://progressed.io/bar/0)
-  * [作用域](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_scope.md) ![](http://progressed.io/bar/0)
-  * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md) ![](http://progressed.io/bar/0)
+* [hosts](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/hosts.md) ![](http://progressed.io/bar/90)
+* [rewrite](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite.md) ![](http://progressed.io/bar/70)
+  * [介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_introduction.md) ![](http://progressed.io/bar/90)
+  * [作用域](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_scope.md) ![](http://progressed.io/bar/100)
+  * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md) ![](http://progressed.io/bar/90)
   * [全局变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_global_variable.md) ![](http://progressed.io/bar/0)
 * [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/ssl_certificate.md) ![](http://progressed.io/bar/0)
 

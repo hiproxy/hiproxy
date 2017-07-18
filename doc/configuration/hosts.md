@@ -1,11 +1,12 @@
+# Hosts
 > 如果你愿意帮助hiproxy编写文档，请联系zdying@live.com, 谢谢！
 
 > If you are willing to help hiproxy to write documentation, please contact zdying@live.com, thank you!
 
-# Hosts
-
 ## 简介
-**hiproxy** 同时支持项目`hosts`及[rewrite][rewrite]文件。**Hosts** 可以看作一个增强版的系统`hosts`，其最大特性是可以**支持端口转发**。
+**hiproxy** 同时支持项目`hosts`及[rewrite][rewrite]文件。`hosts`仅能支持简单的域名转发，如果需要复杂的域名转发，请参考[rewrite][rewrite]。
+
+**Hosts** 可以看作一个增强版的系统`hosts`，其最大特性是可以**支持端口转发**。
 
 
 ## 工作机理
