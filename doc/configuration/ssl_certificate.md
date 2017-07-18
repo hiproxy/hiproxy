@@ -1,5 +1,32 @@
 # Get And Install SSL Certificate
 
-如果你愿意帮助hiproxy编写文档，请联系zdying@live.com, 谢谢！
+> 如果你愿意帮助hiproxy编写文档，请联系zdying@live.com, 谢谢！
+>
+> If you are willing to help hiproxy to write documentation, please contact zdying@live.com, thank you!
 
-If you are willing to help hiproxy to write documentation, please contact zdying@live.com, thank you!
+根证书下载及安装的具体操作步骤如下。
+## 下载根证书。
+在登录页面右上角，单击“下载根证书”。 
+系统弹出如图7-1所示对话框。
+图7-1  文件下载-安全警告 
+
+单击“打开”。 
+系统显示如图7-2所示页面。
+图7-2  证书 
+
+## 安装根证书。
+单击“安装证书...”。 
+系统显示如图7-3所示页面。
+图7-3  欢迎使用证书导入向导 
+
+单击“下一步”。 
+系统显示如图7-4所示页面。
+图7-4  证书导入向导 
+
+选择“将所有的证书放入下列存储区”，单击“浏览”。 
+系统弹出如图7-5所示对话框。
+图7-5  选择证书存储 
+
+选择“受信任的根证书颁发机构”，单击“确定”。
+单击“下一步”。根据页面提示完成根证书安装。
+关闭IE浏览器后重新启动。
