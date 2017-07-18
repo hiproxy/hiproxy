@@ -6,16 +6,16 @@
 
 ## 全局安装hiproxy
 
-如果你还没有安装[hiproxy](https://github.com/hiproxy/hiproxy)，请查看[如何安装](installation)hiproxy。
+如果你还没有安装[hiproxy](https://github.com/hiproxy/hiproxy)，请查看[如何安装](installation.md)hiproxy。
 
-我们只需要把hiproxy安装到全局就可以了，**不需要讲hiproxy作为一个依赖安装到每个项目中**。
+我们只需要把hiproxy安装到全局就可以了，**不需要将hiproxy作为一个依赖安装到每个项目中**。
 
 ## 添加配置文件
 
 hiproxy的两个理念：
 
 * 所有的项目都放到一个工作空间（workspace）下面；
-* 将配置文件（hosts／rewrite配置）放到对应的项目中，提交带代码仓库里面进行版本控制，与团队中其他成员共享*。
+* 将配置文件（hosts／rewrite配置）放到对应的项目中，提交带代码仓库里面进行版本控制，与团队中其他成员共享。
 
 所以，我们需要把配置文件存放到对应的项目中。针对不同的项目，可以添加不同的配置文件。hiproxy在启动的时候，会自动从工作目录下面查找配置文件。
 
@@ -49,17 +49,21 @@ workspace
 -r, --rewrite-file <files> rewrite config files, format: <file1>[,<file2>[,...]]
 ```
 
-**提示**：`-c, --hosts-file`和`-r, --rewrite-file`支持**简化版的模式匹配**；比如：`./*/*.conf`。支持的语法：`*`, `?`, `[abc]`, `[a-z]`, `[^a-z]`, `[!a-z]`。
+> **提示**：
+>
+> * `-c, --hosts-file`和`-r, --rewrite-file`支持**简化版的模式匹配**；比如：`./*/*.conf`；
+> * 支持的语法：`*`, `?`, `[abc]`, `[a-z]`, `[^a-z]`, `[!a-z]`；
+> * 不支持的语法：`**`。
 
 ### hosts
 
-[hosts](../configuration/hosts)跟系统hosts类似，只不过这个hosts是放到项目中的，如果我们在项目根目录下面创建了hosts文件并且文件名称为`hosts`，hiproxy能自动发现并解析它。
+[hosts](../configuration/hosts)跟系统hosts类似，只不过这个hosts是放到项目中的，如果我们在项目根目录下面创建了hosts文件并且文件名称为`hosts`，hiproxy能自动发现并解析它。
 
 如果文件名称不是`hosts`，则需要我们通过`-c, --hosts-file`来指定。
 
 ### rewrite
 
-[rewrite](../configuration/rewrite)跟系统hosts一样，也是放到项目中的，如果我们在项目根目录下面创建了名称为`rewrite`的文件，hiproxy能自动发现并解析它。
+[rewrite](../configuration/rewrite)跟hosts一样，也是放到项目中的，如果我们在项目根目录下面创建了名称为`rewrite`的文件，hiproxy也能自动发现并解析它。
 
 如果文件名称不是`rewrite`，则需要我们通过`-r, --rewrite-file`来指定。
 
