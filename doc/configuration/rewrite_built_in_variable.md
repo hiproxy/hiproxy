@@ -16,7 +16,7 @@ hiproxy内置了一些变量，这些内置变量可以在相应的作用域中�
 
 ## location块级变量
 
-这些变量，只能在`location`块中使用，这些变量主要是存储与请求相关的一些信息，比如请求的参数（`$query_string`）、Cookie（$cookie_name）和host（$host)等。现在支持的所有内置变量：
+这些变量，只能在`location`块中使用，这些变量主要是存储与请求相关的一些信息，比如请求的参数（`$query_string`）、Cookie（`$cookie_name`）和host（`$host`)等。现在支持的所有内置变量：
 
 ### $host
 host name from the request line, or host name from the “Host” request header field, or the server name matching a request.
