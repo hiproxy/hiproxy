@@ -5,7 +5,7 @@
 * [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/introduction.md) ![](http://progressed.io/bar/0)
 * [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/installation.md) ![](http://progressed.io/bar/90)
 * [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/run_example.md) ![](http://progressed.io/bar/90)
-* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/play_with_your_project.md) ![](http://progressed.io/bar/0)
+* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/play_with_your_project.md) ![](http://progressed.io/bar/90)
 * [命令行命令和参数](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/cli_options.md) ![](http://progressed.io/bar/80)
 
 
