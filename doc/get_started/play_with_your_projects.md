@@ -57,13 +57,13 @@ workspace
 
 ### hosts
 
-[hosts](../configuration/hosts)跟系统hosts类似，只不过这个hosts是放到项目中的，如果我们在项目根目录下面创建了hosts文件并且文件名称为`hosts`，hiproxy能自动发现并解析它。
+[hosts](../configuration/hosts.md)跟系统hosts类似，只不过这个hosts是放到项目中的，如果我们在项目根目录下面创建了hosts文件并且文件名称为`hosts`，hiproxy能自动发现并解析它。
 
 如果文件名称不是`hosts`，则需要我们通过`-c, --hosts-file`来指定。
 
 ### rewrite
 
-[rewrite](../configuration/rewrite)跟hosts一样，也是放到项目中的，如果我们在项目根目录下面创建了名称为`rewrite`的文件，hiproxy也能自动发现并解析它。
+[rewrite](../configuration/rewrite.md)跟hosts一样，也是放到项目中的，如果我们在项目根目录下面创建了名称为`rewrite`的文件，hiproxy也能自动发现并解析它。
 
 如果文件名称不是`rewrite`，则需要我们通过`-r, --rewrite-file`来指定。
 
