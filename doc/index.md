@@ -36,4 +36,4 @@
 
 ## FAQs
 
-* [FAQs](https://github.com/hiproxy/hiproxy/blob/master/doc/faqs.md) ![](http://progressed.io/bar/20)
+* [FAQs](https://github.com/hiproxy/hiproxy/blob/master/doc/faqs.md) ![](http://progressed.io/bar/100)
