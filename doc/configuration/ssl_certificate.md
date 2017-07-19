@@ -86,4 +86,16 @@ hiporxy会自己生成一个根证书，扮演CA的角色（Hiproxy Custom CA）
 
 ### Android
 
-...
+1. 下载完成根证书之后发送到手机。
+
+2. 在**设置** > **安全**中点击**从SD卡安装**。
+
+<img src="../images/android_install_cert_1.png" width="375" />
+
+3. 输入解锁密码，然后输入证书名称，比如**HiproxyCustomCA**，点击**确定**。
+
+<img src="../images/android_install_cert_2.png" width="375" />
+
+4. 在**设置** > **安全** > **受信任的证书** > **用户**中，如果能看到hiproxy的根证书，表示安装成功。
+
+<img src="../images/android_install_cert_3.png" width="375" />
