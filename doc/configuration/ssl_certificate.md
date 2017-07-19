@@ -59,7 +59,7 @@ hiporxy会自己生成一个根证书，扮演CA的角色（Hiproxy Custom CA）
 
 <img src="../images/ios_install_cert_4.jpg" width="375" />
 
-5. 打开开关**Hiproxy Custom CA**。
+6. 打开开关**Hiproxy Custom CA**。
 
 <img src="../images/ios_install_cert_5.jpg" width="375" />
 
