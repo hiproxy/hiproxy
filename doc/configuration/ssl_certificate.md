@@ -41,34 +41,49 @@ hiporxy会自己生成一个根证书，扮演CA的角色（Hiproxy Custom CA）
 
 ### iOS系统
 
+1. 下载完成根证书之后发送到手机并打开。
+
+2. 点击右上角的**安装**。
+
+<img src="../images/ios_install_cert_1.jpg" width="375" />
+
+3. 再次点击右上角的**安装**。
+
+<img src="../images/ios_install_cert_2.jpg" width="375" />
+
+4. 完成安装，点击右上角**完成**退出。
+
+<img src="../images/ios_install_cert_3.jpg" width="375" />
+
+5. 如果**iOS系统版本 >= 10.3**，需要在**设置** > **通用** > **关于本机**中点击**证书信任设置**。
+
+<img src="../images/ios_install_cert_4.jpg" width="375" />
+
+5. 打开开关**Hiproxy Custom CA**。
+
+<img src="../images/ios_install_cert_5.jpg" width="375" />
+
 ### Windows
+
+1. 下载完成根证书之后，双击`Hiproxy_Custom_CA_Certificate.crt`安装证书。
+
+2. 在弹出的对话框中点击**安装证书**。
+
+<img src="../images/windows_install_cert.png" width="420" />
+
+3. 点击**下一步**。
+
+<img src="../images/windows_step_1.png" width="420" />
+
+4. 选择**将所有的证书放入下列存储(P)**，点击**浏览(R)**，然后选择**受信任的根证书颁发机构**，点击**确定**。
+
+<img src="../images/windows_step_2.png" width="420" />
+
+5. 点击**下一步**、**完成**。根据页面提示完成根证书安装。。
+
+<img src="../images/windows_install_finish.png" width="420" />
+
 
 ### Android
 
-
-根证书下载及安装的具体操作步骤如下。
-## 下载根证书。
-在登录页面右上角，单击“下载根证书”。 
-系统弹出如图7-1所示对话框。
-图7-1  文件下载-安全警告 
-
-单击“打开”。 
-系统显示如图7-2所示页面。
-图7-2  证书 
-
-## 安装根证书。
-单击“安装证书...”。 
-系统显示如图7-3所示页面。
-图7-3  欢迎使用证书导入向导 
-
-单击“下一步”。 
-系统显示如图7-4所示页面。
-图7-4  证书导入向导 
-
-选择“将所有的证书放入下列存储区”，单击“浏览”。 
-系统弹出如图7-5所示对话框。
-图7-5  选择证书存储 
-
-选择“受信任的根证书颁发机构”，单击“确定”。
-单击“下一步”。根据页面提示完成根证书安装。
-关闭IE浏览器后重新启动。
+...
