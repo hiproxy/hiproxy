@@ -81,7 +81,7 @@ function parseQueryString (url) {
   let params = arr.slice(1).join('?');
   let fields = params.split('&');
 
-  fields.forEach((field) => {
+  fields.forEach(function (field) {
     let kv = field.split('=');
     let key = kv[0];
     let value = kv.slice(1).join('=');
