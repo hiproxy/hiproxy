@@ -76,15 +76,15 @@ function parseQueryString (url) {
     return null;
   }
 
-  let res = {};
-  let arr = url.split('?');
-  let params = arr.slice(1).join('?');
-  let fields = params.split('&');
+  var res = {};
+  var arr = url.split('?');
+  var params = arr.slice(1).join('?');
+  var fields = params.split('&');
 
   fields.forEach(function (field) {
-    let kv = field.split('=');
-    let key = kv[0];
-    let value = kv.slice(1).join('=');
+    var kv = field.split('=');
+    var key = kv[0];
+    var value = kv.slice(1).join('=');
 
     if (key) {
       if (key in res) {
