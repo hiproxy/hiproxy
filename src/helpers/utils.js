@@ -8,7 +8,8 @@
 module.exports = {
   clone: clone,
   type: type,
-  parseCookie: parseCookie
+  parseCookie: parseCookie,
+  parseQueryString: parseQueryString
 };
 
 function clone (obj, blackList) {
@@ -52,6 +53,38 @@ function parseCookie (cookie) {
     var kv = field.split('=');
     var key = kv[0];
     var value = kv.slice(1).join('=');
+
+    if (key) {
+      if (key in res) {
+        res[key] = [].concat(res[key], value);
+      } else {
+        res[key] = value;
+      }
+    }
+  });
+
+  return res;
+}
+
+/**
+ * 从URL中获取参数，转化成对象，支持数据，不支持对象
+ * @param url
+ * @returns {*}
+ */
+function parseQueryString (url) {
+  if (!url) {
+    return null;
+  }
+
+  let res = {};
+  let arr = url.split('?');
+  let params = arr.slice(1).join('?');
+  let fields = params.split('&');
+
+  fields.forEach((field) => {
+    let kv = field.split('=');
+    let key = kv[0];
+    let value = kv.slice(1).join('=');
 
     if (key) {
       if (key in res) {

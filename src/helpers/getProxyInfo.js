@@ -10,6 +10,7 @@ var replaceVar = require('../rewrite/replaceVar');
 var utils = require('../helpers/utils');
 var clone = utils.clone;
 var parseCookie = utils.parseCookie;
+var parseQueryString = utils.parseQueryString;
 
 /**
  * 获取代理信息, 用于请求代理的地址
@@ -32,8 +33,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
   // rewrite 优先级高于 hosts
   if (rewrite /* && rewrite.props.proxy */) {
-    // 根据请求信息，设置全局变量
-    setGlobalVars(rewrite, request);
+    // 根据请求信息，设置内置变量
+    setBuiltInVars(rewrite, request);
     // 再次替换变量的值
     replaceVar(rewrite.props, rewrite);
     replaceFuncVar(rewrite.commands, rewrite);
@@ -237,23 +238,34 @@ function replaceFuncVar (funcs, source) {
   return funcs;
 }
 
-function setGlobalVars (rewrite, request) {
+/**
+ * 设置内置变量
+ *
+ * @param {Object} rewrite 当前请求匹配的rewrite规则
+ * @param {http.IncomingMessage} request 当前请求对象
+ */
+function setBuiltInVars (rewrite, request) {
   var props = rewrite.props;
   var urlObj = url.parse(request.url);
   var headers = request.headers;
   var cookies = parseCookie(headers.cookie);
+  var queryObj = parseQueryString(urlObj.search);
   var tmpKey = '';
 
+  var headerHost = headers.host || '';
+
   var vars = {
-    $host: urlObj.host,
-    $hostname: urlObj.hostname,
+    $host: urlObj.host || headerHost,
+    $hostname: urlObj.hostname || headerHost.split(':')[0],
     $search: urlObj.search || '',
     $query_string: urlObj.query || '',
-    $port: urlObj.port || '80',
+    $server_port: urlObj.port || '80',
     $scheme: (urlObj.protocol || '').replace(':', ''),
-    $request_uri: urlObj.path || '',
-    $request_filename: urlObj.pathname || '',
+    $request_uri: urlObj.href,
+    $path: urlObj.path,
+    $path_name: urlObj.pathname || '',
     $hash: urlObj.hash || '',
+    $hash_value: (urlObj.hash || '').replace('#', ''),
     $uri: urlObj.href
   };
 
@@ -269,6 +281,12 @@ function setGlobalVars (rewrite, request) {
   for (var header in headers) {
     tmpKey = header.toLowerCase().replace(/-/, '_');
     vars['$http_' + tmpKey] = headers[header] || '';
+  }
+
+  // $arg_name query string value
+  for (var arg in queryObj) {
+    tmpKey = arg.toLowerCase().replace(/-/, '_');
+    vars['$arg_' + tmpKey] = queryObj[arg] || '';
   }
 
   // RegExp group
