@@ -9,5 +9,5 @@
 
 * [指令](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_directive.md)
 
-* [全局变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_global_variable.md)
+* [内置变量](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_build_in_variable.md)
 
