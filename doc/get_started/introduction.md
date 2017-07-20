@@ -67,7 +67,7 @@ hiproxy充分利用了[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the
 
 如果我们需要实现跟HTTP请求一样的功能，根据请求的信息，对请求和响应做一些修改，需要怎么做呢？
 
-好在我们可以充分利用[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)这种模式。因为最终的目标服务器能获取到请求的信息，我们可以在hiproxy和最终服务器之间再启动一个中间人服务（这里简称为*M*），当hiproxy收到`CONNECT`请求之后，新建一个到*M*的连接，当*M*收到请求之后，跟HTTP请求代理一样，对请求信息做一些修改，然后去目标服务器请求资源并返回给客户端。
+好在我们可以充分利用[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)这种模式。因为最终的目标服务器能获取到请求的信息，我们可以在hiproxy和最终服务器之间再启动一个中间人服务（这里简称为*M*），当hiproxy收到`CONNECT`请求之后，新建一个到*M*的连接，当*M*收到请求之后，跟HTTP请求代理一样，对请求信息做一些修改，然后去目标服务器请求资源并返回给客户端。
 
 ### HTTPS证书生成
 
@@ -81,7 +81,7 @@ hiproxy充分利用了[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the
 
 ### 浏览器窗口
 
-首先，找到系统中浏览器对应的路径。比如在OSX上，查找`<browser-name>.app`，然后启动这个app，并传入参数来配置代理服务器地址。
+首先，找到系统中浏览器对应的路径。比如在OSX上，查找`<browser-name>.app`，然后启动这个app，并传入参数来配置代理服务器地址。
 
 ```bash
 <path-to-chrome-app>.app [options] [url]
