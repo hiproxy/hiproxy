@@ -10,9 +10,9 @@ hiporxy会自己生成一个根证书，扮演CA的角色（Hiproxy Custom CA）
 
 ## 下载证书
 
-启动hiproxy服务之后（假设端口号是`5525`)，可以访问`http://127.0.0.1:5525/ssl-certificate`获取**Hiproxy Custom CA**的根证书。
+启动hiproxy服务之后（假设端口号是`5525`)，可以访问<http://127.0.0.1:5525/ssl-certificate>获取**Hiproxy Custom CA**的根证书。
 
-这个地址，可以在`http://127.0.0.1:5525/`中找到，如下图：
+这个地址，可以在<http://127.0.0.1:5525/>中找到，如下图：
 
 <img src="../images/hiproxy_start_page.png" width="500" />
 
