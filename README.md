@@ -129,14 +129,14 @@ Options:
 
 ## Documentation
 
-* [User Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
-* [API Documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
-* [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/plugin_guide.md)
-* [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_config.md)
-* [Rewrite Directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
-* [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
-* [Command Line Interface](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
-* [FAQ](https://github.com/hiproxy/hiproxy/blob/master/doc/faq.md)
+* [User Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/guide.md)
+* [API Documentation](https://github.com/hiproxy/hiproxy/blob/master/docs/api.md)
+* [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/plugin_guide.md)
+* [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/rewrite_config.md)
+* [Rewrite Directives](https://github.com/hiproxy/hiproxy/blob/master/docs/rewrite_directives.md)
+* [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/hosts_config.md)
+* [Command Line Interface](https://github.com/hiproxy/hiproxy/blob/master/docs/cli_options.md)
+* [FAQ](https://github.com/hiproxy/hiproxy/blob/master/docs/faq.md)
 
 ### Hosts Configuration Example
 

@@ -41,5 +41,5 @@ IP[:端口] 域名1 域名2 域名3 ... 域名N
 ```
 
 
-[rewrite]: https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite.md
+[rewrite]: https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite.md
 

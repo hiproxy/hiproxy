@@ -220,7 +220,7 @@ api.qunar.com => {
 ```
 
 
-[hosts]: https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/hosts.md
+[hosts]: https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/hosts.md
 [Nginx]: http://nginx.org/en/docs/
 
 

@@ -37,13 +37,13 @@ hiproxy内置了一些变量，这些内置变量可以在相应的作用域中�
 请求的协议，`http`或者`https`。
 
 ### $request_uri
-请求的完整地址，比如`http://hiproxy.org:8081/doc/index.html?from=google&v=_1847295727524#get-started`。
+请求的完整地址，比如`http://hiproxy.org:8081/docs/index.html?from=google&v=_1847295727524#get-started`。
 
 ### $path
-请求的`path`（包括参数），比如`/doc/index.html?from=google&v=_1847295727524#get-started`。
+请求的`path`（包括参数），比如`/docs/index.html?from=google&v=_1847295727524#get-started`。
 
 ### $path_name
-请求的`path_name`（不包括参数），比如`/doc/index.html`。
+请求的`path_name`（不包括参数），比如`/docs/index.html`。
 
 ### $hash
 请求url中的`hash`(包括`#`)，比如'#get-started'。

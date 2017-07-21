@@ -345,4 +345,4 @@ www1.test.com => {
 
 # All Commands
 
-See [Rewrite directives](https://github.com/zdying/hiproxy/blob/master/doc/rewrite_directives.md)
+See [Rewrite directives](https://github.com/zdying/hiproxy/blob/master/docs/rewrite_directives.md)
