@@ -46,6 +46,8 @@ hiproxy.org => {
 
 此外，也有部分指令采用Nginx的指令名称且功能基本类似，比如`proxy_pass`、`set`、`ssl_certificate`和`ssl_certificate_key`等。但是也**不保证所有的功能细节跟Nginx的指令保持一致**。详细的指令功能说明请参考[指令](./configuration/rewrite_directive.md)。
 
+<br/>
+
 ### hiproxy多个项目中的不同配置文件使用相同的域名吗？
 
 支持。
@@ -54,6 +56,7 @@ hiproxy.org => {
 
 详细的配置规则处理文档正在编写。
 
+<br/>
 
 ### hiproxy怎么处理多个配置文件中的规则冲突？
 
