@@ -20,9 +20,11 @@ hiproxy跟Charles/Fiddler都有抓包、请求代理的功能，很多核心的�
 
 <br/>
 
-### hiproxy根证书怎么获取／导入？
+### hiproxy的hosts跟系统hosts有什么关系？
 
-可以查看文档[获取／导入SSL证书](./configuration/ssl_certificate.md)。
+hiproxy的hosts跟系统hosts文件本身没有任何关系。
+
+hiproxy的hosts文件一般存放在项目中，或者其他目录（根据用户情况自己决定放到哪里）。hiproxy代理服务启动的时候，会查找并解析这些hosts文件，**不会去查找解析系统hosts**。
 
 <br/>
 
@@ -43,6 +45,26 @@ hiproxy.org => {
 ```
 
 此外，也有部分指令采用Nginx的指令名称且功能基本类似，比如`proxy_pass`、`set`、`ssl_certificate`和`ssl_certificate_key`等。但是也**不保证所有的功能细节跟Nginx的指令保持一致**。详细的指令功能说明请参考[指令](./configuration/rewrite_directive.md)。
+
+### hiproxy多个项目中的不同配置文件使用相同的域名吗？
+
+支持。
+
+可以在不同的项目的不同配置文件中，给相同的域名配置代理规则。hiproxy会自动合并相同域名的规则，如果路由配置有冲突，后加载的配置文件的规则会覆盖前面的规则。
+
+详细的配置规则处理文档正在编写。
+
+
+### hiproxy怎么处理多个配置文件中的规则冲突？
+
+详细的配置规则处理文档正在编写。
+
+
+<br/>
+
+### hiproxy根证书怎么获取／导入？
+
+可以查看文档[获取／导入SSL证书](./configuration/ssl_certificate.md)。
 
 <br/>
 

@@ -11,8 +11,8 @@
 
 ## Configuration
 
-* [hiproxy配置简介](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/introduction.md) ![](http://progressed.io/bar/0)
-* [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/find_conf.md) ![](http://progressed.io/bar/0)
+* [hiproxy配置简介](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/introduction.md) ![](http://progressed.io/bar/70)
+* [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/find_conf.md) ![](http://progressed.io/bar/80)
 * [hosts](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/hosts.md) ![](http://progressed.io/bar/90)
 * [rewrite](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite.md) ![](http://progressed.io/bar/70)
   * [介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/configuration/rewrite_introduction.md) ![](http://progressed.io/bar/90)
