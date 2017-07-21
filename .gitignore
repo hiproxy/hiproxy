@@ -42,3 +42,6 @@ jspm_packages
 # IDE
 .idea
 .vscode
+
+# docs
+_docs
