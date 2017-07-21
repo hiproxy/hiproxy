@@ -43,7 +43,10 @@ __hosts__、__反向代理__、__https__ 和 __缓存__ 这些琐碎的事情，
 
 ## 理念
 
-...
+我们经过对很多现有开发模式的反思、总结现在遇到的一些问题，基于以下两个理念开发出了hiproxy：
+
+* **工作空间**：hiproxy工作在工作空间（workspace）中，工作空间中所有项目的配置文件都会被hiproxy解析。
+* **配置文件共享**：配置文件，提交到代码仓库，团队成功共享配置。之前hosts和Nginx配置一般都是不提交到代码仓库，团队成员各自本地维护，成本大并且效率比较低。
 
 ## 基本原理
 
@@ -102,9 +105,53 @@ hiproxy充分利用了[中间人攻击](https://en.wikipedia.org/wiki/Man-in-the
 
 ### 配置文件
 
-...
+hiproxy可以使用hosts来做简单的请求代理，对于复杂的配置使用跟Nginx语法类似的rewrite规则配置。
+
+#### hosts
+
+跟系统`hosts`语法一致，此外也支持端口号。hosts只能配置域名对应的ip和端口号，不支持详细的路由配置以及对请求响应做修改。更多详细信息请查看[hosts](../configuration/hosts.md)。
+
+#### hosts配置示例
+
+```bash
+# comment
+127.0.0.1 example.com
+
+# ip + port
+127.0.0.1:8800 blog.example.com life.example.com
+```
+
+#### rewrite
+
+rewrite规则配置文件，可以使用更复杂的配置、满足复杂的使用场景。可以对路由进行详细的配置以及对请求响应做修改。rewrite规则配置的语法，跟Nginx语法非常类似。更多详细信息请查看[rewrite](../configuration/rewrite.md)。
+
+#### rewrite配置示例
+
+```bash
+# 全局变量
+set $port 8899;
+set $ip   127.0.0.1;
+set $online 210.0.0.0;
+
+# 域名配置
+domain example.com {
+  location / {
+    proxy_pass http://$online/;
+  }
+
+  location /blog/ {
+    proxy_pass http://$ip:$port/blog/;
+    proxy_set_header from 'hiproxy';
+    set_header proxy 'hiproxy';
+  }
+}
+```
 
 ### 插件机制
 
-...
+hiproxy启动的时候，会自动从npm全局模块所在目录（`npm root -g`）查找以`hiproxy-plugin-`开头的模块，找到这些模块之后自动解析插件内容。
+
+因此，我们只需要独立全局安装需要的插件，不用去升级hiproxy，hiproxy插件的开发也是独立的，插件项目本身不依赖hiproxy。
+
+详细的插件相关文档请查看[hiproxy插件机制](../developer/plugin.md)；
 
