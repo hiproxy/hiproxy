@@ -2,7 +2,7 @@
 
 ## Get Started
 
-* [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/introduction.md) ![](http://progressed.io/bar/50)
+* [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/introduction.md) ![](http://progressed.io/bar/80)
 * [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/installation.md) ![](http://progressed.io/bar/90)
 * [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/run_example.md) ![](http://progressed.io/bar/90)
 * [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/doc/get_started/play_with_your_projects.md) ![](http://progressed.io/bar/95)
