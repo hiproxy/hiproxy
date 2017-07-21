@@ -85,8 +85,67 @@ workspace
 
 ## 配置文件更新
 
-...
+hiproxy支持两种代理方式：[PAC(Proxy-Auto-Config)](https://en.wikipedia.org/wiki/Proxy_auto-config)和普通代理。
+
+默认情况下使用普通代理，启动时添加选项`--pac-proxy`会使用PAC代理。
+
+不同的代理方式，对于配置文件更新的处理也不一样。
+
+如果使用普通代理，配置文件更新之后，不用重启浏览器，直接更刷新浏览器即可生效。
+
+但是如果使用PAC代理，如果新增了域名，目前`.pac`文件并不会立刻更新，需要手动刷新浏览器的代理文件。可以访问<chrome://net-internals/#proxy>然后点击`Re-apply settings`。
 
 ## 代理规则合并
 
-...
+所有配置文件中的规则最终都会合并到一个大的规则树中。也就是说配置了代理之后，在处理请求的时候，所有配置文件中的规则都是平等的。**不同域名中的规则互不影响。相同域名中的规则合并，如果有重复的路由，后加载的配置文件中的路由覆盖之前加载的配置文件内容**。
+
+比如，有两个配置文件`workspace/blog/rewrite`和`workspace/docs/rewrite`，文件内容如下:
+
+```bash
+# workspace/blog/rewrite
+
+domain hiproxy.org {
+  location /blog/ {
+    proxy_pass http://127.0.0.1:8000/;
+  }
+}
+
+domain blog.hiproxy.org {
+  location / {
+    proxy_pass http://127.0.0.1:8000/;
+  }
+}
+```
+
+```bash
+# workspace/docs/rewrite
+
+domain hiproxy.org {
+  location /docs/ {
+    proxy_pass http://127.0.0.1:9000/;
+  }
+}
+```
+
+合并之后的规则为：
+
+```bash
+# 合并之后的规则
+
+domain hiproxy.org {
+  location /blog/ {
+    proxy_pass http://127.0.0.1:8000/;
+  }
+
+  location /docs/ {
+    proxy_pass http://127.0.0.1:9000/;
+  }
+}
+
+domain blog.hiproxy.org {
+  location / {
+    proxy_pass http://127.0.0.1:8000/;
+  }
+}
+```
+
