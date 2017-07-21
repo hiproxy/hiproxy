@@ -25,7 +25,7 @@
 ## Node.js API
 
 * [API](https://github.com/hiproxy/hiproxy/blob/master/doc/api/api.md) ![](http://progressed.io/bar/50)
-* [Events](https://github.com/hiproxy/hiproxy/blob/master/doc/api/events.md) ![](http://progressed.io/bar/50)
+* [Events](https://github.com/hiproxy/hiproxy/blob/master/doc/api/events.md) ![](http://progressed.io/bar/90)
 
 ## Developer
 
