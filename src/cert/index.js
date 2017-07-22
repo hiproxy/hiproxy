@@ -94,7 +94,7 @@ module.exports = {
 
     var days = options.days || 365;
     var isCa = options.isCa || false;
-    var subject = certInfo ? certInfo.subject : {};
+    var subject = certInfo ? certInfo.subject || {} : {};
     var hasSubjectAltName = certInfo && typeof certInfo.subjectaltname === 'string';
     var subjectaltname = hasSubjectAltName ? certInfo.subjectaltname.split(/,\s+/) : ['DNS:' + domain];
     var attributes = options.attributes || [
