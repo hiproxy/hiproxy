@@ -108,37 +108,73 @@ proxy.start().then(function (servers) {
 ```bash
 > hiproxy --help
 
+Usage:
+
+    hiproxy [command] [option]
+
 Commands:
 
-  start   Start a local proxy server
-  stop    Stop the local proxy server
-  restart  Restart the local proxy server
-  state   Show all the servers state
-  open    Open browser and set proxy
+  start    Start a local proxy server
+  stop     Stop the local proxy server (Only works in daemon mode)
+  restart  Restart the local proxy service (Only works in daemon mode)
+  state    Show all the servers state (Only works in daemon mode)
+  open     Open browser and set proxy
+  hello    A test command that say hello to you.
 
 Options:
 
-  -v, --version
-  -h, --help
-  -D, --daemon
-  --log-dir
-  --log-time
-  --log-level
-  --grep <content>
+  -v, --version     Display version information
+  -h, --help        Display help information
+  --log-dir <dir>   The log directory when run in background, default: user home directory
+  --log-time        Show time info before every log message
+  --log-level       The log levels, format: <level1>[,<lavel2[,...]]
+  --grep <content>  Filter the log data
 ```
 
 ## Documentation
 
-* [User Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/guide.md)
-* [API Documentation](https://github.com/hiproxy/hiproxy/blob/master/docs/api.md)
-* [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/plugin_guide.md)
-* [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/rewrite_config.md)
-* [Rewrite Directives](https://github.com/hiproxy/hiproxy/blob/master/docs/rewrite_directives.md)
-* [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/docs/hosts_config.md)
-* [Command Line Interface](https://github.com/hiproxy/hiproxy/blob/master/docs/cli_options.md)
-* [FAQ](https://github.com/hiproxy/hiproxy/blob/master/docs/faq.md)
+> **Note**: This is an incomplete documentation, we are still writing, 
+> if you are willing to help us prepare the documentation, please contact [zdying@live.com](mailto:zdying@live.com)
+ 
+### Get Started
 
-### Hosts Configuration Example
+* [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
+* [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
+* [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
+* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/play_with_your_projects.md)
+* [命令行命令和参数](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
+
+
+### Configuration
+
+* [hiproxy配置简介](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/introduction.md)
+* [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/find_conf.md)
+* [hosts](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/hosts.md)
+* [rewrite](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite.md)
+  * [介绍](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_introduction.md)
+  * [作用域](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_scope.md)
+  * [指令](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_directive.md)
+  * [内置变量](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_built_in_variable.md)
+* [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/ssl_certificate.md)
+
+
+### Node.js API
+
+* [API](https://github.com/hiproxy/hiproxy/blob/master/docs/api/api.md)
+* [Events](https://github.com/hiproxy/hiproxy/blob/master/docs/api/events.md)
+
+### Developer
+
+* [hiproxy插件机制](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
+* [扩展CLI命令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
+* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [扩展页面路由](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
+
+### FAQs
+
+* [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
+
+## Hosts Configuration Example
 
 **hiproxy** supports enhanced version of `hosts`, the `hosts` file supports not only IP but also **port numbers**.
 
@@ -148,7 +184,7 @@ Options:
 127.0.0.1:8800 blog.example.com life.example.com
 ```
 
-### Rewrite Configuration Example
+## Rewrite Configuration Example
 
 ```bash
 set $port 8899;
