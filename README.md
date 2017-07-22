@@ -76,33 +76,6 @@ Configure proxy:
 127.0.0.1:5525
 ```
 
-### Node.js API
-
-```js
-var HiProxyServer = require('hiproxy');
-var proxy = new HiProxyServer(8848, 10086);
-
-// events
-proxy.on('request', function(req, res){
-  req.someThing = 'some thing';
-  console.log('new request =>', req.method, req.url);
-});
-
-proxy.on('data', function(data){
-  console.log('on response =>', data.toString());
-});
-
-proxy.start().then(function (servers) {
-  console.log('proxy server started at: 127.0.0.1:8848');
-});
-
-// stop proxy server
-// proxy.stop();
-
-// restart proxy server
-// proxy.restart();
-```
-
 ## CLI Usage
 
 ```bash
@@ -173,6 +146,33 @@ Options:
 ### FAQs
 
 * [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
+
+### Node.js API
+
+```js
+var HiProxyServer = require('hiproxy');
+var proxy = new HiProxyServer(8848, 10086);
+
+// events
+proxy.on('request', function(req, res){
+  req.someThing = 'some thing';
+  console.log('new request =>', req.method, req.url);
+});
+
+proxy.on('data', function(data){
+  console.log('on response =>', data.toString());
+});
+
+proxy.start().then(function (servers) {
+  console.log('proxy server started at: 127.0.0.1:8848');
+});
+
+// stop proxy server
+// proxy.stop();
+
+// restart proxy server
+// proxy.restart();
+```
 
 ## Hosts Configuration Example
 
