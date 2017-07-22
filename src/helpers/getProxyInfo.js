@@ -205,10 +205,13 @@ function getRewriteRule (urlObj, rewriteRules) {
   log.debug('getProxyInfo -', href, '==>', JSON.stringify(rewriteRule));
 
   // 不克隆parent，防止clone的时候循环引用
-  var newRule = clone(rewriteRule, ['parent']);
-  newRule.parent = rewriteRule.parent;
-
-  return newRule;
+  if (rewriteRule) {
+    var newRule = clone(rewriteRule, ['parent']);
+    newRule.parent = rewriteRule.parent;
+    return newRule;
+  } else {
+    return null;
+  }
 }
 
 function toRegExp (str, flags) {
