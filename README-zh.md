@@ -120,13 +120,47 @@ Options:
 
 ## 文档
 
-* [Usage Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/guide.md)
-* [API documentation](https://github.com/hiproxy/hiproxy/blob/master/doc/api.md)
-* [Plugin Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/plugin_guide.md)
-* [Rewrite Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_config.md)
-* [Rewrite directives](https://github.com/hiproxy/hiproxy/blob/master/doc/rewrite_directives.md)
-* [Hosts Config Guide](https://github.com/hiproxy/hiproxy/blob/master/doc/hosts_config.md)
-* [Command Line Commands and Options](https://github.com/hiproxy/hiproxy/blob/master/doc/cli_options.md)
+## Documentation
+
+> **提示**: 文档正在编写中，如果你愿意帮忙编写文档，请联系[zdying@live.com](mailto:zdying@live.com)
+ 
+### Get Started
+
+* [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
+* [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
+* [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
+* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/play_with_your_projects.md)
+* [命令行命令和参数](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
+
+
+### Configuration
+
+* [hiproxy配置简介](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/introduction.md)
+* [配置文件查找](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/find_conf.md)
+* [hosts](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/hosts.md)
+* [rewrite](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite.md)
+  * [介绍](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_introduction.md)
+  * [作用域](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_scope.md)
+  * [指令](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_directive.md)
+  * [内置变量](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_built_in_variable.md)
+* [获取／导入SSL证书](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/ssl_certificate.md)
+
+
+### Node.js API
+
+* [API](https://github.com/hiproxy/hiproxy/blob/master/docs/api/api.md)
+* [Events](https://github.com/hiproxy/hiproxy/blob/master/docs/api/events.md)
+
+### Developer
+
+* [hiproxy插件机制](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
+* [扩展CLI命令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
+* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [扩展页面路由](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
+
+### FAQs
+
+* [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
 
 ## hosts配置示例
 
