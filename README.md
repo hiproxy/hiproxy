@@ -107,7 +107,7 @@ Options:
 ## Documentation
 
 > **Note**: This is an incomplete documentation, we are still writing, 
-> if you are willing to help us prepare the documentation, please contact [zdying@live.com](mailto:zdying@live.com)
+> if you are willing to help us write or translate the documentation, please contact [zdying@live.com](mailto:zdying@live.com)
  
 ### Get Started
 
