@@ -122,7 +122,7 @@ Options:
 
 ## Documentation
 
-> **提示**: 文档正在编写中，如果你愿意帮忙编写文档，请联系[zdying@live.com](mailto:zdying@live.com)
+> **提示**: 文档正在编写中，如果你愿意帮忙编写或者翻译文档，请联系[zdying@live.com](mailto:zdying@live.com)
  
 ### Get Started
 
