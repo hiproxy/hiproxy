@@ -147,7 +147,7 @@ Options:
 
 * [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
 
-### Node.js API
+## Node.js API
 
 ```js
 var HiProxyServer = require('hiproxy');
