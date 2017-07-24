@@ -4,6 +4,8 @@ hiproxy提供了一套插件开发机制，这个机制很简单：插件开发�
 
 开发者开发新插件时，可以参考`hiproxy-plugin-example`: <https://github.com/hiproxy/hiproxy-plugin-example>。这是一个完整的插件示例，你可以基于这个示例修改。
 
+**插件就是一个普通的npm模块，不需要将hiproxy作为依赖安装到插件中。**
+
 <br />
 
 ## 插件结构
@@ -26,7 +28,7 @@ module.exports = {
 
 * **commands**: `<Array>`，用来扩展`hiproxy`的**CLI命令**，数组中每个对象作为一个命令配置，具体配置见[命令配置](cli_command.md)。
 
-* **directives**: `<Array>`，用来扩展`hiproxy`的**rewrite指令**，数组中每个对象作为一个指令配置，具体配置见[指令配置](rewrite_directive.md)。
+* **directives**: `<Array>`，用来扩展`hiproxy`的**rewrite指令**，数组中每个对象作为一个指令配置，具体配置见[指令配置](directive.md)。
 
 * **routes**: `<Array>`，用来扩展`hiproxy`的**页面路由**，数组中每个对象作为一个路由配置，具体配置见[路由配置](route.md)。
 
@@ -37,6 +39,13 @@ module.exports = {
 ## 代码示例
 
 <https://github.com/hiproxy/hiproxy-plugin-example/blob/master/index.js#L14-L23>
+
+## 插件发布
+
+插件开发、测试完成之后，可以将其发布到npm。
+
+发布的过程和方法，跟其他npm模块的发布一样，因为hiproxy的插件，**就是一个**遵循了特定规则的**普通npm模块**。
+
 
 ## 温馨提示
 

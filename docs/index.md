@@ -31,7 +31,7 @@
 
 * [hiproxy插件机制](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md) ![](http://progressed.io/bar/95)
 * [扩展CLI命令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md) ![](http://progressed.io/bar/95)
-* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md) ![](http://progressed.io/bar/95)
+* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md) ![](http://progressed.io/bar/95)
 * [扩展页面路由](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md) ![](http://progressed.io/bar/95)
 
 ## FAQs
