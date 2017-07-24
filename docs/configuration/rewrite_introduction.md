@@ -1,7 +1,7 @@
 # Rewrite Introduction
 
 > 如果你愿意帮助hiproxy编写文档，请联系zdying@live.com, 谢谢！
-
+>
 > If you are willing to help hiproxy to write documentation, please contact zdying@live.com, thank you!
 
 ## 简介
@@ -216,6 +216,18 @@ api.qunar.com => {
         set $id user_iddddd;
         set_cookie $flight zdy_$id;
     }
+    
+    location /multiple {
+        echo <h1>hello_echo</h1>;
+        echo <p>test echo directive</p>;
+        echo <div>;
+        echo   <span>div &gt; span</span>;
+        echo </div>;
+        echo <p>finish</p>;
+        
+        # proxy_pass http://127.0.0.1:8000/;
+    }
+  
 }
 ```
 
