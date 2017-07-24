@@ -59,6 +59,14 @@
       "pre-push": "npm test"
     }
   },
+  "files": [
+    "src",
+    "ssl",
+    "bin",
+    "README-zh.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md"
+  ],
   "semistandard": {
     "globals": [
       "log",
