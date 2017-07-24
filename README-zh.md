@@ -155,7 +155,7 @@ Options:
 
 * [hiproxy插件机制](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
 * [扩展CLI命令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
-* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md)
 * [扩展页面路由](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
 
 ### FAQs
