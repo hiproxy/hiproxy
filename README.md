@@ -114,7 +114,7 @@ Options:
 * [Introduction](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
 * [Installation](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
 * [Run Examples](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
-* [Applied to existing projects](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/play_with_your_projects.md)
+* [Applied to existing projects](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/applied_to_existing_projects.md)
 * [CLI Options](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
 
 
