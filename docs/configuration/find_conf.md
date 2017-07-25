@@ -4,7 +4,7 @@
 > 
 > If you are willing to help hiproxy to write documentation, please contact zdying@live.com, thank you!
 
-如果是遵循的理念的存放配置文件（包括配置文件的文件名），当hiproxy的启动时，能够自动查找到上面三个项目的配置文件，不需要手动指定配置文件。
+如果是遵循的理念的存放配置文件（包括配置文件的文件名），当hiproxy的启动时，能够自动查找项目的配置文件，不需要手动指定配置文件。
 
 如果没有遵循，把配置文件存放在其他路径或者不是使用默认的文件名称（hosts文件默认文件名称为`hosts`，rewrite文件默认的文件名称为`rewrite`），需要在启动的时候，手动指定配置文件名称。
 
