@@ -119,19 +119,37 @@ module.exports = {
 
   // domain commands
   'ssl_certificate': function (value) {
-    var parent = this.parent;
-    var rewriteFilePath = parent.filePath;
-    var dirname = path.dirname(rewriteFilePath);
+    var filePath = '';
+    if (path.isAbsolute(value)) {
+      // absolute path
+      filePath = value;
+    } else {
+      // relative path
+      var parent = this.parent;
+      var rewriteFilePath = parent.filePath;
+      var dirname = path.dirname(rewriteFilePath);
 
-    this.props.sslCertificate = path.join(dirname, value);
+      filePath = path.join(dirname, value);
+    }
+
+    this.props.sslCertificate = filePath;
   },
 
   'ssl_certificate_key': function (value) {
-    var parent = this.parent;
-    var rewriteFilePath = parent.filePath;
-    var dirname = path.dirname(rewriteFilePath);
+    var filePath = '';
+    if (path.isAbsolute(value)) {
+      // absolute path
+      filePath = value;
+    } else {
+      // relative path
+      var parent = this.parent;
+      var rewriteFilePath = parent.filePath;
+      var dirname = path.dirname(rewriteFilePath);
 
-    this.props.sslCertificateKey = path.join(dirname, value);
+      filePath = path.join(dirname, value);
+    }
+
+    this.props.sslCertificateKey = filePath;
   },
 
   // global commands
