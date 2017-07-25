@@ -72,7 +72,7 @@ module.exports = {
   'send_file': function (value) {
     var filePath = '';
 
-    if (/^\//.test(value)) {
+    if (path.isAbsolute(value)) {
       // absolute path
       filePath = value;
     } else {
@@ -101,7 +101,7 @@ module.exports = {
   'alias': function (value) {
     this.props.alias = true;
 
-    if (/^\//.test(value)) {
+    if (path.isAbsolute(value)) {
       // absolute path
       this.props.proxy = value;
     } else {
