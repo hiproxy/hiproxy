@@ -6,11 +6,11 @@
 
 ## 简介
 
-**rewrite** 参考了类[Nginx][Nginx]配置语法，通过简单的配置，就可以帮助前端开发在本地调试的基础上，方便的利用其他环境或者线上的API接口进行测试。
-
-**hiproxy** 同时支持项目`rewrite`及[hosts][hosts]文件。如果仅需要简单的`域名+端口`转发，请参考[hosts][hosts]。
+**rewrite** 参考了[Nginx][Nginx]配置语法，通过简单的配置，就可以帮助前端开发在本地调试的基础上，方便的利用其他环境或者线上的API接口进行测试。
 
 当服务启动后，将自动扫描并监听各项目根目录下的`rewrite`文件，生成及实时更新转发规则，无需重启服务。
+
+**注**：hiproxy同时支持项目`rewrite`及[hosts][hosts]文件。如果仅需要简单的`域名+端口`转发，请参考[hosts][hosts]。
 
 ## 基本语法
 
@@ -59,7 +59,7 @@ $domain => {
 
 location 用来指定域名中的一个具体的路径，这个路径的所有配置都在 location 块中。
 
-注意：location必须位于domain块中。
+**注意**：location必须位于domain块中。
 
 #### 语法
 
@@ -91,7 +91,7 @@ location $some/$path {
     # ...
 }
 ```
-### 命令 
+### 命令
 
 命令用于设置一些变量，或者对`request`\/`response`做一些操作。
 
@@ -111,7 +111,7 @@ proxy_set_header Host some.example.com;
 set_cookie UserID some_user_id;
 ```
 
-### 注释 
+### 注释
 
 用来注释某些不需要的内容，**只支持单行注释**。
 
@@ -137,55 +137,58 @@ set_cookie UserID some_user_id;
 json.example.com => 127.0.0.1:8800;
 ```
 
-## 完整的例子 
+## 更多例子
 
 ```bash
-## url rewrite rules
-# page.example.com => hii.com;
-## json.example.com => 127.0.0.1:8800;
+set $local 127.0.0.1:8800
+# simple rewrite rule
+api.hiproxy.org => local.hiproxy.org;
+api.hiproxy.org => 127.0.0.1:8800;
+api.hiproxy.org/mock => $local/mock;
+```
 
-### rewrite folder
+```bash
+# rewrite folder
+api.hiproxy.org/user/ => {
+    proxy_pass local.hiproxy.org/user/;
 
-# api.example.com/user/ => {
-#     proxy_pass other.example.com/user/;
-#
-#     ## proxy request config
-#     proxy_set_header host api.example.com;
-#     proxy_set_header other value;
-#     proxy_hide_header key;
-#
-#     proxy_set_cookie userid 20150910121359;
-#     proxy_hide_cookie sessionid;
-#
-#     ## response config
-#     set_header Access-Control-Allow-Origin *; 
-#
-#     # allow CORS
-#     set_cookie sessionID E3BF86A90ACDD6C5FF49ACB09;
-#     hide_header key;
-#     hide_cookie key;
-# }
+    # proxy request config
+    proxy_set_header Host api.hiproxy.org;
+    proxy_set_header other value;
+    proxy_hide_header other;
 
-## regexp support
-# ~ /\/(demo|example)\/([^\/]*\.(html|htm))$/ => {
-#    proxy_pass http://127.0.0.1:9999/$1/src/$2;
-#
-#    set_header Access-Control-Allow-Origin *;
-# }
+    proxy_set_cookie userid 20150910121359;
+    proxy_hide_cookie sessionid;
 
-## simple rewrite rule
-usercenter.example.com => $domain/test;
-flight.qunar.com/flight_qzz => 127.0.0.1:8800/flight_qzz;
+    # response config
+    set_cookie sessionID E3BF86A90ACDD6C5FF49ACB09;
+    set_header proxy hiproxy;
 
-set $domain api.example.com;
+    # allow CORS
+    set_header Access-Control-Allow-Origin *;
+
+    hide_header proxy;
+    hide_cookie sessionID;
+}
+```
+
+```bash
+# regexp support
+~ /\/(demo|example)\/([^\/]*\.(html|htm))$/ => {
+   proxy_pass http://127.0.0.1:9999/$1/src/$2;
+}
+```
+
+```bash
+set $domain api.hiproxy.org;
 set $local 127.0.0.1:8800;
-set $flight flight;
-set $test $flight.example.com;
+set $api api;
+set $test $api.example.com;
 set $id 1234567;
 
-## standard rewrite url
+# standard rewrite url
 $domain => {
-    proxy_pass http://127.0.0.1:8800/news/src/mock/;
+    proxy_pass http://$local/api/mock/;
     set $id 1234;
     set $mock_user user_$id;
     set_header Host $domain;
@@ -193,46 +196,47 @@ $domain => {
     set_header Access-Control-Allow-Origin *;
 }
 
-# api.example.com => {
-#     proxy_pass http://$local/news/src/mock/list.json;
-#     set_header Access-Control-Allow-Origin *;
-# }
-
-api.qunar.com => {
+blog.hiproxy.org => {
     set_header Access-Control-Allow-Origin *;
+
     set $node_server 127.0.0.1:3008;
     set $order order;
     set $cookie1 login=true;expires=20160909;
 
-    location /$flight/$order/detail {
+    location /$api/$order/detail {
         proxy_pass http://$node_server/user/?domain=$domain;
         set_header Set-Cookie userID 200908204140;
     }
 
     location ~ /\/(usercenter|userinfo)/ {
         set $cookie login=true;expires=20180808;
+        set $id 56789;
+
         proxy_pass http://127.0.0.1:3008/info/;
+
         set_cookie userID 200908204140;
-        set $id user_iddddd;
-        set_cookie $flight zdy_$id;
+        set_cookie userName user_$id;
     }
-    
+
+    location ~ /\/local\/(.*)(\?(.*))?/ {
+        send_file ./mock/$1.json;
+    }
+
+    location /dev {
+        #alias /site/path/;
+        alias ./src/view/;
+        root app.html
+    }
+
     location /multiple {
         echo <h1>hello_echo</h1>;
         echo <p>test echo directive</p>;
-        echo <div>;
-        echo   <span>div &gt; span</span>;
-        echo </div>;
         echo <p>finish</p>;
-        
-        # proxy_pass http://127.0.0.1:8000/;
     }
-  
+
 }
 ```
 
 
 [hosts]: https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/hosts.md
 [Nginx]: http://nginx.org/en/docs/
-
-

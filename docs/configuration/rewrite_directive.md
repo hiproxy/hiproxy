@@ -22,13 +22,13 @@
 set $server hiipack;
 ```
 
-### 代理请求相关指令 
+### 代理请求相关指令
 
 代理请求相关的指令，用于操作代理服务向目标服务器发送请求的`Request`对象。
 
 **作用域链**：domain, location
 
-#### * proxy_set_header 
+#### * proxy_set_header
 
 描述：设置请求头部字段
 
@@ -40,7 +40,7 @@ set $server hiipack;
 proxy_set_header Host some.example.com;
 ```
 
-#### * proxy_hide_header 
+#### * proxy_hide_header
 
 描述：删除请求头部字段
 
@@ -52,7 +52,7 @@ proxy_set_header Host some.example.com;
 proxy_hide_header Host;
 ```
 
-#### * proxy_set_cookie 
+#### * proxy_set_cookie
 
 描述：设置请求Cookie
 
@@ -64,7 +64,7 @@ proxy_hide_header Host;
 proxy_set_cookie from hiproxy;
 ```
 
-#### * proxy_hide_cookie 
+#### * proxy_hide_cookie
 
 描述：删除请求Cookie字段
 
@@ -76,12 +76,13 @@ proxy_set_cookie from hiproxy;
 proxy_hide_cookie from;
 ```
 
-### 代理响应相关指令 
+### 代理响应相关指令
 
 代理响应相关的指令用于配置代理服务器响应浏览器的`Response`对象。
+
 **作用域链**：domain, location
 
-#### * set_header 
+#### * set_header
 
 描述：添加Header字段
 
@@ -93,7 +94,7 @@ proxy_hide_cookie from;
 set_header SERVER hiproxy;
 ```
 
-#### * hide_header 
+#### * hide_header
 
 描述：删除Header字段
 
@@ -105,7 +106,7 @@ set_header SERVER hiproxy;
 hide_header SERVER;
 ```
 
-#### * set_cookie 
+#### * set_cookie
 
 描述：设置Cookie字段
 
@@ -117,7 +118,7 @@ hide_header SERVER;
 set_cookie SESSION_ID 2BF36A09CB35FD71E;
 ```
 
-#### * hide_cookie 
+#### * hide_cookie
 
 描述：删除Cookie字段
 
@@ -129,7 +130,7 @@ set_cookie SESSION_ID 2BF36A09CB35FD71E;
 hide_cookie SESSION_ID;
 ```
 
-#### * send_file 
+#### * send_file
 
 描述：返回指定的文件
 
@@ -152,6 +153,7 @@ send_file /site/index.html;
 
 ```bash
 echo <h1>hello_echo</h1>;
+echo <p>finish</p>;
 ```
 
 
@@ -210,7 +212,7 @@ example.com => {
 proxy_pass http://some.example.com/some/path/;
 ```
 
-#### * alias 
+#### * alias
 
 描述：将对应的`location`映射到本地目录
 
@@ -222,20 +224,14 @@ proxy_pass http://some.example.com/some/path/;
 alias /Users/root/some/path/;
 ```
 
-#### * root 
+#### * root
 
-描述：将对应的`location`映射到本地目录时的默认文件
+描述：将对应的`location`映射到本地目录时的默认文件，默认文件名为`index.html`
 
 参数：**root** file_name
 
 *例子*：
 
 ```bash
-root index.html;
+root app.html;
 ```
-
-
-
-
-
-
