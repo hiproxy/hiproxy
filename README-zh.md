@@ -211,6 +211,7 @@ npm test
 ## 作者
 
 * __zdying__ - _HTML/JavaScript/CSS/Node.js 开发者_ [zdying](https://github.com/zdying)
+* __zhouhailong__ - _HTML/JavaScript/CSS/Node.js 开发者_ [zhouhailong](https://github.com/zhouhailong)
 * __Alfred Sang (aka i5ting)__ - _Aircos CTO, StuQ 明星讲师, 开源项目Moa.js的作者, 同时也是Node.js的布道者_
 
 您也可以点击[contributors](https://github.com/hiproxy/hiproxy/graphs/contributors)查看其他贡献者。
