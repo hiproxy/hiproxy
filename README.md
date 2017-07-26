@@ -140,7 +140,7 @@ Options:
 
 * [Plugin](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
 * [Extend Command](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
-* [Extend Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [Extend Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md)
 * [Extend Route](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
 
 ### FAQs
