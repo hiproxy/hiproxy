@@ -255,6 +255,20 @@ ProxyServer.prototype = {
       });
   },
 
+  enableConfFile: function (type, filePath) {
+    this[type] && this[type].enableFile(filePath);
+  },
+
+  disableConfFile: function (type, filePath) {
+    this[type] && this[type].disableFile(filePath);
+  },
+
+  getDisabledConfFile: function (type, filePaths) {
+    // TODO
+    // get Host/Rewrite file status
+    return null;
+  },
+
   /**
    * 在指定工作空间（目录）下查找配置文件
    * hiproxy会在指定的空间下所有一级目录下查找配置文件

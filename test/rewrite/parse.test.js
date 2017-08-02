@@ -212,4 +212,25 @@ describe('rewrite', function () {
       assert.deepEqual('str_location_scope', location.props['$str']);
     });
   });
+  describe('api', function () {
+    var rewrite = new Rewrite();
+    var rule = null;
+    var filePath = path.join(__dirname, 'rewrite_2');
+
+    rewrite.addFile(filePath);
+
+    it('disableFile()', function () {
+      rule = rewrite.getRule('blog.hiproxy.org');
+      assert.equal(true, rule.length > 0);
+
+      rewrite.disableFile(filePath);
+      rule = rewrite.getRule('blog.hiproxy.org');
+      assert.equal(undefined, rule);
+    });
+    it('enableFile()', function () {
+      rewrite.enableFile(filePath);
+      rule = rewrite.getRule('blog.hiproxy.org');
+      assert.equal(true, rule.length > 0);
+    });
+  });
 });

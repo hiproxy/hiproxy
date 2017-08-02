@@ -62,7 +62,6 @@ describe('#hosts', function () {
     var filePath = path.join(__dirname, 'hosts_1');
 
     hosts.addFile(filePath);
-
     it('addFile()', function () {
       rules = hosts.getHost();
       assert.equal('10.86.10.86', rules['www.my_test.com']);
@@ -75,6 +74,23 @@ describe('#hosts', function () {
       assert.equal(0, Object.keys(rules));
       assert.equal(undefined, rules['www.my_test.com']);
     });
+
+    it('disableFile()', function () {
+      hosts.addFile(filePath);
+
+      rules = hosts.getHost();
+      assert.equal('10.86.10.86', rules['www.my_test.com']);
+
+      hosts.disableFile(filePath);
+      rules = hosts.getHost();
+      assert.equal(undefined, rules['www.my_test.com']);
+    });
+
+    it('enableFile()', function () {
+      hosts.enableFile(filePath);
+      rules = hosts.getHost();
+      assert.equal('10.86.10.86', rules['www.my_test.com']);
+    });
   });
 
   describe('#watch', function () {
@@ -84,7 +100,7 @@ describe('#hosts', function () {
       var filePath = path.join(__dirname, 'hosts_2');
 
       hosts.addFile(filePath);
-      rules = hosts.getHost();
+      // rules = hosts.getHost();
 
       fs.writeFile(filePath, '12.34.56.78 blog.my_test.cn\n123.123.110.110 www.my_test.cn', function (err) {
         if (err) {
