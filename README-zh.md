@@ -129,7 +129,7 @@ Options:
 * [hiproxy介绍](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
 * [安装hiproxy](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
 * [运行示例项目](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
-* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/play_with_your_projects.md)
+* [运用到现有项目中](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/applied_to_existing_projects.md)
 * [命令行命令和参数](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
 
 
@@ -155,7 +155,7 @@ Options:
 
 * [hiproxy插件机制](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
 * [扩展CLI命令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
-* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [扩展rewrite指令](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md)
 * [扩展页面路由](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
 
 ### FAQs
@@ -211,6 +211,7 @@ npm test
 ## 作者
 
 * __zdying__ - _HTML/JavaScript/CSS/Node.js 开发者_ [zdying](https://github.com/zdying)
+* __zhouhailong__ - _HTML/JavaScript/CSS/Node.js 开发者_ [zhouhailong](https://github.com/zhouhailong)
 * __Alfred Sang (aka i5ting)__ - _Aircos CTO, StuQ 明星讲师, 开源项目Moa.js的作者, 同时也是Node.js的布道者_
 
 您也可以点击[contributors](https://github.com/hiproxy/hiproxy/graphs/contributors)查看其他贡献者。

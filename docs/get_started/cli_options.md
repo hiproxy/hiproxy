@@ -31,21 +31,21 @@ If you specify the option `--help` or `-h`, you will see the complete help infor
 
   Commands:
 
-    start   Start a local proxy server
-    stop    Stop the local proxy server
-    reload  Restart the local proxy server
-    state   Show all the servers state
-    open    Open browser and set proxy
+    start    Start a local proxy server
+    stop     Stop the local proxy server (Only works in daemon mode)
+    restart  Restart the local proxy service (Only works in daemon mode)
+    state    Show all the servers state (Only works in daemon mode)
+    open     Open browser and set proxy
+    hello    A test command that say hello to you.
 
   Options:
 
-    -v, --version     显示版本信息
-    -h, --help        显示帮助信息
-    -D, --daemon      后台运行
-    --log-dir <dir>   后台运行时日志存放路径（绝对路径），默认为用户目录
-    --log-time        显示日志时间
-    --log-level       过滤日志级别，只有指定级别的日志才会显示
-    --grep <content>  过滤日志内容，只有保护过滤字符串的日志才会显示
+    -v, --version     Display version information
+    -h, --help        Display help information
+    --log-dir <dir>   The log directory when run in background, default: user home directory
+    --log-time        Show time info before every log message
+    --log-level       The log levels, format: <level1>[,<lavel2[,...]]
+    --grep <content>  Filter the log data
 ```
 
 ## start
@@ -68,11 +68,16 @@ The log file is located in the user's home directory by default. Of course, you 
   OPTIONS:
 
     -h, --help                    show help info
-    -s, --https                   启动https代理服务
-    -m, --middle-man-port <port>  https中间人端口号
-    -o, --open [browser]          打开浏览器窗口
-    --pac-proxy                   是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
-    -p, --port <port>             http代理服务端口号
+    -D, --daemon                  Run hiproxy in background
+    -c, --hosts-file <files>      hosts files, format: <file1>[,<file2>[,...]]
+    -s, --https                   Enable HTTPS proxy
+    -m, --middle-man-port <port>  The Man-In-The-MiddleHTTPS proxy port, default: 10010
+    -o, --open [browser]          Open a browser window and use hiproxy proxy
+    --pac-proxy                   Use Proxy auto-configuration (PAC)
+    -p, --port <port>             HTTP proxy port, default: 5525
+    -r, --rewrite-file <files>    rewrite config files, format: <file1>[,<file2>[,...]]
+    --sys-proxy <path>            Your own proxy server path, format: <ip>[:port], only works when use PAC
+    -w, --workspace <dir>         The workspace
 ```
 
 ## stop
@@ -93,7 +98,7 @@ The `open` command can open a browser window and automatically set up the browse
 
   USAGE:
 
-    open [option]
+    open [options]
 
   DESCRIBE:
 
@@ -102,14 +107,14 @@ The `open` command can open a browser window and automatically set up the browse
   OPTIONS:
 
     -h, --help               show help info
-    -b, --browser <browser>  浏览器名称，默认：chrome，可选值：chrome,firefox,opera
-    --pac-proxy              是否使用自动代理，如果使用，不在hosts或者rewrite规则中的域名不会走代理
+    -b, --browser <browser>  Browser name, default: chrome. Valid alues: chrome,firefox,opera
+    --pac-proxy              Use Proxy auto-configuration (PAC)
 ```
 
 ## state
 
 This command will display the basic status information of the currently started proxy service.
 
-## reload
+## restart
 
-
+This command will restart the proxy service.

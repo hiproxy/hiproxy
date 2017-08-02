@@ -20,7 +20,6 @@ Rewrite.prototype = {
    */
   addFile: function (filePath) {
     var _files = this._files;
-    var self = this;
 
     if (filePath) {
       if (!Array.isArray(filePath)) {
@@ -29,17 +28,12 @@ Rewrite.prototype = {
 
       filePath.forEach(function (file) {
         if (!(file in _files)) {
-          _files[file] = {};
-          fs.watchFile(file, { interval: 2000 }, function (curr, prev) {
-            if (Date.parse(curr.ctime) === 0) {
-              self.deleteFile(file);
-            } else if (Date.parse(curr.mtime) !== Date.parse(prev.mtime)) {
-              log.debug(file.bold.green, 'changed.');
-              self.update();
-            }
-          });
+          _files[file] = {
+            enable: this._initFileStatus(file)
+          };
+          this._watchFile(file);
         }
-      });
+      }.bind(this));
 
       this.update();
     }
@@ -61,8 +55,8 @@ Rewrite.prototype = {
 
       filePath.forEach(function (file) {
         delete _files[file];
-        fs.unwatchFile(file);
-      });
+        this._unwatchFile(file);
+      }.bind(this));
 
       this.update();
     }
@@ -70,11 +64,85 @@ Rewrite.prototype = {
   },
 
   /**
+   * 启用rewrite文件规则
+   * @param {String|Array} filePath
+   * @returns this
+   */
+  enableFile: function (filePath) {
+    var _files = this._files;
+    if (filePath) {
+      if (!Array.isArray(filePath)) {
+        filePath = [filePath];
+      }
+
+      filePath.forEach(function (file) {
+        if (file in _files && !_files[file].enable) {
+          _files[file].enable = true;
+          this._watchFile(file);
+          this.update();
+        }
+      }.bind(this));
+    }
+    return this;
+  },
+
+  /**
+   * 禁用rewrite文件规则
+   * @param {String|Array} filePath
+   * @returns this
+   */
+  disableFile: function (filePath) {
+    var _files = this._files;
+    if (filePath) {
+      if (!Array.isArray(filePath)) {
+        filePath = [filePath];
+      }
+
+      filePath.forEach(function (file) {
+        if (file in _files && _files[file].enable) {
+          _files[file].enable = false;
+          this._unwatchFile(file);
+          this.update();
+        }
+      }.bind(this));
+    }
+
+    return this;
+  },
+
+  _initFileStatus: function (file) {
+    // TODO
+    // Get status from local file.
+    return true;
+  },
+
+  _saveFileStatus: function () {
+    // TODO
+    // Save to local file.
+    return null;
+  },
+
+  _watchFile: function (file) {
+    fs.watchFile(file, { interval: 2000 }, function (curr, prev) {
+      if (Date.parse(curr.ctime) === 0) {
+        this.deleteFile(file);
+      } else if (Date.parse(curr.mtime) !== Date.parse(prev.mtime)) {
+        log.debug(file.bold.green, 'changed.');
+        this.update();
+      }
+    }.bind(this));
+  },
+
+  _unwatchFile: function (file) {
+    fs.unwatchFile(file);
+  },
+
+  /**
    * 添加规则
    */
-  addRule: function () {
+  // addRule: function () {
 
-  },
+  // },
 
   /**
    * 根据domain和location获取转发规则
@@ -113,8 +181,10 @@ Rewrite.prototype = {
     var parsedResult;
 
     for (var key in _files) {
+      if (!_files[key].enable) continue;
+
       parsedResult = Rewrite.parseFile(key);
-      _files[key] = parsedResult;
+      // _files[key]['result'] = parsedResult;
 
       for (var domain in parsedResult.domains) {
         var rule = parsedResult.domains[domain];
@@ -131,13 +201,15 @@ Rewrite.prototype = {
     log.debug('rewrite updated.');
     log.detail(JSON.stringify(this._rules));
 
+    // console.log(_files);
+
     return this;
   }
 };
 
-Rewrite.parse = function (source) {
+// Rewrite.parse = function (source) {
 
-};
+// };
 
 Rewrite.parseFile = function (filePath) {
   var fs = require('fs');

@@ -176,7 +176,7 @@ function getRewriteRule (urlObj, rewriteRules) {
       } else if (urlPath.indexOf(locPath) === 0) {
         /** 非正则表达式 **/
         // 如果url中path以location中的path开头
-        currentDeep = locPath.replace(/^\/|\/$/g).split('/').length;
+        currentDeep = locPath.replace(/^\/|\/$/g, '').split('/').length;
 
         // 如果是'/', 长度设置为0
         if (currentDeep === 1 && locPath === '/') {

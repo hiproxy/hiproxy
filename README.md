@@ -114,7 +114,7 @@ Options:
 * [Introduction](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
 * [Installation](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
 * [Run Examples](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
-* [Applied to existing projects](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/play_with_your_projects.md)
+* [Applied to existing projects](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/applied_to_existing_projects.md)
 * [CLI Options](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
 
 
@@ -140,14 +140,14 @@ Options:
 
 * [Plugin](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
 * [Extend Command](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
-* [Extend Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/rewrite_directive.md)
+* [Extend Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md)
 * [Extend Route](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
 
 ### FAQs
 
 * [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
 
-### Node.js API
+## Node.js API
 
 ```js
 var HiProxyServer = require('hiproxy');
@@ -223,6 +223,7 @@ Please read [CONTRIBUTING.md](https://github.com/hiproxy/hiproxy/blob/master/CON
 ## Authors
 
 * __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
+* __zhouhailong__ - _HTML/JavaScript/CSS/Node.js developer_ [zhouhailong](https://github.com/zhouhailong)
 * __Alfred Sang (aka i5ting)__ - _CTO of Aircos, top trainer of StuQ, author of the open source project Moa.js, and also an evangelist of Node.js._
 
 See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.

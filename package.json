@@ -1,6 +1,6 @@
 {
   "name": "hiproxy",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "hiproxy - lightweight and powerful proxy tool for front-end developer based on Node.js.",
   "main": "src/index.js",
   "bin": {
@@ -59,6 +59,14 @@
       "pre-push": "npm test"
     }
   },
+  "files": [
+    "src",
+    "ssl",
+    "bin",
+    "README-zh.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md"
+  ],
   "semistandard": {
     "globals": [
       "log",

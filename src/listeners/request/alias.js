@@ -6,6 +6,7 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 
 var getMimeType = require('simple-mime')('text/plain');
 var execResponseCommand = require('../../commands/execCommand');
@@ -35,7 +36,7 @@ module.exports = {
 
       if (stats.isDirectory()) {
         log.debug('isDirectory and add root:' + (rewrite.props.default || 'index.html'));
-        filePath += rewrite.props.default || 'index.html';
+        filePath = path.join(filePath, rewrite.props.default || 'index.html');
       }
 
       // TODO 如果没有root，列出目录
