@@ -109,7 +109,7 @@ module.exports = {
     var urlObj = url.parse(request.url);
     var query = querystring.parse(urlObj.query);
     var action = query.action;
-    var params = query.params || {};
+    var params = (query.params && JSON.parse(query.params)) || {};
 
     switch (action) {
       case 'stop':
