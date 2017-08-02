@@ -18,7 +18,7 @@
     * [.addHostsFile(filePath)](#ProxyServer+addHostsFile) ⇒ [<code>ProxyServer</code>](#ProxyServer)
     * [.addRewriteFile(filePath)](#ProxyServer+addRewriteFile) ⇒ [<code>ProxyServer</code>](#ProxyServer)
     * [.openBrowser(browserName, url, [usePacProxy])](#ProxyServer+openBrowser) ⇒ [<code>ProxyServer</code>](#ProxyServer)
-    * [.findConfigFiels([dir])](#ProxyServer+findConfigFiels) ⇒ [<code>ProxyServer</code>](#ProxyServer)
+    * [.findConfigFiles([dir])](#ProxyServer+findConfigFiles) ⇒ [<code>ProxyServer</code>](#ProxyServer)
 
 <a name="new_ProxyServer_new"></a>
 
@@ -95,9 +95,9 @@ hiproxy代理服务器
 | url | <code>String</code> |  | 要打开的url |
 | [usePacProxy] | <code>Boolean</code> | <code>false</code> | 是否使用自动代理 |
 
-<a name="ProxyServer+findConfigFiels"></a>
+<a name="ProxyServer+findConfigFiles"></a>
 
-### proxyServer.findConfigFiels([dir]) ⇒ [<code>ProxyServer</code>](#ProxyServer)
+### proxyServer.findConfigFiles([dir]) ⇒ [<code>ProxyServer</code>](#ProxyServer)
 在指定工作空间（目录）下查找配置文件
 hiproxy会在指定的空间下所有一级目录下查找配置文件
 

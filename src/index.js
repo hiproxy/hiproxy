@@ -79,7 +79,7 @@ ProxyServer.prototype = {
 
         setTimeout(function () {
           self._initEvent();
-          self.findConfigFiels(self.dir, config);
+          self.findConfigFiles(self.dir, config);
           // self.addConfigFiles(config);
         }, 0);
 
@@ -276,7 +276,7 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  findConfigFiels: function (dir, config) {
+  findConfigFiles: function (dir, config) {
     var self = this;
     var logger = this.logger;
     var hostsPattern = config.hostsFile;
