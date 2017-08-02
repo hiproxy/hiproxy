@@ -194,7 +194,7 @@ Hosts.prototype = {
       if (!_files[key].enable) continue;
 
       parsedResult = Hosts.parseFile(key);
-      // _files[key]['result'] = parsedResult;
+      _files[key]['result'] = parsedResult;
 
       for (var domain in parsedResult) {
         _rules[domain] = parsedResult[domain];
