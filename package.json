@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/hiproxy/hiproxy/issues"
   },
-  "homepage": "https://github.com/hiproxy/hiproxy#readme",
+  "homepage": "http://hiproxy.org",
   "dependencies": {
     "colors": "^1.1.2",
     "hemsl": "^1.2.5",
