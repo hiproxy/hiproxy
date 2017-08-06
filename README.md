@@ -240,6 +240,12 @@ See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/co
 
 Thanks to the authors of the above libraries to provide such a useful library.
 
+# Thanks To
+
+* [v0lkan](https://github.com/v0lkan)
+* [JayLee404](https://github.com/JayLee404)
+* [Jeoxs](https://github.com/Jeoxs)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/hiproxy/hiproxy/blob/master/LICENSE) file for details
