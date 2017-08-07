@@ -216,6 +216,16 @@ npm test
 
 您也可以点击[contributors](https://github.com/hiproxy/hiproxy/graphs/contributors)查看其他贡献者。
 
+## 感谢
+
+* [v0lkan](https://github.com/v0lkan)
+* [JayLee404](https://github.com/JayLee404)
+* [Jeoxs](https://github.com/Jeoxs)
+
+## 升级日志
+
+详情请查看[CHANGELOG.md](./CHANGELOG.md)。
+
 ## 依赖的第三方库
 
 * [hemsl](https://www.npmjs.com/package/hemsl) - a lightweight Node.js command line argv parser and command executor.

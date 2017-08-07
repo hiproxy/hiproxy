@@ -240,11 +240,15 @@ See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/co
 
 Thanks to the authors of the above libraries to provide such a useful library.
 
-# Thanks To
+## Thanks To
 
 * [v0lkan](https://github.com/v0lkan)
 * [JayLee404](https://github.com/JayLee404)
 * [Jeoxs](https://github.com/Jeoxs)
+
+## Change Log
+
+See the [CHANGELOG.md](./CHANGELOG.md) for details.
 
 ## License
 
