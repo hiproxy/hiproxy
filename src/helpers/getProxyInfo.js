@@ -76,7 +76,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
     if (alias) {
       // 本地文件系统路径, 删除前面的协议部分
-      newUrl = newUrl.replace(/^(\w+:\/\/)/, '');
+      newUrl = newUrl.replace(/^(\w+:\/\/)/, '').split('?')[0];
     } else {
       newUrlObj = url.parse(newUrl);
 
