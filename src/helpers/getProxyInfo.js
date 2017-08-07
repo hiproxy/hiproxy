@@ -4,6 +4,7 @@
  */
 
 var url = require('url');
+var path = require('path');
 
 var execCommand = require('../commands/execCommand');
 var replaceVar = require('../rewrite/replaceVar');
@@ -267,6 +268,8 @@ function setBuiltInVars (rewrite, request) {
     $request_uri: urlObj.href,
     $path: urlObj.path,
     $path_name: urlObj.pathname || '',
+    $base_name: path.basename(urlObj.path),
+    $dir_name: path.dirname(urlObj.path),
     $hash: urlObj.hash || '',
     $hash_value: (urlObj.hash || '').replace('#', ''),
     $uri: urlObj.href
