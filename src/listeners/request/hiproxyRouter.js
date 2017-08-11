@@ -112,6 +112,14 @@ module.exports = {
     var params = (query.params && JSON.parse(query.params)) || {};
 
     switch (action) {
+      case 'enableFile':
+        this.enableConfFile(params.fileType, params.filePath);
+        break;
+
+      case 'disableFile':
+        this.disableConfFile(params.fileType, params.filePath);
+        break;
+
       case 'stop':
         this.stop();
         break;
