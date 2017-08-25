@@ -95,6 +95,7 @@ Transform.prototype = {
     var domain = {
       domain: statement.domain,
       directives: [],
+      variables: {},
       locations: []
     };
 
@@ -110,7 +111,8 @@ Transform.prototype = {
   transformLocation: function (target, statement) {
     var location = {
       location: statement.location,
-      directives: []
+      directives: [],
+      variables: {}
     };
 
     var obj = this._transform(statement, location);
@@ -176,7 +178,7 @@ Transform.prototype = {
         return;
       }
 
-      currProps = currProps || (current[key] = {});
+      currProps = currProps || (current[key] = (key === 'directives' ? {} : []));
 
       if (Array.isArray(props)) {
         current[key] = props.concat(currProps);

@@ -37,8 +37,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // 根据请求信息，设置内置变量
     setBuiltInVars(rewrite, request);
     // 再次替换变量的值
-    replaceVar(rewrite.props, rewrite);
-    replaceFuncVar(rewrite.commands, rewrite);
+    // replaceVar(rewrite.props, rewrite);
+    // replaceFuncVar(rewrite.commands, rewrite);
 
     var rewriteProps = rewrite.props;
     var proxy = rewriteProps.proxy || '';
@@ -151,7 +151,7 @@ function getRewriteRule (urlObj, rewriteRules) {
     for (var i = 0, len = locations.length; i < len; i++) {
       loc = locations[i];
 
-      locPath = loc.path;
+      locPath = loc.location;
 
       log.debug('getRewriteRule - current location path =>', locPath.bold.green);
 
@@ -249,7 +249,7 @@ function replaceFuncVar (funcs, source) {
  * @param {http.IncomingMessage} request 当前请求对象
  */
 function setBuiltInVars (rewrite, request) {
-  var props = rewrite.props;
+  var variables = rewrite.variables;
   var urlObj = url.parse(request.url);
   var headers = request.headers;
   var cookies = parseCookie(headers.cookie);
@@ -296,7 +296,7 @@ function setBuiltInVars (rewrite, request) {
   }
 
   // RegExp group
-  if (rewrite.source.indexOf('~') === 0) {
+  if (rewrite.location.indexOf('~') === 0) {
     // 正则表达式
     var sourceReg = toRegExp(rewrite.path, 'i');
     var urlMatch = request.url.match(sourceReg);
@@ -307,8 +307,8 @@ function setBuiltInVars (rewrite, request) {
       }
     }
   }
-
+console.log('variables:', variables, rewrite);
   for (var key in vars) {
-    props[key] = vars[key];
+    variables[key] = vars[key];
   }
 }
