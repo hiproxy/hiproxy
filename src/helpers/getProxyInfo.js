@@ -7,7 +7,7 @@ var url = require('url');
 var path = require('path');
 
 var execCommand = require('../commands/execCommand');
-var replaceVar = require('../rewrite/replaceVar');
+// var replaceVar = require('../rewrite/replaceVar');
 var utils = require('../helpers/utils');
 var clone = utils.clone;
 var parseCookie = utils.parseCookie;
@@ -224,23 +224,23 @@ function toRegExp (str, flags) {
 }
 
 // TODO 优化重复代码
-function replaceFuncVar (funcs, source) {
-  funcs.forEach(function (fun) {
-    var params = fun.params;
-    var name = fun.name;
+// function replaceFuncVar (funcs, source) {
+//   funcs.forEach(function (fun) {
+//     var params = fun.params;
+//     var name = fun.name;
 
-    if (name === 'set') {
-      // 如果是 set 命令, 不替换第一个参数
-      fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), source));
-    } else {
-      fun.params = replaceVar(fun.params, source);
-    }
+//     if (name === 'set') {
+//       // 如果是 set 命令, 不替换第一个参数
+//       fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), source));
+//     } else {
+//       fun.params = replaceVar(fun.params, source);
+//     }
 
-    // console.log('替换function参数:', name, fun.params);
-  });
+//     // console.log('替换function参数:', name, fun.params);
+//   });
 
-  return funcs;
-}
+//   return funcs;
+// }
 
 /**
  * 设置内置变量
@@ -307,7 +307,7 @@ function setBuiltInVars (rewrite, request) {
       }
     }
   }
-console.log('variables:', variables, rewrite);
+  console.log('variables:', variables, rewrite);
   for (var key in vars) {
     variables[key] = vars[key];
   }
