@@ -142,14 +142,14 @@ function getRewriteRule (urlObj, rewriteRules) {
 
   domains.forEach(function (domain) {
     var rule = domain;
-    var location = rule.location;
+    var locations = rule.locations;
     var urlPath = urlObj.path;
     var loc = null;
     var currentDeep = 0;
     var locPath = '';
 
-    for (var i = 0, len = location.length; i < len; i++) {
-      loc = location[i];
+    for (var i = 0, len = locations.length; i < len; i++) {
+      loc = locations[i];
 
       locPath = loc.path;
 

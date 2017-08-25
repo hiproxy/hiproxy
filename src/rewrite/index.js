@@ -4,6 +4,8 @@
  */
 
 var fs = require('fs');
+var Parser = require('hiproxy-conf-parser');
+var Transform = require('./transform');
 
 function Rewrite () {
   this._files = {};
@@ -186,8 +188,8 @@ Rewrite.prototype = {
       parsedResult = Rewrite.parseFile(key);
       _files[key]['result'] = parsedResult;
 
-      for (var domain in parsedResult.domains) {
-        var rule = parsedResult.domains[domain];
+      for (var domain in parsedResult) {
+        var rule = parsedResult[domain];
         var tmp = _rules[domain];
 
         if (Array.isArray(tmp) && tmp.indexOf(rule) === -1) {
@@ -213,12 +215,14 @@ Rewrite.prototype = {
 
 Rewrite.parseFile = function (filePath) {
   var fs = require('fs');
-  var AST = require('./AST');
-  var formatAST = require('./ASTFormater');
+  // var AST = require('./AST');
+  // var formatAST = require('./ASTFormater');
 
-  var sourceCode = fs.readFileSync(filePath);
-  var ASTTree = AST(sourceCode, filePath);
-  var tree = formatAST(ASTTree);
+  var sourceCode = fs.readFileSync(filePath, 'utf-8');
+  var AST = (new Parser(sourceCode, filePath)).parseToplevel();
+  var tree = new Transform().transform(AST);
+
+  console.log(JSON.stringify(tree, null, 2));
 
   // console.log('rewrite.parseFile', filePath, tree);
 
