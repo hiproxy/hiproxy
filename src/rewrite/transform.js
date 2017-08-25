@@ -9,12 +9,12 @@ function Transform () {
 
 Transform.prototype = {
   constructor: Transform,
-  transform: function (AST) {
+  transform: function (AST, filePath) {
     var tree = this._transform(AST);
 
     this.mergeProps(tree);
 
-    return this.flatten(tree);
+    return this.flatten(tree, filePath);
   },
 
   _transform: function (AST, target) {
@@ -81,7 +81,7 @@ Transform.prototype = {
     });
     var obj = {
       directive: directive,
-      params: params
+      arguments: params
     };
 
     if (Array.isArray(target.directives)) {
@@ -192,7 +192,7 @@ Transform.prototype = {
     });
   },
 
-  flatten: function (tree) {
+  flatten: function (tree, filePath) {
     var result = {};
     var variables = tree.variables || {};
     var domains = tree.domains || [];
@@ -201,7 +201,23 @@ Transform.prototype = {
 
     domains.forEach(function (curr) {
       curr.domain = this.replaceVar(curr.domain, variables);
+      // curr.filePath = filePath;
       result[curr.domain] = curr;
+      // TODO 优化这里的代码
+      if (!curr.extends) {
+        curr.extends = {};
+      }
+
+      curr.extends.filePath = filePath;
+
+      curr.locations.forEach(function (loc) {
+        if (!loc.extends) {
+          loc.extends = {};
+        }
+
+        loc.extends.filePath = filePath;
+        loc.extends.domain = curr.domain;
+      });
     }, this);
 
     return result;
@@ -296,10 +312,6 @@ Transform.prototype = {
     }
 
     return str;
-  },
-
-  resolveVariables: function (tree) {
-
   }
 };
 

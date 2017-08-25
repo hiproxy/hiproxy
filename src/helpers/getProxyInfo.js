@@ -40,8 +40,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // replaceVar(rewrite.props, rewrite);
     // replaceFuncVar(rewrite.commands, rewrite);
 
-    var rewriteProps = rewrite.props;
-    var proxy = rewriteProps.proxy || '';
+    var rewriteProps = rewrite.variables;
+    var proxy = rewriteProps.proxy_pass || '';
     var isBaseRule = rewrite.isBaseRule;
     var alias = rewriteProps.alias;
     var proxyUrlObj = url.parse(proxy);
@@ -56,12 +56,12 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     }
 
     // 将原本url中的部分替换为代理地址
-    if (rewrite.source.indexOf('~') === 0) {
+    if (rewrite.location.indexOf('~') === 0) {
       newUrl = proxy;
     } else {
       // 普通地址字符串
       // 否则，把url中的source部分替换成proxy
-      newUrl = originUrl.replace(rewrite.source, proxy);
+      newUrl = originUrl.replace(rewrite.extends.domain + rewrite.location, proxy);
     }
 
     // TODO 这里应该有个bug, props是共享的, 一个修改了,其他的也修改了
@@ -73,7 +73,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     execCommand(rewrite, context, 'request');
 
     log.debug('newURL ==>', newUrl);
-    log.debug('newURL ==>', alias);
+    log.debug('alias  ==>', alias);
 
     if (alias) {
       // 本地文件系统路径, 删除前面的协议部分
@@ -154,6 +154,7 @@ function getRewriteRule (urlObj, rewriteRules) {
       locPath = loc.location;
 
       log.debug('getRewriteRule - current location path =>', locPath.bold.green);
+      log.debug('getRewriteRule - current url path =>', urlPath.green);
 
       if (locPath.indexOf('~') === 0) {
         /** 正则表达式 **/
@@ -203,7 +204,7 @@ function getRewriteRule (urlObj, rewriteRules) {
     }
   });
 
-  log.debug('getProxyInfo -', href, '==>', JSON.stringify(rewriteRule));
+  log.info('getProxyInfo -'.red, href, '==>', JSON.stringify(rewriteRule));
 
   // 不克隆parent，防止clone的时候循环引用
   if (rewriteRule) {

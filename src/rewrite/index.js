@@ -7,6 +7,9 @@ var fs = require('fs');
 var Parser = require('hiproxy-conf-parser');
 var Transform = require('./transform');
 
+var commandFuncs = require('../commands/index').directives;
+var scopeCmds = require('../commands/scope');
+
 function Rewrite () {
   this._files = {};
   this._rules = {};
@@ -220,9 +223,35 @@ Rewrite.parseFile = function (filePath) {
 
   var sourceCode = fs.readFileSync(filePath, 'utf-8');
   var AST = (new Parser(sourceCode, filePath)).parseToplevel();
-  var tree = new Transform().transform(AST);
+  var tree = new Transform().transform(AST, filePath);
 
   console.log(JSON.stringify(tree, null, 2));
+  var domainScope = scopeCmds.domain;
+  var locationScope = scopeCmds.location;
+
+  var domainInfo;
+  for (var domain in tree) {
+    domainInfo = tree[domain];
+
+    domainInfo.directives.forEach(function (directive) {
+      var cmd = directive.directive;
+      var args = directive.arguments;
+      if (domainScope.indexOf(cmd) !== -1) {
+        commandFuncs[cmd].apply(domainInfo, args);
+      }
+    });
+
+    domainInfo.locations.forEach(function (loc) {
+      loc.directives.forEach(function (directive) {
+        var cmd = directive.directive;
+        var args = directive.arguments;
+        if (locationScope.indexOf(cmd) !== -1) {
+          console.log('execute location cmd:', cmd, args);
+          commandFuncs[cmd].apply(loc, args);
+        }
+      });
+    });
+  }
 
   // console.log('rewrite.parseFile', filePath, tree);
 

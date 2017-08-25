@@ -38,6 +38,7 @@ module.exports = function formatAST (ASTTree) {
 
   parseDomain(domains, res);
 
+  // console.log('AST Format result:'.red);
   // console.log(JSON.stringify(res, null, 4));
 
   return res;

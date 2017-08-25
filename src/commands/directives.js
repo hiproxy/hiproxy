@@ -96,21 +96,21 @@ module.exports = {
 
   // location commands
   'proxy_pass': function (value) {
-    this.props.proxy = value;
+    this.variables['proxy_pass'] = value;
   },
   'alias': function (value) {
-    this.props.alias = true;
+    this.variables.alias = true;
 
     if (path.isAbsolute(value)) {
       // absolute path
-      this.props.proxy = value;
+      this.variables.proxy_pass = value;
     } else {
       // relative path
-      var _global = this.parent.parent;
-      var currentFilePath = _global.filePath;
+      // var _global = this.parent.parent;
+      var currentFilePath = this.extends.filePath;
       var dirname = path.dirname(currentFilePath);
 
-      this.props.proxy = path.join(dirname, value);
+      this.variables.proxy_pass = path.join(dirname, value);
     }
   },
   'root': function (value) {
@@ -125,8 +125,7 @@ module.exports = {
       filePath = value;
     } else {
       // relative path
-      var parent = this.parent;
-      var rewriteFilePath = parent.filePath;
+      var rewriteFilePath = this.extends.filePath;
       var dirname = path.dirname(rewriteFilePath);
 
       filePath = path.join(dirname, value);
@@ -142,8 +141,7 @@ module.exports = {
       filePath = value;
     } else {
       // relative path
-      var parent = this.parent;
-      var rewriteFilePath = parent.filePath;
+      var rewriteFilePath = this.extends.filePath;
       var dirname = path.dirname(rewriteFilePath);
 
       filePath = path.join(dirname, value);
