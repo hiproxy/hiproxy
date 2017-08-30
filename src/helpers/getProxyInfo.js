@@ -7,7 +7,7 @@ var url = require('url');
 var path = require('path');
 
 var execCommand = require('../commands/execCommand');
-// var replaceVar = require('../rewrite/replaceVar');
+var Transform = require('../rewrite/transform');
 var utils = require('../helpers/utils');
 var clone = utils.clone;
 var parseCookie = utils.parseCookie;
@@ -37,8 +37,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // 根据请求信息，设置内置变量
     setBuiltInVars(rewrite, request);
     // 再次替换变量的值
-    // replaceVar(rewrite.props, rewrite);
-    // replaceFuncVar(rewrite.commands, rewrite);
+    Transform.replaceVar(rewrite, rewrite.variables, ['extends']);
 
     var rewriteProps = rewrite.variables;
     var proxy = rewriteProps.proxy_pass || '';
@@ -299,7 +298,7 @@ function setBuiltInVars (rewrite, request) {
   // RegExp group
   if (rewrite.location.indexOf('~') === 0) {
     // 正则表达式
-    var sourceReg = toRegExp(rewrite.path, 'i');
+    var sourceReg = toRegExp(rewrite.location, 'i');
     var urlMatch = request.url.match(sourceReg);
 
     if (Array.isArray(urlMatch)) {
@@ -308,7 +307,6 @@ function setBuiltInVars (rewrite, request) {
       }
     }
   }
-  console.log('variables:', variables, rewrite);
   for (var key in vars) {
     variables[key] = vars[key];
   }

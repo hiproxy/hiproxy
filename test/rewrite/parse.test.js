@@ -152,64 +152,46 @@ describe('rewrite', function () {
     var domain1 = 'test.example.com';
     // var domain2 = 'test.example.cn';
 
-    // console.log(';;;;;;;;;;;', JSON.stringify(tree, null, 4));
-
     it('# 正确解析base rule: "test.example.cc => abc.com/def/"', function () {
-      var loc = tree.domains['test.example.cc'].location[0];
-      assert.equal(true, loc.isBaseRule);
-      // TODO 验证 'location[x].source', 自动加了http？
-      assert.equal('abc.com/def/', loc.props.proxy);
+      var loc = tree['test.example.cc'].locations[0];
+      assert.equal('abc.com/def/', loc.variables.proxy_pass);
     });
 
     it('# 正确解析base rule: "http://test.example.io => http://test.example.io/test/"', function () {
-      var loc = tree.domains['test.example.io'].location[0];
+      var loc = tree['test.example.io'].locations[0];
       assert.equal(true, loc.isBaseRule);
-      // TODO 验证 'location[x].source'
-      assert.equal('http://test.example.io/test/', loc.props.proxy);
+      assert.equal('http://test.example.io/test/', loc.variables.proxy_pass);
     });
 
     it('# 正确解析location: path', function () {
-      var locs = tree.domains[domain1].location;
+      var locs = tree[domain1].locations;
       var locPath = locs.map(function (loc) {
-        return loc.path;
+        return loc.location;
       });
       assert.deepEqual(['/', '/a.json', '/proj/api/'], locPath);
     });
 
-    it('# 正确解析location: proxy', function () {
-      var locs = tree.domains[domain1].location;
-      assert.equal('http://127.0.0.1:45678/', locs[0].props.proxy);
-      assert.equal('http://127.0.0.1:45678/api/a.json', locs[1].props.proxy);
-      assert.equal('http://127.0.0.1:45678/api/', locs[2].props.proxy);
+    it('# 正确解析location: proxy_pass', function () {
+      var locs = tree[domain1].locations;
+      assert.equal('http://127.0.0.1:45678/', locs[0].variables.proxy_pass);
+      assert.equal('http://127.0.0.1:45678/api/a.json', locs[1].variables.proxy_pass);
+      assert.equal('http://127.0.0.1:45678/api/', locs[2].variables.proxy_pass);
     });
 
     it('# 正确解析全局commands，变量中使用变量 : "set $varinvar var_$number"', function () {
-      assert.deepEqual(
-        {
-          'name': 'set',
-          'params': [
-            '$varinvar',
-            'var_123.65'
-          ]
-        },
-        tree.commands[7]
-      );
-
-      assert.equal('var_123.65', tree.props['$varinvar']);
+      assert.equal('var_123.65', tree['test.example.com'].variables['$varinvar']);
     });
 
     it('# 正确解析全局commands set', function () {
-      assert.deepEqual('globalvarvalue', tree.props['$globalvar']);
+      assert.deepEqual('globalvarvalue', tree['test.example.com'].variables['$globalvar']);
     });
 
     it('# 局部变量优先级高于上一级变量', function () {
-      var domain = tree.domains['test.example.com'];
-      var location = domain.location[0];
-      var props = tree.props;
+      var domain = tree['test.example.com'];
+      var location = domain.locations[0];
 
-      assert.deepEqual('str', props['$str']);
-      assert.deepEqual('str_domain_scope', domain.props['$str']);
-      assert.deepEqual('str_location_scope', location.props['$str']);
+      assert.deepEqual('str_domain_scope', domain.variables['$str']);
+      assert.deepEqual('str_location_scope', location.variables['$str']);
     });
   });
   describe('api', function () {

@@ -225,7 +225,6 @@ Rewrite.parseFile = function (filePath) {
   var AST = (new Parser(sourceCode, filePath)).parseToplevel();
   var tree = new Transform().transform(AST, filePath);
 
-  console.log(JSON.stringify(tree, null, 2));
   var domainScope = scopeCmds.domain;
   var locationScope = scopeCmds.location;
 
@@ -246,7 +245,6 @@ Rewrite.parseFile = function (filePath) {
         var cmd = directive.directive;
         var args = directive.arguments;
         if (locationScope.indexOf(cmd) !== -1) {
-          console.log('execute location cmd:', cmd, args);
           commandFuncs[cmd].apply(loc, args);
         }
       });

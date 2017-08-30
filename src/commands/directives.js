@@ -114,7 +114,7 @@ module.exports = {
     }
   },
   'root': function (value) {
-    this.props.default = value;
+    this.variables.default = value;
   },
 
   // domain commands
@@ -131,7 +131,7 @@ module.exports = {
       filePath = path.join(dirname, value);
     }
 
-    this.props.sslCertificate = filePath;
+    this.variables.sslCertificate = filePath;
   },
 
   'ssl_certificate_key': function (value) {
@@ -147,11 +147,11 @@ module.exports = {
       filePath = path.join(dirname, value);
     }
 
-    this.props.sslCertificateKey = filePath;
+    this.variables.sslCertificateKey = filePath;
   },
 
   // global commands
   'set': function (key, value) {
-    this.props[key] = value;
+    this.variables[key] = value;
   }
 };

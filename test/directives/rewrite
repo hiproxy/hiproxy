@@ -7,12 +7,12 @@ domain echo.hiproxy.org {
   }
 
   location /multiple {
-    echo <h1>hello_echo</h1>;
-    echo <p>test echo directive</p>;
-    echo <div>;
-    echo   <span>div &gt; span</span>;
-    echo </div>;
-    echo <p>finish</p>;
+    echo '<h1>hello_echo</h1>';
+    echo '<p>test echo directive</p>';
+    echo '<div style="color: red; border: 1px solid orange;">';
+    echo   '<span>div &gt; span</span>';
+    echo '</div>';
+    echo '<p>finish</p>';
     
     # proxy_pass http://127.0.0.1:8000/;
   }

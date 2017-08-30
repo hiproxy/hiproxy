@@ -14,16 +14,15 @@ module.exports = function (rewriteRule, context, scope) {
   }
 
   // call response commands
-  var cmdsNeedToExec = getCommands(rewriteRule, scope);
+  var directivesNeedToExec = getCommands(rewriteRule, scope);
 
   /* istanbul ignore else */
-  if (Array.isArray(cmdsNeedToExec)) {
-    log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(cmdsNeedToExec).bold);
+  if (Array.isArray(directivesNeedToExec)) {
+    log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(directivesNeedToExec).bold);
 
-    cmdsNeedToExec.forEach(function (command) {
-      // var inScope = responseScopeCmds.indexOf(command.name) !== -1;
-      var name = command.name;
-      var params = command.params || [];
+    directivesNeedToExec.forEach(function (directive) {
+      var name = directive.directive;
+      var params = directive.arguments || [];
       var func = commands[name];
       var isFunction = typeof func === 'function';
 

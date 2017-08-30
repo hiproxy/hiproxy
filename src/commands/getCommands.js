@@ -14,23 +14,15 @@ var types = require('./scope');
  * @returns {Array}
  */
 module.exports = function getCommonds (rewriteRule, scope) {
-  var tmp = [];
-  var curr = rewriteRule;
-  var currCMDs = [];
+  var allDirectives = rewriteRule.directives;
+  var directives = [];
   var typedCmds = scope && types[scope];
 
-  while (curr) {
-    currCMDs = curr.commands || [];
-
-    if (currCMDs.length && typedCmds && typedCmds.length) {
-      currCMDs = currCMDs.filter(function (cmdObj) {
-        return typedCmds.indexOf(cmdObj.name) !== -1;
-      });
-    }
-
-    tmp = currCMDs.concat(tmp);
-    curr = curr.parent;
+  if (allDirectives.length && typedCmds && typedCmds.length) {
+    directives = allDirectives.filter(function (cmdObj) {
+      return typedCmds.indexOf(cmdObj.directive) !== -1;
+    });
   }
 
-  return tmp;
+  return directives;
 };
