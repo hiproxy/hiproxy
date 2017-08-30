@@ -9,12 +9,12 @@ function Transform () {
 
 Transform.prototype = {
   constructor: Transform,
-  transform: function (AST, filePath) {
+  transform: function (AST) {
     var tree = this._transform(AST);
 
     this.mergeProps(tree);
 
-    return this.flatten(tree, filePath);
+    return this.flatten(tree);
   },
 
   _transform: function (AST, target) {
@@ -203,21 +203,6 @@ Transform.prototype = {
       curr.domain = Transform.replaceVar(curr.domain, variables);
       // curr.filePath = filePath;
       result[curr.domain] = curr;
-      // TODO 优化这里的代码
-      if (!curr.extends) {
-        curr.extends = {};
-      }
-
-      curr.extends.filePath = filePath;
-
-      curr.locations.forEach(function (loc) {
-        if (!loc.extends) {
-          loc.extends = {};
-        }
-
-        loc.extends.filePath = filePath;
-        loc.extends.domain = curr.domain;
-      });
     }, this);
 
     return result;

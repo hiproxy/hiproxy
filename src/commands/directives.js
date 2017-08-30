@@ -77,8 +77,7 @@ module.exports = {
       filePath = value;
     } else {
       // relative path
-      var _global = this.rewriteRule.parent.parent;
-      var currentFilePath = _global.filePath;
+      var currentFilePath = this.rewriteRule.extends.filePath;
       var dirname = path.dirname(currentFilePath);
 
       filePath = path.join(dirname, value);
@@ -106,7 +105,6 @@ module.exports = {
       this.variables.proxy_pass = value;
     } else {
       // relative path
-      // var _global = this.parent.parent;
       var currentFilePath = this.extends.filePath;
       var dirname = path.dirname(currentFilePath);
 

@@ -218,8 +218,6 @@ Rewrite.prototype = {
 
 Rewrite.parseFile = function (filePath) {
   var fs = require('fs');
-  // var AST = require('./AST');
-  // var formatAST = require('./ASTFormater');
 
   var sourceCode = fs.readFileSync(filePath, 'utf-8');
   var AST = (new Parser(sourceCode, filePath)).parseToplevel();
@@ -232,6 +230,13 @@ Rewrite.parseFile = function (filePath) {
   for (var domain in tree) {
     domainInfo = tree[domain];
 
+    if (!domainInfo.extends) {
+      domainInfo.extends = {};
+    }
+
+    domainInfo.extends.filePath = filePath;
+
+    // 执行domain作用域的指令
     domainInfo.directives.forEach(function (directive) {
       var cmd = directive.directive;
       var args = directive.arguments;
@@ -241,6 +246,14 @@ Rewrite.parseFile = function (filePath) {
     });
 
     domainInfo.locations.forEach(function (loc) {
+      if (!loc.extends) {
+        loc.extends = {};
+      }
+
+      loc.extends.filePath = filePath;
+      loc.extends.domain = domain;
+
+      // 执行location作用域的指令
       loc.directives.forEach(function (directive) {
         var cmd = directive.directive;
         var args = directive.arguments;
