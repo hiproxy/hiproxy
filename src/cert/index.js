@@ -6,13 +6,15 @@
 'use strict';
 
 var fs = require('fs');
+var os = require('os');
+var process = require('process');
 var path = require('path');
 var forge = require('node-forge');
 var pki = forge.pki;
 var md5 = forge.md.md5;
 var homedir = require('os-homedir');
 var mkdirp = require('../helpers/mkdirp');
-var certDir = path.join(homedir(), '.hiproxy', 'cert');
+var certDir = path.join(process.env.NPM_TEST ? os.tmpdir() : homedir(), '.hiproxy', 'cert');
 var defaultFields = require('./defaultFields');
 var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
 
@@ -32,9 +34,9 @@ module.exports = {
   },
 
   getCertificateByFileName: function (fileName) {
-    var certDir = path.join(homedir(), '.hiproxy', 'cert', fileName.replace(/\s+/g, '_'));
-    var keyPath = certDir + '.key';
-    var crtPath = certDir + '.pem';
+    var filePath = path.join(certDir, fileName.replace(/\s+/g, '_'));
+    var keyPath = filePath + '.key';
+    var crtPath = filePath + '.pem';
     var keyContent = '';
     var crtContent = '';
     var certificate = null;

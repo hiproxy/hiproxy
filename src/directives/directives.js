@@ -146,10 +146,5 @@ module.exports = {
     }
 
     this.variables.sslCertificateKey = filePath;
-  },
-
-  // global commands
-  'set': function (key, value) {
-    this.variables[key] = value;
   }
 };
