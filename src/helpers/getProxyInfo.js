@@ -6,7 +6,7 @@
 var url = require('url');
 var path = require('path');
 
-var execCommand = require('../commands/execCommand');
+var execCommand = require('../directives/execCommand');
 var Transform = require('../rewrite/transform');
 var utils = require('../helpers/utils');
 var clone = utils.clone;

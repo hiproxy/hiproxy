@@ -7,8 +7,8 @@ var fs = require('fs');
 var Parser = require('hiproxy-conf-parser');
 var Transform = require('./transform');
 
-var commandFuncs = require('../commands/index').directives;
-var scopeCmds = require('../commands/scope');
+var commandFuncs = require('../directives/index').directives;
+var scopeCmds = require('../directives/scope');
 
 function Rewrite () {
   this._files = {};

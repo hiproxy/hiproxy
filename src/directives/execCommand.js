@@ -5,8 +5,8 @@
 
 'use strict';
 
-var getCommands = require('../commands/getCommands');
-var commands = require('../commands/index').directives;
+var getCommands = require('../directives/getCommands');
+var commands = require('../directives/index').directives;
 
 module.exports = function (rewriteRule, context, scope) {
   if (!rewriteRule || !context || !scope) {

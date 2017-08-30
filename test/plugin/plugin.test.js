@@ -10,7 +10,7 @@ var Proxy = require('../../src/index');
 var testServer = require('../testServer');
 var pluginManager = require('../../src/plugin');
 var routes = require('../../src/listeners/request/hiproxyRouter');
-var directives = require('../../src/commands');
+var directives = require('../../src/directives');
 
 describe('# plugin'.bold.green, function () {
   var proxyServer;

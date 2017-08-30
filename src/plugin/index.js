@@ -8,7 +8,7 @@
 var fs = require('fs');
 var path = require('path');
 var childProcess = require('child_process');
-var directives = require('../commands');
+var directives = require('../directives');
 var routers = require('../listeners/request/hiproxyRouter');
 var pluginPrefix = 'hiproxy-plugin-';
 
