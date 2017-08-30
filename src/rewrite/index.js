@@ -4,8 +4,7 @@
  */
 
 var fs = require('fs');
-var Parser = require('hiproxy-conf-parser');
-var Transform = require('./transform');
+var hiproxyConfParser = require('hiproxy-conf-parser');
 
 var commandFuncs = require('../directives/index').directives;
 var scopeCmds = require('../directives/scope');
@@ -220,8 +219,8 @@ Rewrite.parseFile = function (filePath) {
   var fs = require('fs');
 
   var sourceCode = fs.readFileSync(filePath, 'utf-8');
-  var AST = (new Parser(sourceCode, filePath)).parseToplevel();
-  var tree = new Transform().transform(AST, filePath);
+  var AST = (new hiproxyConfParser.Parser(sourceCode, filePath)).parseToplevel();
+  var tree = new hiproxyConfParser.Transform().transform(AST, filePath);
 
   var domainScope = scopeCmds.domain;
   var locationScope = scopeCmds.location;

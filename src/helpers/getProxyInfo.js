@@ -7,7 +7,7 @@ var url = require('url');
 var path = require('path');
 
 var execCommand = require('../directives/execCommand');
-var Transform = require('../rewrite/transform');
+var Transform = require('hiproxy-conf-parser').Transform;
 var utils = require('../helpers/utils');
 var clone = utils.clone;
 var parseCookie = utils.parseCookie;
