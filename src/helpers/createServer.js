@@ -35,7 +35,7 @@ module.exports = {
       SNICallback: function (domain, cb) {
         var rewriteRules = rewrite.getRule();
         var domainRewriteRule = rewriteRules[domain] || [];
-        var certObj = domainRewriteRule.length > 0 && domainRewriteRule[0].props;
+        var certObj = domainRewriteRule.length > 0 && domainRewriteRule[0].variables;
 
         if (certObj && certObj.sslCertificateKey && certObj.sslCertificate) {
           // 如果配置了证书，使用配置的证书
