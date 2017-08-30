@@ -7,7 +7,6 @@
 
 var fs = require('fs');
 var os = require('os');
-var process = require('process');
 var path = require('path');
 var forge = require('node-forge');
 var pki = forge.pki;
