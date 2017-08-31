@@ -51,29 +51,15 @@ Logger.prototype.access = function (req, proxy) {
     200: 'white'
   };
   var time = Date.now() - req._startTime;
-  // var msgs = [];
+  var statusAndTime = String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
+    ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray'];
 
   if (proxy) {
-    // msgs.push('┏ '.blue + req.method.white + ' ' + (req.originalUrl || req.url).gray);
-    // msgs.push(
-    //   '┗ '.blue + req.method.white + ' ' + proxy.gray + ' ' +
-    //   String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
-    //   ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']);
-    this._printLog('proxy', '┏ '.blue + req.method.white + ' ' + (req.originalUrl || req.url).gray);
-    this._printLog(
-      'proxy',
-      '┗ '.blue + req.method.white + ' ' + proxy.gray + ' ' +
-      String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
-      ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']
-    );
+    this._printLog('proxy', ['┏'.blue, req.method.white, (req.originalUrl || req.url)].join(' '));
+    this._printLog('proxy', ['┗'.blue, req.method.white, proxy, statusAndTime].join(' '));
   } else {
-    // msgs.push(req.method.white + ' ' + (req.originalUrl || req.url).gray);
-    this._printLog('access', req.method.white + ' ' + (req.originalUrl || req.url).gray);
+    this._printLog('access', [req.method.white, (req.originalUrl || req.url), statusAndTime].join(' '));
   }
-
-  // msgs.forEach(function (msg) {
-  //   this._printLog('access', msg);
-  // }, this);
 };
 
 module.exports = Logger;
