@@ -120,13 +120,13 @@ module.exports = {
         this.disableConfFile(params.fileType, params.filePath);
         break;
 
-      case 'stop':
-        this.stop();
-        break;
+      // case 'stop':
+      //   this.stop();
+      //   break;
 
-      case 'restart':
-        this.restart();
-        break;
+      // case 'restart':
+      //   this.restart();
+      //   break;
 
       case 'open':
         this.openBrowser(
@@ -134,6 +134,12 @@ module.exports = {
           '127.0.0.1:' + this.httpPort,
           params.pacProxy === 'true'
         );
+        break;
+
+      default:
+        if (typeof this[action] === 'function') {
+          this[action]();
+        }
         break;
     }
 
