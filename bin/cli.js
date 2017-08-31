@@ -88,8 +88,8 @@ function run () {
       describe: 'Show time info before every log message'
     })
     .option('log-level', {
-      describe: 'The log levels, format: <level1>[,<lavel2[,...]]',
-      default: 'access,error'
+      describe: 'The log levels, format: <level1>[,<lavel2[,...]], available values: access,info,warn,error,debug,detail',
+      default: 'access,proxy'
     })
     .option('grep <content>', {
       describe: 'Filter the log data'

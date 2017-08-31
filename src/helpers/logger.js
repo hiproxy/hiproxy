@@ -51,15 +51,29 @@ Logger.prototype.access = function (req, proxy) {
     200: 'white'
   };
   var time = Date.now() - req._startTime;
-  var msg = [
-    req.method.white,
-    (req.originalUrl || req.url).gray,
-    proxy ? ('==> '.bold.white + proxy.gray) : '',
-    String(statusCode)[colormap[statusCode] || 'gray'],
-    ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']
-  ].join(' ');
+  // var msgs = [];
 
-  this._printLog('access', msg);
+  if (proxy) {
+    // msgs.push('┏ '.blue + req.method.white + ' ' + (req.originalUrl || req.url).gray);
+    // msgs.push(
+    //   '┗ '.blue + req.method.white + ' ' + proxy.gray + ' ' +
+    //   String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
+    //   ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']);
+    this._printLog('proxy', '┏ '.blue + req.method.white + ' ' + (req.originalUrl || req.url).gray);
+    this._printLog(
+      'proxy',
+      '┗ '.blue + req.method.white + ' ' + proxy.gray + ' ' +
+      String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
+      ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray']
+    );
+  } else {
+    // msgs.push(req.method.white + ' ' + (req.originalUrl || req.url).gray);
+    this._printLog('access', req.method.white + ' ' + (req.originalUrl || req.url).gray);
+  }
+
+  // msgs.forEach(function (msg) {
+  //   this._printLog('access', msg);
+  // }, this);
 };
 
 module.exports = Logger;

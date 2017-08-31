@@ -174,7 +174,7 @@ function writeServerInfoToFile () {
  */
 function showLog (level, msg) {
   var args = global.args;
-  var logLevel = (args.logLevel || 'access,error').split(',');
+  var logLevel = (args.logLevel || 'access,proxy').split(',');
   var grep = args.grep || '';
   var colorMap = {
     access: 'green',
@@ -182,7 +182,8 @@ function showLog (level, msg) {
     warn: 'yellow',
     debug: 'magenta',
     detail: 'cyan',
-    error: 'red'
+    error: 'red',
+    proxy: 'cyan'
   };
   var prefix = '';
   var color = '';

@@ -129,7 +129,7 @@ module.exports = {
       filePath = path.join(dirname, value);
     }
 
-    this.variables.sslCertificate = filePath;
+    this.variables.ssl_certificate = filePath;
   },
 
   'ssl_certificate_key': function (value) {
@@ -145,6 +145,6 @@ module.exports = {
       filePath = path.join(dirname, value);
     }
 
-    this.variables.sslCertificateKey = filePath;
+    this.variables.ssl_certificate_key = filePath;
   }
 };

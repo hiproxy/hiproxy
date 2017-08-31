@@ -263,7 +263,7 @@ Rewrite.parseFile = function (filePath) {
     });
   }
 
-  // console.log('rewrite.parseFile', filePath, tree);
+  // console.log('rewrite.parseFile', filePath, JSON.stringify(tree, null, 2));
 
   return tree;
 };
