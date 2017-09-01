@@ -9,12 +9,19 @@ module.exports = {
   clone: clone,
   type: type,
   parseCookie: parseCookie,
-  parseQueryString: parseQueryString
+  parseQueryString: parseQueryString,
+  toJSON: toJSON
 };
 
 function clone (obj, blackList) {
   if (obj == null || typeof obj !== 'object') {
     return obj;
+  }
+
+  var _type = type(obj);
+
+  if (_type === 'regexp') {
+    return new RegExp(obj.source);
   }
 
   var temp = new obj.constructor();
@@ -96,4 +103,14 @@ function parseQueryString (url) {
   });
 
   return res;
+}
+
+function toJSON (object, spaces) {
+  return JSON.stringify(object, function (key, value) {
+    if (Object.prototype.toString.call(value) === '[object RegExp]') {
+      return value.toString();
+    } else {
+      return value;
+    }
+  }, spaces);
 }

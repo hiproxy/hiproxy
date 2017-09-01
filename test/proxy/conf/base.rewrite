@@ -18,7 +18,7 @@ domain blog.example.com {
         proxy_pass http://127.0.0.1:9000/test/api/;
     }
 
-    location ~ /\/post\/(.*)/ {
+    location ~ /post/(.*) {
         proxy_pass http://127.0.0.1:9000/test/post/$1;
     }
 }

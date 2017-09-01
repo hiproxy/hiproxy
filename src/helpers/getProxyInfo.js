@@ -27,7 +27,6 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   var uri = url.parse(originUrl);
   var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules);
   var host = !!hostsRules && hostsRules[uri.hostname];
-
   var hostname, port, path, proxyName, protocol;
 
   protocol = uri.protocol;
@@ -40,12 +39,13 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     Transform.replaceVar(rewrite, rewrite.variables, ['extends']);
 
     var rewriteProps = rewrite.variables;
-    var proxy = rewriteProps.proxy_pass || '';
+    var proxyPass = rewriteProps.proxy_pass || '';
     var isBaseRule = rewrite.isBaseRule;
     var alias = rewriteProps.alias;
-    var proxyUrlObj = url.parse(proxy);
+    var proxyUrlObj = url.parse(proxyPass);
     var protocolReg = /^(\w+:\/\/)/;
     var newUrl, newUrlObj;
+    var isLocRegExp = isRegExp(rewrite.location);
 
     // 如果代理地址中包含具体协议，删除原本url中的协议
     // 最终替换位代理地址的协议
@@ -55,15 +55,15 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     }
 
     // 将原本url中的部分替换为代理地址
-    if (rewrite.location.indexOf('~') === 0) {
-      newUrl = proxy;
+    if (isLocRegExp) {
+      // 如果是正则表达式，直接食用proxy_pass的值
+      newUrl = proxyPass;
     } else {
       // 普通地址字符串
       // 否则，把url中的source部分替换成proxy
-      newUrl = originUrl.replace(rewrite.extends.domain + rewrite.location, proxy);
+      newUrl = originUrl.replace(rewrite.extends.domain + rewrite.location, proxyPass);
     }
 
-    // TODO 这里应该有个bug, props是共享的, 一个修改了,其他的也修改了
     var context = {
       request: request
       // props: rewrite.props
@@ -85,7 +85,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       path = newUrlObj.path;
     }
 
-    proxyName = 'HiProxy';
+    proxyName = 'hiproxy';
   } else if (host) {
     // TODO 这里的协议，到底应该用什么?
     protocol = 'http:';
@@ -93,7 +93,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
     port = host.split(':')[1] || uri.port || (protocol === 'https:' ? 443 : 80);
     path = uri.path;
-    proxyName = 'HiProxy';
+    proxyName = 'hiproxy';
   } else {
     hostname = uri.hostname;
     port = uri.port;
@@ -109,7 +109,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       headers: request.headers,
       protocol: protocol
     },
-    proxyPass: proxy,
+    proxyPass: proxyPass,
     PROXY: proxyName,
     hosts_rule: host,
     rewrite_rule: rewrite,
@@ -145,22 +145,23 @@ function getRewriteRule (urlObj, rewriteRules) {
     var urlPath = urlObj.path;
     var loc = null;
     var currentDeep = 0;
-    var locPath = '';
+    var location = '';
+    var isLocRegExp = false;
 
     for (var i = 0, len = locations.length; i < len; i++) {
       loc = locations[i];
+      location = loc.location;
+      isLocRegExp = isRegExp(location);
 
-      locPath = loc.location;
+      log.debug('getRewriteRule - current location path =>'.green, String(location).bold.green);
+      log.debug('getRewriteRule - current url path =>'.green, urlPath.green);
 
-      log.debug('getRewriteRule - current location path =>', locPath.bold.green);
-      log.debug('getRewriteRule - current url path =>', urlPath.green);
-
-      if (locPath.indexOf('~') === 0) {
+      if (isLocRegExp) {
         /** 正则表达式 **/
-        var reg = toRegExp(locPath, 'i');
+        // var reg = toRegExp(locPath, 'i');
 
-        if (reg.test(href)) {
-          currentDeep = reg.source.replace(/^\\?\/|\\?\/$/, '').split(/\\?\//).length;
+        if (location.test(urlPath)) {
+          currentDeep = location.source.replace(/^\\?\/|\\?\/$/g, '').split(/\\?\//).length;
 
           if (currentDeep > lastDeep) {
             rewriteRule = loc;
@@ -168,26 +169,26 @@ function getRewriteRule (urlObj, rewriteRules) {
 
           log.debug(
             'getRewriteRule -',
-            'regexp match =>', locPath.match(reg),
+            'regexp match =>', urlPath.match(location),
             'deep =>', String(currentDeep).bold.green,
             'last deep =>', String(lastDeep).bold.green,
             'should replace last rule =>', String(currentDeep > lastDeep).bold.green
           );
         }
-      } else if (urlPath.indexOf(locPath) === 0) {
+      } else if (urlPath.indexOf(location) === 0) {
         /** 非正则表达式 **/
         // 如果url中path以location中的path开头
-        currentDeep = locPath.replace(/^\/|\/$/g, '').split('/').length;
+        currentDeep = location.replace(/^\/|\/$/g, '').split('/').length;
 
         // 如果是'/', 长度设置为0
-        if (currentDeep === 1 && locPath === '/') {
+        if (currentDeep === 1 && location === '/') {
           currentDeep = 0;
         }
 
         log.debug('getRewriteRule -', 'get rewrite rule for url =>', urlObj.href.bold.green);
         log.debug(
           'getRewriteRule -',
-          'current match location.path =>', locPath.bold.green,
+          'current match location.path =>', String(location).bold.green,
           'deep =>', String(currentDeep).bold.green,
           'last deep =>', String(lastDeep).bold.green,
           'should replace last rule =>', String(currentDeep > lastDeep).bold.green
@@ -203,17 +204,9 @@ function getRewriteRule (urlObj, rewriteRules) {
     }
   });
 
-  log.info('getProxyInfo -'.red, href, '==>', JSON.stringify(rewriteRule));
+  log.debug('getProxyInfo -'.red, href, '==>', utils.toJSON(rewriteRule));
 
   return clone(rewriteRule);
-}
-
-function toRegExp (str, flags) {
-  str = str.replace(/^~\s*\/(.*)\/(\w*)/, '$1 O_o $2');
-
-  var arr = str.split(' O_o ');
-
-  return new RegExp(arr[0], flags === undefined ? arr[2] : flags);
 }
 
 /**
@@ -229,7 +222,7 @@ function setBuiltInVars (rewrite, request) {
   var cookies = parseCookie(headers.cookie);
   var queryObj = parseQueryString(urlObj.search);
   var tmpKey = '';
-
+  var isLocRegExp = isRegExp(rewrite.location);
   var headerHost = headers.host || '';
 
   var vars = {
@@ -269,18 +262,21 @@ function setBuiltInVars (rewrite, request) {
     vars['$arg_' + tmpKey] = queryObj[arg] || '';
   }
 
-  // RegExp group
-  if (rewrite.location.indexOf('~') === 0) {
-    var sourceReg = toRegExp(rewrite.location, 'i');
-    var urlMatch = request.url.match(sourceReg);
-
+  if (isLocRegExp) {
+    // RegExp location
+    var urlMatch = urlObj.path.match(rewrite.location);
     if (Array.isArray(urlMatch)) {
       for (var i = 1; i < 9; i++) {
         vars['$' + i] = urlMatch[i] || '';
       }
     }
   }
+
   for (var key in vars) {
     variables[key] = vars[key];
   }
+}
+
+function isRegExp (location) {
+  return Object.prototype.toString.call(location) === '[object RegExp]';
 }

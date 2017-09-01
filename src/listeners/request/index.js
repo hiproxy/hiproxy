@@ -10,11 +10,6 @@ var getProxyInfo = require('../../helpers/getProxyInfo');
 
 module.exports = function requestHandler (request, response) {
   var _url = request.url.split('?')[0];
-  // var urlObj = url.parse(request.url);
-  // var pathName = urlObj.pathname;
-  // var query = urlObj.query;
-  // var hostname = urlObj.hostname;
-  // var port = urlObj.port;
   var start = Date.now();
 
   /**
