@@ -205,14 +205,7 @@ function getRewriteRule (urlObj, rewriteRules) {
 
   log.info('getProxyInfo -'.red, href, '==>', JSON.stringify(rewriteRule));
 
-  // 不克隆parent，防止clone的时候循环引用
-  if (rewriteRule) {
-    var newRule = clone(rewriteRule, ['parent']);
-    newRule.parent = rewriteRule.parent;
-    return newRule;
-  } else {
-    return null;
-  }
+  return clone(rewriteRule);
 }
 
 function toRegExp (str, flags) {
@@ -222,25 +215,6 @@ function toRegExp (str, flags) {
 
   return new RegExp(arr[0], flags === undefined ? arr[2] : flags);
 }
-
-// TODO 优化重复代码
-// function replaceFuncVar (funcs, source) {
-//   funcs.forEach(function (fun) {
-//     var params = fun.params;
-//     var name = fun.name;
-
-//     if (name === 'set') {
-//       // 如果是 set 命令, 不替换第一个参数
-//       fun.params = [params[0]].concat(replaceVar(fun.params.slice(1), source));
-//     } else {
-//       fun.params = replaceVar(fun.params, source);
-//     }
-
-//     // console.log('替换function参数:', name, fun.params);
-//   });
-
-//   return funcs;
-// }
 
 /**
  * 设置内置变量
@@ -297,7 +271,6 @@ function setBuiltInVars (rewrite, request) {
 
   // RegExp group
   if (rewrite.location.indexOf('~') === 0) {
-    // 正则表达式
     var sourceReg = toRegExp(rewrite.location, 'i');
     var urlMatch = request.url.match(sourceReg);
 
