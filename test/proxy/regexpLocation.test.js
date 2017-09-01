@@ -89,5 +89,69 @@ describe('#proxy location regexp', function () {
         done();
       });
     });
+
+    it('should redirect `/abc/post/2016/06` to `/test/post/2016/06`', function (done) {
+      request({
+        uri: 'http://blog.example.com/abc/post/2016/06',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(body.url, '/test/post/2016/06');
+        done();
+      });
+    });
+
+    it('should NOT redirect `/abc/article/2016/06` to `/test/post/2016/06`', function (done) {
+      request({
+        uri: 'http://blog.example.com/abc/article/2016/06',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.notEqual(body.url, '/test/post/2016/06');
+        done();
+      });
+    });
+
+    it('should NOT redirect `/file/123.htmls` to `/html/file/123`', function (done) {
+      request({
+        uri: 'http://blog.example.com/file/123.htmls',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.notEqual(body.url, '/html/file/123');
+        done();
+      });
+    });
+
+    it('should redirect `/file/123.html` to `/html/file/123`', function (done) {
+      request({
+        uri: 'http://blog.example.com/file/123.html',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(body.url, '/html/file/123');
+        done();
+      });
+    });
   });
 });
