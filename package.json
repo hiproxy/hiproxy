@@ -45,6 +45,7 @@
     "op-browser": "^1.0.4",
     "os-homedir": "^1.0.2",
     "simple-mime": "^0.1.0",
+    "step-flow": "^1.0.3",
     "url-pattern": "^1.0.3"
   },
   "devDependencies": {
