@@ -1,4 +1,10 @@
-var certTool = require('../cert');
+/**
+ * @file hiproxy server tool
+ * @author zdying
+ */
+'use strict';
+
+var certTool = require('./certTool');
 
 module.exports = {
   create: function (port, isSSL, rewrite) {
@@ -26,8 +32,8 @@ module.exports = {
     var self = this;
 
     var defaultCert = {
-      key: path.resolve(__dirname, '../../ssl/cert/localhost.key'),
-      cert: path.resolve(__dirname, '../../ssl/cert/localhost.crt')
+      key: path.resolve(__dirname, '../../../../ssl/cert/localhost.key'),
+      cert: path.resolve(__dirname, '../../../../ssl/cert/localhost.crt')
     };
     var option = {
       key: fs.readFileSync(defaultCert.key),

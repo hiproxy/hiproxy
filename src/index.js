@@ -12,10 +12,9 @@ var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./helpers/logger');
-var createServer = require('./helpers/createServer');
-var listeners = require('./listeners');
 var createPacFile = require('./helpers/createPacFile');
-var glob = require('./helpers/glob');
+
+var initFlow = require('./flows/initialize');
 
 // global.log = log;
 
@@ -42,8 +41,6 @@ function ProxyServer (httpPort, httpsPort, dir) {
   this.httpsServer = null;
 
   this.dir = dir;
-
-  global.log = this.logger;
 }
 
 ProxyServer.prototype = {
@@ -59,43 +56,50 @@ ProxyServer.prototype = {
    * @public
    */
   start: function (config) {
-    var self = this;
-    var promises = [
-      getLocalIP(),
-      createServer.create(this.httpPort, false, this.rewrite)
-    ];
+    // var self = this;
+    // var promises = [
+    //   getLocalIP(),
+    //   createServer.create(this.httpPort, false, this.rewrite)
+    // ];
 
-    config = config || {};
+    // config = config || {};
 
-    if (this.httpsPort) {
-      promises.push(createServer.create(this.httpsPort, true, this.rewrite));
-    }
+    // if (this.httpsPort) {
+    //   promises.push(createServer.create(this.httpsPort, true, this.rewrite));
+    // }
 
-    return Promise.all(promises)
-      .then(function (values) {
-        self.localIP = values[0];
-        self.httpServer = values[1];
-        self.httpsServer = values[2];
+    getLocalIP().then(function (ip) {
+      initFlow.run({
+        localIP: ip,
+        args: config || {}
+      }, null, this);
+    }.bind(this));
 
-        setTimeout(function () {
-          self._initEvent();
-          self.findConfigFiles(self.dir, config);
-          // self.addConfigFiles(config);
-        }, 0);
+    // return Promise.all(promises)
+    //   .then(function (values) {
+    //     self.localIP = values[0];
+    //     self.httpServer = values[1];
+    //     self.httpsServer = values[2];
 
-        /**
-         * Emitted when the hiproxy server(s) start.
-         * @event ProxyServer#start
-         * @property {Array} servers http/https server
-         * @property {String} localIP the local ip address
-         */
-        self.emit('start', {
-          servers: values.slice(1),
-          localIP: values[0]
-        });
+    //     setTimeout(function () {
+    //       self._initEvent();
+    //       self.findConfigFiles(self.dir, config);
+    //       // self.addConfigFiles(config);
+    //     }, 0);
 
-        return values.slice(1);
-      });
+    //     /**
+    //      * Emitted when the hiproxy server(s) start.
+    //      * @event ProxyServer#start
+    //      * @property {Array} servers http/https server
+    //      * @property {String} localIP the local ip address
+    //      */
+    //     self.emit('start', {
+    //       servers: values.slice(1),
+    //       localIP: values[0]
+    //     });
+
+    //     return values.slice(1);
+    //   });
       // .catch(function (err) {
       //   self.logger.error(err);
       // });
@@ -267,7 +271,8 @@ ProxyServer.prototype = {
     // TODO
     // get Host/Rewrite file status
     return null;
-  },
+  }
+  // ,
 
   /**
    * 在指定工作空间（目录）下查找配置文件
@@ -276,34 +281,34 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  findConfigFiles: function (dir, config) {
-    var self = this;
-    var logger = this.logger;
-    var hostsPattern = config.hostsFile;
-    var rewritePattern = config.rewriteFile;
+  // findConfigFiles: function (dir, config) {
+  //   var self = this;
+  //   var logger = this.logger;
+  //   var hostsPattern = config.hostsFile;
+  //   var rewritePattern = config.rewriteFile;
 
-    if (hostsPattern == null) {
-      hostsPattern = ['./*/hosts'];
-    }
+  //   if (hostsPattern == null) {
+  //     hostsPattern = ['./*/hosts'];
+  //   }
 
-    if (rewritePattern == null) {
-      rewritePattern = ['./*/rewrite'];
-    }
+  //   if (rewritePattern == null) {
+  //     rewritePattern = ['./*/rewrite'];
+  //   }
 
-    var hostsFiles = glob(hostsPattern, dir);
-    var rewriteFiles = glob(rewritePattern, dir);
+  //   var hostsFiles = glob(hostsPattern, dir);
+  //   var rewriteFiles = glob(rewritePattern, dir);
 
-    logger.debug('add hosts [', hostsFiles.join(', ').bold.green, ']');
-    logger.debug('add rewrites [', (rewriteFiles.join(', ')).bold.green, ']');
+  //   logger.debug('add hosts [', hostsFiles.join(', ').bold.green, ']');
+  //   logger.debug('add rewrites [', (rewriteFiles.join(', ')).bold.green, ']');
 
-    // 将找到的Hosts文件解析并加入缓存
-    self.addHostsFile(hostsFiles);
+  //   // 将找到的Hosts文件解析并加入缓存
+  //   self.addHostsFile(hostsFiles);
 
-    // 将找到的rewrite文件解析并加入缓存
-    self.addRewriteFile(rewriteFiles);
+  //   // 将找到的rewrite文件解析并加入缓存
+  //   self.addRewriteFile(rewriteFiles);
 
-    return this;
-  },
+  //   return this;
+  // },
 
   /**
    * 添加配置文件
@@ -318,61 +323,61 @@ ProxyServer.prototype = {
   //   }
   // },
 
-  _initEvent: function () {
-    var self = this;
-    // var port = this.httpPort;
-    // var url = 'http://127.0.0.1:' + port;
-    // var pac = url + '/proxy.pac';
-    var server = this.httpServer;
-    var httpsServer = this.httpsServer;
+  // _initEvent: function () {
+  //   var self = this;
+  //   // var port = this.httpPort;
+  //   // var url = 'http://127.0.0.1:' + port;
+  //   // var pac = url + '/proxy.pac';
+  //   var server = this.httpServer;
+  //   var httpsServer = this.httpsServer;
 
-    server
-      .on('request', listeners.request.bind(this))
-      .on('connect', listeners.connect.bind(this));
+  //   server
+  //     .on('request', listeners.request.bind(this))
+  //     .on('connect', listeners.connect.bind(this));
 
-    // https中间人代理服务器事件绑定
-    // 中间人代理服务收到请求时：
-    //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
-    //  2. 如果是其他的请求，去请求资源
-    httpsServer && httpsServer
-      .on('request', function (req, res) {
-        var url = req.url;
-        var host = req.headers.host;
-        var protocol = req.client.encrypted ? 'https' : 'http';
+  //   // https中间人代理服务器事件绑定
+  //   // 中间人代理服务收到请求时：
+  //   //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
+  //   //  2. 如果是其他的请求，去请求资源
+  //   httpsServer && httpsServer
+  //     .on('request', function (req, res) {
+  //       var url = req.url;
+  //       var host = req.headers.host;
+  //       var protocol = req.client.encrypted ? 'https' : 'http';
 
-        self.logger.debug('http middle man _server receive request ==>', protocol, host, url);
+  //       self.logger.debug('http middle man _server receive request ==>', protocol, host, url);
 
-        /**
-         * Emitted each time there is a request to the https server.
-         * @event ProxyServer#httpsRequest
-         * @property {http.IncomingMessage} request request object
-         * @property {http.ServerResponse} response response object
-         */
-        self.emit('httpsRequest', req, res);
-        // self.emit('request', req, res);
+  //       /**
+  //        * Emitted each time there is a request to the https server.
+  //        * @event ProxyServer#httpsRequest
+  //        * @property {http.IncomingMessage} request request object
+  //        * @property {http.ServerResponse} response response object
+  //        */
+  //       self.emit('httpsRequest', req, res);
+  //       // self.emit('request', req, res);
 
-        if (!url.match(/^\w+:\/\//)) {
-          req.url = protocol + '://' + host + url;
-        }
+  //       if (!url.match(/^\w+:\/\//)) {
+  //         req.url = protocol + '://' + host + url;
+  //       }
 
-        if (host === '127.0.0.1:' + this.httpsPort) {
-          res.end('the man in the middle page: ' + url);
-          // if(url === '/'){
-          //     res.end('the man in the middle.');
-          // }else if(url === '/favicon.ico'){
-          //     res.statusCode = 404;
-          //     res.end('404 Not Found.');
-          // }else{
-          //     res.statusCode = 404;
-          //     res.end('404 Not Found.');
-          // }
-        } else {
-          listeners.request.call(this, req, res);
-        }
-      }.bind(this));
+  //       if (host === '127.0.0.1:' + this.httpsPort) {
+  //         res.end('the man in the middle page: ' + url);
+  //         // if(url === '/'){
+  //         //     res.end('the man in the middle.');
+  //         // }else if(url === '/favicon.ico'){
+  //         //     res.statusCode = 404;
+  //         //     res.end('404 Not Found.');
+  //         // }else{
+  //         //     res.statusCode = 404;
+  //         //     res.end('404 Not Found.');
+  //         // }
+  //       } else {
+  //         listeners.request.call(this, req, res);
+  //       }
+  //     }.bind(this));
 
-    return this;
-  }
+  //   return this;
+  // }
 };
 
 module.exports = ProxyServer;

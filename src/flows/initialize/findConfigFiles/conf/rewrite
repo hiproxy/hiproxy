@@ -1,0 +1,10 @@
+hiproxy.js => {
+  location / {
+    echo '<h1 style="font-weight: 300; color: red;">Hello hiproxy</h1>';
+    echo '<p style="font-weight: 100; font-size: 20px;">hiproxy is a light-weight proxy tool based on Node.js</p>';
+  }
+
+  location /file/ {
+    alias ../../;
+  }
+}

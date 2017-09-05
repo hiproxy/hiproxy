@@ -9,7 +9,7 @@ var http = require('http');
 var https = require('https');
 var zlib = require('zlib');
 
-var execResponseCommand = require('../../directives/execCommand');
+var execResponseCommand = require('../../../directives/execCommand');
 
 module.exports = {
   response: function (rewriteRule, request, response) {

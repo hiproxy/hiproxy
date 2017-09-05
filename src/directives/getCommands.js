@@ -14,7 +14,7 @@ var types = require('./scope');
  * @returns {Array}
  */
 module.exports = function getCommonds (rewriteRule, scope) {
-  var allDirectives = rewriteRule.directives;
+  var allDirectives = rewriteRule.directives || [];
   var directives = [];
   var typedCmds = scope && types[scope];
 

@@ -37,6 +37,11 @@ module.exports = function connectHandler (request, socket, head) {
   }
 
   log.debug('connect to:', port, hostname);
+  // if (!this.httpsPort || !this.httpsServer) {
+  //   socket.write('HTTP/1.1 200 Error\r\n\r\nThe HTTPS server has not been started.');
+  //   socket.end();
+  //   return;
+  // }
 
   var proxySocket = net.connect(port, hostname, function () {
     socket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
@@ -44,6 +49,7 @@ module.exports = function connectHandler (request, socket, head) {
     proxySocket.pipe(socket);
   }).on('error', function (e) {
     log.error('proxy error', e.message);
+    log.detail('proxy error', e.stack);
     socket.end();
   }).on('data', function (data) {
     // console.log('proxy socker data:', data.toString());
