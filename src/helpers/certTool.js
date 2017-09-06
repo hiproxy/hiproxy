@@ -12,9 +12,30 @@ var forge = require('node-forge');
 var pki = forge.pki;
 var md5 = forge.md.md5;
 var homedir = require('os-homedir');
-var mkdirp = require('../../../helpers/mkdirp');
+var mkdirp = require('./mkdirp');
 var certDir = path.join(process.env.NPM_TEST ? os.tmpdir() : homedir(), '.hiproxy', 'cert');
-var defaultFields = require('./defaultFields');
+var defaultAttrs = [
+  {
+    name: 'countryName',
+    value: 'CN'
+  },
+  {
+    name: 'stateOrProvinceName',
+    value: 'Bei Jing'
+  },
+  {
+    name: 'localityName',
+    value: 'Hai Dian'
+  },
+  {
+    name: 'organizationName',
+    value: 'Hiproxy'
+  },
+  {
+    name: 'organizationalUnitName',
+    value: 'Development'
+  }
+];
 var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
 
 mkdirp(certDir);
@@ -100,11 +121,11 @@ module.exports = {
     var subjectaltname = hasSubjectAltName ? certInfo.subjectaltname.split(/,\s+/) : ['DNS:' + domain];
     var attributes = options.attributes || [
       {name: 'commonName', value: subject.CN || domain}
-    ].concat(defaultFields.attributes);
+    ].concat(defaultAttrs);
 
     var extensions = options.extensions || [
       {name: 'basicConstraints', cA: isCa}
-    ]; // .concat(defaultFields.extensions);
+    ];
     var san = {
       name: 'subjectAltName',
       altNames: [

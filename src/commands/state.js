@@ -12,7 +12,7 @@ var homedir = require('os-homedir');
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 var getLocalIP = require('../../src/helpers/getLocalIP');
-var showImage = require('../showImage');
+var showImage = require('../helpers/showImage');
 
 module.exports = {
   command: 'state',

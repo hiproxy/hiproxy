@@ -5,14 +5,11 @@ var path = require('path');
 var homedir = require('os-homedir');
 
 var Args = require('hemsl');
-var showImage = require('./showImage');
+var showImage = require('../src/helpers/showImage');
 var packageInfo = require('../package');
 var pluginManager = require('../src/plugin');
 
 var mkdirp = require('../src/helpers/mkdirp');
-
-// var directives = require('../src/commands');
-// var routers = require('../src/listeners/request/hiproxyRouter');
 
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 var _args = new Args({
@@ -28,7 +25,7 @@ var _args = new Args({
 // global.log = log;
 
 'start stop restart state open'.split(' ').forEach(function (cmd) {
-  var cmdConfig = require(path.join(__dirname, 'commands', cmd));
+  var cmdConfig = require(path.join(__dirname, '..', 'src', 'commands', cmd));
 
   if (cmdConfig && cmdConfig.command) {
     _args.command(cmdConfig);

@@ -56,53 +56,12 @@ ProxyServer.prototype = {
    * @public
    */
   start: function (config) {
-    // var self = this;
-    // var promises = [
-    //   getLocalIP(),
-    //   createServer.create(this.httpPort, false, this.rewrite)
-    // ];
-
-    // config = config || {};
-
-    // if (this.httpsPort) {
-    //   promises.push(createServer.create(this.httpsPort, true, this.rewrite));
-    // }
-
     getLocalIP().then(function (ip) {
       initFlow.run({
         localIP: ip,
         args: config || {}
       }, null, this);
     }.bind(this));
-
-    // return Promise.all(promises)
-    //   .then(function (values) {
-    //     self.localIP = values[0];
-    //     self.httpServer = values[1];
-    //     self.httpsServer = values[2];
-
-    //     setTimeout(function () {
-    //       self._initEvent();
-    //       self.findConfigFiles(self.dir, config);
-    //       // self.addConfigFiles(config);
-    //     }, 0);
-
-    //     /**
-    //      * Emitted when the hiproxy server(s) start.
-    //      * @event ProxyServer#start
-    //      * @property {Array} servers http/https server
-    //      * @property {String} localIP the local ip address
-    //      */
-    //     self.emit('start', {
-    //       servers: values.slice(1),
-    //       localIP: values[0]
-    //     });
-
-    //     return values.slice(1);
-    //   });
-      // .catch(function (err) {
-      //   self.logger.error(err);
-      // });
   },
 
   /**

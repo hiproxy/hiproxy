@@ -36,6 +36,8 @@ module.exports = function connectHandler (request, socket, head) {
     log.info('https direc -', request.url.bold);
   }
 
+  console.log('connect request::', port, hostname);
+
   log.debug('connect to:', port, hostname);
   // if (!this.httpsPort || !this.httpsServer) {
   //   socket.write('HTTP/1.1 200 Error\r\n\r\nThe HTTPS server has not been started.');

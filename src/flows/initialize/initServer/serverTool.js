@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var certTool = require('./certTool');
+var certTool = require('../../../helpers/certTool');
 
 module.exports = {
   create: function (port, isSSL, rewrite) {

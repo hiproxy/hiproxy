@@ -14,7 +14,7 @@ var homedir = require('os-homedir');
 var checkServerStarted = require('../../src/helpers/checkServerStarted');
 var mkdirp = require('../../src/helpers/mkdirp');
 var getLocalIP = require('../../src/helpers/getLocalIP');
-var showImage = require('../showImage');
+var showImage = require('../helpers/showImage');
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 module.exports = {
@@ -133,7 +133,6 @@ function _startServer (ctx) {
     var browser = open === true ? 'chrome' : open;
     browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
   }).catch(function (err) {
-    console.log('error::::', err);
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
     process.exit(1);
