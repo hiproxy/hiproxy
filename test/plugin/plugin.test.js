@@ -9,7 +9,7 @@ var Args = require('hemsl');
 var Proxy = require('../../src/index');
 var testServer = require('../testServer');
 var pluginManager = require('../../src/plugin');
-var routes = require('../../src/flows/proxy/systemRoter/router');
+var routes = require('../../src/routers');
 var directives = require('../../src/directives');
 
 describe('# plugin'.bold.green, function () {
