@@ -111,12 +111,12 @@ describe('# plugin'.bold.green, function () {
     });
 
     it('should set directive scope rightly', function (done) {
-      var scope = directives.scope;
+      var scopes = directives.scopes;
       var directiveDefine = require('./hiproxy-plugin-example/directives');
-      var scopes = directiveDefine[0].scope;
+      var userScopes = directiveDefine[0].scope;
 
-      scopes.forEach(function (s) {
-        assert.notEqual(scope[s].indexOf('add'), -1);
+      userScopes.forEach(function (s) {
+        assert.notEqual(scopes[s].indexOf('add'), -1);
       });
 
       done();

@@ -9,7 +9,7 @@ var fs = require('fs');
 var path = require('path');
 
 var getMimeType = require('simple-mime')('text/plain');
-var execResponseCommand = require('../../../directives/execCommand');
+var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (rewriteRule, request, response) {
@@ -18,7 +18,7 @@ module.exports = {
     response.headers = response.headers || {};
 
     // 执行response作用域的command
-    execResponseCommand(rewriteRule, {
+    execDirectives(rewriteRule, {
       response: response
     }, 'response');
 

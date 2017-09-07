@@ -9,7 +9,7 @@ var http = require('http');
 var https = require('https');
 var zlib = require('zlib');
 
-var execResponseCommand = require('../../../directives/execCommand');
+var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (rewriteRule, request, response) {
@@ -25,7 +25,7 @@ module.exports = {
 
     if (!request.proxyPass && !proxyOption.hostname) {
       log.debug(request.url, 'has no proxy_pass');
-      execResponseCommand(rewriteRule, {
+      execDirectives(rewriteRule, {
         response: response,
         rewriteRule: rewriteRule
       }, 'response');
@@ -42,7 +42,7 @@ module.exports = {
       // response.removeHeader('Content-Encoding')
       // delete response.headers['content-encoding']
 
-      execResponseCommand(rewriteRule, {
+      execDirectives(rewriteRule, {
         response: response,
         rewriteRule: rewriteRule
       }, 'response');

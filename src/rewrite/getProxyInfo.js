@@ -6,7 +6,7 @@
 var url = require('url');
 var path = require('path');
 
-var execCommand = require('../directives/execCommand');
+var execDirectives = require('../directives').execDirectives;
 var Transform = require('hiproxy-conf-parser').Transform;
 var utils = require('../helpers/utils');
 var clone = utils.clone;
@@ -69,7 +69,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       // props: rewrite.props
     };
 
-    execCommand(rewrite, context, 'request');
+    execDirectives(rewrite, context, 'request');
 
     log.debug('newURL ==>', newUrl);
     log.debug('alias  ==>', alias);
