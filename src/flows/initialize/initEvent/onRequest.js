@@ -6,6 +6,9 @@ module.exports = function (req, res) {
    * @property {http.ServerResponse} response response object
    */
   this.emit('request', req, res);
+
+  req._startTime = Date.now();
+
   proxyFlow.run({
     req: req,
     res: res,
