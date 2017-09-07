@@ -13,7 +13,7 @@
     "test": "export NPM_TEST=true && nyc mocha test/**/*.test.js --timeout 5000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
-    "semistandard": "semistandard",
+    "semistandard": "semistandard --fix",
     "t": "nyc mocha test/tool/*.test.js && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
@@ -59,7 +59,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "npm run semistandard",
-      "pre-push-": "npm test"
+      "pre-push": "npm test"
     }
   },
   "files": [
