@@ -56,12 +56,19 @@ ProxyServer.prototype = {
    * @public
    */
   start: function (config) {
-    getLocalIP().then(function (ip) {
-      initFlow.run({
-        localIP: ip,
-        args: config || {}
-      }, null, this);
-    }.bind(this));
+    var hiproxy = this;
+    return getLocalIP().then(function (ip) {
+      return new Promise(function (resolve, reject) {
+        initFlow.use(function (ctx, next) {
+          resolve([hiproxy.httpServer, hiproxy.httpsServer]);
+          next();
+        });
+        initFlow.run({
+          localIP: ip,
+          args: config || {}
+        }, null, hiproxy);
+      });
+    });
   },
 
   /**

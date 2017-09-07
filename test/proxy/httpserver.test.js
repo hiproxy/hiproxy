@@ -1,6 +1,6 @@
 var assert = require('assert');
 var request = require('request');
-// var http = require('http');
+var http = require('http');
 var path = require('path');
 
 var Proxy = require('../../src/index');
@@ -22,19 +22,19 @@ describe('#http server', function () {
     proxyServer.stop();
   });
 
-  // describe('#api', function () {
-  //   it('#start()', function (done) {
-  //     var server = new Proxy(8848);
-  //     server.start().then(function () {
-  //       if (server.httpServer instanceof http.Server) {
-  //         done();
-  //       } else {
-  //         done(new Error('server.httpServer is not an instance of http.Server'));
-  //       }
-  //       server.stop();
-  //     });
-  //   });
-  // });
+  describe('#api', function () {
+    it('#start()', function (done) {
+      var server = new Proxy(8848);
+      server.start().then(function () {
+        if (server.httpServer instanceof http.Server) {
+          done();
+        } else {
+          done(new Error('server.httpServer is not an instance of http.Server'));
+        }
+        server.stop();
+      });
+    });
+  });
 
   describe('#server response', function () {
     it('request /', function (done) {

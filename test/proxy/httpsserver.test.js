@@ -1,7 +1,7 @@
 var assert = require('assert');
 var request = require('request');
 // var http = require('http');
-// var https = require('https');
+var https = require('https');
 var path = require('path');
 
 var Proxy = require('../../src/index');
@@ -23,19 +23,19 @@ describe('#https server', function () {
     proxyServer.stop();
   });
 
-  // describe('#api', function () {
-  //   it('#start()', function (done) {
-  //     var server = new Proxy(8848, 10012);
-  //     server.start().then(function () {
-  //       if (server.httpsServer instanceof https.Server) {
-  //         done();
-  //       } else {
-  //         done(new Error('server.httpsServer is not an instance of https.Server'));
-  //       }
-  //       server.stop();
-  //     });
-  //   });
-  // });
+  describe('#api', function () {
+    it('#start()', function (done) {
+      var server = new Proxy(8848, 10012);
+      server.start().then(function () {
+        if (server.httpsServer instanceof https.Server) {
+          done();
+        } else {
+          done(new Error('server.httpsServer is not an instance of https.Server'));
+        }
+        server.stop();
+      });
+    });
+  });
 
   describe('#server response', function () {
     it('request /', function (done) {
