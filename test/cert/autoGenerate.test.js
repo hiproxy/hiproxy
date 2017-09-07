@@ -10,7 +10,7 @@ describe('#auto generate ssl certificate', function () {
   var proxyServer = null;
   before(function () {
     var Proxy = require('../../src/index');
-    proxyServer = new Proxy(8859, 10022);
+    proxyServer = new Proxy(8859, 10086);
     proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
     proxyServer.start();
   });
@@ -19,7 +19,7 @@ describe('#auto generate ssl certificate', function () {
     var https = require('https');
     var options = {
       host: '127.0.0.1',
-      port: 10022,
+      port: 10086,
       path: 'https://example.io/',
       method: 'GET',
       headers: {
