@@ -85,7 +85,7 @@ module.exports = {
       });
       fs.createReadStream(path.join(__dirname, 'favicon.ico')).pipe(response);
     } else if (pathname === '/ssl-certificate') {
-      var certTool = require('../../../helpers/certTool');
+      var certTool = require('../../src/helpers/certTool');
       var cert = certTool.getCACertificate();
       var content = cert.certificatePem;
 
