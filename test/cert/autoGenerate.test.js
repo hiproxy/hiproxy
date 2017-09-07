@@ -8,12 +8,12 @@ global.log = new Logger();
 
 describe('#auto generate ssl certificate', function () {
   var proxyServer = null;
-  before(function () {
-    var Proxy = require('../../src/index');
-    proxyServer = new Proxy(8859, 10086);
-    proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
-    proxyServer.start();
-  });
+  // before(function () {
+  var Proxy = require('../../src/index');
+  proxyServer = new Proxy(8859, 10086);
+  proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
+  proxyServer.start();
+  // });
 
   it('should auto generate certificate', function (done) {
     var https = require('https');
@@ -63,7 +63,7 @@ describe('#auto generate ssl certificate', function () {
     req.end();
   });
 
-  after(function () {
-    proxyServer.stop();
-  });
+  // after(function () {
+  //   proxyServer.stop();
+  // });
 });
