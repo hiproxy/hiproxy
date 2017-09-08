@@ -35,7 +35,6 @@ module.exports = function createServer (ctx, next) {
 
     next();
   }).catch(function (err) {
-    console.log('error:', err.stack);
     next(err);
   });
 };
