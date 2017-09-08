@@ -13,7 +13,7 @@ var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (rewriteRule, request, response) {
-    var proxyOption = request.proxy_options;
+    var proxyOption = request.proxyOptions;
     var isHTTPS = proxyOption.protocol === 'https:';
     var self = this;
 

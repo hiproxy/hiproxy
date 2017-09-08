@@ -1,3 +1,9 @@
+/**
+ * @file HTTP server REQUEST handler
+ * @author zdying
+ */
+'use strict';
+
 var proxyFlow = require('../../proxy');
 module.exports = function (req, res) {
   /* Emitted each time there is a request.

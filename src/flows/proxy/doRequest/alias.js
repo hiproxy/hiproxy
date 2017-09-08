@@ -32,7 +32,7 @@ module.exports = {
     try {
       var stats = fs.statSync(request.newUrl);
       var filePath = request.newUrl;
-      var rewrite = request.rewrite_rule;
+      var rewrite = request.rewriteRule;
 
       if (stats.isDirectory()) {
         log.debug('isDirectory and add root:' + (rewrite.variables.default || 'index.html'));

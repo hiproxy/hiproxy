@@ -6,6 +6,5 @@
 
 module.exports = function (ctx, next) {
   // log.access(ctx.req);
-  // console.log('[access]', ctx.req.method, ctx.req.url);
   next();
 };

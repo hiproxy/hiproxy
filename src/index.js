@@ -147,18 +147,6 @@ ProxyServer.prototype = {
   },
 
   /**
-   * 添加指令
-   *
-   * @param {String} name  指令名称
-   * @param {String} scope 指令作用域
-   * @param {Function} fn  指令执行函数
-   * @private
-   */
-  // addDirective: function(name, scope, fn){
-  //
-  // },
-
-  /**
    * 打开浏览器窗口
    *
    * @param {String} browserName 浏览器名称
@@ -239,112 +227,6 @@ ProxyServer.prototype = {
     // get Host/Rewrite file status
     return null;
   }
-  // ,
-
-  /**
-   * 在指定工作空间（目录）下查找配置文件
-   * hiproxy会在指定的空间下所有一级目录下查找配置文件
-   * @param {String} [dir=process.cwd()] 工作空间（目录）
-   * @return {ProxyServer}
-   * @public
-   */
-  // findConfigFiles: function (dir, config) {
-  //   var self = this;
-  //   var logger = this.logger;
-  //   var hostsPattern = config.hostsFile;
-  //   var rewritePattern = config.rewriteFile;
-
-  //   if (hostsPattern == null) {
-  //     hostsPattern = ['./*/hosts'];
-  //   }
-
-  //   if (rewritePattern == null) {
-  //     rewritePattern = ['./*/rewrite'];
-  //   }
-
-  //   var hostsFiles = glob(hostsPattern, dir);
-  //   var rewriteFiles = glob(rewritePattern, dir);
-
-  //   logger.debug('add hosts [', hostsFiles.join(', ').bold.green, ']');
-  //   logger.debug('add rewrites [', (rewriteFiles.join(', ')).bold.green, ']');
-
-  //   // 将找到的Hosts文件解析并加入缓存
-  //   self.addHostsFile(hostsFiles);
-
-  //   // 将找到的rewrite文件解析并加入缓存
-  //   self.addRewriteFile(rewriteFiles);
-
-  //   return this;
-  // },
-
-  /**
-   * 添加配置文件
-   */
-  // addConfigFiles: function (config) {
-  //   if (config.hostsFile) {
-  //     this.addHostsFile(config.hostsFile);
-  //   }
-
-  //   if (config.rewriteFile) {
-  //     this.addRewriteFile(config.rewriteFile);
-  //   }
-  // },
-
-  // _initEvent: function () {
-  //   var self = this;
-  //   // var port = this.httpPort;
-  //   // var url = 'http://127.0.0.1:' + port;
-  //   // var pac = url + '/proxy.pac';
-  //   var server = this.httpServer;
-  //   var httpsServer = this.httpsServer;
-
-  //   server
-  //     .on('request', listeners.request.bind(this))
-  //     .on('connect', listeners.connect.bind(this));
-
-  //   // https中间人代理服务器事件绑定
-  //   // 中间人代理服务收到请求时：
-  //   //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
-  //   //  2. 如果是其他的请求，去请求资源
-  //   httpsServer && httpsServer
-  //     .on('request', function (req, res) {
-  //       var url = req.url;
-  //       var host = req.headers.host;
-  //       var protocol = req.client.encrypted ? 'https' : 'http';
-
-  //       self.logger.debug('http middle man _server receive request ==>', protocol, host, url);
-
-  //       /**
-  //        * Emitted each time there is a request to the https server.
-  //        * @event ProxyServer#httpsRequest
-  //        * @property {http.IncomingMessage} request request object
-  //        * @property {http.ServerResponse} response response object
-  //        */
-  //       self.emit('httpsRequest', req, res);
-  //       // self.emit('request', req, res);
-
-  //       if (!url.match(/^\w+:\/\//)) {
-  //         req.url = protocol + '://' + host + url;
-  //       }
-
-  //       if (host === '127.0.0.1:' + this.httpsPort) {
-  //         res.end('the man in the middle page: ' + url);
-  //         // if(url === '/'){
-  //         //     res.end('the man in the middle.');
-  //         // }else if(url === '/favicon.ico'){
-  //         //     res.statusCode = 404;
-  //         //     res.end('404 Not Found.');
-  //         // }else{
-  //         //     res.statusCode = 404;
-  //         //     res.end('404 Not Found.');
-  //         // }
-  //       } else {
-  //         listeners.request.call(this, req, res);
-  //       }
-  //     }.bind(this));
-
-  //   return this;
-  // }
 };
 
 module.exports = ProxyServer;

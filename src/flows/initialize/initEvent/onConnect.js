@@ -1,5 +1,5 @@
 /**
- * @file
+ * @file HTTP server CONNECT handler
  * @author zdying
  */
 

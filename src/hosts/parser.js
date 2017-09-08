@@ -8,16 +8,16 @@ var fs = require('fs');
  * parse hosts file to javascript object
  *
  * input:
- *      127.0.0.1:8800 hiipack.com hii.com
- *      127.0.0.1 example.com example.com.cn
+ *   127.0.0.1:8800 hiipack.com hii.com
+ *   127.0.0.1 example.com example.com.cn
  *
  * output:
- *      {
- *           "hiipack.com": "127.0.0.1:8800",
- *           "hii.com": "127.0.0.1:8800",
- *           "example.com": "127.0.0.1",
- *           "example.com.cn": "127.0.0.1"
- *       }
+ *   {
+ *     "hiipack.com": "127.0.0.1:8800",
+ *     "hii.com": "127.0.0.1:8800",
+ *     "example.com": "127.0.0.1",
+ *     "example.com.cn": "127.0.0.1"
+ *   }
  * @param filePath
  * @returns {{}}
  */

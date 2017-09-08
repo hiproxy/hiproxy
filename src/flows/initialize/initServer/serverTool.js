@@ -31,6 +31,7 @@ module.exports = {
     var tls = require('tls');
     var self = this;
 
+    // TODO 使用cert tool统一生成证书
     var defaultCert = {
       key: path.resolve(__dirname, '../../../../ssl/cert/localhost.key'),
       cert: path.resolve(__dirname, '../../../../ssl/cert/localhost.crt')

@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var getProxyInfo = require('../../../rewrite/getProxyInfo');
+var getProxyInfo = require('../../rewrite/getProxyInfo');
 
 module.exports = function (ctx, next) {
   var req = ctx.req;

@@ -101,7 +101,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   }
 
   var proxyInfo = {
-    proxy_options: {
+    proxyOptions: {
       hostname: hostname,
       port: port,
       path: path,
@@ -111,8 +111,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     },
     proxyPass: proxyPass,
     PROXY: proxyName,
-    hosts_rule: host,
-    rewrite_rule: rewrite,
+    hostsRule: host,
+    rewriteRule: rewrite,
     alias: alias,
     newUrl: newUrl
   };
