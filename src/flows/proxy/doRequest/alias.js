@@ -13,6 +13,8 @@ var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (rewriteRule, request, response) {
+    var hiproxy = this;
+
     log.info(request.url + ' ==> ' + request.newUrl);
 
     response.headers = response.headers || {};
@@ -27,7 +29,7 @@ module.exports = {
      * @event ProxyServer#setResponse
      * @property {http.ServerResponse} response request object
      */
-    this.emit('setResponse', response);
+    hiproxy.emit('setResponse', response);
 
     try {
       var stats = fs.statSync(request.newUrl);
@@ -48,6 +50,26 @@ module.exports = {
         response.end('404 Not Found: <br><pre>' + e.stack + '</pre>');
       });
 
+      stream.on('data', function (chunk) {
+        /**
+         * Emitted whenever the response stream received some chunk of data.
+         * @event ProxyServer#data
+         * @property {Buffer} data response data
+         */
+        hiproxy.emit('data', chunk);
+      });
+
+      stream.on('end', function () {
+        /**
+         * Emitted when a response is end. This event is emitted only once.
+         * @event ProxyServer#response
+         * @property {http.ServerResponse} response response object
+         */
+        hiproxy.emit('response', response);
+
+        log.access(request);
+      });
+
       return stream.pipe(response);
     } catch (err) {
       log.error(err);
@@ -60,6 +82,10 @@ module.exports = {
         response.statusCode = 500;
         response.end('500 Server Internal Error: <br><pre>' + err.stack + '</pre>');
       }
+
+      hiproxy.emit('response', response);
+
+      log.access(request);
     }
   }
 };

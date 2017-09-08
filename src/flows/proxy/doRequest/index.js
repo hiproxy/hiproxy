@@ -13,8 +13,9 @@ module.exports = function (ctx, next) {
   var res = ctx.res;
   var isAlias = req.alias;
   var handler = isAlias ? alias : request;
+  var hiproxy = this;
 
-  handler.response.call(this, proxyInfo.rewriteRule, req, res);
+  handler.response.call(hiproxy, proxyInfo.rewriteRule, req, res);
 
   next();
 };

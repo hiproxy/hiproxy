@@ -77,12 +77,6 @@ module.exports = {
         var unzipStream = encoding === 'gzip' ? zlib.createUnzip() : zlib.createInflate();
 
         unzipStream.on('data', function (chunk) {
-          // console.log('ondata =>', chunk.toString())
-          /**
-           * Emitted whenever the response stream received some chunk of data.
-           * @event ProxyServer#data
-           * @property {Buffer} data response data
-           */
           self.emit('data', chunk);
         });
 
@@ -98,7 +92,6 @@ module.exports = {
            * @property {Buffer} data response data
            */
           self.emit('data', chunk);
-          // console.log('ondata =>', chunk.toString())
         });
       }
 
@@ -136,6 +129,8 @@ module.exports = {
 
       log.error('proxy error:', request.url);
       log.detail(e.stack);
+
+      self.emit('response', response);
 
       request.res = response;
       log.access(request);
