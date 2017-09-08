@@ -44,7 +44,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     var alias = rewriteProps.alias;
     var proxyUrlObj = url.parse(proxyPass);
     var protocolReg = /^(\w+:\/\/)/;
-    var newUrl, newUrlObj;
+    var newUrl = '';
+    var newUrlObj;
     var isLocRegExp = isRegExp(rewrite.location);
 
     // 如果代理地址中包含具体协议，删除原本url中的协议
@@ -54,19 +55,20 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       originUrl = originUrl.replace(protocolReg, '');
     }
 
-    // 将原本url中的部分替换为代理地址
-    if (isLocRegExp) {
-      // 如果是正则表达式，直接食用proxy_pass的值
-      newUrl = proxyPass;
-    } else {
-      // 普通地址字符串
-      // 否则，把url中的source部分替换成proxy
-      newUrl = originUrl.replace(rewrite.extends.domain + rewrite.location, proxyPass);
+    if (proxyPass) {
+      // 将原本url中的部分替换为代理地址
+      if (isLocRegExp) {
+        // 如果是正则表达式，直接食用proxy_pass的值
+        newUrl = proxyPass;
+      } else {
+        // 普通地址字符串
+        // 否则，把url中的source部分替换成proxy
+        newUrl = originUrl.replace(rewrite.extends.domain + rewrite.location, proxyPass);
+      }
     }
 
     var context = {
       request: request
-      // props: rewrite.props
     };
 
     execDirectives(rewrite, context, 'request');

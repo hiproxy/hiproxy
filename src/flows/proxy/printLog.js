@@ -7,12 +7,16 @@
 module.exports = function (ctx, next) {
   var req = ctx.req;
   var proxyOption = req.proxyOptions;
+
   if (req.PROXY) {
-    log.access(req, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
-      (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
+    if (req.proxyPass) {
+      log.access(req, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
+        (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
+    } else {
+      log.access(req, '(local file system or echo)');
+    }
   } else {
     log.access(req);
-    // log.info('direc -', req.url.bold, Date.now() - start, 'ms')
   }
   next();
 };

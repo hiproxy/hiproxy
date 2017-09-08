@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var glob = require('../../../helpers/glob');
+var glob = require('../../helpers/glob');
 
 module.exports = function (ctx, next) {
   var config = ctx.args;
