@@ -12,7 +12,7 @@ var zlib = require('zlib');
 var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (rewriteRule, request, response) {
+  response: function (rewriteRule, request, response, next) {
     var proxyOption = request.proxyOptions;
     var isHTTPS = proxyOption.protocol === 'https:';
     var self = this;
@@ -33,6 +33,7 @@ module.exports = {
       if (!response.finished) {
         response.end('');
       }
+      next();
       return;
     }
 
@@ -107,13 +108,14 @@ module.exports = {
          */
         self.emit('response', response);
 
-        if (request.PROXY) {
-          log.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
-            (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
-        } else {
-          log.access(request);
-        // log.info('direc -', request.url.bold, Date.now() - start, 'ms')
-        }
+        // if (request.PROXY) {
+        //   log.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
+        //     (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
+        // } else {
+        //   log.access(request);
+        //   // log.info('direc -', request.url.bold, Date.now() - start, 'ms')
+        // }
+        next();
       });
     });
 
@@ -133,7 +135,8 @@ module.exports = {
       self.emit('response', response);
 
       request.res = response;
-      log.access(request);
+      // log.access(request);
+      next();
     });
 
     request.pipe(proxy);

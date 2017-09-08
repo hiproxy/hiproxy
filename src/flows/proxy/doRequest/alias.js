@@ -12,7 +12,7 @@ var getMimeType = require('simple-mime')('text/plain');
 var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (rewriteRule, request, response) {
+  response: function (rewriteRule, request, response, next) {
     var hiproxy = this;
 
     log.info(request.url + ' ==> ' + request.newUrl);
@@ -48,6 +48,8 @@ module.exports = {
       stream.on('error', function (e) {
         response.statusCode = 404;
         response.end('404 Not Found: <br><pre>' + e.stack + '</pre>');
+
+        next();
       });
 
       stream.on('data', function (chunk) {
@@ -67,7 +69,9 @@ module.exports = {
          */
         hiproxy.emit('response', response);
 
-        log.access(request);
+        // log.access(request);
+
+        next();
       });
 
       return stream.pipe(response);
@@ -85,7 +89,9 @@ module.exports = {
 
       hiproxy.emit('response', response);
 
-      log.access(request);
+      // log.access(request);
+
+      next();
     }
   }
 };
