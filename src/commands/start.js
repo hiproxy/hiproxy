@@ -38,7 +38,7 @@ module.exports = {
     },
     'middle-man-port <port>': {
       alias: 'm',
-      describe: 'The ' + 'Man-In-The-Middle'.underline + 'HTTPS proxy port, default: 10010'
+      describe: 'The HTTPS proxy port, default: 10010'
     },
     'open [browser]': {
       alias: 'o',
