@@ -29,7 +29,7 @@ module.exports = function (req, res) {
     req.url = protocol + '://' + host + url;
   }
 
-  if (host === '127.0.0.1:' + this.httpsPort) {
+  if (host === '127.0.0.1:' + this.httpsPort || host === 'localhost:' + this.httpsPort) {
     res.end('the man in the middle page: ' + url);
   } else {
     onRequest.call(this, req, res);

@@ -118,10 +118,11 @@ module.exports = {
     var isCa = options.isCa || false;
     var subject = certInfo ? certInfo.subject || {} : {};
     var hasSubjectAltName = certInfo && typeof certInfo.subjectaltname === 'string';
-    var subjectaltname = hasSubjectAltName ? certInfo.subjectaltname.split(/,\s+/) : ['DNS:' + domain];
+    var subjectaltname = hasSubjectAltName ? certInfo.subjectaltname.split(/,\s*/) : ['DNS:' + domain];
     var attributes = options.attributes || [
       {name: 'commonName', value: subject.CN || domain}
     ].concat(defaultAttrs);
+    var has127 = false;
 
     var extensions = options.extensions || [
       {name: 'basicConstraints', cA: isCa}
@@ -140,14 +141,25 @@ module.exports = {
       var info = sn.split(':');
       var map = {IP: 7, DNS: 2};
       var type = map[info[0]];
+      var obj = {};
 
       if (type) {
-        san.altNames.push({
-          type: type,
-          value: info[1]
-        });
+        obj.type = type;
+        obj[type === 7 ? 'ip' : 'value'] = info[1];
+        san.altNames.push(obj);
+
+        if (info[1] === '127.0.0.1') {
+          has127 = true;
+        }
       }
     });
+
+    if (domain === 'localhost' && !has127) {
+      san.altNames.push({
+        type: 7,
+        ip: '127.0.0.1'
+      });
+    }
 
     if (!isCa) {
       extensions.push(san);

@@ -26,19 +26,16 @@ module.exports = {
   },
 
   _createHTTPSServer: function (port, rewrite) {
-    var path = require('path');
     var fs = require('fs');
     var tls = require('tls');
     var self = this;
 
-    // TODO 使用cert tool统一生成证书
-    var defaultCert = {
-      key: path.resolve(__dirname, '../../../../ssl/cert/localhost.key'),
-      cert: path.resolve(__dirname, '../../../../ssl/cert/localhost.crt')
-    };
+    var defaultCert = certTool.createCertificate('localhost', null, {
+      subjectaltname: 'IP:127.0.0.1,DNS:localhost'
+    });
     var option = {
-      key: fs.readFileSync(defaultCert.key),
-      cert: fs.readFileSync(defaultCert.cert),
+      key: defaultCert.privateKeyPem,
+      cert: defaultCert.certificatePem,
       SNICallback: function (domain, cb) {
         var rewriteRules = rewrite.getRule();
         var domainRewriteRule = rewriteRules[domain] || [];
