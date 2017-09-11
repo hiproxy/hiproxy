@@ -14,7 +14,7 @@ module.exports = {
   usage: 'init',
   fn: function () {
     // 待拷贝的默认rewrite.conf文件位置
-    var filePath = path.join(__dirname, '../../rewrite.conf');
+    var filePath = path.join(__dirname, 'rewrite.conf');
 
     fs.readFile(filePath, 'utf-8', function (err, data) {
       if (err) {
