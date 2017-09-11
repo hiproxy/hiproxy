@@ -24,7 +24,7 @@ var _args = new Args({
 
 // global.log = log;
 
-'start stop restart state open'.split(' ').forEach(function (cmd) {
+'init start stop restart state open'.split(' ').forEach(function (cmd) {
   var cmdConfig = require(path.join(__dirname, '..', 'src', 'commands', cmd));
 
   if (cmdConfig && cmdConfig.command) {
