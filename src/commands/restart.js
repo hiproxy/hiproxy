@@ -22,7 +22,7 @@ module.exports = {
       var cmd = info.cmd;
 
       childProcess.execSync([cmd[0], cmd[1], 'stop'].join(' '));
-      childProcess.execSync(cmd.join(' '));
+      childProcess.execSync(cmd.join(' '), {maxBuffer: 5000 * 1024});
 
       console.log();
       console.log('Service reloaded success :)');
