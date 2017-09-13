@@ -1,4 +1,9 @@
 # Change Log
+## [1.2.1] - 2017-09-12
+
+### Bugfix
+
+* `send_file` directive bug
 
 ## [1.2.0] - 2017-09-04
 
