@@ -73,7 +73,7 @@ module.exports = {
         routers.addRoute(routes);
       } catch (err) {
         /* istanbul ignore next */
-        console.error('Plugin', plugin, 'load error: ', pluginFile, err.message);
+        console.error('Plugin load error: ', pluginFile, err.message);
         // log.detail(err);
       }
     });
