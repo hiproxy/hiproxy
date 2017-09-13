@@ -1,6 +1,11 @@
 # Change Log
 ## [1.2.1] - 2017-09-12
 
+### Added
+
+* add `hiproxy init` CLI command
+* Use `Hiproxy Custom CA` root certificate to issue `localhost` certificate
+
 ### Bugfix
 
 * `send_file` directive bug
