@@ -120,18 +120,11 @@ Options:
 
 ## 文档
 
-## Documentation
+* <http://hiproxy.org/>
 
 > **提示**: 文档正在编写中，如果你愿意帮忙编写或者翻译文档，请联系[zdying@live.com](mailto:zdying@live.com)
- 
-## Documentation
 
-* <http://hiproxy.org/> 
-
-> **Note**: This is an incomplete documentation, we are still writing, 
-> if you are willing to help us write or translate the documentation, please contact [zdying@live.com](mailto:zdying@live.com)
-
-### Steps for Contributing Documentation
+### 翻译步骤
 
 * 文档地址 : <https://github.com/hiproxy/documentation>
 
