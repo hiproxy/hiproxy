@@ -90,7 +90,7 @@ module.exports = {
       var content = cert.certificatePem;
 
       response.writeHead(200, {
-        'Content-Disposition': 'attachment; filename="Hiproxy_Custom_CA_Certificate.pem"',
+        'Content-Disposition': 'attachment; filename="Hiproxy_Custom_CA_Certificate.crt"',
         'Content-Type': 'application/force-download',
         'Content-Transfer-Encoding': 'binary',
         'Content-Length': content.length
