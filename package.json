@@ -39,7 +39,7 @@
   "homepage": "http://hiproxy.org",
   "dependencies": {
     "colors": "^1.1.2",
-    "hemsl": "^1.2.5",
+    "hemsl": "^1.2.6",
     "hiproxy-conf-parser": "^1.0.3",
     "node-forge": "^0.7.1",
     "op-browser": "^1.0.4",
