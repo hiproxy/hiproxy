@@ -45,3 +45,6 @@ jspm_packages
 
 # docs
 _docs
+
+# lock
+yarn.lock
