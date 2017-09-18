@@ -1,4 +1,16 @@
 # Change Log
+
+## [1.2.2] - 2017-09-18
+
+### Added
+
+* Change Hiproxy_Custom_CA_Certificate ext from pem to crt
+* Add sub-command tips in help info
+
+### Bugfix
+
+* Plugins load error message has `undefined`
+
 ## [1.2.1] - 2017-09-12
 
 ### Added
