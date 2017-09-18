@@ -106,46 +106,28 @@ Options:
 
 ## Documentation
 
+* <http://hiproxy.org/> 
+
 > **Note**: This is an incomplete documentation, we are still writing, 
 > if you are willing to help us write or translate the documentation, please contact [zdying@live.com](mailto:zdying@live.com)
+
+### Steps for Contributing Documentation
+
+* The documentation repo is : <https://github.com/hiproxy/documentation>
+
+* Choose one of the [issues](https://github.com/hiproxy/hiproxy/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20%5BTranslate%5D) and submit a comment that tell others you will translate this part.
+
+* Create your own [fork](https://github.com/hiproxy/documentation/fork) on github.
+
+* Translate the `md` files that you choose, you can reaplce the file content to the English version directly.
+
+* Submit a PR.
+
+After you have submitted your pull request, we'll try to get back to you as soon as possible. We may suggest some changes or improvements.
  
-### Get Started
+## Wiki
 
-* [Introduction](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/introduction.md)
-* [Installation](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/installation.md)
-* [Run Examples](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/run_example.md)
-* [Applied to existing projects](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/applied_to_existing_projects.md)
-* [CLI Options](https://github.com/hiproxy/hiproxy/blob/master/docs/get_started/cli_options.md)
-
-
-### Configuration
-
-* [Configuration Introduction](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/introduction.md)
-* [Configuration file lookup](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/find_conf.md)
-* [hosts](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/hosts.md)
-* [rewrite](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite.md)
-  * [Introduction](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_introduction.md)
-  * [Scope](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_scope.md)
-  * [Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_directive.md)
-  * [Built-in Variables](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/rewrite_built_in_variable.md)
-* [SSL/TLS Certificate](https://github.com/hiproxy/hiproxy/blob/master/docs/configuration/ssl_certificate.md)
-
-
-### Node.js API
-
-* [API](https://github.com/hiproxy/hiproxy/blob/master/docs/api/api.md)
-* [Events](https://github.com/hiproxy/hiproxy/blob/master/docs/api/events.md)
-
-### Developer
-
-* [Plugin](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/plugin.md)
-* [Extend Command](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/cli_command.md)
-* [Extend Directive](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/directive.md)
-* [Extend Route](https://github.com/hiproxy/hiproxy/blob/master/docs/developer/route.md)
-
-### FAQs
-
-* [FAQs](https://github.com/hiproxy/hiproxy/blob/master/docs/faqs.md)
+* <https://github.com/hiproxy/hiproxy/wiki>
 
 ## Node.js API
 
