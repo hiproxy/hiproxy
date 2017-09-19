@@ -200,6 +200,9 @@ npm test
 * [v0lkan](https://github.com/v0lkan)
 * [JayLee404](https://github.com/JayLee404)
 * [Jeoxs](https://github.com/Jeoxs)
+* [James Fancy](https://segmentfault.com/u/jamesfancy)
+
+感谢上面的各位朋友帮忙翻译hiproxy的文档。
 
 ## 升级日志
 
