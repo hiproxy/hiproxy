@@ -4,9 +4,13 @@
  */
 var fs = require('fs');
 var parser = require('./parser');
+var utils = require('../helpers/utils');
+var DEFAULT_RULES = {
+  // 'hi.proxy': '127.0.0.1:' + (global.args.port || 5525)
+};
 
 function Hosts () {
-  this._rules = {};
+  this._rules = utils.clone(DEFAULT_RULES);
   this._files = {};
 }
 
@@ -163,7 +167,7 @@ Hosts.prototype = {
    * @returns this
    */
   clearRules: function () {
-    this._rules = {};
+    this._rules = utils.clone(DEFAULT_RULES);
 
     return this;
   },
