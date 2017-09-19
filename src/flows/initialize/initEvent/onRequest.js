@@ -5,7 +5,11 @@
 'use strict';
 
 var proxyFlow = require('../../proxy');
+var utils = require('../../../helpers/utils');
+
 module.exports = function (req, res) {
+  req.requestId = utils.randomId();
+
   /* Emitted each time there is a request.
    * @event ProxyServer#request
    * @property {http.IncomingMessage} request request object

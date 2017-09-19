@@ -5,6 +5,7 @@
 'use strict';
 
 var onRequest = require('./onRequest');
+var utils = require('../../../helpers/utils');
 
 // 中间人代理服务收到请求时：
 //  1. 如果是`127.0.0.1`的请求，返回代理服务器的相关页面
@@ -13,6 +14,8 @@ module.exports = function (req, res) {
   var url = req.url;
   var host = req.headers.host;
   var protocol = req.client.encrypted ? 'https' : 'http';
+
+  req.requestId = utils.randomId();
 
   this.logger.debug('HTTPS server request:', protocol, host, url);
 

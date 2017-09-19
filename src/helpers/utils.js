@@ -10,7 +10,8 @@ module.exports = {
   type: type,
   parseCookie: parseCookie,
   parseQueryString: parseQueryString,
-  toJSON: toJSON
+  toJSON: toJSON,
+  randomId: randomId
 };
 
 function clone (obj, blackList) {
@@ -113,4 +114,11 @@ function toJSON (object, spaces) {
       return value;
     }
   }, spaces);
+}
+
+function randomId () {
+  var random = Math.random().toString(36).slice(2);
+  var time = Date.now().toString(36);
+
+  return (random + time).toUpperCase().replace(/(.{4})(?=[\w\d]+)/g, '$1-');
 }
