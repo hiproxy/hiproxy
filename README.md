@@ -227,6 +227,9 @@ Thanks to the authors of the above libraries to provide such a useful library.
 * [v0lkan](https://github.com/v0lkan)
 * [JayLee404](https://github.com/JayLee404)
 * [Jeoxs](https://github.com/Jeoxs)
+* [James Fancy](https://segmentfault.com/u/jamesfancy)
+
+Thanks to the above friends to help translate hiproxy documents.
 
 ## Change Log
 
