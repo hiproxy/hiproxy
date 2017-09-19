@@ -103,9 +103,9 @@ function run () {
     showImage([
       '',
       '',
-      '   Welcome to use hiproxy'.bold,
-      '   Current version is ' + packageInfo.version.bold.green,
-      '   Try `' + 'hiproxy --help'.underline + '` for more info'
+      '   Welcome to use'.bold + (' hiproxy@' + packageInfo.version).bold.green,
+      '   You can try `' + 'hiproxy --help'.blue.underline + '` for more info',
+      '   And the documentation site is ' + 'http://hiproxy.org/'.blue.underline
     ]);
   }
 }

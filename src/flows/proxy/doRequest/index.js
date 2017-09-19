@@ -16,6 +16,4 @@ module.exports = function (ctx, next) {
   var hiproxy = this;
 
   handler.response.call(hiproxy, proxyInfo.rewriteRule, req, res, next);
-
-  // next();
 };
