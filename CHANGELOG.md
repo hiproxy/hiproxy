@@ -1,18 +1,26 @@
 # Change Log
 
+## [1.2.3] - 2017-09-21
+
+### Added
+
+* Add `requestId` for each request
+* Show doc site url in `hiproxy` cmd and show new issue url in error msg
+
+### Bugfix
+
+* Response `data` event not emitted when use gzip
+
 ## [1.2.2] - 2017-09-18
 
 ### Added
 
 * Change Hiproxy_Custom_CA_Certificate ext from pem to crt
 * Add sub-command tips in help info
-* Add `requestId` for each request
-* Show doc site url in `hiproxy` cmd and show new issue url in error msg
 
 ### Bugfix
 
 * Plugins load error message has `undefined`
-* Response `data` event not emitted when use gzip
 
 ## [1.2.1] - 2017-09-12
 
