@@ -6,10 +6,13 @@
 
 * Change Hiproxy_Custom_CA_Certificate ext from pem to crt
 * Add sub-command tips in help info
+* Add `requestId` for each request
+* Show doc site url in `hiproxy` cmd and show new issue url in error msg
 
 ### Bugfix
 
 * Plugins load error message has `undefined`
+* Response `data` event not emitted when use gzip
 
 ## [1.2.1] - 2017-09-12
 
