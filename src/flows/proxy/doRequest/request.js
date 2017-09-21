@@ -85,6 +85,8 @@ module.exports = {
         unzipStream.on('error', function (err) {
           log.error('error ==>', err);
         });
+
+        res.pipe(unzipStream);
       } else {
         res.on('data', function (chunk) {
           /**
