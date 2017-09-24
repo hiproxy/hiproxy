@@ -3,24 +3,24 @@
  * @author zdying
  */
 
-var dns = require('dns');
-var localIP = '';
+var os = require('os');
 
 module.exports = function () {
-  return new Promise(function (resolve, reject) {
-    if (localIP) {
-      resolve(localIP);
-      return;
-    }
+  var IPv4 = '127.0.0.1';
 
-    dns.resolve(require('os').hostname(), function (err, addr) {
-      if (err) {
-        localIP = '127.0.0.1';
-        resolve(localIP);
-      } else {
-        localIP = Array.isArray(addr) ? addr[0] : addr;
-        resolve(localIP);
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    for (var i = 0; i < os.networkInterfaces().en0.length; i++) {
+      if (os.networkInterfaces().en0[i].family === 'IPv4') {
+        IPv4 = os.networkInterfaces().en0[i].address;
       }
-    });
-  });
+    }
+  } else if (process.platform === 'win32') {
+    for (i = 0; i < os.networkInterfaces()['本地连接'].length; i++) {
+      if (os.networkInterfaces()['本地连接'][i].family === 'IPv4') {
+        IPv4 = os.networkInterfaces()['本地连接'][i].address;
+      }
+    }
+  }
+
+  return Promise.resolve(IPv4);
 };

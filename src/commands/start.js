@@ -131,7 +131,7 @@ function _startServer (ctx) {
 
     var open = cliArgs.open;
     var browser = open === true ? 'chrome' : open;
-    browser && proxy.openBrowser(browser, '127.0.0.1:' + port, cliArgs.pacProxy);
+    browser && proxy.openBrowser(browser, proxy.localIP + ':' + port, cliArgs.pacProxy);
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
