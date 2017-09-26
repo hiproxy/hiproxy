@@ -1,23 +1,52 @@
 var assert = require('assert');
-var dns = require('dns');
+var os = require('os');
 
 describe('#getLocalIP', function () {
   describe('get local ip success', function () {
-    var dnsResolve = null;
+    var osNetworkInterfaces = null;
 
     before(function () {
       // delete cache
       delete require.cache[require.resolve('../../src/helpers/getLocalIP')];
-      dnsResolve = dns.resolve;
-      dns.resolve = function (host, callback) {
-        callback(null, '192.168.1.100');
+
+      osNetworkInterfaces = os.networkInterfaces;
+      os.networkInterfaces = function () {
+        return {
+          "lo0": [
+            {
+              "address": "127.0.0.1",
+              "netmask": "255.0.0.0",
+              "family": "IPv4",
+              "mac": "00:00:00:00:00:00",
+              "internal": true
+            }
+          ],
+          "en4": [
+            {
+              "address": "100.81.128.118",
+              "netmask": "255.255.252.0",
+              "family": "IPv4",
+              "mac": "08:6d:41:e5:94:c6",
+              "internal": false
+            }
+          ],
+          "bridge100": [
+            {
+              "address": "192.168.2.1",
+              "netmask": "255.255.255.0",
+              "family": "IPv4",
+              "mac": "36:36:3b:ac:a6:64",
+              "internal": false
+            }
+          ]
+        };
       };
     });
 
     it('should return the local ip', function (done) {
       var getLocalIP = require('../../src/helpers/getLocalIP');
       getLocalIP().then(function (ip) {
-        assert.equal(/^(\d{1,3})(\.\d{1,3}){3}$/.test(ip), true);
+        assert.equal(ip, '100.81.128.118');
 
         done();
       }).catch(function (err) {
@@ -26,36 +55,37 @@ describe('#getLocalIP', function () {
     });
 
     after(function () {
-      dns.resolve = dnsResolve;
+      os.networkInterfaces = osNetworkInterfaces;
     });
   });
 
   describe('get local ip fail', function () {
-    var dnsResolve = null;
+    var osNetworkInterfaces = null;
 
     before(function () {
       // delete cache
       delete require.cache[require.resolve('../../src/helpers/getLocalIP')];
 
-      dnsResolve = dns.resolve;
-      dns.resolve = function (host, callback) {
-        callback(new Error('resolve fail'));
+      osNetworkInterfaces = os.networkInterfaces;
+      os.networkInterfaces = function () {
+        return null;
       };
     });
 
     it('should return 127.0.0.1 when get ip fail', function (done) {
       var getLocalIP = require('../../src/helpers/getLocalIP');
+
       getLocalIP().then(function (ip) {
         assert.equal(ip, '127.0.0.1');
         done();
       }).catch(function (err) {
-        assert.equal(err, null);
+        assert.equal(err, '127.0.0.1');
         done();
       });
     });
 
     after(function () {
-      dns.resolve = dnsResolve;
+      os.networkInterfaces = osNetworkInterfaces;
     });
   });
 });
