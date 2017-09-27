@@ -116,4 +116,32 @@ describe('#global vars', function () {
       });
     });
   });
+  describe('#hiproxyServer: event emit', function () {
+    it('should monitor request event', function (done) {
+      request({
+        uri: 'http://blog.example.com/api/?action=list&id=123',
+        proxy: 'http://127.0.0.1:9001',
+        gzip: true,
+        json: true,
+        headers: {
+          'User-Agent': 'hiproxy tester',
+          'Cookie': 'userId=26C9D-083DAE-82843-23-3DA13B23; uname=orzg;'
+        }
+      });
+      proxyServer.on('request', function (request, response) {
+        assert.ok(request);
+        assert.ok(response);
+      });
+      proxyServer.on('response', function (request, response) {
+        assert.ok(request);
+        assert.ok(response);
+      });
+      proxyServer.on('data', function (data, request, response) {
+        assert.ok(data);
+        assert.ok(request);
+        assert.ok(response);
+      });
+      done();
+    });
+  });
 });
