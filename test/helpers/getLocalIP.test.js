@@ -12,31 +12,31 @@ describe('#getLocalIP', function () {
       osNetworkInterfaces = os.networkInterfaces;
       os.networkInterfaces = function () {
         return {
-          "lo0": [
+          'lo0': [
             {
-              "address": "127.0.0.1",
-              "netmask": "255.0.0.0",
-              "family": "IPv4",
-              "mac": "00:00:00:00:00:00",
-              "internal": true
+              'address': '127.0.0.1',
+              'netmask': '255.0.0.0',
+              'family': 'IPv4',
+              'mac': '00:00:00:00:00:00',
+              'internal': true
             }
           ],
-          "en4": [
+          'en4': [
             {
-              "address": "100.81.128.118",
-              "netmask": "255.255.252.0",
-              "family": "IPv4",
-              "mac": "08:6d:41:e5:94:c6",
-              "internal": false
+              'address': '100.81.128.118',
+              'netmask': '255.255.252.0',
+              'family': 'IPv4',
+              'mac': '08:6d:41:e5:94:c6',
+              'internal': false
             }
           ],
-          "bridge100": [
+          'bridge100': [
             {
-              "address": "192.168.2.1",
-              "netmask": "255.255.255.0",
-              "family": "IPv4",
-              "mac": "36:36:3b:ac:a6:64",
-              "internal": false
+              'address': '192.168.2.1',
+              'netmask': '255.255.255.0',
+              'family': 'IPv4',
+              'mac': '36:36:3b:ac:a6:64',
+              'internal': false
             }
           ]
         };

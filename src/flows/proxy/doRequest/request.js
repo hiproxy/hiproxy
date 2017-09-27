@@ -78,7 +78,7 @@ module.exports = {
         var unzipStream = encoding === 'gzip' ? zlib.createUnzip() : zlib.createInflate();
 
         unzipStream.on('data', function (chunk) {
-          self.emit('data', chunk);
+          self.emit('data', chunk, request, response);
         });
 
         /* istanbul ignore next */
@@ -86,7 +86,18 @@ module.exports = {
           log.error('error ==>', err);
         });
 
-        res.pipe(unzipStream);
+        res.pipe(unzipStream).on('end', function () {
+          request.res = res;
+
+          /**
+           * Emitted when a response is end. This event is emitted only once.
+           * @event ProxyServer#response
+           * @property {http.ServerResponse} response response object
+           */
+          self.emit('response', request, response);
+
+          next();
+        });
       } else {
         res.on('data', function (chunk) {
           /**
@@ -94,31 +105,24 @@ module.exports = {
            * @event ProxyServer#data
            * @property {Buffer} data response data
            */
-          self.emit('data', chunk);
+          self.emit('data', chunk, request, response);
+        });
+
+        res.on('end', function () {
+          request.res = res;
+
+          /**
+           * Emitted when a response is end. This event is emitted only once.
+           * @event ProxyServer#response
+           * @property {http.ServerResponse} response response object
+           */
+          self.emit('response', request, response);
+
+          next();
         });
       }
 
       res.pipe(response);
-
-      res.on('end', function () {
-        request.res = res;
-
-        /**
-         * Emitted when a response is end. This event is emitted only once.
-         * @event ProxyServer#response
-         * @property {http.ServerResponse} response response object
-         */
-        self.emit('response', response);
-
-        // if (request.PROXY) {
-        //   log.access(request, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
-        //     (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
-        // } else {
-        //   log.access(request);
-        //   // log.info('direc -', request.url.bold, Date.now() - start, 'ms')
-        // }
-        next();
-      });
     });
 
     proxy.on('error', function (e) {
