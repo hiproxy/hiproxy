@@ -97,7 +97,7 @@ function _daemonServer () {
 
   env.__daemon = true;
 
-  const child = spawn('node', [binPath].concat(process.argv.slice(2)), {
+  var child = spawn('node', [binPath].concat(process.argv.slice(2)), {
     env: env,
     detached: true,
     stdio: ['ignore', out, err]
