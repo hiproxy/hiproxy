@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.3] - 2017-10-09
+
+### Bugfix
+
+* Fix error on windows
+* Fix sub-command tips in help info
+
 ## [1.2.3] - 2017-09-21
 
 ### Added
