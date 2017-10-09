@@ -138,7 +138,7 @@ module.exports = {
       log.error('proxy error:', request.url);
       log.detail(e.stack);
 
-      self.emit('response', response);
+      self.emit('response', request, response);
 
       request.res = response;
       // log.access(request);
