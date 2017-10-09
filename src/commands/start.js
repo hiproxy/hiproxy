@@ -78,7 +78,7 @@ function startServer () {
       writeServerInfoToFile();
     }).catch(function (e) {
       console.log();
-      console.log(e.message);
+      console.log('hiproxy server start error:', e.message);
       console.log();
     });
   }
@@ -145,7 +145,7 @@ function _startServer (ctx) {
 function writeServerInfoToFile () {
   // process pid
   var pid = fs.openSync(path.join(hiproxyDir, 'hiproxy.pid'), 'w');
-  fs.write(pid, process.pid, function (err) {
+  fs.write(pid, String(process.pid), function (err) {
     if (err) {
       console.log('pid write error');
     }

@@ -18,9 +18,11 @@ module.exports = function () {
       });
     }
   } else if (process.platform === 'win32') {
-    for (var i = 0; i < interfaces['本地连接'].length; i++) {
-      if (os.networkInterfaces()['本地连接'][i].family === 'IPv4') {
-        IPv4 = os.networkInterfaces()['本地连接'][i].address;
+    // 本地连接
+    var keyName = '\u672C\u5730\u8FDE\u63A5';
+    for (var i = 0; i < (interfaces[keyName] || []).length; i++) {
+      if (os.networkInterfaces()[keyName][i].family === 'IPv4') {
+        IPv4 = os.networkInterfaces()[keyName][i].address;
       }
     }
   }
