@@ -7,7 +7,7 @@
 module.exports = function (err) {
   console.log();
   console.log('[Error] Initialize hiproxy error'.bold.red);
-  console.log('You can submit this error with the detail message below to us here: ' + 'https://github.com/hiproxy/hiproxy/issues/new'.blue.underline);
+  console.log('You can submit this error with the detail message below to us here: ' + 'https://github.com/hiproxy/hiproxy/issues/new'.cyan.underline);
   console.log();
   console.log('The detail message is:');
   console.log(err.stack);

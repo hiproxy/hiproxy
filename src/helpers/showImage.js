@@ -8,9 +8,9 @@ module.exports = function showImage (lines) {
   lines = lines || [];
   console.log('  _     ' + '_'.bold.red + ' ', lines[0] || '');
   console.log(' | |   ' + '(_)'.bold.red, lines[1] || '');
-  console.log(' | |__  ' + '_ '.blue, lines[2] || '');
-  console.log(' | \'_ \\' + '| |'.blue, lines[3] || '');
-  console.log(' | | | ' + '| |'.blue, lines[4] || '');
-  console.log(' |_| |_' + '|_|'.blue, lines[5] || '');
+  console.log(' | |__  ' + '_ '.cyan, lines[2] || '');
+  console.log(' | \'_ \\' + '| |'.cyan, lines[3] || '');
+  console.log(' | | | ' + '| |'.cyan, lines[4] || '');
+  console.log(' |_| |_' + '|_|'.cyan, lines[5] || '');
   console.log('');
 };

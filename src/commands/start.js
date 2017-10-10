@@ -219,7 +219,7 @@ function showStartedMessage (servers) {
       '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
       '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
       '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
-      '    Workspace at : '.bold.blue + workspace.underline
+      '    Workspace at : '.bold.cyan + workspace.underline
     ]);
   });
 }

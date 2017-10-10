@@ -104,8 +104,8 @@ function run () {
       '',
       '',
       '   Welcome to use'.bold + (' hiproxy@' + packageInfo.version).bold.green,
-      '   You can try `' + 'hiproxy --help'.blue.underline + '` for more info',
-      '   And the documentation site is ' + 'http://hiproxy.org/'.blue.underline
+      '   You can try `' + 'hiproxy --help'.cyan.underline + '` for more info',
+      '   And the documentation site is ' + 'http://hiproxy.org/'.cyan.underline
     ]);
   }
 }

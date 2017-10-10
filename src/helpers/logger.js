@@ -55,8 +55,8 @@ Logger.prototype.access = function (req, proxy) {
     ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray'];
 
   if (proxy) {
-    this._printLog('proxy', ['┏'.blue, req.method.white, (req.originalUrl || req.url)].join(' '));
-    this._printLog('proxy', ['┗'.blue, req.method.white, proxy, statusAndTime].join(' '));
+    this._printLog('proxy', ['┏'.cyan, req.method.white, (req.originalUrl || req.url)].join(' '));
+    this._printLog('proxy', ['┗'.cyan, req.method.white, proxy, statusAndTime].join(' '));
   } else {
     this._printLog('access', [req.method.white, (req.originalUrl || req.url), statusAndTime].join(' '));
   }
