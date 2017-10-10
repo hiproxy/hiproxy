@@ -1,6 +1,17 @@
 # Change Log
 
-## [1.2.3] - 2017-10-09
+## [1.2.5] - 2017-10-10
+
+### Bugfix
+
+* Fix `alias` directive proxy log
+* Change some log color from 'blue' to 'cyan'
+
+### Added
+
+* Domain block support multiple domain
+
+## [1.2.4] - 2017-10-09
 
 ### Bugfix
 
@@ -57,6 +68,6 @@
 * Add built-in variable `$base_name` and `$dir_name`
 * Add built-in API `enableConfFile` and `disableConfFile`
 
-### Fixed
+### Bugfix
 
 * Response 404 when use `alias` and the request has query string.
