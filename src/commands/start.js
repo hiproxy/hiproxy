@@ -211,9 +211,9 @@ function showStartedMessage (servers) {
   var proxyAddr = servers[0].address();
   var httpsAddr = servers[1] && servers[1].address();
   var workspace = global.args.workspace || process.cwd();
+  var ip = getLocalIP();
 
-  return getLocalIP().then(function (ip) {
-    showImage([
+  return showImage([
       '',
       '    Proxy address: '.bold.green + ('http://' + ip + ':' + proxyAddr.port).underline,
       '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
@@ -221,5 +221,4 @@ function showStartedMessage (servers) {
       '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
       '    Workspace at : '.bold.cyan + workspace.underline
     ]);
-  });
 }

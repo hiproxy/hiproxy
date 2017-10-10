@@ -45,13 +45,9 @@ describe('#getLocalIP', function () {
 
     it('should return the local ip', function (done) {
       var getLocalIP = require('../../src/helpers/getLocalIP');
-      getLocalIP().then(function (ip) {
-        assert.equal(ip, '100.81.128.118');
-
-        done();
-      }).catch(function (err) {
-        done(err);
-      });
+      var ip = getLocalIP();
+      assert.equal(ip, '100.81.128.118');
+      done();
     });
 
     after(function () {
@@ -74,14 +70,9 @@ describe('#getLocalIP', function () {
 
     it('should return 127.0.0.1 when get ip fail', function (done) {
       var getLocalIP = require('../../src/helpers/getLocalIP');
-
-      getLocalIP().then(function (ip) {
-        assert.equal(ip, '127.0.0.1');
-        done();
-      }).catch(function (err) {
-        assert.equal(err, '127.0.0.1');
-        done();
-      });
+      var ip = getLocalIP();
+      assert.equal(ip, '127.0.0.1');
+      done();
     });
 
     after(function () {

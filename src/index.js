@@ -57,18 +57,17 @@ ProxyServer.prototype = {
    */
   start: function (config) {
     var hiproxy = this;
-    return getLocalIP().then(function (ip) {
-      hiproxy.localIP = ip;
-      return new Promise(function (resolve, reject) {
-        initFlow.use(function (ctx, next) {
-          resolve([hiproxy.httpServer, hiproxy.httpsServer]);
-          next();
-        });
-        initFlow.run({
-          localIP: ip,
-          args: config || {}
-        }, null, hiproxy);
+    var ip = getLocalIP();
+    hiproxy.localIP = ip;
+    return new Promise(function (resolve, reject) {
+      initFlow.use(function (ctx, next) {
+        resolve([hiproxy.httpServer, hiproxy.httpsServer]);
+        next();
       });
+      initFlow.run({
+        localIP: ip,
+        args: config || {}
+      }, null, hiproxy);
     });
   },
 

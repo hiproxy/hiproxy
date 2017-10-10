@@ -30,6 +30,7 @@ module.exports = {
       var port = infoObj.port || 5525;
       var args = infoObj.args;
       var httpsPort = args.https ? args.middleManPort || 10010 : '';
+      var ip = getLocalIP();
       // var tableData = {
       //   header: ['Service Name', 'Port', 'Address', 'State'],
       //   rows: [
@@ -40,17 +41,15 @@ module.exports = {
 
       // console.log(infoObj);
 
-      getLocalIP().then(function (ip) {
-        showImage([
-          '',
-          '',
-          // '  Process (pid): ' + pid,
-          '    Proxy address: '.bold.green + (ip + ':' + port).underline,
-          '    Https address: '.bold.magenta + (httpsPort ? (ip + ':' + httpsPort).underline : 'disabled'),
-          '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + port + '/proxy.pac').underline,
-          ''
-        ]);
-      });
+      showImage([
+        '',
+        '',
+        // '  Process (pid): ' + pid,
+        '    Proxy address: '.bold.green + (ip + ':' + port).underline,
+        '    Https address: '.bold.magenta + (httpsPort ? (ip + ':' + httpsPort).underline : 'disabled'),
+        '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + port + '/proxy.pac').underline,
+        ''
+      ]);
     } catch (e) {
       console.log();
       console.log('[Error] Command <state> will only work in daemon mode.');
