@@ -4,10 +4,10 @@
  */
 
 var os = require('os');
+var interfaces = os.networkInterfaces();
 
 module.exports = function () {
   var IPv4 = '127.0.0.1';
-  var interfaces = os.networkInterfaces();
 
   if (process.platform === 'darwin' || process.platform === 'linux') {
     for (var key in interfaces) {
@@ -21,11 +21,11 @@ module.exports = function () {
     // 本地连接
     var keyName = '\u672C\u5730\u8FDE\u63A5';
     for (var i = 0; i < (interfaces[keyName] || []).length; i++) {
-      if (os.networkInterfaces()[keyName][i].family === 'IPv4') {
-        IPv4 = os.networkInterfaces()[keyName][i].address;
+      if (interfaces[keyName][i].family === 'IPv4') {
+        IPv4 = interfaces[keyName][i].address;
       }
     }
   }
 
-  return Promise.resolve(IPv4);
+  return IPv4;
 };
