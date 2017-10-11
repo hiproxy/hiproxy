@@ -9,6 +9,8 @@ var hiproxyConfParser = require('hiproxy-conf-parser');
 var commandFuncs = require('../directives/index').directives;
 var scopeCmds = require('../directives/scopes');
 
+var utils = require('../helpers/utils');
+
 function Rewrite () {
   this._files = {};
   this._rules = {};
@@ -45,6 +47,27 @@ Rewrite.prototype = {
   },
 
   /**
+   * 添加rewrite配置(代码片段)
+   *
+   * @param {String|Array} sourceCode rewrite配置代码片段
+   * @param {String|Array} snippetName 代码片段名称
+   */
+  addRule: function (sourceCode, snippetName) {
+    var _files = this._files;
+
+    snippetName = snippetName || this._getSnippetName();
+
+    _files[snippetName] = {
+      enable: this._initFileStatus(snippetName),
+      source: sourceCode
+    };
+
+    this.update();
+
+    return this;
+  },
+
+  /**
    * 删除配置文件
    *
    * @param {String|Array} filePath
@@ -74,15 +97,20 @@ Rewrite.prototype = {
    */
   enableFile: function (filePath) {
     var _files = this._files;
+    var curr;
+
     if (filePath) {
       if (!Array.isArray(filePath)) {
         filePath = [filePath];
       }
 
       filePath.forEach(function (file) {
-        if (file in _files && !_files[file].enable) {
-          _files[file].enable = true;
-          this._watchFile(file);
+        curr = _files[file];
+        if (file in _files && !curr.enable) {
+          curr.enable = true;
+          if (!curr.source) {
+            this._watchFile(file);
+          }
           this.update();
         }
       }.bind(this));
@@ -97,15 +125,22 @@ Rewrite.prototype = {
    */
   disableFile: function (filePath) {
     var _files = this._files;
+    var curr;
+
     if (filePath) {
       if (!Array.isArray(filePath)) {
         filePath = [filePath];
       }
 
       filePath.forEach(function (file) {
-        if (file in _files && _files[file].enable) {
-          _files[file].enable = false;
-          this._unwatchFile(file);
+        curr = _files[file];
+        if (file in _files && curr.enable) {
+          curr.enable = false;
+
+          if (!curr.source) {
+            this._unwatchFile(file);
+          }
+
           this.update();
         }
       }.bind(this));
@@ -139,6 +174,10 @@ Rewrite.prototype = {
 
   _unwatchFile: function (file) {
     fs.unwatchFile(file);
+  },
+
+  _getSnippetName: function () {
+    return 'custom-snippet-' + utils.randomId();
   },
 
   /**
@@ -183,12 +222,14 @@ Rewrite.prototype = {
     var _files = this._files;
     var _rules = this._rules;
     var parsedResult;
+    var curr;
 
     for (var key in _files) {
-      if (!_files[key].enable) continue;
+      curr = _files[key];
+      if (!curr.enable) continue;
 
-      parsedResult = Rewrite.parseFile(key);
-      _files[key]['result'] = parsedResult;
+      parsedResult = !curr.source ? Rewrite.parseFile(key) : Rewrite.parse(curr.source, key);
+      curr['result'] = parsedResult;
 
       for (var domain in parsedResult) {
         var rule = parsedResult[domain];
@@ -211,14 +252,8 @@ Rewrite.prototype = {
   }
 };
 
-// Rewrite.parse = function (source) {
-
-// };
-
-Rewrite.parseFile = function (filePath) {
-  var fs = require('fs');
-
-  var sourceCode = fs.readFileSync(filePath, 'utf-8');
+Rewrite.parse = function (sourceCode, file) {
+  var filePath = file || this._getSnippetName();
   var AST = (new hiproxyConfParser.Parser(sourceCode, filePath)).parseToplevel();
   var tree = new hiproxyConfParser.Transform().transform(AST, filePath);
 
@@ -266,6 +301,13 @@ Rewrite.parseFile = function (filePath) {
   // console.log('rewrite.parseFile', filePath, JSON.stringify(tree, null, 2));
 
   return tree;
+};
+
+Rewrite.parseFile = function (filePath) {
+  var fs = require('fs');
+  var sourceCode = fs.readFileSync(filePath, 'utf-8');
+
+  return Rewrite.parse(sourceCode, filePath);
 };
 
 module.exports = Rewrite;

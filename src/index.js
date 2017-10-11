@@ -147,6 +147,28 @@ ProxyServer.prototype = {
   },
 
   /**
+   * 添加rewrite规则
+   *
+   * @param {String|Array} source `rewrite`规则代码片段
+   * @return {ProxyServer}
+   * @public
+   */
+  addRewriteRule: function (source) {
+    /**
+     * Emitted when add rewrite file.
+     * @event ProxyServer#addRewriteRule
+     * @property {Array|String} filePath rewrite file path(s)
+     */
+    this.emit('addRewriteRule', source);
+
+    this.logger.debug('add rewrite rule: ' + source);
+
+    this.rewrite.addRule(source);
+    this.createPacFile();
+    return this;
+  },
+
+  /**
    * 打开浏览器窗口
    *
    * @param {String} browserName 浏览器名称
