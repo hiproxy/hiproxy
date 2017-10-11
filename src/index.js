@@ -243,6 +243,10 @@ ProxyServer.prototype = {
     this[type] && this[type].disableFile(filePath);
   },
 
+  updateConfFileContent: function (type, content) {
+    // TODO
+  },
+
   getDisabledConfFile: function (type, filePaths) {
     // TODO
     // get Host/Rewrite file status

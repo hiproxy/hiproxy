@@ -133,7 +133,7 @@ function _startServer (ctx) {
     var browser = open === true ? 'chrome' : open;
     browser && proxy.openBrowser(browser, proxy.localIP + ':' + port, cliArgs.pacProxy);
 
-    // proxy.rewrite.addRule(['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
+    proxy.rewrite.addRule(['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
@@ -216,11 +216,11 @@ function showStartedMessage (servers) {
   var ip = getLocalIP();
 
   return showImage([
-      '',
-      '    Proxy address: '.bold.green + ('http://' + ip + ':' + proxyAddr.port).underline,
-      '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
-      '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-      '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
-      '    Workspace at : '.bold.cyan + workspace.underline
-    ]);
+    '',
+    '    Proxy address: '.bold.green + ('http://' + ip + ':' + proxyAddr.port).underline,
+    '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
+    '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
+    '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
+    '    Workspace at : '.bold.cyan + workspace.underline
+  ]);
 }

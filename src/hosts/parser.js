@@ -2,7 +2,6 @@
  * @file parse hosts file to javascript object
  * @author zdying
  */
-var fs = require('fs');
 
 /**
  * parse hosts file to javascript object
@@ -18,13 +17,12 @@ var fs = require('fs');
  *     "example.com": "127.0.0.1",
  *     "example.com.cn": "127.0.0.1"
  *   }
- * @param filePath
+ * @param source
  * @returns {{}}
  */
-module.exports = function parseHosts (filePath) {
+module.exports = function parseHosts (source) {
   var hostRules = {};
-
-  var hosts = fs.readFileSync(filePath);
+  var hosts = source;
 
   hosts.toString().split(/\n\r?/).forEach(function (line) {
     line = line.replace(/#.*$/, '');

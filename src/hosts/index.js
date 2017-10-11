@@ -147,9 +147,9 @@ Hosts.prototype = {
    * 添加Hosts规则
    * @returns this
    */
-  // addHost: function(){
-  //     //TODO ...
-  //     return this;
+  // addHost: function () {
+  //   // TODO ...
+  //   return this;
   // },
 
   /**
@@ -222,9 +222,9 @@ Hosts.prototype = {
  * @param {String|Array} source
  * @returns {Object}
  */
-// Hosts.parse = function (source) {
-
-// };
+Hosts.parse = function (source) {
+  return parser(source);
+};
 
 /**
  * 解析文件
@@ -233,7 +233,8 @@ Hosts.prototype = {
  * @returns {Object}
  */
 Hosts.parseFile = function (filePath) {
-  return parser(filePath);
+  var source = fs.readFileSync(filePath);
+  return parser(source);
 };
 
 module.exports = Hosts;

@@ -53,14 +53,23 @@ Rewrite.prototype = {
    * @param {String|Array} snippetName 代码片段名称
    */
   addRule: function (sourceCode, snippetName) {
+    var self = this;
     var _files = this._files;
+    var info = {
+      enable: this._initFileStatus(snippetName),
+      _source: sourceCode,
+      get source () {
+        return this._source;
+      },
+      set source (value) {
+        this._source = value;
+        self.update();
+      }
+    };
 
     snippetName = snippetName || this._getSnippetName();
 
-    _files[snippetName] = {
-      enable: this._initFileStatus(snippetName),
-      source: sourceCode
-    };
+    _files[snippetName] = info;
 
     this.update();
 
@@ -179,13 +188,6 @@ Rewrite.prototype = {
   _getSnippetName: function () {
     return 'custom-snippet-' + utils.randomId();
   },
-
-  /**
-   * 添加规则
-   */
-  // addRule: function () {
-
-  // },
 
   /**
    * 根据domain和location获取转发规则
