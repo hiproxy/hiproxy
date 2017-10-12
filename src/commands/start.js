@@ -133,7 +133,7 @@ function _startServer (ctx) {
     var browser = open === true ? 'chrome' : open;
     browser && proxy.openBrowser(browser, proxy.localIP + ':' + port, cliArgs.pacProxy);
 
-    proxy.rewrite.addRule(['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
+    // proxy.rewrite.addRule(['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
