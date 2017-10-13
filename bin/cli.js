@@ -3,6 +3,7 @@
 require('colors');
 var path = require('path');
 var homedir = require('os-homedir');
+var hiproxy = require('../src/hiproxy');
 
 var Args = require('hemsl');
 var showImage = require('../src/helpers/showImage');
@@ -21,6 +22,8 @@ var _args = new Args({
     option: 'white'
   }
 });
+
+global.hiproxy = hiproxy;
 
 // global.log = log;
 
