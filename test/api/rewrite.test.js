@@ -29,5 +29,16 @@ describe('rewrite', function () {
       rule = rewrite.getRule('blog.hiproxy.org');
       assert.equal(true, rule.length > 0);
     });
+
+    it('addRule()', function () {
+      rewrite.addRule('doc.hiproxy.org => { location / { echo hello; } }');
+      rule = rewrite.getRule('blog.hiproxy.org');
+      assert.equal(true, rule.length > 0);
+
+      rule = rewrite.getRule('doc.hiproxy.org');
+      assert.equal(1, rule[0].locations.length);
+      assert.equal('/', rule[0].locations[0].location);
+      assert.equal(1, rule[0].locations[0].directives.length);
+    });
   });
 });
