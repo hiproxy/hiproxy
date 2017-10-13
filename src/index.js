@@ -251,6 +251,22 @@ ProxyServer.prototype = {
     // TODO
     // get Host/Rewrite file status
     return null;
+  },
+
+  /**
+   * 添加配置规则，包括hosts和rewrite。
+   *
+   * @param {String} type 规则类型，可选值为`rewrite`和`hosts`
+   * @param {String} content 规则内容配置代码，比如`127.0.0.1 hiproxy.org`
+   * @param {String} [fileName] 文件名称，主要用于在插件中显示，默认会自动生成一个随机的名称
+   * @returns this
+   */
+  addRule: function (type, content, fileName) {
+    if (type === 'hosts' || type === 'rewrite') {
+      this[type].addRule(content, fileName);
+    }
+
+    return this;
   }
 };
 
