@@ -58,8 +58,10 @@ Hosts.prototype = {
       }
 
       filePath.forEach(function (file) {
+        if (!_files[file].source) {
+          this._unwatchFile(file);
+        }
         delete _files[file];
-        this._unwatchFile(file);
       }.bind(this));
 
       this.update();
@@ -83,7 +85,9 @@ Hosts.prototype = {
       filePath.forEach(function (file) {
         if (file in _files && !_files[file].enable) {
           _files[file].enable = true;
-          this._watchFile(file);
+          if (!_files[file].source) {
+            this._watchFile(file);
+          }
           this.update();
         }
       }.bind(this));
@@ -107,7 +111,9 @@ Hosts.prototype = {
       filePath.forEach(function (file) {
         if (file in _files && _files[file].enable) {
           _files[file].enable = false;
-          this._unwatchFile(file);
+          if (!_files[file].source) {
+            this._unwatchFile(file);
+          }
           this.update();
         }
       }.bind(this));
@@ -145,12 +151,41 @@ Hosts.prototype = {
 
   /**
    * 添加Hosts规则
+   * @param {String} sourceCode hosts规则源码
+   * @param {String} [snippetName] 文件名称
    * @returns this
    */
-  // addHost: function () {
-  //   // TODO ...
-  //   return this;
-  // },
+  addRule: function (sourceCode, snippetName) {
+    if (!sourceCode) {
+      return this;
+    }
+
+    var _files = this._files;
+    var self = this;
+    var info = {
+      enable: this._initFileStatus(snippetName),
+      _source: sourceCode,
+      get source () {
+        return this._source;
+      },
+      set source (value) {
+        this._source = value;
+        self.update();
+      }
+    };
+
+    snippetName = snippetName || this._getSnippetName();
+
+    _files[snippetName] = info;
+
+    this.update();
+
+    return this;
+  },
+
+  _getSnippetName: function () {
+    return 'custom-hosts-' + utils.randomId();
+  },
 
   /**
    * 获取解析后的规则
@@ -193,12 +228,14 @@ Hosts.prototype = {
     var _files = this._files;
     var _rules = this._rules;
     var parsedResult;
+    var curr;
 
     for (var key in _files) {
-      if (!_files[key].enable) continue;
+      curr = _files[key];
+      if (!curr.enable) continue;
 
-      parsedResult = Hosts.parseFile(key);
-      _files[key]['result'] = parsedResult;
+      parsedResult = !curr.source ? Hosts.parseFile(key) : Hosts.parse(curr.source, key);
+      curr['result'] = parsedResult;
 
       for (var domain in parsedResult) {
         _rules[domain] = parsedResult[domain];

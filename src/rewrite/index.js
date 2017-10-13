@@ -90,8 +90,10 @@ Rewrite.prototype = {
       }
 
       filePath.forEach(function (file) {
+        if (!_files[file].source) {
+          this._unwatchFile(file);
+        }
         delete _files[file];
-        this._unwatchFile(file);
       }.bind(this));
 
       this.update();
@@ -186,7 +188,7 @@ Rewrite.prototype = {
   },
 
   _getSnippetName: function () {
-    return 'custom-snippet-' + utils.randomId();
+    return 'custom-rewrite-' + utils.randomId();
   },
 
   /**
