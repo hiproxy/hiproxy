@@ -3,7 +3,7 @@ var request = require('request');
 var http = require('http');
 var path = require('path');
 
-var Proxy = require('../../src/index');
+var Proxy = require('../../src/server');
 var testServer = require('./server');
 
 describe('#http server', function () {

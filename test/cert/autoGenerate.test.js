@@ -1,6 +1,6 @@
 var assert = require('assert');
 var path = require('path');
-var Logger = require('../../src/helpers/logger');
+var Logger = require('../../src/logger');
 require('colors');
 
 global.args = {};
@@ -9,7 +9,7 @@ global.log = new Logger();
 describe('#auto generate ssl certificate', function () {
   var proxyServer = null;
   // before(function () {
-  var Proxy = require('../../src/index');
+  var Proxy = require('../../src/server');
   proxyServer = new Proxy(8859, 10086);
   proxyServer.addRewriteFile(path.join(__dirname, 'rewrite'));
   proxyServer.start();

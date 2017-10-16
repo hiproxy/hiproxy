@@ -13,8 +13,6 @@ var homedir = require('os-homedir');
 
 var checkServerStarted = require('../../src/helpers/checkServerStarted');
 var mkdirp = require('../../src/helpers/mkdirp');
-var getLocalIP = require('../../src/helpers/getLocalIP');
-var showImage = require('../helpers/showImage');
 var hiproxyDir = path.join(homedir(), '.hiproxy');
 
 module.exports = {
@@ -68,14 +66,17 @@ module.exports = {
 function startServer () {
   var self = this;
   if (!global.args.__error__) {
-    checkServerStarted().then(function () {
+    return checkServerStarted().then(function () {
+      var server = null;
       if (global.args.daemon && !process.env.__daemon) {
-        _daemonServer();
+        server = _daemonServer();
       } else {
-        _startServer(self);
+        server = _startServer(self);
       }
       // write server info to file.
       writeServerInfoToFile();
+
+      return server;
     }).catch(function (e) {
       console.log();
       console.log('hiproxy server start error:', e.message);
@@ -83,6 +84,7 @@ function startServer () {
     });
   }
 }
+
 function _daemonServer () {
   // 如果指定后台运行模块，并且不是child进程，启动child进程
   var spawn = require('child_process').spawn;
@@ -110,7 +112,7 @@ function _daemonServer () {
 }
 
 function _startServer (ctx) {
-  var Proxy = require('../../src/');
+  var Proxy = require('../../src/server');
   var cliArgs = ctx;
   var https = cliArgs.https;
   var port = cliArgs.port || 5525;
@@ -126,8 +128,8 @@ function _startServer (ctx) {
   // log format
   proxy.logger.on('data', showLog);
 
-  proxy.start(cliArgs).then(function (servers) {
-    showStartedMessage(servers);
+  return proxy.start(cliArgs).then(function (servers) {
+    proxy.showStartedMessage();
 
     var open = cliArgs.open;
     var browser = open === true ? 'chrome' : open;
@@ -135,6 +137,7 @@ function _startServer (ctx) {
 
     // proxy.addRule('rewrite', ['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
     // proxy.addRule('hosts', ['127.0.0.1:8000 eight.hiproxy.org', '127.0.0.1 hiproxy.org'].join('\n'));
+    return servers;
   }).catch(function (err) {
     proxy.logger.error('Server start failed:', err.message);
     proxy.logger.detail(err.stack);
@@ -203,25 +206,4 @@ function showLog (level, msg) {
 
     console[consoleMethod](prefix.bold[color], msg);
   }
-}
-
-/**
- * 服务启动后，显示服务信息
- *
- * @param {Array} servers 启动的服务
- */
-function showStartedMessage (servers) {
-  var proxyAddr = servers[0].address();
-  var httpsAddr = servers[1] && servers[1].address();
-  var workspace = global.args.workspace || process.cwd();
-  var ip = getLocalIP();
-
-  return showImage([
-    '',
-    '    Proxy address: '.bold.green + ('http://' + ip + ':' + proxyAddr.port).underline,
-    '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
-    '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
-    '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
-    '    Workspace at : '.bold.cyan + workspace.underline
-  ]);
 }

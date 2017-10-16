@@ -3,7 +3,7 @@
 require('colors');
 var path = require('path');
 var homedir = require('os-homedir');
-var hiproxy = require('../src/hiproxy');
+var hiproxy = require('../src/index');
 
 var Args = require('hemsl');
 var showImage = require('../src/helpers/showImage');

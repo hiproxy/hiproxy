@@ -2,7 +2,7 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var Hosts = require('../../src/hosts');
-var Logger = require('../../src/helpers/logger');
+var Logger = require('../../src/logger');
 require('colors');
 
 global.args = {};

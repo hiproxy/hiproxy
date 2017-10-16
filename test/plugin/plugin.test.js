@@ -6,7 +6,7 @@ var assert = require('assert');
 var path = require('path');
 var Args = require('hemsl');
 
-var Proxy = require('../../src/index');
+var Proxy = require('../../src/server');
 var testServer = require('../testServer');
 var pluginManager = require('../../src/plugin');
 var routes = require('../../src/routers');
