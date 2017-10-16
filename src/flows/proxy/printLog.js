@@ -11,9 +11,11 @@ module.exports = function (ctx, next) {
   if (req.PROXY) {
     if (req.alias) {
       log.access(req, req.proxyPass ? '(alias to ' + req.proxyPass + ')' : '(alias directive)');
-    } else if (req.proxyPass) {
+    } else if (req.proxyType === 'rewrite') {
       log.access(req, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
         (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
+    } else if (req.proxyType === 'hosts') {
+      log.access(req, 'hosts: ' + req.hostsRule + ' ' + req.hostName);
     } else {
       log.access(req, '(local file system or echo)');
     }

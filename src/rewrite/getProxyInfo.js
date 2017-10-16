@@ -111,9 +111,11 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       headers: request.headers,
       protocol: protocol
     },
+    proxyType: rewrite ? 'rewrite' : (host ? 'hosts' : 'other'),
     proxyPass: proxyPass,
     PROXY: proxyName,
     hostsRule: host,
+    hostName: uri.hostname,
     rewriteRule: rewrite,
     alias: alias,
     newUrl: newUrl
