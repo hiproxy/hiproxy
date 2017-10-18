@@ -7,6 +7,8 @@
 module.exports = {
   commands: require('./commands'),
   directives: require('./directives'),
+  plugin: require('./plugin'),
+  dataProvider: require('./dataProvider'),
   Hemsl: require('hemsl'),
   Hosts: require('./hosts'),
   Rewrite: require('./rewrite'),
