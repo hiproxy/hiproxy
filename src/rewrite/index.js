@@ -212,11 +212,14 @@ Rewrite.prototype = {
   /**
    * 清空所有的配置文件
    */
-  // clearFiles: function () {
-  //   this._files = {};
+  clearFiles: function () {
+    var _files = this._files;
+    var files = Object.keys(_files);
 
-  //   return this;
-  // },
+    this.deleteFile(files);
+
+    return this;
+  },
 
   /**
    * 更新规则

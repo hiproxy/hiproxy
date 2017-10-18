@@ -212,11 +212,14 @@ Hosts.prototype = {
    *
    * @returns this
    */
-  // clearFiles: function(){
-  //     this._files = {};
+  clearFiles: function () {
+    var _files = this._files;
+    var files = Object.keys(_files);
 
-  //     return this;
-  // },
+    this.deleteFile(files);
+
+    return this;
+  },
 
   /**
    * 更新Hosts规则
