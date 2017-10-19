@@ -8,11 +8,12 @@
 
 ### Added
 
-* Directive can return promise or non-promise value now 🍻🍻🍻
+* Directive can return promise or non-promise value now 
 * Add `clearFiles()` api for `hiproxyServer.hosts` and `hiproxyServer.rewrite`
 * Add `addRule()` api for hiproxy server instance
 * Support custom `hosts` and `rewrite` snippets
 * Add `hiproxy` global variable
+* Add `dataProvider` module for plugins
 
 ### Updated
 
