@@ -132,8 +132,8 @@ After you have submitted your pull request, we'll try to get back to you as soon
 ## Node.js API
 
 ```js
-var HiProxyServer = require('hiproxy');
-var proxy = new HiProxyServer(8848, 10086);
+var Server = require('hiproxy').Server;
+var proxy = new Server(8848, 10086);
 
 // events
 proxy.on('request', function(req, res){

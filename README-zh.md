@@ -70,8 +70,8 @@ __注意__: 也可在启动的时候，添加选项`--open [browser]`，这样hi
 ### Node.js API
 
 ```js
-var HiProxyServer = require('hiproxy');
-var proxy = new HiProxyServer(8848, 10086);
+var Server = require('hiproxy').Server;
+var proxy = new Server(8848, 10086);
 
 // events
 proxy.on('request', function(req, res){

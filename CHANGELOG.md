@@ -1,5 +1,24 @@
 # Change Log
 
+## [1.2.6] - 2017-10-19
+
+### Bugfix
+
+* Fix `hosts proxy` log error
+
+### Added
+
+* Directive can return promise or non-promise value now 🍻🍻🍻
+* Add `clearFiles()` api for `hiproxyServer.hosts` and `hiproxyServer.rewrite`
+* Add `addRule()` api for hiproxy server instance
+* Support custom `hosts` and `rewrite` snippets
+* Add `hiproxy` global variable
+
+### Updated
+
+* change proxy log format
+
+
 ## [1.2.5] - 2017-10-10
 
 ### Bugfix
