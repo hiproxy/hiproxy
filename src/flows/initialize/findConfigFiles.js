@@ -13,6 +13,7 @@ module.exports = function (ctx, next) {
   var rewritePattern = config.rewriteFile;
   var dir = this.dir || process.cwd();
 
+  // TODO 添加对应的option到CLI中
   if (String(config.autoFindConf) !== 'false') {
     if (hostsPattern == null) {
       hostsPattern = ['./*/hosts'];

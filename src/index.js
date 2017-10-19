@@ -9,6 +9,7 @@ module.exports = {
   directives: require('./directives'),
   plugin: require('./plugin'),
   dataProvider: require('./dataProvider'),
+  glob: require('./helpers/glob'),
   Hemsl: require('hemsl'),
   Hosts: require('./hosts'),
   Rewrite: require('./rewrite'),
