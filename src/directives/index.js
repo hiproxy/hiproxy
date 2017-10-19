@@ -62,7 +62,7 @@ var directiveTool = {
    */
   execDirectives: function (rewriteRule, context, scope) {
     if (!rewriteRule || !context || !scope) {
-      return;
+      return Promise.resolve([]);
     }
 
     // call response commands
@@ -72,7 +72,7 @@ var directiveTool = {
     if (Array.isArray(directivesNeedToExec)) {
       log.detail('commands that will be executed [' + scope + ']:', JSON.stringify(directivesNeedToExec).bold);
 
-      directivesNeedToExec.forEach(function (directive) {
+      var results = directivesNeedToExec.map(function (directive) {
         var name = directive.directive;
         var params = directive.arguments || [];
         var func = directives[name];
@@ -81,13 +81,17 @@ var directiveTool = {
         /* istanbul ignore else */
         if (isFunction) {
           log.debug('exec rewrite ' + scope + ' command', name.bold.green, 'with params', ('[' + params.join(',') + ']').bold.green);
-          func.apply(context, params);
+          return func.apply(context, params);
         } else {
           log.debug(name.bold.yellow, 'is not in the scope', scope.bold.green, 'or not exists.');
+          return null;
         }
       });
+
+      return Promise.all(results);
     } else {
       log.debug('no commands will be executed, scope:', scope);
+      return Promise.resolve([]);
     }
   }
 };

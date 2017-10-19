@@ -71,6 +71,7 @@ module.exports = {
 
   'send_file': function (value) {
     var filePath = '';
+    var self = this;
 
     if (path.isAbsolute(value)) {
       // absolute path
@@ -83,14 +84,19 @@ module.exports = {
       filePath = path.join(dirname, value);
     }
 
-    try {
-      this.response.end(fs.readFileSync(filePath));
-    } catch (err) {
-      this.response.writeHead(err.code === 'ENOENT' ? 404 : 500, {
-        'Content-Type': 'text/html'
+    return new Promise(function (resolve, reject) {
+      fs.readFile(filePath, 'utf-8', function (err, data) {
+        if (err) {
+          data = 'File send error: <br/>' + err.stack;
+          self.response.writeHead(err.code === 'ENOENT' ? 404 : 500, {
+            'Content-Type': 'text/html'
+          });
+        }
+
+        self.response.end(data);
+        resolve(data);
       });
-      this.response.end('File send error: <br/>' + err.stack);
-    }
+    });
   },
 
   // location commands

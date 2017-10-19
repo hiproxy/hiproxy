@@ -16,6 +16,7 @@ module.exports = {
     var proxyOption = request.proxyOptions;
     var isHTTPS = proxyOption.protocol === 'https:';
     var self = this;
+    var execResult;
 
     proxyOption.headers['accept-encoding'] = 'gzip,deflate';
 
@@ -25,15 +26,17 @@ module.exports = {
 
     if (!request.proxyPass && !proxyOption.hostname) {
       log.debug(request.url, 'has no proxy_pass');
-      execDirectives(rewriteRule, {
+      execResult = execDirectives(rewriteRule, {
         response: response,
         rewriteRule: rewriteRule
       }, 'response');
-      // TODO 什么时候end()? 这是个问题，有时候我们进行异步操作，这时候，直接执行end()，异步操作的write等将失败。
-      if (!response.finished) {
-        response.end('');
-      }
-      next();
+
+      execResult.then(function (values) {
+        if (!response.finished) {
+          response.end('');
+        }
+        next();
+      });
       return;
     }
 
