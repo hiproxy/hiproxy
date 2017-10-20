@@ -39,7 +39,7 @@ describe('#http server', function () {
   describe('#server response', function () {
     it('request /', function (done) {
       request('http://127.0.0.1:8850', function (err, response, body) {
-        if (body.indexOf('http://127.0.0.1:8850/proxy.pac') !== -1) {
+        if (body.indexOf('127.0.0.1:8850/proxy.pac') !== -1) {
           done();
         } else {
           done(err || new Error('Body not match'));
