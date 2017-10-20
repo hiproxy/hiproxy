@@ -43,7 +43,8 @@ Logger.prototype = {
 });
 
 Logger.prototype.access = function (req, proxy) {
-  var statusCode = req.res.statusCode;
+  var res = req.res;
+  var statusCode = res && res.statusCode;
   var colormap = {
     404: 'yellow',
     500: 'red',
@@ -51,8 +52,12 @@ Logger.prototype.access = function (req, proxy) {
     200: 'white'
   };
   var time = Date.now() - req._startTime;
-  var statusAndTime = String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
+  var statusAndTime = '';
+
+  if (statusCode) {
+    statusAndTime = String(statusCode)[colormap[statusCode] || 'gray'] + ' ' +
     ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray'];
+  }
 
   if (proxy) {
     this._printLog('proxy', ['┏'.cyan, req.method.white, (req.originalUrl || req.url), statusAndTime].join(' '));

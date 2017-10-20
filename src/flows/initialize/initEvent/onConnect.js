@@ -34,6 +34,7 @@ module.exports = function connectHandler (request, socket, head) {
     log.info('https proxy -', request.url.bold.green, '==>', hostname.bold.green, 'rule type:', (rewriteRule ? 'rewrite' : 'hosts').bold.green);
   } else {
     log.info('https direc -', request.url.bold);
+    log.access(request);
   }
 
   log.debug('connect to:', port, hostname);
