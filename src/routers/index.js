@@ -81,8 +81,8 @@ module.exports = {
                   root: rootURL + '/' + name.toLowerCase(),
                   defaultLogo: defaultLogo,
                   logoColor: colors[Math.floor(Math.random() * colors.length)],
-                  content: require(plg),
-                  pkg: require(plg + '/package.json')
+                  content: require(plg)// ,
+                  // pkg: require(plg + '/package.json')
                 };
               })
             };
