@@ -11,6 +11,8 @@ var url = require('url');
 var fs = require('fs');
 var homedir = require('os-homedir');
 var Pattern = require('url-pattern');
+var mustache = require('mustache');
+var pluginManager = require('../plugin');
 
 // hiproxy system pages
 var hiproxyPageRoutes = [
@@ -46,24 +48,52 @@ module.exports = {
       var httpPort = this.httpPort;
       var httpsPort = this.httpsPort;
       var dir = this.dir;
-      var message = [
-        '<pre>',
-        ' _     <span class="red">_</span>  ',
-        '| |   <span class="red">(_)</span>   <span class="label">Proxy address:</span> ' + localIP + ':' + httpPort,
-        '| |__  _    <span class="label">Https address:</span> ' + (httpsPort ? localIP + ':' + httpsPort : 'disabled'),
-        '| \'_ \\| |   <span class="label">Proxy file at:</span> <a href="' + rootURL + '/proxy.pac?type=view">' + rootURL + '/proxy.pac</a>',
-        '| | | | |   <span class="label">SSL/TLS cert :</span> <a href="' + rootURL + '/ssl-certificate">' + rootURL + '/ssl-certificate</a>',
-        '|_| |_|_|   <span class="label">Workspace at : </span> ' + dir,
-        '</pre>'
-      ];
+      var pkg = require('../../package.json');
+      var homeTemplate = path.join(__dirname, 'index.html');
+      var errMsg = '<p style="">hiproxy home page load error. Please refresh the page.</p>';
 
       response.writeHead(200, {
         'Content-Type': 'text/html'
       });
-      response.write('<style>.red{color: #DC544B} .label{color: #10a3ca; font-weight: bold}</style>');
-      // response.write('<h1>hiproxy server</h1>');
-      response.write(message.join('\n'));
-      response.end();
+
+      pluginManager.getInstalledPlugins().then(function (plgs) {
+        fs.readFile(homeTemplate, 'utf-8', function (err, template) {
+          var html = '';
+          var renderData = {};
+          var colors = ['#D8E6FE', '#FDDFE5', '#FFF0DC', '#D0F1F0'];
+          if (err) {
+            html = errMsg;
+          } else {
+            renderData = {
+              localIP: localIP,
+              httpPort: httpPort,
+              httpsPort: httpsPort || 'N/A',
+              baseURL: rootURL,
+              workspace: dir,
+              package: pkg,
+              plugins: (plgs || []).map(function (plg) {
+                var name = plg.split('/').pop().replace('hiproxy-plugin-', '');
+                var defaultLogo = name.charAt(0).toUpperCase();
+                name = defaultLogo + name.substring(1);
+
+                return {
+                  name: name,
+                  root: rootURL + '/' + name.toLowerCase(),
+                  defaultLogo: defaultLogo,
+                  logoColor: colors[Math.floor(Math.random() * colors.length)],
+                  content: require(plg),
+                  pkg: require(plg + '/package.json')
+                };
+              })
+            };
+            html = mustache.render(template, renderData);
+          }
+
+          response.end(html);
+        });
+      }).catch(function () {
+        response.end(errMsg);
+      });
     } else if (pathname === '/proxy.pac') {
       var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
 

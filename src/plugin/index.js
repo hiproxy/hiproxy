@@ -8,12 +8,17 @@
 var fs = require('fs');
 var path = require('path');
 var childProcess = require('child_process');
-var directives = require('../directives');
-var routers = require('../routers');
+// var directives = require('../directives');
+// var routers = require('../routers');
 var pluginPrefix = 'hiproxy-plugin-';
+var cache = null;
 
 module.exports = {
   getInstalledPlugins: function (root) {
+    if (cache) {
+      return Promise.resolve(cache);
+    }
+
     root = root || childProcess.execSync('npm root -g').toString().trim();
 
     return new Promise(function (resolve, reject) {
@@ -37,6 +42,8 @@ module.exports = {
             }
           });
         }
+
+        cache = plugins;
 
         resolve(plugins);
       });
@@ -65,12 +72,12 @@ module.exports = {
         // 添加directives
         var customDirectives = plugin.directives || [];
         customDirectives.forEach(function (directive) {
-          directives.addDirective(directive);
+          require('../directives').addDirective(directive);
         });
 
         // 添加router
         var routes = plugin.routes;
-        routers.addRoute(routes);
+        require('../routers').addRoute(routes);
       } catch (err) {
         /* istanbul ignore next */
         console.error('Plugin load error: ', pluginFile, err.message);
