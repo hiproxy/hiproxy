@@ -6,13 +6,13 @@
 'use strict';
 
 var querystring = require('querystring');
-var path = require('path');
 var url = require('url');
-var fs = require('fs');
-var homedir = require('os-homedir');
 var Pattern = require('url-pattern');
-var mustache = require('mustache');
-var pluginManager = require('../plugin');
+
+var homeRoute = require('./home');
+var pacRoute = require('./pacFile');
+var faviconRoute = require('./favicon');
+var certificateRoute = require('./certificate');
 
 // hiproxy system pages
 var hiproxyPageRoutes = [
@@ -37,95 +37,19 @@ module.exports = {
    */
   render: function (request, response) {
     var urlObj = url.parse(request.url);
-    var query = urlObj.query;
+    // var query = urlObj.query;
     var pathname = urlObj.pathname;
-    var headers = request.headers;
-    var host = headers.host;
+    // var headers = request.headers;
+    // var host = headers.host;
 
     if (pathname === '/') {
-      var rootURL = 'http://' + host;
-      var localIP = host.split(':')[0]; // this.localIP;
-      var httpPort = this.httpPort;
-      var httpsPort = this.httpsPort;
-      var dir = this.dir;
-      var pkg = require('../../package.json');
-      var homeTemplate = path.join(__dirname, 'index.html');
-      var errMsg = '<p style="">hiproxy home page load error. Please refresh the page.</p>';
-
-      response.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
-
-      pluginManager.getInstalledPlugins().then(function (plgs) {
-        fs.readFile(homeTemplate, 'utf-8', function (err, template) {
-          var html = '';
-          var renderData = {};
-          var colors = ['#D8E6FE', '#FDDFE5', '#FFF0DC', '#D0F1F0'];
-          if (err) {
-            html = errMsg;
-          } else {
-            renderData = {
-              localIP: localIP,
-              httpPort: httpPort,
-              httpsPort: httpsPort || 'N/A',
-              baseURL: rootURL,
-              workspace: dir,
-              package: pkg,
-              plugins: (plgs || []).map(function (plg) {
-                var name = plg.split('/').pop().replace('hiproxy-plugin-', '');
-                var defaultLogo = name.charAt(0).toUpperCase();
-                name = defaultLogo + name.substring(1);
-
-                return {
-                  name: name,
-                  root: rootURL + '/' + name.toLowerCase(),
-                  defaultLogo: defaultLogo,
-                  logoColor: colors[Math.floor(Math.random() * colors.length)],
-                  content: require(plg)// ,
-                  // pkg: require(plg + '/package.json')
-                };
-              })
-            };
-            html = mustache.render(template, renderData);
-          }
-
-          response.end(html);
-        });
-      }).catch(function () {
-        response.end(errMsg);
-      });
+      homeRoute.call(this, request, response);
     } else if (pathname === '/proxy.pac') {
-      var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
-
-      fs.readFile(pacFilePath, 'utf-8', function (err, str) {
-        if (err) {
-          log.error('read pac file error:', err);
-          response.end(err.message);
-        } else {
-          var contentType = query && query.indexOf('type=view') !== -1 ? 'text/plain' : 'application/x-ns-proxy-autoconfig';
-          response.writeHead(200, {
-            'Content-Type': contentType
-          });
-          response.end(str);
-        }
-      });
+      pacRoute.call(this, request, response);
     } else if (pathname === '/favicon.ico') {
-      response.writeHead(200, {
-        'Content-Type': 'application/x-ico'
-      });
-      fs.createReadStream(path.join(__dirname, 'favicon.ico')).pipe(response);
+      faviconRoute.call(this, request, response);
     } else if (pathname === '/ssl-certificate') {
-      var certTool = require('../../src/helpers/certTool');
-      var cert = certTool.getCACertificate();
-      var content = cert.certificatePem;
-
-      response.writeHead(200, {
-        'Content-Disposition': 'attachment; filename="Hiproxy_Custom_CA_Certificate.crt"',
-        'Content-Type': 'application/force-download',
-        'Content-Transfer-Encoding': 'binary',
-        'Content-Length': content.length
-      });
-      response.end(content);
+      certificateRoute.call(this, request, response);
     }
   },
 

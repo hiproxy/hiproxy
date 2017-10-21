@@ -66,6 +66,11 @@
         color: #ffffff;
       }
 
+      .left .menu .menu-item img {
+        width: 20px;
+        margin-right: 5px;
+      }
+
       .left .footer {
         height: 30px;
         text-align: center;
@@ -116,6 +121,10 @@
 
       .right .header .server-infos .info-item .content {
         color: #A6ACB1;
+        max-width: 220px;
+        white-space: nowrap;        
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .right .header .buttons button {
@@ -194,10 +203,17 @@
         font-size: 16px;
       }
 
-      .card .plugin-header p {
+      .card .plugin-header .plugin-describe {
         color: #BDC2C7;
         margin: 5px 0;
         font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 16px;     /* fallback */
+        max-height: 32px;      /* fallback */
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
       }
 
       .card .plugin-footer {
@@ -242,15 +258,19 @@
         </div>
         <ul class="menu">
           <li class="menu-item active">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABlUlEQVRoQ+2Y0VEDMQxEVxWQUigBSqCDpANKoQPSASWEEiiFVCBGzJkPE59kWZ7jGPmHj+DLPmmlnRxh54d2rh8JsHUHswP/ugPM/CqARHSaBTrNQov44yL8PAsiHICZDwDeADxUVX8H8EREn5HdCAVYxF8A3DdEfgB4jIQIA2BmES2eb4kvTAJxIiL5O3xCABbxUnmxj+WIjaQTwxDDAMwsXhfPW8UXQIGQmZDZcJ8hAGaWLfO9KgeO2Onsve8GCBJfdLshXADVjvcWr77nyopugEniC0w3hBlgJaCiOlCe0xV4JgBDQEVDmANPBegIqBkQauCtAjgCKhpCDbwmwEBAzYBoBt5NgOAdHwV0Myt+AfxR8c3AswwxR5XQ8xwiWtWYAJ6q9tzJDjBz1wxoFYt+XvgMJEA1IFpBsgP1RtEqljNQW0zbydEVi35ezkDOgOJhbSmkhfZgIfldeqdtq/K51vLOLXQlotV3rhYLyfvPFytEIMAVwLP23lQFsFZ+q/9LgK0q/zNzWwsY/f600GgFR+9/AcAe5jGFbaMqAAAAAElFTkSuQmCC">
             <a target="_blank" href="/">welcome hiproxy</a>
           </li>
           <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEoUlEQVR4Xu2ajVEUQRCFuyNQIhAiUCIQIlAjUCJQIhAiUCMQIhAiECIQIxAiECJo67Nmr/aO3eme2d3zzruuuoKqnZ2Zfv36Z3pWZcNFN1x/2QKwZcCGI7B1gQ0nwDYILsUFzOypiLwSkV0ROUh/+b8ttyLC7yr9vVTV+6kZOhkASem3IvJORF5UKnIjImcicj4VGKMDYGZY9n1SHMuPITABIL6oKiwZTUYFwMw+isgHERlL8UVFAeKzqp6OhcAoAJgZFP86gOql+uAab8Zgw2AAzAwf/zSh1fvAgQ3HqoprVMsgAJLyWP5fytEQEKoBWBHlG+CrQagCYMWUHwRCMQAp4H3/Bz7vuRkxYb80MNYA8CMT7Q9V9SqB9DqlxCfezp3nD6Q+EblQ1Rszo5LEAF1yo6r7JesVAWBmJyJCru+SB1Wdy/+pGqQuaL+DQqQxpCl1m/dIp23AyPfk/bmS2Mwso+SpqrLPkIQBSBUe1u8rcq5VFes8kvQuymGhbCUXGWtmnBde9mhY5AolAEBDStw+6QUgZIqCQQ4AzBRmQQiAROVfTuBbJQBgwV7kABUFAD+m2svJvaruFBiyeqiZ/Q5koVBtEAUgF/kbRR4FwWoNnRfNDAt72SWUEVwAEv1B3JO/KdAbNMZzJxW2l9jx3CACAIcdr96ne0PeX5oEAiF74cR4kdtUBAAv+jP/0qzfKGNmAP7NQdzNBhEAcjmX9Zfm+4vKBmKBm5kiAJD+FhuY7b24i0zlFwE3uFXVvaEukCs7mXuVARBVzRo5woAtAA6F/3sGcHh5lvUjh2YTxgCPnXeqmotf/tVYINCgH3X3qP16D7R0aiRA58RlZyQGeGmQDYTqbk+pkufBttwoAEQKoStVPSxRYOhYM6Mr1Nl/aM3NTRIHuV6JMCBScS21Giw4C4xSCtMBihyGaHNREk96o5sOZ1g/cuE6/DCEac0M5Z4HaBs6ggbm6RxSqPxPVXVBcl0gARA5ETabBiyCYtP4rNV37r1Ee06l2bTWeikUmKMA4AakuXYT4pJWdQpEfAewKDw7U1XGVYuZ8WEFBig5bocPaCEAEgsWs8HshjbdA6BwX8FEKuVH3yDLjGRplIa+XpTvA9aN/s2LJQB0sYCAR+DjwoINo2Rfq+oOpbwgmfwckLLVZ4ZS3DvseusUA5BY0NUcnXVgneKEq2xY5IqZRZqwffOE12GCMAOa1XpK41nnJbN57u1CgbEgzy+C4FZ+iy/UANBF9bk+fKJx8zUYSpMei+oD5/qry/pQ/yAKcpULtFjQdUFJxD9y+R0cUAFAmGHtLRQzoAVCV23AReZxUMfssEIAQjm/a8FqAFJQ7AKBeoHvdtp3BETl8xJgCgCoVr4qCC4qkQIWNUD2psbrzXXM6zU7qnx+cBDssmKqAUhxfVfWbnOyEIBrPr4oDXiju0DHpsnffJzwiA0jMQCrn0TriYjLDYoBPWygYgQE4sMMiIEAoDhxBeWL0qkHwugAtBdMlSFAUAdkOzMdbMKlqDlQnO+DRlV8UB3gobpOzydlwDoAsQVgHaw05R63DJgS3XWYe8uAdbDSlHvceAb8AYPd9FDIHSznAAAAAElFTkSuQmCC">
             <a target="_blank" href="https://github.com/hiproxy/">Github Group</a>
           </li>
           <li class="menu-item">
+            <img src="data:image/png;base64,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">
             <a target="_blank" href="https://github.com/hiproxy/hiproxy/issues/new">New Issues</a>
           </li>
           <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAABbUlEQVRoQ+2Z/U3EMAzFnyeADWAENuFGgA3YBDaAEWCSYwRuAmACo0hFQtVdX47nJqnk/lUp9cfv2W6qxrDxyzaePxKgdwWrKuDu1wAeAdwAKPfK9WJm94qDv7YUYEp+D+AyKiiAMIgagFcAt4HJ/7oKgagB+AxSv7TN80wIGaIGwCPUNzNz97toiKYARYhoiOYA0RBdACIhugFEQXQFiIDoDqBCDAGgQAwDcAqi7B9L+9BQAMcghgH4726eAO4e8i2UFTihQLMhzgqsVQH2lmDKsxlj/uUWYgESYO2dePMVYC2irjOB5BlQE2T2CcBec0xBdX31CrAAc4BzBWH+5RlgARJgtH1guBZSh5TZsxaVZ4AloK4nwLk9qyo+t4+owBeAi+jEKv0dzGzxTK5mBtY6YqpheDOznfpjqyjw3qEK3+VU1Mw+JIDpb1mBeJqOWa9qpBOeOUyCPbDkSwzaQkIiTUwToInMC0E2X4Ef+Ab8MT4y5usAAAAASUVORK5CYII=">
             <a target="_blank" href="http://hiproxy.org/">Documentation</a>
           </li>
         </ul>
@@ -271,12 +291,12 @@
             </li>
             <li class="info-item">
               <div class="title">Workspace</div>
-              <div class="content">{{workspace}}</div>
+              <div class="content" title="{{workspace}}">{{workspace}}</div>
             </li>
             <li class="info-item">
               <div class="title">PAC File</div>
               <div class="content">
-                <a href="{{baseURL}}/proxy.pac">
+                <a href="{{baseURL}}/proxy.pac?type=view" target="_blank">
                   {{baseURL}}/proxy.pac
                 </a>
               </div>
@@ -291,7 +311,7 @@
             </li>
           </ul>
           <div class="buttons">
-            <button>Open Browser</button>
+            <button onclick="(new Image()).src='http://127.0.0.1:5525/api?action=open'">Open Browser</button>
           </div>
         </header>
         <section class="body">
@@ -300,14 +320,14 @@
               <div class="plugin-header">
                 <img src="http://avatars2.githubusercontent.com/u/29273417?s=200&v=4" alt="">
                 <h2>hiproxy</h2>
-                <p>A light-weight proxy tool</p>
+                <p class="plugin-describe">A light-weight and powerful proxy tool</p>
               </div>
               <div class="plugin-footer">
-                <a href="https://github.com/hiproxy/hiproxy">
+                <a href="https://github.com/hiproxy/hiproxy" target="_blank">
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADrElEQVRoQ+2Zj5ENQRCHfxcBInAXASJwIkAEiAARIAJEwEWACBABIkAEiID6Xm1vze7bme6ZnX1eKV21VVf3dnv7m+7pP7Mn+kfkpCPHZUk3JV2XdC7pdLjSV3yTxPVB0mdJHyX97GHDWhCMvy3p0QDQYhNALyS9WwPVCgLAwwGAv3sIngHoZQtQCwgATyX1ApgvAkDoBygsNSDE/JsVIRQ2ariRkLs77Cn32SjIHUmvNvRCzlC880DSW48kAnJ/gPB0bfk7MK9LL/BAjgHC7C/ClEAIJ/bEMQl7ZjHMciBs7E9/YU94i8aeubGUAHIgQFChj1HIZsBMZAmEKv28QPBraEGsjhCCXFcbqb8P4WIhg6G0MZcK+h4PxXO8ZQ6CcV+dkMptOhaAQma9FP3UvI9CP32Y9WLcTzWfi5dk0HuW6p+DoPiJs7JXWlqISm8B/MN55tmwcLvbUpCIN+bPVNpXdftv5+6JV1IQz52m16s9VdYWbvZAeHQM89SoaKY6ltACZMxgBhKJSVu8W8Ng1Gvll/SQDN4HX7BbWAOpqeJ7qS/4wprbvBKQ6tpVewOJZCseJudTKLuMpwUyIsSrJfb4LnsZCDmfeduTScrzbl75O/WFIc4T5v5zA6EI0l95QmvABjuE4HkSkCd47sxAIqkOhYdKvWZ82K7/IJ6/O/1e7RGyUKnbNLsOUQztXdHaRiY9rc1a2QmtkwdSNdHaNsla0fR7IYme7BDCYcO9wIsmINGCiF7mAFLelkIpoCREZFIQo25EMd6j39pS6LPotyIyaVGiG8sU43Za6C2Eg8Ca8J00jRhExb62YBlNIvM0K0QI2myOZ4DpFWaEExBRT2DqFzskiQxWaVuC5wBIge0EvRUIADY1HW/twfjiYJXrOPEUe8I63iUY8yiei34W4GzADiJaQpTTnBE8eviAgWwqExTwv3nHDAQrG5Foes3pyh4+8EBpDujd+dbMHHMYvEFIjnNRzQHdFsUwOnPMQdwDOntgKYPtHYpF4se5JzpzpGrGTJX+s3SIDcy8kWRfkCl6jrrRDhe7CSng9zJkaVDKnWR0+QqbrGYNSPYEx5v4ood22OXpykVZFKT5Q4+9OAqzJcjqT28GQ5ixP0rD11YgLkRtOJC3KWK5Y6PeIGQnoiF0atPycvsOMvdOiy4Wc2nMrukQdlHT+nKqMkBcAFW/ONn5aVGk6NrHoqoy1QqS9lzkdTriNUIIoaO1g272yBqjN3l2rUc2MapF6R+trsYzYcPUNgAAAABJRU5ErkJggg==">
                   Github
                 </a>
-                <a href="http://127.0.0.1:5525/">
+                <a href="{{baseURL}}" target="_blank">
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAEEklEQVRoQ92agZFOMRSF71aACtgKUAEqYCtABagAFaACtgJUgApQASpABcz3JudNXv7kJbkv/G82M//szO5Lcs89956cl39P7IKMkwuCw0YCuWxmt8zshpndNrNr4RPn6ruZ8floZl/M7JOZ/RqRzBFA7pvZvfDxxPTOzPiceyZrzhYgj8zscSbr3nhg6qWZvfIs4AFC2bweCCCNG0APQ/k1Y+oF8iKw0LzBhgdh50nr/FYgNPKH0Mita494DkG40yIILUBQIUqJn8cYTWBqQI7FRJqwKpgakM9HZCIH5mapJNaA0GxI7J4G0ozkH4wSECSW5mb8NrNLO0JD8+MMFqME5Fs4J54HxUB29zI4Z05bgDwzs6fhQQGl2a7vBUk4Xyj9eeQYERs8xIHEhLjUWvDgm2QMScKooTgOWEmBPAhnhjbGmaIU8kG15n8fmpHn/9VQdWBj3miTFAgu9G4SAb87MzPOFAIsNb7YYzqHJ+uQQR2kBABLgBVLcRn3AmcdXPc0YiAE+rOwmpQiZUyPx9mBtUX9JmvCMgDkcpFTr5hckX2JgYDubQFIXJNklRcojTgzzJ+zVEmxmOaxdM1WdqgU1lkwUqMZKeYZSoUTXwMpBKgnsypH3iYRmd6hmBZAWrKioAVabKTgWgOizChbeibXn7V1eFWmDxdAYtktLQBYNqaf2BwWCKDG5lpAymqp/9bmEsPkv+Ie+VODH/6uuqQXKCmpUdw3jUtNjymrvWeV9pgweIBQDpRYfPuB2sGSZ7AO6sNoTWa8jxsIi6QulGC8xhJTqiT8dyCAoTZ1sLUIRYktlZZXuQ4Yod6vdtTG3GiDmn3tHCuF9VXOIe4RT1Z1DiC/zO8tL8qKJicp+CYu+3pGVn49Eho3/m4ORA+1ZC+2Gj2HWmxtPGywd9airJnGGt2zVQiHJOyWyoxy4u8ylt7zg5iyplHZTW18DYT+TnAAYtAzMJyz8bAWv2xxNzDZjM5RtPGs47EJ8f40PJa+9cVqy36rL1YE1SvDuUSSdeoeMUBZxBLv/ZQDZUUp46I5P3rHj3Re7p3doz49geglzaOS2mfBBr8sXQeNYCUHjksJygkWYMPjzw7YWAOyRUlK7KBWiABJ8sota3dd0DFh9JWpJHpLkrqvTJXVURdzlANs0PxeuZ19VY7y2m08NYykbr1lVHN63QMgYLL4DXANCOBpTOTUC2Y2duGCoVduqyDWmj1lbwszW+S2CUQPEAHrFQDJLYngcqNHbouN7emR3BxqFfmsvYR55RZh4Kw5+A5k7dRt6ZHSfBwAnxIg2fvWOy8AwPjadWsRyxYgWpTsoUZe14yLlTfrsTqLZ0cA0YLUv2y7/qkmZYvmRUL13Qk/d/NPNe4sjpw4kpGRcXWv9RdLNvUzW+ULLAAAAABJRU5ErkJggg==">
                   Open
                 </a>
@@ -316,17 +336,21 @@
             {{#plugins}}
               <li class="card">
                 <div class="plugin-header">
-                  <!-- <img src="http://avatars2.githubusercontent.com/u/29273417?s=200&v=4" alt=""> -->
-                  <div class="default-logo" style="background: {{logoColor}}">{{defaultLogo}}</div>
-                  <h2>{{name}}</h2>
-                  <p>{{content.description}}</p>
+                  {{#logoURL}}
+                    <img src="{{logoURL}}" alt="{{name}}">
+                  {{/logoURL}}
+                  {{^logoURL}}
+                    <div class="default-logo" style="background: {{logoColor}}">{{logoLetter}}</div>
+                  {{/logoURL}}
+                  <h2>{{displayName}}</h2>
+                  <p class="plugin-describe">{{#description}}{{description}}{{/description}}{{^description}}Did not find the description information{{/description}}</p>
                 </div>
                 <div class="plugin-footer">
-                  <a href="https://github.com/hiproxy/hiproxy">
+                  <a href="{{github}}" target="_blank">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADrElEQVRoQ+2Zj5ENQRCHfxcBInAXASJwIkAEiAARIAJEwEWACBABIkAEiID6Xm1vze7bme6ZnX1eKV21VVf3dnv7m+7pP7Mn+kfkpCPHZUk3JV2XdC7pdLjSV3yTxPVB0mdJHyX97GHDWhCMvy3p0QDQYhNALyS9WwPVCgLAwwGAv3sIngHoZQtQCwgATyX1ApgvAkDoBygsNSDE/JsVIRQ2ariRkLs77Cn32SjIHUmvNvRCzlC880DSW48kAnJ/gPB0bfk7MK9LL/BAjgHC7C/ClEAIJ/bEMQl7ZjHMciBs7E9/YU94i8aeubGUAHIgQFChj1HIZsBMZAmEKv28QPBraEGsjhCCXFcbqb8P4WIhg6G0MZcK+h4PxXO8ZQ6CcV+dkMptOhaAQma9FP3UvI9CP32Y9WLcTzWfi5dk0HuW6p+DoPiJs7JXWlqISm8B/MN55tmwcLvbUpCIN+bPVNpXdftv5+6JV1IQz52m16s9VdYWbvZAeHQM89SoaKY6ltACZMxgBhKJSVu8W8Ng1Gvll/SQDN4HX7BbWAOpqeJ7qS/4wprbvBKQ6tpVewOJZCseJudTKLuMpwUyIsSrJfb4LnsZCDmfeduTScrzbl75O/WFIc4T5v5zA6EI0l95QmvABjuE4HkSkCd47sxAIqkOhYdKvWZ82K7/IJ6/O/1e7RGyUKnbNLsOUQztXdHaRiY9rc1a2QmtkwdSNdHaNsla0fR7IYme7BDCYcO9wIsmINGCiF7mAFLelkIpoCREZFIQo25EMd6j39pS6LPotyIyaVGiG8sU43Za6C2Eg8Ca8J00jRhExb62YBlNIvM0K0QI2myOZ4DpFWaEExBRT2DqFzskiQxWaVuC5wBIge0EvRUIADY1HW/twfjiYJXrOPEUe8I63iUY8yiei34W4GzADiJaQpTTnBE8eviAgWwqExTwv3nHDAQrG5Foes3pyh4+8EBpDujd+dbMHHMYvEFIjnNRzQHdFsUwOnPMQdwDOntgKYPtHYpF4se5JzpzpGrGTJX+s3SIDcy8kWRfkCl6jrrRDhe7CSng9zJkaVDKnWR0+QqbrGYNSPYEx5v4ood22OXpykVZFKT5Q4+9OAqzJcjqT28GQ5ixP0rD11YgLkRtOJC3KWK5Y6PeIGQnoiF0atPycvsOMvdOiy4Wc2nMrukQdlHT+nKqMkBcAFW/ONn5aVGk6NrHoqoy1QqS9lzkdTriNUIIoaO1g272yBqjN3l2rUc2MapF6R+trsYzYcPUNgAAAABJRU5ErkJggg==">
                     Github
                   </a>
-                  <a href="{{root}}">
+                  <a href="{{root}}" target="_blank">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAEEklEQVRoQ92agZFOMRSF71aACtgKUAEqYCtABagAFaACtgJUgApQASpABcz3JudNXv7kJbkv/G82M//szO5Lcs89956cl39P7IKMkwuCw0YCuWxmt8zshpndNrNr4RPn6ruZ8floZl/M7JOZ/RqRzBFA7pvZvfDxxPTOzPiceyZrzhYgj8zscSbr3nhg6qWZvfIs4AFC2bweCCCNG0APQ/k1Y+oF8iKw0LzBhgdh50nr/FYgNPKH0Mita494DkG40yIILUBQIUqJn8cYTWBqQI7FRJqwKpgakM9HZCIH5mapJNaA0GxI7J4G0ozkH4wSECSW5mb8NrNLO0JD8+MMFqME5Fs4J54HxUB29zI4Z05bgDwzs6fhQQGl2a7vBUk4Xyj9eeQYERs8xIHEhLjUWvDgm2QMScKooTgOWEmBPAhnhjbGmaIU8kG15n8fmpHn/9VQdWBj3miTFAgu9G4SAb87MzPOFAIsNb7YYzqHJ+uQQR2kBABLgBVLcRn3AmcdXPc0YiAE+rOwmpQiZUyPx9mBtUX9JmvCMgDkcpFTr5hckX2JgYDubQFIXJNklRcojTgzzJ+zVEmxmOaxdM1WdqgU1lkwUqMZKeYZSoUTXwMpBKgnsypH3iYRmd6hmBZAWrKioAVabKTgWgOizChbeibXn7V1eFWmDxdAYtktLQBYNqaf2BwWCKDG5lpAymqp/9bmEsPkv+Ie+VODH/6uuqQXKCmpUdw3jUtNjymrvWeV9pgweIBQDpRYfPuB2sGSZ7AO6sNoTWa8jxsIi6QulGC8xhJTqiT8dyCAoTZ1sLUIRYktlZZXuQ4Yod6vdtTG3GiDmn3tHCuF9VXOIe4RT1Z1DiC/zO8tL8qKJicp+CYu+3pGVn49Eho3/m4ORA+1ZC+2Gj2HWmxtPGywd9airJnGGt2zVQiHJOyWyoxy4u8ylt7zg5iyplHZTW18DYT+TnAAYtAzMJyz8bAWv2xxNzDZjM5RtPGs47EJ8f40PJa+9cVqy36rL1YE1SvDuUSSdeoeMUBZxBLv/ZQDZUUp46I5P3rHj3Re7p3doz49geglzaOS2mfBBr8sXQeNYCUHjksJygkWYMPjzw7YWAOyRUlK7KBWiABJ8sota3dd0DFh9JWpJHpLkrqvTJXVURdzlANs0PxeuZ19VY7y2m08NYykbr1lVHN63QMgYLL4DXANCOBpTOTUC2Y2duGCoVduqyDWmj1lbwszW+S2CUQPEAHrFQDJLYngcqNHbouN7emR3BxqFfmsvYR55RZh4Kw5+A5k7dRt6ZHSfBwAnxIg2fvWOy8AwPjadWsRyxYgWpTsoUZe14yLlTfrsTqLZ0cA0YLUv2y7/qkmZYvmRUL13Qk/d/NPNe4sjpw4kpGRcXWv9RdLNvUzW+ULLAAAAABJRU5ErkJggg==">
                     Open
                   </a>
