@@ -7,6 +7,7 @@
         display: flex;
         flex-direction: column;
         margin: 0;
+        font-family: Helvetica, Tahoma, Arial;
       }
 
       .layout {
@@ -20,7 +21,7 @@
         display: flex;
         flex-direction: column;
         width: 200px;
-        background: #404040;
+        background: #303030;
       }
 
       .left .logo {
@@ -107,7 +108,7 @@
         margin: 0;
         padding: 0;
         font-size: 14px;
-        margin-right: 50px;
+        margin-right: 30px;
       }
 
       .right .header .server-infos a {
@@ -254,7 +255,7 @@
     <div class="layout">
       <div class="left">
         <div class="logo">
-            <img src="http://127.0.0.1:5525/dashboard/source/logo-light.svg" alt="">
+            <img src="{{baseURL}}/dashboard/source/logo-light.svg" alt="">
         </div>
         <ul class="menu">
           <li class="menu-item active">
@@ -311,7 +312,7 @@
             </li>
           </ul>
           <div class="buttons">
-            <button onclick="(new Image()).src='http://127.0.0.1:5525/api?action=open'">Open Browser</button>
+            <button onclick="(new Image()).src='{{baseURL}}/api?action=open'">Open Browser</button>
           </div>
         </header>
         <section class="body">

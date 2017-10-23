@@ -13,13 +13,16 @@ var homeRoute = require('./home');
 var pacRoute = require('./pacFile');
 var faviconRoute = require('./favicon');
 var certificateRoute = require('./certificate');
+var logoRoute = require('./logo');
 
 // hiproxy system pages
 var hiproxyPageRoutes = [
   '/',
   '/proxy.pac',
   '/ssl-certificate',
-  '/favicon.ico'
+  '/favicon.ico',
+  '/logo',
+  '/logo-light'
 ];
 // hiproxy api pages
 var hiproxyAPIRoutes = [
@@ -50,6 +53,8 @@ module.exports = {
       faviconRoute.call(this, request, response);
     } else if (pathname === '/ssl-certificate') {
       certificateRoute.call(this, request, response);
+    } else if (pathname === '/logo' || pathname === '/logo-light') {
+      logoRoute.call(this, request, response);
     }
   },
 
@@ -132,6 +137,7 @@ module.exports = {
    * @returns {Undefined|Function}
    */
   getRender: function (route) {
+    // 绝对精确匹配
     if (hiproxyPageRoutes.indexOf(route) !== -1) {
       return this.render;
     }
@@ -146,7 +152,7 @@ module.exports = {
     var matchResult = null;
 
     routes.sort(function (a, b) {
-      return b.split('/').length - a.split('.').length;
+      return b.split('/').length - a.split('/').length;
     });
 
     for (var i = 0, len = routes.length; i < len; i++) {
