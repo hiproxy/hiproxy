@@ -13,5 +13,5 @@ module.exports = {
   Hemsl: require('hemsl'),
   Hosts: require('./hosts'),
   Rewrite: require('./rewrite'),
-  Server: require('./index')
+  Server: require('./server')
 };
