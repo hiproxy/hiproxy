@@ -62,13 +62,17 @@ function getPkgInfos (plgs, rootURL) {
     var logoLetter = displayName.charAt(0).toUpperCase();
     var pkgJSON = {};
     var plugin = require(plg);
-    var repository = {};
+    var repository = '';
 
     displayName = logoLetter + displayName.substring(1);
 
     try {
       pkgJSON = require(path.join(plg, 'package.json'));
       repository = pkgJSON.repository;
+
+      if (typeof repository !== 'string' || !repository.match(/^https?:\/\/.+/)) {
+        repository = repository && repository.url && repository.url.replace('git+', '');
+      }
     } catch (err) {
       hiproxyServer.logger.warn(plgName, 'has no `package.json` file.');
     }
@@ -80,7 +84,7 @@ function getPkgInfos (plgs, rootURL) {
       logoLetter: logoLetter,
       logoColor: colors[Math.floor(Math.random() * colors.length)],
       logoURL: plugin.logoURL,
-      github: repository && repository.url && repository.url.replace('git+', ''),
+      github: repository || '',
       description: plugin.description || pkgJSON.description,
       plugin: plugin,
       package: pkgJSON
