@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.7] - 2017-10-24
+
+### Added
+
+* New hiproxy home page 🍺🍺🍺 👏👏👏
+![](./hiproxy-home.png)
+
 ## [1.2.6] - 2017-10-19
 
 ### Bugfix
