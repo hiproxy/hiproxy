@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.2.8] - 2017-10-30
+
+### Bugfix
+
+* Fix plugin name for windows.
+
 ## [1.2.7] - 2017-10-24
 
 ### Added

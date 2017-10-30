@@ -57,7 +57,7 @@ function getPkgInfos (plgs, rootURL) {
   var hiproxyServer = this;
 
   return (plgs || []).map(function (plg) {
-    var plgName = plg.split('/').pop();
+    var plgName = plg.split(/[/\\]/).pop();
     var displayName = plgName.replace('hiproxy-plugin-', '');
     var logoLetter = displayName.charAt(0).toUpperCase();
     var pkgJSON = {};
