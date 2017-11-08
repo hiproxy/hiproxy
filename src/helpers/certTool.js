@@ -43,8 +43,8 @@ mkdirp(certDir);
 module.exports = {
   getCACertificate: function (CAName) {
     CAName = CAName || DEFAULT_CA_NAME;
-
-    var certInfo = this.getCertificateByFileName(CAName);
+    var fileName = getFileNameByCN(CAName);
+    var certInfo = this.getCertificateByFileName(fileName);
     if (certInfo) {
       return certInfo;
     } else {
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   getCertificateByFileName: function (fileName) {
-    var filePath = path.join(certDir, fileName.replace(/\s+/g, '_'));
+    var filePath = path.join(certDir, fileName);
     var keyPath = filePath + '.key';
     var crtPath = filePath + '.pem';
     var keyContent = '';
@@ -90,7 +90,8 @@ module.exports = {
   createCertificate: function (domain, CAName, certInfo) {
     var caCert = this.getCACertificate(CAName);
     var CN = (certInfo && certInfo.subject && certInfo.subject.CN) || domain;
-    var cachedCert = this.getCertificateByFileName(CN);
+    var fileName = getFileNameByCN(CN);
+    var cachedCert = this.getCertificateByFileName(fileName);
     var cert = cachedCert;
 
     if (!cachedCert) {
@@ -185,7 +186,7 @@ module.exports = {
     //   certificate: pki.certificateToPem(cert)
     // };
 
-    var fileName = (subject.CN || domain).replace(/\s+/g, '_');
+    var fileName = getFileNameByCN(subject.CN || domain);
     writeFile(fileName + '.key', certDir, pki.privateKeyToPem(keys.privateKey));
     writeFile(fileName + '.pem', certDir, pki.certificateToPem(cert));
 
@@ -206,6 +207,10 @@ function writeFile (fileName, basedir, content) {
       console.log(err);
     }
   });
+}
+
+function getFileNameByCN (CN) {
+  return CN.replace(/\s+/g, '_').replace(/\*\./, '');
 }
 
 // test
