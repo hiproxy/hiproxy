@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.9] - 2017-11-08
+
+### Bugfix
+
+* Fixbug: window下无法创建名为*.xx.xx的证书 #40
+
+
 ## [1.2.8] - 2017-10-30
 
 ### Bugfix
