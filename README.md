@@ -244,4 +244,3 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 We are committed to making participation in this project a harassment-free experience for everyone, regardless of the level of experience, gender, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, or nationality.
 
 [See the code of conduct for details](CODE_OF_CONDUCT.md).
-
