@@ -38,6 +38,15 @@ describe('#getLocalIP', function () {
               'mac': '36:36:3b:ac:a6:64',
               'internal': false
             }
+          ],
+          '本地连接': [
+            {
+              'address': '100.81.128.118',
+              'netmask': '255.255.255.0',
+              'family': 'IPv4',
+              'mac': '36:36:3b:ac:a6:64',
+              'internal': false
+            }
           ]
         };
       };
@@ -64,7 +73,7 @@ describe('#getLocalIP', function () {
 
       osNetworkInterfaces = os.networkInterfaces;
       os.networkInterfaces = function () {
-        return null;
+        return {};
       };
     });
 

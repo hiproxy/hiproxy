@@ -46,7 +46,7 @@ module.exports = {
   'hide_cookie': function (key) {
     log.debug('hide_cookie -', key);
 
-    setHeader(this.response, 'Set-Cookie', key + '=; Expires=' + new Date(1));
+    setHeader(this.response, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
   },
   'hide_header': function (key, value) {
     log.debug('hide_header -', key, value);
