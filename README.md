@@ -15,6 +15,7 @@ For example, if you are working as a team and each of the developers in the team
 [中文版文档](https://github.com/hiproxy/hiproxy/blob/master/README-zh.md)
 
 [![Build Status](https://travis-ci.org/hiproxy/hiproxy.svg?branch=master)](https://travis-ci.org/hiproxy/hiproxy)
+[![Build status](https://ci.appveyor.com/api/projects/status/0g898oor4o82ah8n/branch/master?svg=true)](https://ci.appveyor.com/project/zdying/hiproxy/branch/master)
 [![codecov](https://codecov.io/gh/hiproxy/hiproxy/branch/master/graph/badge.svg)](https://codecov.io/gh/hiproxy/hiproxy)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat)](https://github.com/Flet/semistandard)
 [![npm](https://img.shields.io/npm/v/hiproxy.svg)](https://www.npmjs.com/package/hiproxy)
