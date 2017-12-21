@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.2.10] - 2017-12-21
+
+### Bugfix
+
+* fix(command/start): can't found cli.js module on daemon mode [#43](https://github.com/hiproxy/hiproxy/pull/43)
+
+Thanks to [raccoon-lee](https://github.com/raccoon-lee)
+
 ## [1.2.9] - 2017-11-08
 
 ### Bugfix
