@@ -95,7 +95,7 @@ function _daemonServer () {
   var env = process.env;
   var out = fs.openSync(path.join(logsDir, 'out.log'), 'a');
   var err = fs.openSync(path.join(logsDir, 'err.log'), 'a');
-  var binPath = path.resolve(__filename, '../../cli.js');
+  var binPath = path.resolve(__filename, '../../bin/cli.js');
 
   env.__daemon = true;
 
