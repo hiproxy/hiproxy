@@ -16,11 +16,11 @@ module.exports = function (ctx, next) {
   // TODO 添加对应的option到CLI中
   if (String(config.autoFindConf) !== 'false') {
     if (hostsPattern == null) {
-      hostsPattern = ['./*/hosts'];
+      hostsPattern = ['./*/hosts', './hosts'];
     }
 
     if (rewritePattern == null) {
-      rewritePattern = ['./*/rewrite'];
+      rewritePattern = ['./*/rewrite', './rewrite'];
     }
 
     var hostsFiles = glob(hostsPattern, dir);
