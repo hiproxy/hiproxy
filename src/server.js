@@ -281,15 +281,25 @@ ProxyServer.prototype = {
     var httpsAddr = this.httpsServer && this.httpsServer.address();
     var workspace = global.args.workspace || process.cwd();
     var ip = getLocalIP();
-
-    return showImage([
+    var hostFilePath = Object.keys(this.hosts._files);
+    var rewriteFilePath = Object.keys(this.rewrite._files);
+    var images = [
       '',
       '    Proxy address: '.bold.green + ('http://' + ip + ':' + proxyAddr.port).underline,
       '    Https address: '.bold.magenta + (httpsAddr ? ('https://' + ip + ':' + httpsAddr.port).underline : 'disabled'),
       '    Proxy file at: '.bold.yellow + ('http://' + ip + ':' + proxyAddr.port + '/proxy.pac').underline,
       '    SSL/TLS cert : '.bold.magenta + ('http://' + ip + ':' + proxyAddr.port + '/ssl-certificate').underline,
       '    Workspace at : '.bold.cyan + workspace.underline
-    ]);
+    ];
+
+    if (hostFilePath.length) {
+      images.push('    hosts file   : '.bold.yellow + hostFilePath.join('\n\t\t\t\t'))
+    }
+    if (rewriteFilePath.length) {
+      images.push('    rewrite file : '.bold.green + rewriteFilePath.join('\n\t\t\t      '))
+    }
+
+    return showImage(images);
   }
 };
 

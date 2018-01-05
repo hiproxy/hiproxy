@@ -11,6 +11,8 @@ module.exports = function showImage (lines) {
   console.log(' | |__  ' + '_ '.cyan, lines[2] || '');
   console.log(' | \'_ \\' + '| |'.cyan, lines[3] || '');
   console.log(' | | | ' + '| |'.cyan, lines[4] || '');
-  console.log(' |_| |_' + '|_|'.cyan, lines[5] || '');
+  console.log(' | | | ' + '| |'.cyan, lines[5] || '');
+  console.log(' |_| |_' + '|_|'.cyan, lines[6] || '');
+  console.log('          '.cyan, lines[7] || '');
   console.log('');
 };
