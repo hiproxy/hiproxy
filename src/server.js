@@ -33,7 +33,7 @@ function ProxyServer (httpPort, httpsPort, dir) {
   this.hosts = new Hosts();
   this.rewrite = new Rewrite();
 
-  this.logger = new Logger(/*process.stdout, process.stderr*/);
+  this.logger = new Logger(/* process.stdout, process.stderr */);
 
   this.httpPort = httpPort;
   this.httpServer = null;
@@ -293,10 +293,10 @@ ProxyServer.prototype = {
     ];
 
     if (hostFilePath.length) {
-      images.push('    hosts file   : '.bold.yellow + hostFilePath.join('\n\t\t\t\t'))
+      images.push(' hosts file   : '.bold.yellow + hostFilePath.join('\n\t\t'));
     }
     if (rewriteFilePath.length) {
-      images.push('    rewrite file : '.bold.green + rewriteFilePath.join('\n\t\t\t      '))
+      images.push(' rewrite file : '.bold.green + rewriteFilePath.join('\n\t\t'));
     }
 
     return showImage(images);
