@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.11] - 2018-01-09
+
+### Added
+
+* Auto find config file from current dir.
+* Add current config files log. 
+
 ## [1.2.10] - 2017-12-21
 
 ### Bugfix
