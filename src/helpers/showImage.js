@@ -15,4 +15,5 @@ module.exports = function showImage (lines) {
   console.log('');
   console.log(lines[6] || '');
   console.log(lines[7] || '');
+  console.log('');
 };

@@ -293,10 +293,10 @@ ProxyServer.prototype = {
     ];
 
     if (hostFilePath.length) {
-      images.push(' hosts file   : '.bold.yellow + hostFilePath.join('\n\t\t'));
+      images.push('hosts files : \n  '.bold.green + hostFilePath.join('\n  '));
     }
     if (rewriteFilePath.length) {
-      images.push(' rewrite file : '.bold.green + rewriteFilePath.join('\n\t\t'));
+      images.push('rewrite files : \n  '.bold.green + rewriteFilePath.join('\n  '));
     }
 
     return showImage(images);
