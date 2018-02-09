@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.2.12] - 2018-02-09
+
+### Added
+
+* Add `requestend` event. 
+
 ## [1.2.11] - 2018-01-09
 
 ### Added
