@@ -149,5 +149,22 @@ module.exports = {
     });
 
     request.pipe(proxy);
+
+    var body = [];
+
+    request.on('data', function (chunk) {
+      body.push(chunk);
+    }).on('end', function () {
+      body = Buffer.concat(body).toString();
+      request.body = body;
+      /**
+       * Emitted whenever the request end.
+       * @event ProxyServer#requestend
+       * @property {String} body request data
+       * @property {http.IncomingMessage} response request object
+       * @property {http.ServerResponse} response response object
+       */
+      self.emit('requestend', body, request, response);
+    });
   }
 };
