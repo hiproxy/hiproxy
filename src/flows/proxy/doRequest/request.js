@@ -35,8 +35,16 @@ module.exports = {
         if (!response.finished) {
           response.end('');
         }
+
+        /**
+         * Emitted when a response is end. This event is emitted only once.
+         * @event ProxyServer#response
+         * @property {http.ServerResponse} response response object
+         */
+        self.emit('response', request, response);
         next();
       });
+
       return;
     }
 

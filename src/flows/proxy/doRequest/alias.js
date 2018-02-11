@@ -58,7 +58,7 @@ module.exports = {
          * @event ProxyServer#data
          * @property {Buffer} data response data
          */
-        hiproxy.emit('data', chunk);
+        hiproxy.emit('data', chunk, request, response);
       });
 
       stream.on('end', function () {
@@ -67,7 +67,7 @@ module.exports = {
          * @event ProxyServer#response
          * @property {http.ServerResponse} response response object
          */
-        hiproxy.emit('response', response);
+        hiproxy.emit('response', request, response);
 
         // log.access(request);
 
