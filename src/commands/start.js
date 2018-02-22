@@ -116,7 +116,8 @@ function _startServer (ctx) {
   var cliArgs = ctx;
   var https = cliArgs.https;
   var port = cliArgs.port || 5525;
-  var httpsPort = https ? cliArgs.middleManPort || 10010 : 0;
+
+  var httpsPort = https !== 'false' ? cliArgs.middleManPort || 10010 : 0;
 
   var workspace = cliArgs.workspace || process.cwd();
   var proxy = new Proxy(port, httpsPort, workspace);
