@@ -7,6 +7,7 @@
 
 var url = require('url');
 var net = require('net');
+var utils = require('../../../helpers/utils');
 
 /**
  * 处理`CONNECT`请求
@@ -18,6 +19,9 @@ module.exports = function connectHandler (request, socket, head) {
   var rewriteRule = this.rewrite.getRule(hostname);
   var hostRule = this.hosts.getHost(hostname);
   var middleManPort = this.httpsPort;
+
+  request.requestId = utils.randomId();
+  request._startTime = Date.now();
 
   /**
    * Emitted each time the server responds to a request with a `CONNECT` method.
