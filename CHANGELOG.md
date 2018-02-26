@@ -1,10 +1,13 @@
 # Change Log
 
-## [1.2.12] - 2018-02-09
+## [1.2.12] - 2018-02-26
 
 ### Added
 
 * Add `requestend` event. 
+* Add `requestId` and `_startTime` for CONNECT request.
+* Start HTTPS service by default.
+
 
 ## [1.2.11] - 2018-01-09
 
