@@ -6,14 +6,13 @@
 'use strict';
 
 var fs = require('fs');
-var os = require('os');
 var path = require('path');
 var forge = require('node-forge');
 var pki = forge.pki;
 var md5 = forge.md.md5;
-var homedir = require('os-homedir');
 var mkdirp = require('./mkdirp');
-var certDir = path.join(process.env.NPM_TEST ? os.tmpdir() : homedir(), '.hiproxy', 'cert');
+var dirtool = require('../helpers/dirTool');
+var certDir = dirtool.getCertificateDir();
 var defaultAttrs = [
   {
     name: 'countryName',
@@ -201,6 +200,7 @@ module.exports = {
   }
 };
 
+/* istanbul ignore next */
 function writeFile (fileName, basedir, content) {
   fs.writeFile(path.join(basedir, fileName), content.replace(/\r\n/g, '\n'), function (err) {
     if (err) {
@@ -209,6 +209,7 @@ function writeFile (fileName, basedir, content) {
   });
 }
 
+/* istanbul ignore next */
 function getFileNameByCN (CN) {
   return CN.replace(/\s+/g, '_').replace(/\*\./, '');
 }

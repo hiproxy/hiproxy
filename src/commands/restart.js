@@ -8,8 +8,8 @@
 var path = require('path');
 var childProcess = require('child_process');
 
-var homedir = require('os-homedir');
-var hiproxyDir = path.join(homedir(), '.hiproxy');
+var dirtool = require('../helpers/dirTool');
+var hiproxyDir = dirtool.getHiproxyDir();
 
 module.exports = {
   command: 'restart',

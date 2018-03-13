@@ -2,22 +2,12 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var homedir = require('os-homedir');
+var dirtool = require('../../src/helpers/dirTool');
 
 var createPacFile = require('../../src/helpers/createPacFile');
 
 describe('#replaceVar', function () {
-  var pacFilePath = path.resolve(homedir(), '.hiproxy', 'proxy.pac');
-
-  // TODO 放到beforetest里面
-  before(function () {
-    try {
-      fs.mkdirSync(path.resolve(homedir(), '.hiproxy'));
-    } catch (err) {
-      if (err.code !== 'EEXIST') {
-        console.error('.hiproxy create fail:', err);
-      }
-    }
-  });
+  var pacFilePath = path.resolve(dirtool.getHiproxyDir(), 'proxy.pac');
 
   describe('create pac file success', function () {
     it('should return filePath when create pac file successfuly', function (done) {

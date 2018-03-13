@@ -8,7 +8,7 @@ var Flow = require('step-flow');
 
 var proxyFlow = new Flow();
 
-var systemRoter = require('./systemRoter');
+var systemRoter = require('./systemRouter');
 var getProxyInfo = require('./getProxyInfo');
 var setReqOption = require('./setReqOption');
 var doRequest = require('./doRequest');

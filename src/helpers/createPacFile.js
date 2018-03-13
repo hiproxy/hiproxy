@@ -7,7 +7,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var homedir = require('os-homedir');
+var dirtool = require('../helpers/dirTool');
 
 module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePath) {
   // if (!domains || Object.keys(domains).length === 0) {
@@ -63,7 +63,7 @@ module.exports = function createPacFile (proxyPort, localIP, domains, pacFilePat
     FindProxyForURL.toString().replace(/^\s{8}/mg, '')
   ];
 
-  pacFilePath = pacFilePath || path.resolve(homedir(), '.hiproxy', 'proxy.pac');
+  pacFilePath = pacFilePath || path.resolve(dirtool.getHiproxyDir(), 'proxy.pac');
 
   return new Promise(function (resolve, reject) {
     fs.writeFile(pacFilePath, txt.join('\n'), function (err) {

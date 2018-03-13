@@ -10,10 +10,10 @@
   "scripts": {
     "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js",
     "pretest": "node scripts/pretest.js",
-    "test": "cross-env NPM_TEST=true && nyc mocha test/**/*.test.js --timeout 10000",
+    "test": "cross-env NPM_TEST=true nyc mocha test/**/*.test.js --timeout 10000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
-    "t": "nyc mocha test/proxy/httpserver.test.js && nyc report --reporter=lcov --reporter=html"
+    "t": "nyc mocha test/router/*.js && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -88,7 +88,8 @@
     "exclude": [
       "src/helpers/mkdirp.js",
       "src/helpers/showImage.js",
-      "src/helpers/getLocalIP.js"
+      "src/helpers/getLocalIP.js",
+      "test"
     ]
   }
 }

@@ -7,13 +7,13 @@ require('colors');
 var path = require('path');
 var EventEmitter = require('events');
 var openBrowser = require('op-browser');
-var homedir = require('os-homedir');
 var Hosts = require('./hosts');
 var Rewrite = require('./rewrite');
 var getLocalIP = require('./helpers/getLocalIP');
 var Logger = require('./logger');
 var createPacFile = require('./helpers/createPacFile');
 var showImage = require('./helpers/showImage');
+var dirtool = require('./helpers/dirTool');
 
 var initFlow = require('./flows/initialize');
 
@@ -212,7 +212,7 @@ ProxyServer.prototype = {
 
   _open: function (browserName, url, usePacProxy) {
     var proxyURL = 'http://127.0.0.1:' + this.httpPort;
-    var dataDir = path.join(homedir(), '.hiproxy', 'data-dir');
+    var dataDir = path.join(dirtool.getHiproxyDir(), 'data-dir');
 
     if (usePacProxy) {
       openBrowser.open(browserName, url, '', proxyURL + '/proxy.pac', dataDir);

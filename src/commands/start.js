@@ -9,11 +9,12 @@ require('colors');
 
 var fs = require('fs');
 var path = require('path');
-var homedir = require('os-homedir');
 
 var checkServerStarted = require('../../src/helpers/checkServerStarted');
 var mkdirp = require('../../src/helpers/mkdirp');
-var hiproxyDir = path.join(homedir(), '.hiproxy');
+var dirtool = require('../helpers/dirTool');
+
+var hiproxyDir = dirtool.getHiproxyDir();
 
 module.exports = {
   command: 'start',

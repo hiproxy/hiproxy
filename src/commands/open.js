@@ -7,10 +7,11 @@
 
 var fs = require('fs');
 var path = require('path');
-var homedir = require('os-homedir');
 var openBrowser = require('op-browser');
 
-var hiproxyDir = path.join(homedir(), '.hiproxy');
+var dirtool = require('../helpers/dirTool');
+
+var hiproxyDir = dirtool.getHiproxyDir();
 
 module.exports = {
   command: 'open',

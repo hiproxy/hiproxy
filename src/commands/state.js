@@ -8,11 +8,11 @@
 var fs = require('fs');
 var path = require('path');
 
-var homedir = require('os-homedir');
-var hiproxyDir = path.join(homedir(), '.hiproxy');
-
+var dirtool = require('../helpers/dirTool');
 var getLocalIP = require('../../src/helpers/getLocalIP');
 var showImage = require('../helpers/showImage');
+
+var hiproxyDir = dirtool.getHiproxyDir();
 
 module.exports = {
   command: 'state',

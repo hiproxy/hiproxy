@@ -5,9 +5,9 @@
 
 var path = require('path');
 var fs = require('fs');
-var homedir = require('os-homedir');
+var dirtool = require('../helpers/dirTool');
 
-var hiproxyDir = path.join(homedir(), '.hiproxy');
+var hiproxyDir = dirtool.getHiproxyDir();
 
 module.exports = function () {
   var pidFile = path.join(hiproxyDir, 'hiproxy.pid');
