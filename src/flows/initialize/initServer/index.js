@@ -14,13 +14,16 @@ module.exports = function createServer (ctx, next) {
 
   var promises = [serverTool.create(port)];
 
-  if (this.httpsPort) {
+  if (this.httpsPort != null) {
     promises.push(serverTool.create(httpsPort, true, this.rewrite));
   }
 
   Promise.all(promises).then(function (servers) {
     hiproxy.httpServer = servers[0];
     hiproxy.httpsServer = servers[1];
+
+    hiproxy.httpPort = hiproxy.httpServer.address().port;
+    hiproxy.httpsPort = hiproxy.httpsServer ? hiproxy.httpsServer.address().port : null;
 
     /**
      * Emitted when the hiproxy server(s) start.

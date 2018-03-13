@@ -27,17 +27,36 @@ var initFlow = require('./flows/initialize');
  * @extends EventEmitter
  * @constructor
  */
-function ProxyServer (httpPort, httpsPort, dir) {
+function ProxyServer (options) {
   EventEmitter.call(this);
+
+  var httpPort = 0;
+  var httpsPort = 0;
+  var dir = process.cwd();
+
+  // TODO 更新文档，说明参数
+  if (options && typeof options === 'object') {
+    httpPort = options.httpPort;
+    httpsPort = options.httpsPort;
+    dir = options.dir || dir;
+  } else {
+    httpPort = arguments[0];
+    httpsPort = arguments[1];
+    dir = arguments[2] || dir;
+  }
+
+  this.options = options || {};
 
   this.hosts = new Hosts();
   this.rewrite = new Rewrite();
 
   this.logger = new Logger(/* process.stdout, process.stderr */);
 
-  this.httpPort = httpPort;
+  // 如果没有指定httpPort, 默认随机分配
+  this.httpPort = httpPort || 0;
   this.httpServer = null;
 
+  // 如果没有指定httpsPort，默认不随机分配
   this.httpsPort = httpsPort;
   this.httpsServer = null;
 

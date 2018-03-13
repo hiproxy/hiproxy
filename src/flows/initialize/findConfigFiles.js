@@ -11,7 +11,7 @@ module.exports = function (ctx, next) {
   var logger = ctx.log;
   var hostsPattern = config.hostsFile;
   var rewritePattern = config.rewriteFile;
-  var dir = this.dir || process.cwd();
+  var dir = this.dir;
 
   // TODO 添加对应的option到CLI中
   if (String(config.autoFindConf) !== 'false') {
