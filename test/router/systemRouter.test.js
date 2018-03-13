@@ -6,7 +6,6 @@
 
 var assert = require('assert');
 var request = require('request');
-var path = require('path');
 
 var Proxy = require('../../src/server');
 

@@ -1,7 +1,6 @@
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
-var homedir = require('os-homedir');
 var dirtool = require('../../src/helpers/dirTool');
 
 var createPacFile = require('../../src/helpers/createPacFile');
