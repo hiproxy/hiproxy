@@ -33,6 +33,23 @@ describe('#hiporxy system router', function () {
     });
   });
 
+  describe('hiproxy web api', function () {
+    it('should call the api', function (done) {
+      request({
+        uri: 'http://127.0.0.1:9991/api?action=testWebAPI'
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(proxyServer.testWebAPICalled, true);
+        assert.equal(body, 'ok');
+
+        done();
+      });
+    });
+  });
+
   describe('hiproxy logo image', function () {
     it('should return the logo image', function (done) {
       reqAndCheck(

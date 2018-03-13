@@ -319,6 +319,18 @@ ProxyServer.prototype = {
     }
 
     return showImage(images);
+  },
+
+  /**
+   * for web api test
+   */
+  testWebAPI: function () {
+    console.log('----------------------');
+    if (process.env.NPM_TEST) {
+      this.testWebAPICalled = true;
+    } else {
+      throw Error('The `testWebAPI()` should not be called in production evn.');
+    }
   }
 };
 
