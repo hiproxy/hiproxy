@@ -21,6 +21,18 @@ describe('#hiporxy system router', function () {
     proxyServer.stop();
   });
 
+  describe('hiproxy home page', function () {
+    it('should return the home page', function (done) {
+      reqAndCheck(
+        done,
+        'http://127.0.0.1:9991/',
+        {
+          'content-type': 'text/html'
+        }
+      );
+    });
+  });
+
   describe('hiproxy logo image', function () {
     it('should return the logo image', function (done) {
       reqAndCheck(

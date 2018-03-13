@@ -89,6 +89,7 @@
       "src/helpers/mkdirp.js",
       "src/helpers/showImage.js",
       "src/helpers/getLocalIP.js",
+      "src/helpers/dirTool.js",
       "test"
     ]
   }
