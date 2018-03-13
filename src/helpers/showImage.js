@@ -13,7 +13,7 @@ module.exports = function showImage (lines) {
   console.log(' | | | ' + '| |'.cyan, lines[4] || '');
   console.log(' |_| |_' + '|_|'.cyan, lines[5] || '');
   console.log('');
-  console.log(lines[6] || '');
-  console.log(lines[7] || '');
+  lines[6] && console.log(lines[6]);
+  lines[7] && console.log(lines[7]);
   console.log('');
 };

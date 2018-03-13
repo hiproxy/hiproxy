@@ -13,7 +13,7 @@
     "test": "cross-env NPM_TEST=true && nyc mocha test/**/*.test.js --timeout 10000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
-    "t": "nyc mocha test/tool/*.test.js && nyc report --reporter=lcov --reporter=html"
+    "t": "nyc mocha test/proxy/httpserver.test.js && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -82,6 +82,13 @@
       "afterEach",
       "before",
       "after"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "src/helpers/mkdirp.js",
+      "src/helpers/showImage.js",
+      "src/helpers/getLocalIP.js"
     ]
   }
 }

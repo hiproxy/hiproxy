@@ -199,4 +199,42 @@ describe('#http server', function () {
       });
     });
   });
+
+  describe('#Random PORT', function () {
+    it('Should choose a random available port when use `(0, 0, dir)`', function (done) {
+      var server = new Proxy(0, 0, process.cwd());
+      server.start().then(function () {
+        if (server.httpPort > 0 && server.httpsPort > 0) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
+
+    it('Should not choose a random available port when use `undefined` or `null`', function (done) {
+      var server = new Proxy(0, undefined, process.cwd());
+      server.start().then(function () {
+        if (server.httpPort > 0 && Number(server.httpsPort) === 0) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
+
+    it('Should use user-specified port', function (done) {
+      var server = new Proxy(6688, 9900, process.cwd());
+      server.start().then(function () {
+        if (server.httpPort === 6688 && server.httpsPort === 9900) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
+  });
 });
