@@ -236,5 +236,29 @@ describe('#http server', function () {
         server.stop();
       });
     });
+
+    it('Should use user-specified port(use object)', function (done) {
+      var server = new Proxy({httpPort: 6699, httpsPort: 9911, dir: process.cwd()});
+      server.start().then(function () {
+        if (server.httpPort === 6699 && server.httpsPort === 9911) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
+
+    it('Should not choose a random available port when use `undefined` or `null`(use object)', function (done) {
+      var server = new Proxy({httpPort: undefined, httpsPort: null, dir: process.cwd()});
+      server.start().then(function () {
+        if (server.httpPort > 0 && Number(server.httpsPort) === 0) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
   });
 });
