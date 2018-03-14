@@ -4,7 +4,7 @@
 
 ### Added
 
-* Support for automatic selection of available port numbers when creating services. 
+* Support for automatic selection of available port numbers when creating services. See [API](http://hiproxy.org/api/#new-ProxyServer-options) for more details.
 * Add more test case.
 
 ## [1.2.12] - 2018-02-26
