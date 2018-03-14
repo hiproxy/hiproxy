@@ -21,9 +21,10 @@ var initFlow = require('./flows/initialize');
 
 /**
  * hiproxy代理服务器
- * @param {Number} httpPort http代理服务端口号
- * @param {Number} httpsPort https代理服务器端口号
- * @param {String} dir 指定的工作路径
+ * @param {Object} options 配置参数
+ * @param {Number} options.httpPort http代理服务端口号
+ * @param {Number} options.httpsPort https代理服务器端口号
+ * @param {String} options.dir 指定的工作路径
  * @extends EventEmitter
  * @constructor
  */
