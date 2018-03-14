@@ -42,6 +42,31 @@ module.exports = {
     headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + ' *= *([^;]*) *'), '');
   },
 
+  'proxy_method': function (key) {
+    log.debug('proxy_method -', key);
+    this.request.method = key.toUpperCase();
+  },
+
+  'proxy_set_body': function (body) {
+    log.debug('proxy_set_body -', body);
+    this.request.body = body;
+  },
+
+  'proxy_replace_body': function (oldValue, newValue) {
+    log.debug('proxy_replace_body -', oldValue, newValue);
+
+    var body = this.request.body || '';
+    // TODO 正则表达式
+    this.request.body = body.replace(oldValue, newValue);
+  },
+
+  'proxy_append_body': function (body) {
+    log.debug('proxy_append_body -', body);
+
+    var _body = this.request.body || '';
+    this.request.body = _body + body;
+  },
+
   // response config
   'hide_cookie': function (key) {
     log.debug('hide_cookie -', key);

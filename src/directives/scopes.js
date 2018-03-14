@@ -14,7 +14,11 @@ module.exports = {
     'proxy_set_header',
     'proxy_hide_header',
     'proxy_set_cookie',
-    'proxy_hide_cookie'
+    'proxy_hide_cookie',
+    'proxy_method',
+    'proxy_set_body',
+    'proxy_append_body',
+    'proxy_replace_body'
   ],
   response: [
     'set_header',
