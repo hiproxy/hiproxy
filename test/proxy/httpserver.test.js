@@ -5,11 +5,13 @@ var path = require('path');
 
 var Proxy = require('../../src/server');
 var testServer = require('./server');
+var testServer1 = require('../testServer');
 
 describe('#http server', function () {
   var proxyServer;
   before(function () {
     testServer.listen(61234);
+    testServer1.listen(51234);
 
     proxyServer = new Proxy(8850);
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'rewrite'));
@@ -19,6 +21,7 @@ describe('#http server', function () {
 
   after(function () {
     testServer.close();
+    testServer1.close();
     proxyServer.stop();
   });
 
@@ -270,6 +273,58 @@ describe('#http server', function () {
           done(new Error('Server port not right.'));
         }
         server.stop();
+      });
+    });
+  });
+
+  describe('# POST request proxy', function () {
+    it('Should proxy POST request rightly', function (done) {
+      request({
+        uri: 'http://t.ttt.com/req_post/',
+        method: 'POST',
+        form: {
+          a: 1,
+          ab: true
+        },
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal('POST', body.method);
+        assert.equal('1', body.body.a);
+        assert.equal('true', body.body.ab);
+
+        done();
+      });
+    });
+
+    // TODO 单独写测试用例测试GET／POST，以及指令
+    it('Should proxy GET request to POST rightly', function (done) {
+      request({
+        uri: 'http://t.ttt.com/get_to_post/',
+        method: 'GET',
+        qs: {
+          a: 1,
+          ab: true
+        },
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal('POST', body.method);
+        assert.equal('1', body.query.a);
+        assert.equal('true', body.query.ab);
+        assert.deepEqual({ aa: '1', bb: '2', cc: '3' }, body.body);
+
+        done();
       });
     });
   });
