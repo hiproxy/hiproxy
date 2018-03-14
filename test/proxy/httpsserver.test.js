@@ -5,7 +5,7 @@ var https = require('https');
 var path = require('path');
 
 var Proxy = require('../../src/server');
-var testServer = require('./server');
+var testServer = require('../testServer');
 
 describe('#https server', function () {
   var proxyServer;
@@ -57,9 +57,11 @@ describe('#https server', function () {
       request({
         uri: 'https://t.ttt.com/',
         proxy: 'http://127.0.0.1:8850',
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        json: true,
+        gzip: true
       }, function (err, response, body) {
-        if (body === 'Hello, hiproxy') {
+        if (body && body.url === '/' && body.method === 'GET') {
           done();
         } else {
           done(err || new Error('Body not match'));
@@ -71,9 +73,12 @@ describe('#https server', function () {
       request({
         uri: 'https://t.ttt.com/t/',
         proxy: 'http://127.0.0.1:8850',
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        gzip: true,
+        json: true
       }, function (err, response, body) {
-        if (body === 'GET /test/ OK.') {
+        console.log(body);
+        if (body.url === '/test/') {
           done();
         } else {
           done(err || new Error('Body not match'));
@@ -85,18 +90,22 @@ describe('#https server', function () {
       request({
         uri: 'https://t.ttt.com/t/',
         proxy: 'http://127.0.0.1:8850',
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        gzip: true,
+        json: true
       }, function (err, response, body) {
         if (err) {
           return done(err);
         }
 
-        var headers = response.headers;
+        var reqHeaders = body.headers;
+        var resHeaders = response.headers;
 
-        assert.equal('t.ttt.com', headers.host);
-        assert.equal('hiproxy', headers.proxy_app);
-        assert.equal('1', headers.set_header_field_1);
-        assert.deepEqual(['cookie1=c1', 'cookie2=c2'].sort(), headers['set-cookie'].sort());
+        assert.equal('t.ttt.com', reqHeaders.host);
+        assert.equal('hiproxy', reqHeaders.proxy_app);
+
+        assert.equal('1', resHeaders.set_header_field_1);
+        assert.deepEqual(['cookie1=c1', 'cookie2=c2'].sort(), resHeaders['set-cookie'].sort());
 
         done();
       });

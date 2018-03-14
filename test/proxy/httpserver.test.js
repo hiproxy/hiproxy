@@ -4,14 +4,12 @@ var http = require('http');
 var path = require('path');
 
 var Proxy = require('../../src/server');
-var testServer = require('./server');
-var testServer1 = require('../testServer');
+var testServer = require('../testServer');
 
 describe('#http server', function () {
   var proxyServer;
   before(function () {
     testServer.listen(61234);
-    testServer1.listen(51234);
 
     proxyServer = new Proxy(8850);
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'rewrite'));
@@ -21,7 +19,6 @@ describe('#http server', function () {
 
   after(function () {
     testServer.close();
-    testServer1.close();
     proxyServer.stop();
   });
 
@@ -79,9 +76,11 @@ describe('#http server', function () {
     it('request t.ttt.com/', function (done) {
       request({
         uri: 'http://t.ttt.com/',
-        proxy: 'http://127.0.0.1:8850'
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
       }, function (err, response, body) {
-        if (body === 'Hello, hiproxy') {
+        if (body && body.url === '/' && body.method === 'GET') {
           done();
         } else {
           done(err || new Error('Body not match'));
@@ -92,9 +91,11 @@ describe('#http server', function () {
     it('request t.ttt.com/t/ proxy ok', function (done) {
       request({
         uri: 'http://t.ttt.com/t/',
-        proxy: 'http://127.0.0.1:8850'
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
       }, function (err, response, body) {
-        if (body === 'GET /test/ OK.') {
+        if (body.url === '/test/') {
           done();
         } else {
           done(err || new Error('Body not match'));
@@ -105,18 +106,22 @@ describe('#http server', function () {
     it('request t.ttt.com/t/ header ok', function (done) {
       request({
         uri: 'http://t.ttt.com/t/',
-        proxy: 'http://127.0.0.1:8850'
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
       }, function (err, response, body) {
         if (err) {
           return done(err);
         }
 
-        var headers = response.headers;
+        var reqHeaders = body.headers;
+        var resHeaders = response.headers;
 
-        assert.equal('t.ttt.com', headers.host);
-        assert.equal('hiproxy', headers.proxy_app);
-        assert.equal('1', headers.set_header_field_1);
-        assert.deepEqual(['cookie1=c1', 'cookie2=c2'].sort(), headers['set-cookie'].sort());
+        assert.equal('t.ttt.com', reqHeaders.host);
+        assert.equal('hiproxy', reqHeaders.proxy_app);
+
+        assert.equal('1', resHeaders.set_header_field_1);
+        assert.deepEqual(['cookie1=c1', 'cookie2=c2'].sort(), resHeaders['set-cookie'].sort());
 
         done();
       });

@@ -45,12 +45,12 @@ t.ttt.com => {
 
     # POST request
     location /req_post/ {
-        proxy_pass http://127.0.0.1:51234/req_post;
+        proxy_pass http://127.0.0.1:61234/req_post;
     }
     
     location /get_to_post/ {
         proxy_method POST;
         proxy_set_body "aa=1&bb=2&cc=3";
-        proxy_pass http://127.0.0.1:51234/get_to_post;
+        proxy_pass http://127.0.0.1:61234/get_to_post;
     }
 }
