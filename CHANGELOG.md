@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.13] - 2018-03-14
+
+### Added
+
+* Support for automatic selection of available port numbers when creating services. 
+* Add more test case.
+
 ## [1.2.12] - 2018-02-26
 
 ### Added
