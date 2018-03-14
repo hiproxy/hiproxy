@@ -260,5 +260,17 @@ describe('#http server', function () {
         server.stop();
       });
     });
+
+    it('Should choose random prot when has no params.', function (done) {
+      var server = new Proxy();
+      server.start().then(function () {
+        if (server.httpPort > 0 && Number(server.httpsPort) === 0) {
+          done();
+        } else {
+          done(new Error('Server port not right.'));
+        }
+        server.stop();
+      });
+    });
   });
 });
