@@ -53,7 +53,6 @@
     * proxy_set_body
     * proxy_append_body
     * proxy_replace_body
-  ],
   * response
     * set_header
     * set_cookie
@@ -61,12 +60,10 @@
     * hide_cookie
     * echo
     * send_file
-  ],
   * domain
     * set
     * ssl_certificate
     * ssl_certificate_key
-  ],
   * global
     * set
   * location
