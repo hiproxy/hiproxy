@@ -21,6 +21,7 @@ module.exports = {
     'proxy_replace_body'
   ],
   response: [
+    'status',
     'set_header',
     'set_cookie',
     'hide_header',

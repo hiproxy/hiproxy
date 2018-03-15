@@ -124,6 +124,18 @@ module.exports = {
     });
   },
 
+  /**
+   * Set the response status code and status message.
+   *
+   * @param {Number} code The status code.
+   * @param {String} [message] A optional human-readable status message.
+   */
+  'status': function (code, message) {
+    this.response.customStatus = true;
+    this.response.statusCode = code;
+    this.response.statusMessage = message;
+  },
+
   // location commands
   'proxy_pass': function (value) {
     this.variables['proxy_pass'] = value;

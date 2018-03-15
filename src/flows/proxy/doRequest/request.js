@@ -50,6 +50,9 @@ module.exports = {
     }
 
     var proxy = (isHTTPS ? https : http).request(proxyOption, function (res) {
+      var statusCode = res.statusCode;
+      var statusMessage = res.statusMessage;
+
       response.headers = res.headers;
 
       // response.removeHeader('Content-Encoding')
@@ -68,7 +71,18 @@ module.exports = {
       self.emit('setResponse', response);
 
       // response.pipe(res)
-      response.writeHead(res.statusCode, res.headers);
+
+      // use custom status code and message if provided.
+      if (response.customStatus) {
+        statusCode = response.statusCode;
+        statusMessage = response.statusMessage;
+      }
+
+      if (statusMessage) {
+        response.writeHead(statusCode, statusMessage, res.headers);
+      } else {
+        response.writeHead(statusCode, res.headers);
+      }
 
       /*
       res.pause()
