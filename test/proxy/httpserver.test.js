@@ -360,5 +360,23 @@ describe('#http server', function () {
         done();
       });
     });
+
+    it('Should set status to 444', function (done) {
+      request({
+        uri: 'http://t.ttt.com/custom_status/',
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        assert.equal(444, response.statusCode);
+        assert.deepEqual('Just A Test Status Message', response.statusMessage);
+
+        done();
+      });
+    });
   });
 });
