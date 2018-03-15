@@ -24,7 +24,8 @@ var server = http.createServer(function (req, res) {
       query: query,
       method: req.method,
       httpVersion: req.httpVersion,
-      body: querystring.parse(body)
+      body: querystring.parse(body),
+      rawBody: body
     };
 
     var acceptEncoding = req.headers['accept-encoding'];

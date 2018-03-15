@@ -53,4 +53,9 @@ t.ttt.com => {
         proxy_set_body "aa=1&bb=2&cc=3";
         proxy_pass http://127.0.0.1:61234/get_to_post;
     }
+
+    location /replace_body/ {
+        proxy_replace_body 'aa=1' 'aaa=11';
+        proxy_pass http://127.0.0.1:61234/replace_body;
+    }
 }

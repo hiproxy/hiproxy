@@ -316,6 +316,36 @@ describe('#http server', function () {
           a: 1,
           ab: true
         },
+        form: {aaa: 1, bbb: 2},
+        // body: {aaa: 1, bbb: 2},
+        proxy: 'http://127.0.0.1:8850',
+        gzip: true,
+        json: true
+      }, function (err, response, body) {
+        if (err) {
+          return done(err);
+        }
+
+        // TODO 上面的参数，会把body都转换成JSON，需要单独测试JSON和FORM格式的问题
+        assert.equal('POST', body.method);
+        assert.equal('1', body.query.a);
+        assert.equal('true', body.query.ab);
+        assert.deepEqual({ aa: '1', bb: '2', cc: '3' }, body.body);
+
+        done();
+      });
+    });
+
+    it('Should replace body rightly', function (done) {
+      request({
+        uri: 'http://t.ttt.com/replace_body/',
+        method: 'POST',
+        form: {
+          aa: 1,
+          bb: 2,
+          cc: 3
+        },
+        body: {aa: 1, bb: 2, cc: 3},
         proxy: 'http://127.0.0.1:8850',
         gzip: true,
         json: true
@@ -325,9 +355,7 @@ describe('#http server', function () {
         }
 
         assert.equal('POST', body.method);
-        assert.equal('1', body.query.a);
-        assert.equal('true', body.query.ab);
-        assert.deepEqual({ aa: '1', bb: '2', cc: '3' }, body.body);
+        assert.deepEqual({ aaa: '11', bb: '2', cc: '3' }, body.body);
 
         done();
       });

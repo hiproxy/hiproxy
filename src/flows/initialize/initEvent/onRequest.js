@@ -19,6 +19,13 @@ module.exports = function (req, res) {
 
   req._startTime = Date.now();
 
+  // var oldWrite = res.write;
+
+  // res.write = function () {
+  //   console.log('res.write', arguments);
+  //   oldWrite.apply(res, arguments);
+  // };
+
   proxyFlow.run({
     req: req,
     res: res,
