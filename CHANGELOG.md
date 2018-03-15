@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.3.0] - 2018-03-15
+
+### Added
+
+* Add new request directives: 
+  * [proxy-method](http://hiproxy.org/rewrite/directives.html#proxy-method) : set the request method.
+  * [proxy-set-body](http://hiproxy.org/rewrite/directives.html#proxy-set-body) : set the request body content.
+  * [proxy-append-body](http://hiproxy.org/rewrite/directives.html#proxy-append-body) : append content to the body.
+  * [proxy-replace-body](http://hiproxy.org/rewrite/directives.html#proxy-replace-body) : replace part of the body.
+
+* Add new response directives: 
+  * [status](http://hiproxy.org/rewrite/directives.html#status) : Set the response status code and status message.
+
+* Add more test case.
+
 ## [1.2.13] - 2018-03-14
 
 ### Added
