@@ -77,7 +77,6 @@ describe('#https server', function () {
         gzip: true,
         json: true
       }, function (err, response, body) {
-        console.log(body);
         if (body.url === '/test/') {
           done();
         } else {
