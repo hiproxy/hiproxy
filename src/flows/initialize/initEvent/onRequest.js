@@ -74,7 +74,7 @@ module.exports = function (req, res) {
     // console.log('on response获取代理信息:', ctx.proxy);
 
     // oldEnd会再次调用write，所以这里要还原write方法
-    req.write = oldWrite;
+    res.write = oldWrite;
     oldEnd.call(res, body);
   };
 
