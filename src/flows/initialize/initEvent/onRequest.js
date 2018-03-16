@@ -52,15 +52,15 @@ module.exports = function (req, res) {
      * @event ProxyServer#data
      * @property {Object} detail event detail data
      * @property {Buffer|String} detail.data response data
-     * @property {http.IncomingMessage} detail.request request object
-     * @property {http.ServerResponse} detail.response response object
+     * @property {http.IncomingMessage} detail.req request object
+     * @property {http.ServerResponse} detail.res response object
      * @property {Object|Null} detail.proxy proxy info
      * @property {String|Undefined} detail.encoding data encoding
      */
     hiproxy.emit('data', {
       data: chunk,
-      request: req,
-      response: res,
+      req: req,
+      res: res,
       proxy: ctx.proxy,
       encoding: encoding
     });
@@ -75,15 +75,15 @@ module.exports = function (req, res) {
      * @event ProxyServer#response
      * @property {Object} detail event detail data
      * @property {Buffer|String} detail.data response data
-     * @property {http.IncomingMessage} detail.request request object
-     * @property {http.ServerResponse} detail.response response object
+     * @property {http.IncomingMessage} detail.req request object
+     * @property {http.ServerResponse} detail.res response object
      * @property {Object|Null} detail.proxy proxy info
      * @property {String|Undefined} detail.encoding data encoding
      */
     hiproxy.emit('response', {
       data: body,
-      request: req,
-      response: res,
+      req: req,
+      res: res,
       proxy: ctx.proxy,
       encoding: encoding
     });

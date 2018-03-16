@@ -133,13 +133,13 @@ describe('#global vars', function () {
         assert.ok(response);
       });
       proxyServer.on('response', function (detail) {
-        assert.ok(detail.request);
-        assert.ok(detail.response);
+        assert.ok(detail.req);
+        assert.ok(detail.res);
       });
       proxyServer.on('data', function (detail) {
         assert.ok(detail.data);
-        assert.ok(detail.request);
-        assert.ok(detail.response);
+        assert.ok(detail.req);
+        assert.ok(detail.res);
       });
       done();
     });
