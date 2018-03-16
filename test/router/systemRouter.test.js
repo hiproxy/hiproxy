@@ -14,6 +14,7 @@ describe('#hiporxy system router', function () {
   var port = 9991;
   before(function () {
     proxyServer = new Proxy(port);
+    proxyServer.addRule('hosts', '127.0.0.1 hiproxy.org');
     proxyServer.start();
   });
 
