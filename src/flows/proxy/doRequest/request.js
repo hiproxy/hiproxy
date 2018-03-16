@@ -37,26 +37,38 @@ module.exports = {
           response.end('');
         }
 
-        /**
-         * Emitted when a response is end. This event is emitted only once.
-         * @event ProxyServer#response
-         * @property {http.ServerResponse} response response object
-         */
-        self.emit('response', request, response);
+        // /**
+        //  * Emitted when a response is end. This event is emitted only once.
+        //  * @event ProxyServer#response
+        //  * @property {http.ServerResponse} response response object
+        //  */
+        // self.emit('response', request, response);
         next();
       });
 
       return;
     }
 
+    log.debug('request remote server', JSON.stringify(proxyOption));
+
     var proxy = (isHTTPS ? https : http).request(proxyOption, function (res) {
       var statusCode = res.statusCode;
       var statusMessage = res.statusMessage;
 
+      log.debug('request remote result', JSON.stringify(res.headers));
+
+      var contentType = res.headers['content-type'];
+      var encoding = res.headers['content-encoding'];
+      var needUnZip = encoding === 'gzip' || encoding === 'deflate';
+      var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
+
       response.headers = res.headers;
 
-      // response.removeHeader('Content-Encoding')
-      // delete response.headers['content-encoding']
+      if (needUnZip) {
+        delete res.headers['content-encoding'];
+        delete res.headers['content-length'];
+        res.headers['x-hiproxy-origin-content-encoding'] = encoding;
+      }
 
       execDirectives(rewriteRule, {
         response: response,
@@ -95,60 +107,71 @@ module.exports = {
       }, 5000)
       */
 
-      var contentType = res.headers['content-type'];
-      var encoding = response.headers['content-encoding'];
-      var canUnZip = encoding === 'gzip' || encoding === 'deflate';
-      var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
-
-      if (canUnZip && isTextFile) {
+      if (needUnZip && isTextFile) {
         var unzipStream = encoding === 'gzip' ? zlib.createUnzip() : zlib.createInflate();
 
-        unzipStream.on('data', function (chunk) {
-          self.emit('data', chunk, request, response);
-        });
+        // unzipStream.on('data', function (chunk) {
+        //   self.emit('data', chunk, request, response);
+        // });
 
         /* istanbul ignore next */
         unzipStream.on('error', function (err) {
           log.error('error ==>', err);
         });
 
-        res.pipe(unzipStream).on('end', function () {
-          request.res = res;
+        res.pipe(unzipStream).pipe(response);
+        // .on('end', function () {
+          // request.res = res;
 
-          /**
-           * Emitted when a response is end. This event is emitted only once.
-           * @event ProxyServer#response
-           * @property {http.ServerResponse} response response object
-           */
-          self.emit('response', request, response);
+          // /**
+          //  * Emitted when a response is end. This event is emitted only once.
+          //  * @event ProxyServer#response
+          //  * @property {http.ServerResponse} response response object
+          //  */
+          // self.emit('response', request, response);
 
-          next();
-        });
+          // next();
+        // });
       } else {
-        res.on('data', function (chunk) {
-          /**
-           * Emitted whenever the response stream received some chunk of data.
-           * @event ProxyServer#data
-           * @property {Buffer} data response data
-           */
-          self.emit('data', chunk, request, response);
-        });
+        // res.on('data', function (chunk) {
+        //   /**
+        //    * Emitted whenever the response stream received some chunk of data.
+        //    * @event ProxyServer#data
+        //    * @property {Buffer} data response data
+        //    */
+        //   self.emit('data', chunk, request, response);
+        // });
 
-        res.on('end', function () {
-          request.res = res;
+        // res.on('end', function () {
+        //   request.res = res;
 
-          /**
-           * Emitted when a response is end. This event is emitted only once.
-           * @event ProxyServer#response
-           * @property {http.ServerResponse} response response object
-           */
-          self.emit('response', request, response);
+        //   /**
+        //    * Emitted when a response is end. This event is emitted only once.
+        //    * @event ProxyServer#response
+        //    * @property {http.ServerResponse} response response object
+        //    */
+        //   self.emit('response', request, response);
 
-          next();
-        });
+        //   next();
+        // });
+
+        res.pipe(response);
       }
 
-      res.pipe(response);
+      res.on('end', function () {
+        // request.res = res;
+
+        // /**
+        //  * Emitted when a response is end. This event is emitted only once.
+        //  * @event ProxyServer#response
+        //  * @property {http.ServerResponse} response response object
+        //  */
+        // self.emit('response', request, response);
+
+        next();
+      });
+
+      // res.pipe(response);
     });
 
     proxy.on('error', function (e) {
@@ -164,7 +187,7 @@ module.exports = {
       log.error('proxy error:', request.url);
       log.detail(e.stack);
 
-      self.emit('response', request, response);
+      // self.emit('response', request, response);
 
       request.res = response;
       // log.access(request);

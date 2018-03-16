@@ -62,12 +62,12 @@ module.exports = {
       });
 
       stream.on('end', function () {
-        /**
-         * Emitted when a response is end. This event is emitted only once.
-         * @event ProxyServer#response
-         * @property {http.ServerResponse} response response object
-         */
-        hiproxy.emit('response', request, response);
+        // /**
+        //  * Emitted when a response is end. This event is emitted only once.
+        //  * @event ProxyServer#response
+        //  * @property {http.ServerResponse} response response object
+        //  */
+        // // hiproxy.emit('response', request, response);
 
         // log.access(request);
 
@@ -87,7 +87,7 @@ module.exports = {
         response.end('500 Server Internal Error: <br><pre>' + err.stack + '</pre>');
       }
 
-      hiproxy.emit('response', response);
+      // hiproxy.emit('response', response);
 
       // log.access(request);
 
