@@ -26,7 +26,7 @@ module.exports = function (req, res) {
    */
   this.emit('request', req, res);
 
-  // var oldWrite = res.write;
+  var oldWrite = res.write;
   var oldEnd = res.end;
   var isString = false;
   var body = [];
@@ -73,6 +73,8 @@ module.exports = function (req, res) {
 
     // console.log('on response获取代理信息:', ctx.proxy);
 
+    // oldEnd会再次调用write，所以这里要还原write方法
+    req.write = oldWrite;
     oldEnd.call(res, body);
   };
 
