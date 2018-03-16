@@ -103,14 +103,13 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   }
 
   var proxyInfo = {
-    proxyOptions: {
-      hostname: hostname,
-      port: port,
-      path: path,
-      method: request.method,
-      headers: request.headers,
-      protocol: protocol
-    },
+    hostname: hostname,
+    port: port,
+    path: path,
+    method: request.method,
+    headers: request.headers,
+    protocol: protocol,
+
     proxyType: rewrite ? 'rewrite' : (host ? 'hosts' : 'other'),
     proxyPass: proxyPass,
     PROXY: proxyName,

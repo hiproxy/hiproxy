@@ -9,6 +9,12 @@ var utils = require('../../../helpers/utils');
 
 module.exports = function (req, res) {
   var hiproxy = this;
+  var ctx = {
+    req: req,
+    res: res,
+    // hiproxy: hiproxy,
+    logger: this.logger
+  };
 
   req.requestId = utils.randomId();
 
@@ -46,14 +52,13 @@ module.exports = function (req, res) {
      * @property {http.IncomingMessage} request request object
      * @property {http.ServerResponse} response response object
      */
-    hiproxy.emit('data', chunk, req, res, encoding);
+    hiproxy.emit('data', chunk, req, res, ctx.proxy, encoding);
+    // console.log('on data获取代理信息:', ctx.proxy);
   };
 
   res.end = function (chunk, encoding) {
     collectChunk(chunk);
     body = isString ? body.join('') : Buffer.concat(body);
-
-    req.res = res;
 
     /**
      * Emitted when a response is end. This event is emitted only once.
@@ -61,15 +66,12 @@ module.exports = function (req, res) {
      * @property {http.IncomingMessage} request request object
      * @property {http.ServerResponse} response response object
      */
-    hiproxy.emit('response', req, res, encoding);
+    hiproxy.emit('response', req, res, ctx.proxy, encoding);
+
+    // console.log('on response获取代理信息:', ctx.proxy);
 
     oldEnd.call(res, body);
   };
 
-  proxyFlow.run({
-    req: req,
-    res: res,
-    // hiproxy: hiproxy,
-    logger: this.logger
-  }, null, this);
+  proxyFlow.run(ctx, null, this);
 };

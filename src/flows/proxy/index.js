@@ -10,7 +10,7 @@ var proxyFlow = new Flow();
 
 var systemRoter = require('./systemRouter');
 var getProxyInfo = require('./getProxyInfo');
-var setReqOption = require('./setReqOption');
+// var setReqOption = require('./setReqOption');
 var doRequest = require('./doRequest');
 var printLog = require('./printLog');
 var errorHandler = require('./errorHandler');
@@ -18,7 +18,7 @@ var errorHandler = require('./errorHandler');
 proxyFlow
   .use('SystemRouter', systemRoter)
   .use('GetProxyInfo', getProxyInfo)
-  .use('SetRequestHeader', setReqOption)
+  // .use('SetRequestHeader', setReqOption)
   .use('DoRequest', doRequest)
   .use('Log', printLog)
   .catch(errorHandler);

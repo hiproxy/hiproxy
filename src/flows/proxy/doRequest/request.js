@@ -12,20 +12,21 @@ var zlib = require('zlib');
 var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (rewriteRule, request, response, next) {
-    var proxyOption = request.proxyOptions;
-    var isHTTPS = proxyOption.protocol === 'https:';
+  response: function (ctx, request, response, next) {
+    var proxyInfo = ctx.proxy;
+    var rewriteRule = proxyInfo.rewriteRule;
+    var isHTTPS = proxyInfo.protocol === 'https:';
     var self = this;
     var execResult;
 
-    proxyOption.headers['accept-encoding'] = 'gzip,deflate';
-    proxyOption.headers['content-length'] = (request.body || '').length;
+    proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
+    proxyInfo.headers['content-length'] = (request.body || '').length;
 
     if (isHTTPS) {
-      proxyOption.rejectUnauthorized = false;
+      proxyInfo.rejectUnauthorized = false;
     }
 
-    if (!request.proxyPass && !proxyOption.hostname) {
+    if (!proxyInfo.proxyPass && !proxyInfo.hostname) {
       log.debug(request.url, 'has no proxy_pass');
       execResult = execDirectives(rewriteRule, {
         response: response,
@@ -49,9 +50,9 @@ module.exports = {
       return;
     }
 
-    log.debug('request remote server', JSON.stringify(proxyOption));
+    log.debug('request remote server', JSON.stringify(proxyInfo));
 
-    var proxy = (isHTTPS ? https : http).request(proxyOption, function (res) {
+    var proxy = (isHTTPS ? https : http).request(proxyInfo, function (res) {
       var statusCode = res.statusCode;
       var statusMessage = res.statusMessage;
 

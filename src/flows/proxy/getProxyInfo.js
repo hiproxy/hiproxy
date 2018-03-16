@@ -14,6 +14,8 @@ module.exports = function (ctx, next) {
   var rewrite = hiproxy.rewrite;
   var body = [];
 
+  // TODO 这里的事件，考虑挪动到initialize/initEvnet/onRequest.js中
+  // TODO 这里的body，到时候需要copy到ctx.proxyInfo中
   req.on('data', function (chunk) {
     body.push(chunk);
   }).on('end', function () {
@@ -28,7 +30,7 @@ module.exports = function (ctx, next) {
      */
     hiproxy.emit('requestend', body, req, res);
 
-    ctx.proxyInfo = getProxyInfo(req, hosts.getHost(), rewrite.getRule());
+    ctx.proxy = getProxyInfo(req, hosts.getHost(), rewrite.getRule());
 
     next();
   });

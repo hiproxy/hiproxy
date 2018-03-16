@@ -12,10 +12,12 @@ var getMimeType = require('simple-mime')('text/plain');
 var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (rewriteRule, request, response, next) {
+  response: function (ctx, request, response, next) {
     var hiproxy = this;
+    var proxyInfo = ctx.proxy;
+    var rewriteRule = proxyInfo.rewriteRule;
 
-    log.info(request.url + ' ==> ' + request.newUrl);
+    log.info(request.url + ' ==> ' + proxyInfo.newUrl);
 
     response.headers = response.headers || {};
 
@@ -32,9 +34,9 @@ module.exports = {
     hiproxy.emit('setResponse', response);
 
     try {
-      var stats = fs.statSync(request.newUrl);
-      var filePath = request.newUrl;
-      var rewrite = request.rewriteRule;
+      var stats = fs.statSync(proxyInfo.newUrl);
+      var filePath = proxyInfo.newUrl;
+      var rewrite = proxyInfo.rewriteRule;
 
       if (stats.isDirectory()) {
         log.debug('isDirectory and add root:' + (rewrite.variables.default || 'index.html'));
