@@ -15,6 +15,10 @@
 * hiproxy core
   * server create
   * server api
+    * start
+    * stop
+    * restart
+    * openBrowser
   * proxy
     * GET requests
       * query string
