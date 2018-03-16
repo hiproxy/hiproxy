@@ -50,11 +50,20 @@ module.exports = function (req, res) {
     /**
      * Emitted whenever the response stream received some chunk of data.
      * @event ProxyServer#data
-     * @property {Buffer} data response data
-     * @property {http.IncomingMessage} request request object
-     * @property {http.ServerResponse} response response object
+     * @property {Object} detail event detail data
+     * @property {Buffer|String} detail.data response data
+     * @property {http.IncomingMessage} detail.request request object
+     * @property {http.ServerResponse} detail.response response object
+     * @property {Object|Null} detail.proxy proxy info
+     * @property {String|Undefined} detail.encoding data encoding
      */
-    hiproxy.emit('data', chunk, req, res, ctx.proxy, encoding);
+    hiproxy.emit('data', {
+      data: chunk,
+      request: req,
+      response: res,
+      proxy: ctx.proxy,
+      encoding: encoding
+    });
   };
 
   res.end = function (chunk, encoding) {
@@ -64,10 +73,20 @@ module.exports = function (req, res) {
     /**
      * Emitted when a response is end. This event is emitted only once.
      * @event ProxyServer#response
-     * @property {http.IncomingMessage} request request object
-     * @property {http.ServerResponse} response response object
+     * @property {Object} detail event detail data
+     * @property {Buffer|String} detail.data response data
+     * @property {http.IncomingMessage} detail.request request object
+     * @property {http.ServerResponse} detail.response response object
+     * @property {Object|Null} detail.proxy proxy info
+     * @property {String|Undefined} detail.encoding data encoding
      */
-    hiproxy.emit('response', req, res, ctx.proxy, encoding);
+    hiproxy.emit('response', {
+      data: body,
+      request: req,
+      response: res,
+      proxy: ctx.proxy,
+      encoding: encoding
+    });
 
     // oldEnd会再次调用write，所以这里要还原write方法
     res.write = oldWrite;

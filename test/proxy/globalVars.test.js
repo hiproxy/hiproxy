@@ -132,14 +132,14 @@ describe('#global vars', function () {
         assert.ok(request);
         assert.ok(response);
       });
-      proxyServer.on('response', function (request, response) {
-        assert.ok(request);
-        assert.ok(response);
+      proxyServer.on('response', function (detail) {
+        assert.ok(detail.request);
+        assert.ok(detail.response);
       });
-      proxyServer.on('data', function (data, request, response) {
-        assert.ok(data);
-        assert.ok(request);
-        assert.ok(response);
+      proxyServer.on('data', function (detail) {
+        assert.ok(detail.data);
+        assert.ok(detail.request);
+        assert.ok(detail.response);
       });
       done();
     });
