@@ -18,6 +18,7 @@ module.exports = function (req, res) {
 
   req.requestId = utils.randomId();
   req._startTime = Date.now();
+  req.res = res;
 
   /* Emitted each time there is a request.
    * @event ProxyServer#request
