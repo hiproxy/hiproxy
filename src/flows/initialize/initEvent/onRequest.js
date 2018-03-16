@@ -12,8 +12,7 @@ module.exports = function (req, res) {
   var ctx = {
     req: req,
     res: res,
-    // hiproxy: hiproxy,
-    logger: this.logger
+    proxy: null
   };
 
   req.requestId = utils.randomId();
@@ -27,9 +26,12 @@ module.exports = function (req, res) {
    */
   this.emit('request', req, res);
 
+  // 缓存res原始的write和end方法
   var oldWrite = res.write;
   var oldEnd = res.end;
+  // 数据是否为string
   var isString = false;
+  // 缓存数据
   var body = [];
   var collectChunk = function (chunk) {
     if (!chunk) {
@@ -69,6 +71,7 @@ module.exports = function (req, res) {
 
     // oldEnd会再次调用write，所以这里要还原write方法
     res.write = oldWrite;
+    // 最后一次性推送数据到浏览器
     oldEnd.call(res, body);
   };
 
