@@ -30,6 +30,7 @@ module.exports = function (req, res) {
   var oldEnd = res.end;
   var isString = false;
   var body = [];
+  console.log('init body:', Array.isArray(body), body);
   var collectChunk = function (chunk) {
     if (!chunk) {
       return;
@@ -43,6 +44,8 @@ module.exports = function (req, res) {
   };
 
   res.write = function (chunk, encoding) {
+    console.log('write body:', Array.isArray(body), body);
+
     collectChunk(chunk);
     /**
      * Emitted whenever the response stream received some chunk of data.
@@ -56,6 +59,7 @@ module.exports = function (req, res) {
   };
 
   res.end = function (chunk, encoding) {
+    console.log('end body:', Array.isArray(body), body);
     collectChunk(chunk);
     body = isString ? body.join('') : Buffer.concat(body);
 
