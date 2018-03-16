@@ -17,6 +17,7 @@ module.exports = function (req, res) {
   };
 
   req.requestId = utils.randomId();
+  req._startTime = Date.now();
 
   /* Emitted each time there is a request.
    * @event ProxyServer#request
@@ -24,8 +25,6 @@ module.exports = function (req, res) {
    * @property {http.ServerResponse} response response object
    */
   this.emit('request', req, res);
-
-  req._startTime = Date.now();
 
   // var oldWrite = res.write;
   var oldEnd = res.end;

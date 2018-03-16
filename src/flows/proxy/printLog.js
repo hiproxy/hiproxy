@@ -6,16 +6,16 @@
 
 module.exports = function (ctx, next) {
   var req = ctx.req;
-  var proxyOption = req.proxyOptions;
-
-  if (req.PROXY) {
-    if (req.alias) {
-      log.access(req, req.proxyPass ? '(alias to ' + req.proxyPass + ')' : '(alias directive)');
-    } else if (req.proxyType === 'rewrite') {
-      log.access(req, (proxyOption.protocol || 'http:') + '//' + proxyOption.hostname +
-        (proxyOption.port ? ':' + proxyOption.port : '') + proxyOption.path);
-    } else if (req.proxyType === 'hosts') {
-      log.access(req, 'hosts: ' + req.hostsRule + ' ' + req.hostName);
+  var proxy = ctx.proxy;
+  // TODO 使用另一个标示来标志是否经过代理
+  if (proxy.PROXY) {
+    if (proxy.alias) {
+      log.access(req, proxy.proxyPass ? '(alias to ' + proxy.proxyPass + ')' : '(alias directive)');
+    } else if (proxy.proxyType === 'rewrite') {
+      log.access(req, (proxy.protocol || 'http:') + '//' + proxy.hostname +
+        (proxy.port ? ':' + proxy.port : '') + proxy.path);
+    } else if (proxy.proxyType === 'hosts') {
+      log.access(req, 'hosts: ' + proxy.hostsRule + ' ' + proxy.hostName);
     } else {
       log.access(req, '(local file system or echo)');
     }
