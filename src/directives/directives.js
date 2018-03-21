@@ -131,7 +131,6 @@ module.exports = {
    * @param {String} [message] A optional human-readable status message.
    */
   'status': function (code, message) {
-    this.response.customStatus = true;
     this.response.statusCode = code;
     this.response.statusMessage = message;
   },
