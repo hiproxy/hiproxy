@@ -9,6 +9,8 @@ var utils = require('../../../helpers/utils');
 
 module.exports = function (req, res) {
   var hiproxy = this;
+  var onData = this.options.onData;
+  var onBeforeResponse = this.options.onBeforeResponse;
   var ctx = {
     req: req,
     res: res,
@@ -46,6 +48,20 @@ module.exports = function (req, res) {
   };
 
   res.write = function (chunk, encoding) {
+    var cbkResult = '';
+    if (typeof onData === 'function') {
+      cbkResult = onData({
+        data: chunk,
+        req: req,
+        res: res,
+        proxy: ctx.proxy,
+        encoding: encoding
+      });
+      // if return null or undefined, will not change the original chunk.
+      if (cbkResult != null) {
+        chunk = cbkResult;
+      }
+    }
     collectChunk(chunk);
     /**
      * Emitted whenever the response stream received some chunk of data.
@@ -67,8 +83,23 @@ module.exports = function (req, res) {
   };
 
   res.end = function (chunk, encoding) {
+    var cbkResult = '';
     collectChunk(chunk);
     body = isString ? body.join('') : Buffer.concat(body);
+
+    if (typeof onBeforeResponse === 'function') {
+      cbkResult = onBeforeResponse({
+        data: body,
+        req: req,
+        res: res,
+        proxy: ctx.proxy,
+        encoding: encoding
+      });
+      // if return null or undefined, will not change the original chunk.
+      if (cbkResult != null) {
+        body = cbkResult;
+      }
+    }
 
     /**
      * Emitted when a response is end. This event is emitted only once.
@@ -90,6 +121,7 @@ module.exports = function (req, res) {
 
     // oldEnd会再次调用write，所以这里要还原write方法
     res.write = oldWrite;
+    res.end = oldEnd;
     // 最后一次性推送数据到浏览器
     oldEnd.call(res, body);
   };

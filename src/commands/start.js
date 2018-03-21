@@ -121,7 +121,28 @@ function _startServer (ctx) {
   var httpsPort = https !== 'false' ? cliArgs.middleManPort || 10010 : 0;
 
   var workspace = cliArgs.workspace || process.cwd();
-  var proxy = new Proxy(port, httpsPort, workspace);
+  var proxy = new Proxy({
+    httpPort: port,
+    httpsPort: httpsPort,
+    dir: workspace,
+    onBeforeResponse: function (detail) {
+      // // var proxy = detail.proxy;
+      // var res = detail.res;
+      // // var req = detail.req;
+      // var body = detail.data;
+      // var headers = res.headers || {};
+      // var contentType = headers['content-type'];
+
+      // if (contentType && contentType.indexOf('text/html') !== -1) {
+      //   body += '<script>console.log("Hacked by hiproxy `onBeforesResponse()` callback.")</script>';
+      // }
+
+      // return body;
+    },
+    onData: function (chunk) {
+      // ...
+    }
+  });
 
   process.stdout.write('\u001B[2J\u001B[0;0f');
 
