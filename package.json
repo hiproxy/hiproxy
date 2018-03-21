@@ -42,7 +42,7 @@
     "hiproxy-conf-parser": "^1.0.3",
     "mustache": "^2.3.0",
     "node-forge": "^0.7.1",
-    "op-browser": "^1.0.4",
+    "op-browser": "^1.0.6",
     "os-homedir": "^1.0.2",
     "simple-mime": "^0.1.0",
     "step-flow": "^1.0.3",
