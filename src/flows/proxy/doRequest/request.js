@@ -53,9 +53,6 @@ module.exports = {
     log.debug('request remote server', JSON.stringify(proxyInfo));
 
     var proxy = (isHTTPS ? https : http).request(proxyInfo, function (res) {
-      var statusCode = res.statusCode;
-      var statusMessage = res.statusMessage;
-
       log.debug('request remote result', JSON.stringify(res.headers));
 
       var contentType = res.headers['content-type'];
@@ -64,6 +61,8 @@ module.exports = {
       var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
 
       response.headers = res.headers;
+      response.statusCode = res.statusCode;
+      response.statusMessage = res.statusMessage;
 
       if (needUnZip) {
         delete res.headers['content-encoding'];
@@ -84,18 +83,6 @@ module.exports = {
       self.emit('setResponse', response);
 
       // response.pipe(res)
-
-      // use custom status code and message if provided.
-      if (response.customStatus) {
-        statusCode = response.statusCode;
-        statusMessage = response.statusMessage;
-      }
-
-      if (statusMessage) {
-        response.writeHead(statusCode, statusMessage, res.headers);
-      } else {
-        response.writeHead(statusCode, res.headers);
-      }
 
       /*
       res.pause()
