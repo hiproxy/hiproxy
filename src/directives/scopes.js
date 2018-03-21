@@ -20,16 +20,14 @@ module.exports = {
     'proxy_append_body',
     'proxy_replace_body'
   ],
-  beforeResponse: [
+  response: [
     'status',
     'set_header',
     'set_cookie',
     'hide_header',
     'hide_cookie',
     'echo',
-    'send_file'
-  ],
-  response: [
+    'send_file',
     'sub_filter',
     'sub_filter_types',
     'sub_filter_once',
