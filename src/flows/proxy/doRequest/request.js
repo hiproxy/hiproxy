@@ -31,7 +31,7 @@ module.exports = {
       execResult = execDirectives(rewriteRule, {
         response: response,
         rewriteRule: rewriteRule
-      }, 'response');
+      }, 'beforeResponse');
 
       execResult.then(function (values) {
         if (!response.finished) {
@@ -73,7 +73,7 @@ module.exports = {
       execDirectives(rewriteRule, {
         response: response,
         rewriteRule: rewriteRule
-      }, 'response');
+      }, 'beforeResponse');
 
       /**
        * Emitted each time the server set response info (eg: headers).

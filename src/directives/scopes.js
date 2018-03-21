@@ -7,7 +7,7 @@
 
 /**
  * 作用域指令列表
- * @type {{request: string[], response: string[], domain: string[], global: string[], location: string[]}}
+ * @type {Object}
  */
 module.exports = {
   request: [
@@ -20,7 +20,7 @@ module.exports = {
     'proxy_append_body',
     'proxy_replace_body'
   ],
-  response: [
+  beforeResponse: [
     'status',
     'set_header',
     'set_cookie',
@@ -28,6 +28,12 @@ module.exports = {
     'hide_cookie',
     'echo',
     'send_file'
+  ],
+  response: [
+    'sub_filter',
+    'sub_filter_types',
+    'sub_filter_once',
+    'sub_filter_last_modified'
   ],
   domain: [
     'set',
