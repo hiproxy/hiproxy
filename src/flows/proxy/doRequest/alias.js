@@ -24,7 +24,7 @@ module.exports = {
     // 执行response作用域的command
     execDirectives(rewriteRule, {
       response: response
-    }, 'beforeResponse');
+    }, 'response');
 
     /**
      * Emitted each time the server set response info (eg: headers).
