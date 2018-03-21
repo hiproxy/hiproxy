@@ -4,18 +4,19 @@
  */
 'use strict';
 
+var url = require('url');
 var proxyFlow = require('../../proxy');
 var utils = require('../../../helpers/utils');
 
 module.exports = function (req, res) {
   var hiproxy = this;
-  var onData = this.options.onData;
-  var onBeforeResponse = this.options.onBeforeResponse;
   var ctx = {
     req: req,
     res: res,
     proxy: null
   };
+  var urlInfo = url.parse(req.url);
+  var needHook = urlInfo.hostname && urlInfo.hostname !== '127.0.0.1';
 
   req.requestId = utils.randomId();
   req._startTime = Date.now();
@@ -27,6 +28,20 @@ module.exports = function (req, res) {
    * @property {http.ServerResponse} response response object
    */
   this.emit('request', req, res);
+
+  if (needHook) {
+    log.debug(req.url, 'need to hook `res.write()` and `res.end()`');
+    hookResponse(hiproxy, ctx);
+  }
+
+  proxyFlow.run(ctx, null, this);
+};
+
+function hookResponse (hiproxy, ctx) {
+  var res = ctx.res;
+  var req = ctx.req;
+  var onData = hiproxy.options.onData;
+  var onBeforeResponse = hiproxy.options.onBeforeResponse;
 
   // 缓存res原始的write和end方法
   var oldWrite = res.write;
@@ -48,7 +63,7 @@ module.exports = function (req, res) {
   };
 
   res.write = function (chunk, encoding) {
-    var cbkResult = '';
+    var cbkResult = null;
     if (typeof onData === 'function') {
       cbkResult = onData({
         data: chunk,
@@ -58,11 +73,12 @@ module.exports = function (req, res) {
         encoding: encoding
       });
       // if return null or undefined, will not change the original chunk.
-      if (cbkResult != null) {
-        chunk = cbkResult;
+      if (cbkResult && cbkResult.data != null) {
+        chunk = cbkResult.data;
       }
     }
     collectChunk(chunk);
+
     /**
      * Emitted whenever the response stream received some chunk of data.
      * @event ProxyServer#data
@@ -83,7 +99,7 @@ module.exports = function (req, res) {
   };
 
   res.end = function (chunk, encoding) {
-    var cbkResult = '';
+    var cbkResult = null;
     collectChunk(chunk);
     body = isString ? body.join('') : Buffer.concat(body);
 
@@ -96,8 +112,8 @@ module.exports = function (req, res) {
         encoding: encoding
       });
       // if return null or undefined, will not change the original chunk.
-      if (cbkResult != null) {
-        body = cbkResult;
+      if (cbkResult && cbkResult.data != null) {
+        body = cbkResult.data;
       }
     }
 
@@ -119,12 +135,13 @@ module.exports = function (req, res) {
       encoding: encoding
     });
 
-    // oldEnd会再次调用write，所以这里要还原write方法
+    // write headers to the browser
+    res.writeHead(res.statusCode, res.statusMessage, res.headers);
+
+    // call `oldEnd()` will call `res.write()` again，so we shold resotre the `write()` method.
     res.write = oldWrite;
     res.end = oldEnd;
     // 最后一次性推送数据到浏览器
     oldEnd.call(res, body);
   };
-
-  proxyFlow.run(ctx, null, this);
-};
+}
