@@ -9,22 +9,22 @@ var fs = require('fs');
 var path = require('path');
 
 var getMimeType = require('simple-mime')('text/plain');
-var execDirectives = require('../../../directives').execDirectives;
+// var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (ctx, request, response, next) {
     var hiproxy = this;
     var proxyInfo = ctx.proxy;
-    var rewriteRule = proxyInfo.rewriteRule;
+    // var rewriteRule = proxyInfo.rewriteRule;
 
     log.info(request.url + ' ==> ' + proxyInfo.newUrl);
 
     response.headers = response.headers || {};
 
     // 执行response作用域的command
-    execDirectives(rewriteRule, {
-      res: response
-    }, 'response');
+    // execDirectives(rewriteRule, {
+    //   res: response
+    // }, 'response');
 
     /**
      * Emitted each time the server set response info (eg: headers).

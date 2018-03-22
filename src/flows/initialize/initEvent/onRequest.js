@@ -5,7 +5,7 @@
 'use strict';
 
 var url = require('url');
-// var Buffer = require('safe-buffer').Buffer;
+var Buffer = require('safe-buffer').Buffer;
 var proxyFlow = require('../../proxy');
 var utils = require('../../../helpers/utils');
 var execDirectives = require('../../../directives').execDirectives;
