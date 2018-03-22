@@ -126,20 +126,24 @@ function _startServer (ctx) {
     httpsPort: httpsPort,
     dir: workspace,
     onBeforeResponse: function (detail) {
-      // // var proxy = detail.proxy;
-      // var res = detail.res;
-      // // var req = detail.req;
-      // var body = detail.data;
-      // var headers = res.headers || {};
-      // var contentType = headers['content-type'];
+      // var proxy = detail.proxy;
+      var res = detail.res;
+      // var req = detail.req;
+      var body = detail.data;
+      var headers = res.headers || {};
+      var contentType = headers['content-type'];
 
-      // if (contentType && contentType.indexOf('text/html') !== -1) {
-      //   body += '<script>console.log("Hacked by hiproxy `onBeforesResponse()` callback.")</script>';
-      // }
+      if (contentType && contentType.indexOf('text/html') !== -1) {
+        body += '<script>console.log("Hacked by hiproxy `onBeforesResponse()` callback.")</script>';
+      }
+      // modify body
+      detail.data = body;
+      // set header
+      res.headers && (res.headers['I-Love'] = 'hiproxy');
 
-      // return body;
+      return detail;
     },
-    onData: function (chunk) {
+    onData: function (detail) {
       // ...
     }
   });
