@@ -129,15 +129,15 @@ function _startServer (ctx) {
       // var proxy = detail.proxy;
       var res = detail.res;
       // var req = detail.req;
-      var body = detail.data;
+      var body = detail.body;
       var headers = res.headers || {};
       var contentType = headers['content-type'];
 
       if (contentType && contentType.indexOf('text/html') !== -1) {
-        body += '<script>console.log("Hacked by hiproxy `onBeforesResponse()` callback.")</script>';
+        body += '<script>console.log("💻 Hacked by hiproxy `onBeforesResponse()` callback. 内容已经被hiproxy的`onBeforeResponse()`修改！")</script>';
       }
       // modify body
-      detail.data = body;
+      detail.body = body;
       // set header
       res.headers && (res.headers['I-Love'] = 'hiproxy');
 

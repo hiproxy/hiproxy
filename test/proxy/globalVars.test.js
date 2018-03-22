@@ -11,6 +11,7 @@ describe('#global vars', function () {
     testServer.listen(9000);
 
     proxyServer = new Proxy(9001);
+    global.log = proxyServer.logger;
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'global_var.rewrite'));
     proxyServer.start();
   });

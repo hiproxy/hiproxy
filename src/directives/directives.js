@@ -11,7 +11,7 @@ module.exports = {
   // proxy request config
   'proxy_set_header': function (key, value) {
     log.debug('proxy_set_header -', key, value);
-    var headers = this.request.headers;
+    var headers = this.req.headers;
     var oldValue = headers[key];
 
     if (Array.isArray(oldValue)) {
@@ -22,13 +22,13 @@ module.exports = {
   },
   'proxy_hide_header': function (key, value) {
     log.debug('proxy_hide_header -', key, value);
-    delete this.request.headers[key.toLowerCase()];
+    delete this.req.headers[key.toLowerCase()];
   },
   'proxy_set_cookie': function (key, value) {
     log.debug('proxy_set_cookie -', key, value);
 
     var str = key + '=' + value;
-    var headers = this.request.headers;
+    var headers = this.req.headers;
     var cookie = headers.cookie || '';
 
     headers.cookie = cookie + '; ' + str;
@@ -36,7 +36,7 @@ module.exports = {
   'proxy_hide_cookie': function (key) {
     log.debug('proxy_hide_cookie -', key);
 
-    var headers = this.request.headers;
+    var headers = this.req.headers;
     var cookie = headers.cookie || '';
 
     headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + ' *= *([^;]*) *'), '');
@@ -44,54 +44,54 @@ module.exports = {
 
   'proxy_method': function (key) {
     log.debug('proxy_method -', key);
-    this.request.method = key.toUpperCase();
+    this.req.method = key.toUpperCase();
   },
 
   'proxy_set_body': function (body) {
     log.debug('proxy_set_body -', body);
-    this.request.body = body;
+    this.req.body = body;
   },
 
   'proxy_replace_body': function (oldValue, newValue) {
     log.debug('proxy_replace_body -', oldValue, newValue);
 
-    var body = this.request.body || '';
+    var body = this.req.body || '';
     // TODO 正则表达式
-    this.request.body = body.replace(oldValue, newValue);
+    this.req.body = body.replace(oldValue, newValue);
   },
 
   'proxy_append_body': function (body) {
     log.debug('proxy_append_body -', body);
 
-    var _body = this.request.body || '';
-    this.request.body = _body + body;
+    var _body = this.req.body || '';
+    this.req.body = _body + body;
   },
 
   // response config
   'hide_cookie': function (key) {
     log.debug('hide_cookie -', key);
 
-    setHeader(this.response, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
+    setHeader(this.res, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
   },
   'hide_header': function (key, value) {
     log.debug('hide_header -', key, value);
 
-    delete this.response.headers[key.toLowerCase()];
-    this.response.removeHeader(key);
+    delete this.res.headers[key.toLowerCase()];
+    this.res.removeHeader(key);
   },
   'set_header': function (key, value) {
     log.debug('set_header -', key, value);
 
-    setHeader(this.response, key, value);
+    setHeader(this.res, key, value);
   },
   'set_cookie': function (key, value) {
     log.debug('set_cookie -', key, value);
 
-    setHeader(this.response, 'Set-Cookie', key + '=' + value);
+    setHeader(this.res, 'Set-Cookie', key + '=' + value);
   },
 
   'echo': function () {
-    this.response.write([].join.call(arguments, ' '));
+    this.res.write([].join.call(arguments, ' '));
   },
 
   'send_file': function (value) {
@@ -113,15 +113,23 @@ module.exports = {
       fs.readFile(filePath, 'utf-8', function (err, data) {
         if (err) {
           data = 'File send error: <br/>' + err.stack;
-          self.response.writeHead(err.code === 'ENOENT' ? 404 : 500, {
+          self.res.writeHead(err.code === 'ENOENT' ? 404 : 500, {
             'Content-Type': 'text/html'
           });
         }
 
-        self.response.end(data);
+        self.res.end(data);
         resolve(data);
       });
     });
+  },
+
+  'sub_filter': function (oldValue, newValue) {
+    var body = this.body;
+
+    if (body) {
+      this.body = body.toString().replace(oldValue, newValue);
+    }
   },
 
   /**
@@ -131,8 +139,8 @@ module.exports = {
    * @param {String} [message] A optional human-readable status message.
    */
   'status': function (code, message) {
-    this.response.statusCode = code;
-    this.response.statusMessage = message;
+    this.res.statusCode = code;
+    this.res.statusMessage = message;
   },
 
   // location commands

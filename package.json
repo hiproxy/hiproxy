@@ -13,7 +13,7 @@
     "test": "cross-env NPM_TEST=true nyc mocha test/**/*.test.js --timeout 10000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
-    "t": "nyc mocha test/router/*.js && nyc report --reporter=lcov --reporter=html"
+    "t": "nyc mocha test/proxy/globalVars.test.js && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "node-forge": "^0.7.1",
     "op-browser": "^1.0.6",
     "os-homedir": "^1.0.2",
+    "safe-buffer": "^5.1.1",
     "simple-mime": "^0.1.0",
     "step-flow": "^1.0.3",
     "url-pattern": "^1.0.3"

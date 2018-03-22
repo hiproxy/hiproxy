@@ -9,15 +9,15 @@ var http = require('http');
 var https = require('https');
 var zlib = require('zlib');
 
-var execDirectives = require('../../../directives').execDirectives;
+// var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
   response: function (ctx, request, response, next) {
     var proxyInfo = ctx.proxy;
-    var rewriteRule = proxyInfo.rewriteRule;
+    // var rewriteRule = proxyInfo.rewriteRule;
     var isHTTPS = proxyInfo.protocol === 'https:';
     var self = this;
-    var execResult;
+    // var execResult;
 
     proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
     proxyInfo.headers['content-length'] = (request.body || '').length;
@@ -28,24 +28,25 @@ module.exports = {
 
     if (!proxyInfo.proxyPass && !proxyInfo.hostname) {
       log.debug(request.url, 'has no proxy_pass');
-      execResult = execDirectives(rewriteRule, {
-        response: response,
-        rewriteRule: rewriteRule
-      }, 'response');
+      // execResult = execDirectives(rewriteRule, {
+      //   response: response,
+      //   rewriteRule: rewriteRule
+      // }, 'response');
 
-      execResult.then(function (values) {
-        if (!response.finished) {
-          response.end('');
-        }
+      // execResult.then(function (values) {
+      //   if (!response.finished) {
+      //     response.end('');
+      //   }
 
-        // /**
-        //  * Emitted when a response is end. This event is emitted only once.
-        //  * @event ProxyServer#response
-        //  * @property {http.ServerResponse} response response object
-        //  */
-        // self.emit('response', request, response);
-        next();
-      });
+      //   // /**
+      //   //  * Emitted when a response is end. This event is emitted only once.
+      //   //  * @event ProxyServer#response
+      //   //  * @property {http.ServerResponse} response response object
+      //   //  */
+      //   // self.emit('response', request, response);
+      //   next();
+      // });
+      response.end('');
 
       return;
     }
@@ -70,10 +71,11 @@ module.exports = {
         res.headers['x-hiproxy-origin-content-encoding'] = encoding;
       }
 
-      execDirectives(rewriteRule, {
-        response: response,
-        rewriteRule: rewriteRule
-      }, 'response');
+      // 这里暂时不执行
+      // execDirectives(rewriteRule, {
+      //   response: response,
+      //   rewriteRule: rewriteRule
+      // }, 'response');
 
       /**
        * Emitted each time the server set response info (eg: headers).
@@ -109,16 +111,16 @@ module.exports = {
 
         res.pipe(unzipStream).pipe(response);
         // .on('end', function () {
-          // request.res = res;
+        // request.res = res;
 
-          // /**
-          //  * Emitted when a response is end. This event is emitted only once.
-          //  * @event ProxyServer#response
-          //  * @property {http.ServerResponse} response response object
-          //  */
-          // self.emit('response', request, response);
+        // /**
+        //  * Emitted when a response is end. This event is emitted only once.
+        //  * @event ProxyServer#response
+        //  * @property {http.ServerResponse} response response object
+        //  */
+        // self.emit('response', request, response);
 
-          // next();
+        // next();
         // });
       } else {
         // res.on('data', function (chunk) {

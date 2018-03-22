@@ -12,6 +12,8 @@ describe('#http server', function () {
     testServer.listen(61234);
 
     proxyServer = new Proxy(8850);
+    global.log = proxyServer.logger;
+
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'rewrite'));
     proxyServer.start();
     // proxyServer.openBrowser('chrome', '127.0.0.1:8850', false);

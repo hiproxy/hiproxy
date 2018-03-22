@@ -23,7 +23,7 @@ module.exports = {
 
     // 执行response作用域的command
     execDirectives(rewriteRule, {
-      response: response
+      res: response
     }, 'response');
 
     /**
