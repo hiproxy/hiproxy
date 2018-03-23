@@ -20,7 +20,8 @@ module.exports = {
     // var execResult;
 
     proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
-    proxyInfo.headers['content-length'] = (request.body || '').length;
+    // TODO fix bug: length calc error
+    // proxyInfo.headers['content-length'] = (request.body || '').length;
 
     if (isHTTPS) {
       proxyInfo.rejectUnauthorized = false;
