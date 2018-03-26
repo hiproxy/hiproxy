@@ -28,6 +28,9 @@ function hookRequest (hiproxy, ctx, next) {
   var req = ctx.req;
   var body = [];
   req.on('data', function (chunk) {
+    if (typeof chunk === 'string') {
+      chunk = new Buffer(chunk);
+    }
     body.push(chunk);
   }).on('end', function () {
     body = Buffer.concat(body).toString();
