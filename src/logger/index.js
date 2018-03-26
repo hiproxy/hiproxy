@@ -42,7 +42,7 @@ Logger.prototype = {
   };
 });
 
-Logger.prototype.access = function (req, proxy) {
+Logger.prototype.access = function (req, proxy, target) {
   var res = req.res;
   var statusCode = res && res.statusCode;
   var colormap = {
@@ -59,9 +59,9 @@ Logger.prototype.access = function (req, proxy) {
     ('(' + time + 'ms' + ')')[time >= 2000 ? 'yellow' : 'gray'];
   }
 
-  if (proxy) {
+  if (target) {
     this._printLog('proxy', ['┏'.cyan, req.method.white, (req.originalUrl || req.url), statusAndTime].join(' '));
-    this._printLog('proxy', ['┗'.cyan, req.method.white, proxy].join(' '));
+    this._printLog('proxy', ['┗'.cyan, (proxy.method || 'GET').white, target].join(' '));
   } else {
     this._printLog('access', [req.method.white, (req.originalUrl || req.url), statusAndTime].join(' '));
   }
