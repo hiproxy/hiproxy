@@ -19,9 +19,10 @@ module.exports = {
     var self = this;
     // var execResult;
 
-    proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
-    // TODO fix bug: length calc error
-    // proxyInfo.headers['content-length'] = (request.body || '').length;
+    // proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
+    // if ('content-length' in proxyInfo.headers) {
+    //   proxyInfo.headers['content-length'] = Buffer.byteLength(request.body || '');
+    // }
 
     if (isHTTPS) {
       proxyInfo.rejectUnauthorized = false;

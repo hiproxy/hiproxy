@@ -102,6 +102,11 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     path = uri.path;
   }
 
+  request.headers['accept-encoding'] = 'gzip,deflate';
+  if ('content-length' in request.headers) {
+    request.headers['content-length'] = Buffer.byteLength(request.body || '');
+  }
+
   var proxyInfo = {
     hostname: hostname,
     port: port,
