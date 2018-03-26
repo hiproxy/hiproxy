@@ -118,7 +118,9 @@ module.exports = {
           });
         }
 
+        // TODO fix bug：调用两次的后果
         self.res.end(data);
+        // self.res.write(data);
         resolve(data);
       });
     });

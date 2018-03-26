@@ -54,14 +54,14 @@ module.exports = {
         next();
       });
 
-      stream.on('data', function (chunk) {
-        /**
-         * Emitted whenever the response stream received some chunk of data.
-         * @event ProxyServer#data
-         * @property {Buffer} data response data
-         */
-        hiproxy.emit('data', chunk, request, response);
-      });
+      // stream.on('data', function (chunk) {
+      //   /**
+      //    * Emitted whenever the response stream received some chunk of data.
+      //    * @event ProxyServer#data
+      //    * @property {Buffer} data response data
+      //    */
+      //   hiproxy.emit('data', chunk, request, response);
+      // });
 
       stream.on('end', function () {
         // /**
