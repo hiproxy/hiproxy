@@ -25,6 +25,9 @@
     * POST requests
       * query string
       * body
+      * content length
+    * POST to GET
+    * GET to POST
     * HTTP requsts
       * reverse proxy
     * HTTPS requests
@@ -42,6 +45,10 @@
     * response
       * data
       * response
+  * callback
+    * onBeforeRequest
+    * onData
+    * onBeforeResponse
   * router
     * system page
     * api router
@@ -57,6 +64,7 @@
     * proxy_set_body
     * proxy_append_body
     * proxy_replace_body
+    * proxy_timeout
   * response
     * set_header
     * set_cookie
@@ -64,6 +72,8 @@
     * hide_cookie
     * echo
     * send_file
+    * sub_filter
+    * sub_filter_once
   * domain
     * set
     * ssl_certificate
