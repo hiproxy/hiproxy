@@ -24,8 +24,6 @@ module.exports = function (ctx, next) {
     next();
   });
 
-  console.log('hookkkkkkkkkkkkkkkk request and response.', req.url);
-
   if (needHook) {
     log.debug(req.url, 'need to hook `res.write()` and `res.end()`');
     hookResponse(hiproxy, ctx);
@@ -101,8 +99,6 @@ function hookResponse (hiproxy, ctx) {
       encoding: encoding,
       rewriteRule: ctx.proxy.rewriteRule
     };
-
-    console.log('自定义end:', req.url, chunk);
 
     collectChunk(chunk, encoding);
 
