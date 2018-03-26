@@ -15,6 +15,17 @@ module.exports = function (ctx, next) {
   var urlInfo = url.parse(req.url);
   var needHook = urlInfo.hostname && urlInfo.hostname !== '127.0.0.1';
 
+  if (needHook) {
+    log.debug(req.url, 'need to hook `res.write()` and `res.end()` and request');
+    hookRequest(hiproxy, ctx, next);
+    hookResponse(hiproxy, ctx);
+  } else {
+    next();
+  }
+};
+
+function hookRequest (hiproxy, ctx, next) {
+  var req = ctx.req;
   var body = [];
   req.on('data', function (chunk) {
     body.push(chunk);
@@ -23,12 +34,7 @@ module.exports = function (ctx, next) {
     req.body = body;
     next();
   });
-
-  if (needHook) {
-    log.debug(req.url, 'need to hook `res.write()` and `res.end()`');
-    hookResponse(hiproxy, ctx);
-  }
-};
+}
 
 function hookResponse (hiproxy, ctx) {
   var res = ctx.res;

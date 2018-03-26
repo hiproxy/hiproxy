@@ -24,6 +24,7 @@ module.exports = {
     //   proxyInfo.headers['content-length'] = Buffer.byteLength(request.body || '');
     // }
 
+    // TODO 支持读取配置，决定是否拒绝
     if (isHTTPS) {
       proxyInfo.rejectUnauthorized = false;
     }

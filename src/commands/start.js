@@ -125,6 +125,9 @@ function _startServer (ctx) {
     httpPort: port,
     httpsPort: httpsPort,
     dir: workspace,
+    onBeforeRequest: function (detail) {
+      // detail.proxy.method = 'POST';
+    },
     onBeforeResponse: function (detail) {
       // var proxy = detail.proxy;
       var res = detail.res;
@@ -139,7 +142,7 @@ function _startServer (ctx) {
       // modify body
       detail.body = body;
       // set header
-      res.headers && (res.headers['I-Love'] = 'hiproxy');
+      res.headers['I-Love'] = 'hiproxy';
 
       return detail;
     },
