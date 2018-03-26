@@ -57,6 +57,7 @@ module.exports = {
 
     log.debug('request remote server', JSON.stringify(proxyInfo));
 
+    // TODO 优化这里，尽量不要把无关的参数传递到request()中
     var proxy = (isHTTPS ? https : http).request(proxyInfo, function (res) {
       log.debug('request remote result', JSON.stringify(res.headers));
 
