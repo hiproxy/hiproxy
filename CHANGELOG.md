@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.3.1] - 2018-03-26
+
+### Fixed
+
+* Fixed bug [#45](https://github.com/hiproxy/hiproxy/issues/45).
+
 ## [1.3.0] - 2018-03-15
 
 ### Added

@@ -19,7 +19,7 @@ module.exports = {
     var execResult;
 
     proxyOption.headers['accept-encoding'] = 'gzip,deflate';
-    proxyOption.headers['content-length'] = (request.body || '').length;
+    proxyOption.headers['content-length'] = Buffer.byteLength(request.body || '');
 
     if (isHTTPS) {
       proxyOption.rejectUnauthorized = false;
