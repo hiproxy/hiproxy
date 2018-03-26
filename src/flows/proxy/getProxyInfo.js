@@ -16,22 +16,17 @@ module.exports = function (ctx, next) {
 
   // TODO 这里的事件，考虑挪动到initialize/initEvnet/onRequest.js中
   // TODO 这里的body，到时候需要copy到ctx.proxyInfo中
-  req.on('data', function (chunk) {
-    body.push(chunk);
-  }).on('end', function () {
-    body = Buffer.concat(body).toString();
-    req.body = body;
-    /**
-     * Emitted whenever the request end.
-     * @event ProxyServer#requestend
-     * @property {String} body request data
-     * @property {http.IncomingMessage} response request object
-     * @property {http.ServerResponse} response response object
-     */
-    hiproxy.emit('requestend', body, req, res);
 
-    ctx.proxy = getProxyInfo(req, hosts.getHost(), rewrite.getRule());
+  /**
+   * Emitted whenever the request end.
+   * @event ProxyServer#requestend
+   * @property {String} body request data
+   * @property {http.IncomingMessage} response request object
+   * @property {http.ServerResponse} response response object
+   */
+  hiproxy.emit('requestend', body, req, res);
 
-    next();
-  });
+  ctx.proxy = getProxyInfo(req, hosts.getHost(), rewrite.getRule());
+
+  next();
 };

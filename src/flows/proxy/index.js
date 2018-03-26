@@ -9,6 +9,7 @@ var Flow = require('step-flow');
 var proxyFlow = new Flow();
 
 var systemRoter = require('./systemRouter');
+var hookReqAndRes = require('./hookReqAndRes');
 var getProxyInfo = require('./getProxyInfo');
 // var setReqOption = require('./setReqOption');
 var doRequest = require('./doRequest');
@@ -17,6 +18,7 @@ var errorHandler = require('./errorHandler');
 
 proxyFlow
   .use('SystemRouter', systemRoter)
+  .use('HookReqAndRes', hookReqAndRes)
   .use('GetProxyInfo', getProxyInfo)
   // .use('SetRequestHeader', setReqOption)
   .use('DoRequest', doRequest)
