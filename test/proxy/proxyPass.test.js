@@ -11,6 +11,9 @@ describe('#proxy pass', function () {
     testServer.listen(9000);
 
     proxyServer = new Proxy(9001, 10020);
+
+    global.log = proxyServer.logger;
+
     proxyServer.addRewriteFile(path.join(__dirname, 'conf', 'base.rewrite'));
     proxyServer.addHostsFile(path.join(__dirname, 'conf', 'base.hosts'));
 
@@ -168,8 +171,6 @@ describe('#proxy pass', function () {
         if (err) {
           return done(err);
         }
-
-        // console.log(body);
 
         assert.equal(response.statusCode, 200);
         assert.equal(body, 'the man in the middle page: /');

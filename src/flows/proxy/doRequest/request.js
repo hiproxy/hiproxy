@@ -55,10 +55,12 @@ module.exports = {
       return;
     }
 
-    log.debug('request remote server', JSON.stringify(proxyInfo));
+    var requestOptions = getRequestOption(proxyInfo);
 
-    // TODO 优化这里，尽量不要把无关的参数传递到request()中
-    var proxy = (isHTTPS ? https : http).request(proxyInfo, function (res) {
+    log.debug('request remote server proxy info', JSON.stringify(proxyInfo));
+    log.debug('request remote server request option', JSON.stringify(requestOptions));
+
+    var proxy = (isHTTPS ? https : http).request(requestOptions, function (res) {
       log.debug('request remote result', JSON.stringify(res.headers));
 
       var contentType = res.headers['content-type'];
@@ -190,3 +192,48 @@ module.exports = {
     proxy.end(request.body);
   }
 };
+
+function getRequestOption (proxyInfo) {
+  // return the request options
+  // see: https://nodejs.org/api/http.html#http_http_request_options_callback
+  // and: https://nodejs.org/api/https.html#https_https_request_options_callback
+  var httpRequestOptions = [
+    'protocol',
+    'host',
+    'hostname',
+    'family',
+    'port',
+    'localAddress',
+    'socketPath',
+    'method',
+    'path',
+    'headers',
+    'auth',
+    'timeout'
+  ];
+  var additionalOptions = [
+    // 'ca',
+    // 'cert',
+    // 'ciphers',
+    // 'clientCertEngine',
+    // 'crl',
+    // 'dhparam',
+    // 'ecdhCurve',
+    // 'honorCipherOrder',
+    // 'key',
+    // 'passphrase',
+    // 'pfx',
+    // 'secureOptions',
+    // 'secureProtocol',
+    // 'servername',
+    // 'sessionIdContext',
+    'rejectUnauthorized'
+  ];
+  var options = {};
+
+  httpRequestOptions.concat(additionalOptions).forEach(function (key) {
+    options[key] = proxyInfo[key];
+  });
+
+  return options;
+}
