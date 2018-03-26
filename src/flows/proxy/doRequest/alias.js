@@ -91,8 +91,6 @@ module.exports = {
 
       // hiproxy.emit('response', response);
 
-      // log.access(request);
-
       next();
     }
   }

@@ -173,19 +173,17 @@ module.exports = {
       /* istanbul ignore next */
       if (e.code === 'ENOTFOUND') {
         response.statusCode = 404;
-        response.end();
       } else {
         response.statusCode = 500;
-        response.end(e.stack);
       }
+
+      response.end(e.stack);
 
       log.error('proxy error:', request.url);
       log.detail(e.stack);
 
       // self.emit('response', request, response);
 
-      request.res = response;
-      // log.access(request);
       next();
     });
 
