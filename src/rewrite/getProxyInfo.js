@@ -103,6 +103,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   }
 
   request.headers['accept-encoding'] = 'gzip,deflate';
+  // TODO add test case.
+  // correct the `Content-Length` value.
   if ('content-length' in request.headers) {
     request.headers['content-length'] = Buffer.byteLength(request.body || '');
   }
