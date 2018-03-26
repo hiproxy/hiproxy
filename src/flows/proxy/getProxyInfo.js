@@ -14,9 +14,6 @@ module.exports = function (ctx, next) {
   var rewrite = hiproxy.rewrite;
   var body = [];
 
-  // TODO 这里的事件，考虑挪动到initialize/initEvnet/onRequest.js中
-  // TODO 这里的body，到时候需要copy到ctx.proxyInfo中
-
   /**
    * Emitted whenever the request end.
    * @event ProxyServer#requestend
