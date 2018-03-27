@@ -130,8 +130,13 @@ module.exports = {
     var body = this.body;
     var source = oldValue;
     var variables = this.rewriteRule.variables;
+    var res = this.res;
+    var headers = res.headers;
+    var contentType = (headers['content-type'] || '').split(/\s*;\s*/)[0];
+    var subFilterTypes = variables.sub_filter_types || '*';
+    var needReplace = subFilterTypes === '*' || subFilterTypes.indexOf(contentType) !== -1;
 
-    if (body) {
+    if (body && needReplace) {
       if (variables.sub_filter_once === false) {
         source = new RegExp('(' + source + ')', 'g');
       }
@@ -146,6 +151,13 @@ module.exports = {
     } else {
       log.warn('Invalid `sub_filter_once` directive value, the value should be `on` or `off`.');
     }
+  },
+
+  'sub_filter_types': function () {
+    var types = [].slice.call(arguments, 0);
+    var isAllType = types.indexOf('*') !== -1;
+
+    this.rewriteRule.variables.sub_filter_types = isAllType ? '*' : types;
   },
 
   /**
