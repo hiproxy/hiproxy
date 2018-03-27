@@ -16,6 +16,7 @@ module.exports = function (req, res) {
 
   req.requestId = utils.randomId();
   req._startTime = Date.now();
+  req._cache = {};
   req.res = res;
   res.headers = res.headers || {};
 

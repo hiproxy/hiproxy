@@ -128,9 +128,23 @@ module.exports = {
 
   'sub_filter': function (oldValue, newValue) {
     var body = this.body;
+    var source = oldValue;
+    var variables = this.rewriteRule.variables;
 
     if (body) {
-      this.body = body.toString().replace(oldValue, newValue);
+      if (variables.sub_filter_once === false) {
+        source = new RegExp('(' + source + ')', 'g');
+      }
+      this.body = body.toString().replace(source, newValue);
+    }
+  },
+
+  'sub_filter_once': function (value) {
+    if (/^(on|off)$/.test(value)) {
+      var isOnce = value === 'on';
+      this.rewriteRule.variables.sub_filter_once = isOnce;
+    } else {
+      log.warn('Invalid `sub_filter_once` directive value, the value should be `on` or `off`.');
     }
   },
 

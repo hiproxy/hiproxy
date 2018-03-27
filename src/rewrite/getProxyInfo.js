@@ -68,7 +68,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     }
 
     var context = {
-      req: request
+      req: request,
+      rewriteRule: rewrite
     };
 
     execDirectives(rewrite, context, 'request');
