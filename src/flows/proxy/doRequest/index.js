@@ -19,6 +19,7 @@ module.exports = function (ctx, next) {
 
   if (typeof onBeforeRequest === 'function') {
     // TODO 确定这个回掉函数的参数
+    // TODO 各个插件也需要能修改？也就是说`onBeforeRequest`应该是个数组。
     onBeforeRequest({
       req: req,
       res: res,
