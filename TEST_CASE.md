@@ -1,16 +1,16 @@
 # hiproxy test case structural planning
 
 * hosts
-  * find hosts files
-  * add hosts files
-  * add hosts rule
-  * get hosts rule
+  - [ ] find hosts files
+  - [x] add hosts files
+  - [x] add hosts rule
+  - [x] get hosts rule
 
 * rewrite
-  * find rewrite files
-  * add rewrite files
-  * add rewrite rule
-  * get rewrite rule
+  - [ ] find rewrite files
+  - [ ] add rewrite files
+  - [ ] add rewrite rule
+  - [ ] get rewrite rule
 
 * hiproxy core
   * server create
