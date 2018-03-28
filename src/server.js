@@ -41,13 +41,17 @@ function ProxyServer (options) {
     httpPort = options.httpPort;
     httpsPort = options.httpsPort;
     dir = options.dir || dir;
+    this.options = options;
   } else {
     httpPort = arguments[0];
     httpsPort = arguments[1];
     dir = arguments[2] || dir;
+    this.options = {
+      httpPort: httpPort,
+      httpsPort: httpsPort,
+      dir: dir
+    };
   }
-
-  this.options = options || {};
 
   this.hosts = new Hosts();
   this.rewrite = new Rewrite();
