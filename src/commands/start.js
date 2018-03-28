@@ -151,6 +151,34 @@ function _startServer (ctx) {
     }
   });
 
+  // proxy.addCallback(
+  //   'onBeforeRequest',
+  //   function () {
+  //     console.log('onBeforeRequest callback 1');
+  //   },
+  //   function () {
+  //     console.log('onBeforeRequest callback 2');
+  //   }
+  // );
+
+  // proxy.addCallback(
+  //   'onBeforeRequest',
+  //   function () {
+  //     console.log('onBeforeRequest callback 3');
+  //   },
+  //   'dddd'
+  // );
+
+  // proxy.addCallback(
+  //   'onBeforeResponse',
+  //   function (detail) {
+  //     detail.body += '<script>console.log("Hacked by another callback.");</script>';
+  //   },
+  //   function (detail) {
+  //     detail.body += '<script>console.log("🌍🔗🐛");</script>';
+  //   },
+  // );
+
   process.stdout.write('\u001B[2J\u001B[0;0f');
 
   global.hiproxyServer = proxy;

@@ -65,19 +65,23 @@ function hookResponse (hiproxy, ctx) {
 
   res.write = function (chunk, encoding) {
     var cbkResult = null;
-    if (typeof onData === 'function') {
-      cbkResult = onData({
-        data: chunk,
-        req: req,
-        res: res,
-        proxy: ctx.proxy,
-        encoding: encoding
-      });
-      // if return null or undefined, will not change the original chunk.
-      if (cbkResult && cbkResult.data != null) {
-        chunk = cbkResult.data;
+
+    onData.forEach(function (cbk) {
+      if (typeof cbk === 'function') {
+        cbkResult = cbk.call(hiproxy, {
+          data: chunk,
+          req: req,
+          res: res,
+          proxy: ctx.proxy,
+          encoding: encoding
+        });
+        // if return null or undefined, will not change the original chunk.
+        if (cbkResult && cbkResult.data != null) {
+          chunk = cbkResult.data;
+        }
       }
-    }
+    });
+
     collectChunk(chunk, encoding);
 
     /**
@@ -141,11 +145,13 @@ function hookResponse (hiproxy, ctx) {
       // 第二次收集：将指令执行完毕后的响应内容合并，以便在 **回掉函数** 执行时能获取到最新的数据
       body = Buffer.concat(cache);
 
-      if (typeof onBeforeResponse === 'function') {
-        onBeforeResponse(context);
-        // 第三次收集：将回掉函数执行完毕后的响应内容合并，以便在 **response事件** 回掉函数执行时能获取到最新的数据，同时推送到浏览器中
-        body = Buffer.concat(cache);
-      }
+      onBeforeResponse.forEach(function (cbk) {
+        if (typeof cbk === 'function') {
+          cbk.call(hiproxy, context);
+          // 第三次收集：将回掉函数执行完毕后的响应内容合并，以便在 **response事件** 回掉函数执行时能获取到最新的数据，同时推送到浏览器中
+          body = Buffer.concat(cache);
+        }
+      });
 
       /**
        * Emitted when a response is end. This event is emitted only once.

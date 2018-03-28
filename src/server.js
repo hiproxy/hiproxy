@@ -16,6 +16,7 @@ var showImage = require('./helpers/showImage');
 var dirtool = require('./helpers/dirTool');
 
 var initFlow = require('./flows/initialize');
+var CALLBACK_NAMES = ['onBeforeRequest', 'onBeforeResponse', 'onData', 'onError'];
 
 // global.log = log;
 
@@ -62,12 +63,26 @@ function ProxyServer (options) {
   this.httpsServer = null;
 
   this.dir = dir;
+
+  this._initCallbacks();
 }
 
 ProxyServer.prototype = {
   constructor: ProxyServer,
   // extends from EventEmitter
   __proto__: EventEmitter.prototype,
+
+  _initCallbacks: function () {
+    var callbackNames = CALLBACK_NAMES;
+    var options = this.options;
+
+    callbackNames.forEach(function (cbk) {
+      var cbks = options[cbk] || (options[cbk] = []);
+      if (!Array.isArray(cbks)) {
+        options[cbk] = [cbks];
+      }
+    });
+  },
 
   /**
    * 启动代理服务
@@ -320,6 +335,28 @@ ProxyServer.prototype = {
     }
 
     return showImage(images);
+  },
+
+  /**
+   * Add callbacks for hiproxy
+   *
+   * @param {String} type callback types, valid values: 'onBeforeRequest', 'onBeforeResponse', 'onData', 'onError'.
+   * @param {Function} fn callback function.
+   */
+  addCallback: function (type /* , fn1, fn2, ... */) {
+    var validTypes = CALLBACK_NAMES;
+    var fns = [].slice.call(arguments, 1);
+    var cbks = this.options[type];
+
+    if (type && validTypes.indexOf(type) !== -1) {
+      fns.forEach(function (fn) {
+        if (typeof fn === 'function') {
+          cbks.push(fn);
+        }
+      });
+    } else {
+      this.logger.warn('Invalid callback type `' + type + '` for `addCallback()`, valid values:', CALLBACK_NAMES.join(', ') + '.');
+    }
   },
 
   /**
