@@ -1,0 +1,14 @@
+## test hosts
+
+# 普通hosts
+127.0.0.1 single.hiproxy.org
+192.168.0.1 hiproxy.org www.hiproxy.org
+
+# 带端口号
+127.0.0.1:8081 demo.hiproxy.org
+192.168.0.1:89 doc.hiproxy.org blog.hiproxy.org home.hiproxy.org
+# 192.168.0.1:81 hiproxy.hiproxy.org
+
+# 非法格式
+11.22.33.44 hiproxy.org/def
+12.34.56.78
