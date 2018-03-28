@@ -137,7 +137,7 @@ module.exports = {
   },
 
   'sub_filter': function (oldValue, newValue) {
-    var body = this.body;
+    var body = this.res.body;
     var source = oldValue;
     var variables = this.rewriteRule.variables;
     var res = this.res;
@@ -153,7 +153,7 @@ module.exports = {
       if (subFilterOnce && subFilterOnce === 'off') {
         source = new RegExp('(' + source + ')', 'g');
       }
-      this.body = body.toString().replace(source, newValue);
+      this.res.body = body.toString().replace(source, newValue);
 
       // if `sub_filter_last_modified` is NOT `on`, remove the `Last-Modified` header.
       if (subFilterLastModified !== 'on') {

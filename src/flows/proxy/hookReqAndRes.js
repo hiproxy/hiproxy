@@ -120,7 +120,7 @@ function hookResponse (hiproxy, ctx) {
 
     // 监听data的改变
     // 如果改变了data的值，将cache重置为[data]
-    Object.defineProperty(context, 'body', {
+    Object.defineProperty(res, 'body', {
       get: function () {
         return body;
       },
@@ -164,7 +164,6 @@ function hookResponse (hiproxy, ctx) {
        * @property {String|Undefined} detail.encoding data encoding
        */
       hiproxy.emit('response', {
-        body: body,
         req: req,
         res: res,
         proxy: ctx.proxy,

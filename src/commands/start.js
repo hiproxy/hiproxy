@@ -132,7 +132,7 @@ function _startServer (ctx) {
       // var proxy = detail.proxy;
       var res = detail.res;
       // var req = detail.req;
-      var body = detail.body;
+      var body = res.body;
       var headers = res.headers || {};
       var contentType = headers['content-type'];
 
@@ -140,7 +140,7 @@ function _startServer (ctx) {
         body += '<script>console.log("💻 Hacked by hiproxy `onBeforesResponse()` callback. 内容已经被hiproxy的`onBeforeResponse()`修改！")</script>';
       }
       // modify body
-      detail.body = body;
+      res.body = body;
       // set header
       res.headers['I-Love'] = 'hiproxy';
 
@@ -172,10 +172,10 @@ function _startServer (ctx) {
   // proxy.addCallback(
   //   'onBeforeResponse',
   //   function (detail) {
-  //     detail.body += '<script>console.log("Hacked by another callback.");</script>';
+  //     detail.res.body += '<script>console.log("Hacked by another callback.");</script>';
   //   },
   //   function (detail) {
-  //     detail.body += '<script>console.log("🌍🔗🐛");</script>';
+  //     detail.res.body += '<script>console.log("🌍🔗🐛");</script>';
   //   },
   // );
 
