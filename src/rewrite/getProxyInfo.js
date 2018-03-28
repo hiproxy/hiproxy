@@ -28,6 +28,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules);
   var host = !!hostsRules && hostsRules[uri.hostname];
   var hostname, port, path, proxyName, protocol;
+  var proxyInfo = {};
 
   protocol = uri.protocol;
 
@@ -69,6 +70,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
     var context = {
       req: request,
+      proxy: proxyInfo,
       rewriteRule: rewrite
     };
 
@@ -110,7 +112,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     request.headers['content-length'] = Buffer.byteLength(request.body || '');
   }
 
-  var proxyInfo = {
+  var _proxyInfo = {
     hostname: hostname,
     port: port,
     path: path,
@@ -127,6 +129,10 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     alias: alias,
     newUrl: newUrl
   };
+
+  for (var key in _proxyInfo) {
+    proxyInfo[key] = _proxyInfo[key];
+  }
 
   return proxyInfo;
 };

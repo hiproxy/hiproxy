@@ -18,7 +18,8 @@ module.exports = {
     'proxy_method',
     'proxy_set_body',
     'proxy_append_body',
-    'proxy_replace_body'
+    'proxy_replace_body',
+    'proxy_timeout'
   ],
   response: [
     'status',

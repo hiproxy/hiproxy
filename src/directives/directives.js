@@ -67,6 +67,16 @@ module.exports = {
     this.req.body = _body + body;
   },
 
+  'proxy_timeout': function (value) {
+    var timeout = Number(value);
+
+    if (Number.isNaN(timeout)) {
+      log.warn('Invalid `proxy_timeout` directive value: ' + value + ', the value should be a number.');
+    } else {
+      this.proxy.timeout = timeout;
+    }
+  },
+
   // response config
   'hide_cookie': function (key) {
     log.debug('hide_cookie -', key);
@@ -157,7 +167,7 @@ module.exports = {
     if (/^(on|off)$/.test(value)) {
       this.rewriteRule.variables.sub_filter_once = value;
     } else {
-      log.warn('Invalid `sub_filter_once` directive value, the value should be `on` or `off`.');
+      log.warn('Invalid `sub_filter_once` directive value: ' + value + ', the value should be `on` or `off`.');
     }
   },
 
@@ -165,7 +175,7 @@ module.exports = {
     if (/^(on|off)$/.test(value)) {
       this.rewriteRule.variables.sub_filter_last_modified = value;
     } else {
-      log.warn('Invalid `sub_filter_last_modified` directive value, the value should be `on` or `off`.');
+      log.warn('Invalid `sub_filter_last_modified` directive value: ' + value + ', the value should be `on` or `off`.');
     }
   },
 
