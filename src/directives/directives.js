@@ -134,22 +134,38 @@ module.exports = {
     var headers = res.headers;
     var contentType = (headers['content-type'] || '').split(/\s*;\s*/)[0];
     var subFilterTypes = variables.sub_filter_types || '*';
+    var subFilterOnce = variables.sub_filter_once;
+    var subFilterLastModified = variables.sub_filter_last_modified;
     var needReplace = subFilterTypes === '*' || subFilterTypes.indexOf(contentType) !== -1;
 
     if (body && needReplace) {
-      if (variables.sub_filter_once === false) {
+      // if `sub_filter_once` is `off`, replace all the `oldValue`;
+      if (subFilterOnce && subFilterOnce === 'off') {
         source = new RegExp('(' + source + ')', 'g');
       }
       this.body = body.toString().replace(source, newValue);
+
+      // if `sub_filter_last_modified` is NOT `on`, remove the `Last-Modified` header.
+      if (subFilterLastModified !== 'on') {
+        res.removeHeader('last-modified');
+        delete res.headers['last-modified'];
+      }
     }
   },
 
   'sub_filter_once': function (value) {
     if (/^(on|off)$/.test(value)) {
-      var isOnce = value === 'on';
-      this.rewriteRule.variables.sub_filter_once = isOnce;
+      this.rewriteRule.variables.sub_filter_once = value;
     } else {
       log.warn('Invalid `sub_filter_once` directive value, the value should be `on` or `off`.');
+    }
+  },
+
+  'sub_filter_last_modified': function (value) {
+    if (/^(on|off)$/.test(value)) {
+      this.rewriteRule.variables.sub_filter_last_modified = value;
+    } else {
+      log.warn('Invalid `sub_filter_last_modified` directive value, the value should be `on` or `off`.');
     }
   },
 
