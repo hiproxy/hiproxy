@@ -11,7 +11,7 @@ describe('#hosts - parse', function () {
   var hosts = new Hosts();
   var rules = null;
 
-  hosts.addFile(path.join(__dirname, '_hosts'));
+  hosts.addFile(path.join(__dirname, 'conf', '_hosts'));
   rules = hosts.getHost();
 
   it('Parse hosts rules to object', function () {

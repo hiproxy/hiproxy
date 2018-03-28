@@ -8,7 +8,7 @@ global.args = {};
 global.log = new Logger();
 
 describe('#hosts - API', function () {
-  var filePath = path.join(__dirname, '_hosts_1');
+  var filePath = path.join(__dirname, 'conf', '_hosts_1');
 
   it('Real file name', function () {
     var hosts = new Hosts();

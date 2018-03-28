@@ -2,6 +2,7 @@
 
 * hosts
   - [ ] find hosts files
+  - [x] parse hosts rules
   - [x] add hosts files
   - [x] add hosts rule
   - [x] get hosts rule

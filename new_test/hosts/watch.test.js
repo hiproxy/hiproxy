@@ -9,8 +9,8 @@ global.args = {};
 global.log = new Logger();
 
 describe('#hosts - watch', function () {
-  var filePath = path.join(__dirname, '_hosts_1000');
-  var filePath1 = path.join(__dirname, '_hosts_1001');
+  var filePath = path.join(__dirname, 'conf', '_hosts_1000');
+  var filePath1 = path.join(__dirname, 'conf', '_hosts_1001');
   var oldContent = ['11.22.33.44 file.hiproxy.org'];
   var newContent = ['11.22.33.44 file.hiproxy.org', '12.34.56.78 blog.hiproxy.org', '123.123.110.110 www.hiproxy.org'];
 
