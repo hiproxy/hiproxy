@@ -32,21 +32,35 @@
     - [x] addRewriteFile
     - [x] addHostsFile
   * proxy
-    * GET requests
-      * query string
-    * POST requests
-      * query string
-      * body
-      * content length
-    * POST to GET
-    * GET to POST
-    * HTTP requsts
-      * reverse proxy
-    * HTTPS requests
-      * certificate auto generation
-      * certificate cache
-      * Tunnel proxy
-      * Reverse proxy
+    - [x] GET requests
+      - [x] method
+      - [x] query string
+    - [x] POST requests
+      - [x] method
+      - [x] query string
+      - [x] body
+      - [x] content length
+      - [x] Chinese characters
+      - [x] Emoji characters
+      - [x] application/json
+      - [x] multipart/form-data
+      - [x] application/x-www-form-urlencoded
+      - [x] file upload
+    - [ ] POST to GET
+    - [ ] GET to POST
+    - [ ] request headers
+    - [ ] response headers
+    - [ ] built-in variables    
+    - [ ] HTTP requsts
+      - [ ] reverse proxy
+    - [ ] HTTPS requests
+      - [ ] certificate auto generation
+      - [ ] certificate cache
+      - [ ] Tunnel proxy
+      - [ ] Reverse proxy
+    - [ ] HTTPS to HTTP
+    - [ ] HTTP to HTTPS
+    - [ ] proxy rule order
   * events
     * request
       * request start

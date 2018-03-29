@@ -17,6 +17,15 @@ var server = http.createServer(function (req, res) {
   req.on('end', function () {
     var urlObj = url.parse(req.url, true);
     var query = urlObj.query;
+    var contentType = req.headers['content-type'] || '';
+    var isJSON = contentType.indexOf('application/json') !== -1;
+    var bodyObj = {};
+
+    try {
+      bodyObj = isJSON ? JSON.parse(body) : querystring.parse(body);
+    } catch (err) {
+      bodyObj = {};
+    }
 
     var info = {
       url: req.url,
@@ -24,7 +33,7 @@ var server = http.createServer(function (req, res) {
       query: query,
       method: req.method,
       httpVersion: req.httpVersion,
-      body: querystring.parse(body),
+      body: bodyObj,
       rawBody: body
     };
 
