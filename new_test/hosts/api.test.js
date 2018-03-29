@@ -10,7 +10,7 @@ global.log = new Logger();
 describe('#hosts - API', function () {
   var hosts = new Hosts();
   var rules = null;
-  var filePath = path.join(__dirname, 'conf', '_hosts_1');
+  var filePath = path.join(__dirname, 'conf', 'hosts_1');
 
   hosts.addFile(filePath);
 
@@ -71,7 +71,7 @@ describe('#hosts - API', function () {
   it('clearFiles()', function () {
     var hosts = new Hosts();
     var rules = null;
-    var filePath = path.join(__dirname, 'conf', '_hosts_1');
+    var filePath = path.join(__dirname, 'conf', 'hosts_1');
 
     hosts.addFile(filePath);
 

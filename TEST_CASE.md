@@ -9,9 +9,9 @@
 
 * rewrite
   - [ ] find rewrite files
-  - [ ] add rewrite files
-  - [ ] add rewrite rule
-  - [ ] get rewrite rule
+  - [x] add rewrite files
+  - [x] add rewrite rule
+  - [x] get rewrite rule
 
 * hiproxy core
   * server create

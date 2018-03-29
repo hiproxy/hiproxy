@@ -1,0 +1,1 @@
+hiproxy.org => { location / { echo "test"; } }

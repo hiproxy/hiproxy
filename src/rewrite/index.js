@@ -173,7 +173,7 @@ Rewrite.prototype = {
   },
 
   _watchFile: function (file) {
-    fs.watchFile(file, { interval: 2000 }, function (curr, prev) {
+    fs.watchFile(file, { interval: 500 }, function (curr, prev) {
       if (Date.parse(curr.ctime) === 0) {
         this.deleteFile(file);
       } else if (Date.parse(curr.mtime) !== Date.parse(prev.mtime)) {

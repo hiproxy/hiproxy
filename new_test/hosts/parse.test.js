@@ -7,11 +7,11 @@ require('colors');
 global.args = {};
 global.log = new Logger();
 
-describe('#hosts - parse', function () {
+describe('#hosts - Parse rules', function () {
   var hosts = new Hosts();
   var rules = null;
 
-  hosts.addFile(path.join(__dirname, 'conf', '_hosts'));
+  hosts.addFile(path.join(__dirname, 'conf', 'hosts'));
   rules = hosts.getHost();
 
   it('Parse hosts rules to object', function () {
