@@ -6,6 +6,7 @@
 'use strict';
 
 var fs = require('fs');
+var https = require('https');
 var path = require('path');
 var forge = require('node-forge');
 var pki = forge.pki;
@@ -36,6 +37,7 @@ var defaultAttrs = [
   }
 ];
 var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
+var _cache = {};
 
 mkdirp(certDir);
 
@@ -87,20 +89,35 @@ module.exports = {
   },
 
   createCertificate: function (domain, CAName, certInfo) {
-    var caCert = this.getCACertificate(CAName);
-    var CN = (certInfo && certInfo.subject && certInfo.subject.CN) || domain;
-    var fileName = getFileNameByCN(CN);
-    var cachedCert = this.getCertificateByFileName(fileName);
-    var cert = cachedCert;
+    var promise = _cache[domain];
+    var _certInfoPromise = null;
+    var hasCertInfo = certInfo && typeof certInfo === 'object';
+    var self = this;
 
-    if (!cachedCert) {
-      log.debug('No cached cetrificate', CN ? 'CN:' + CN : '');
-      cert = this._createCertificate(caCert, domain, null, certInfo);
+    if (!promise) {
+      _certInfoPromise = hasCertInfo ? Promise.resolve(certInfo) : this.getCertInfoByHostsName(domain);
+      promise = _certInfoPromise.then(function (certInfo) {
+        var caCert = self.getCACertificate(CAName);
+        var CN = (certInfo.subject && certInfo.subject.CN) || domain;
+        var fileName = getFileNameByCN(CN);
+        var cachedCert = self.getCertificateByFileName(fileName);
+        var cert = cachedCert;
+
+        if (!cachedCert) {
+          log.debug('No cached cetrificate', CN ? 'CN:' + CN : '');
+          cert = self._createCertificate(caCert, domain, null, certInfo);
+        } else {
+          log.debug('Use cached certificate', CN ? 'CN:' + CN : '');
+        }
+
+        return cert;
+      });
+      _cache[domain] = promise;
     } else {
-      log.debug('Use cached certificate', CN ? 'CN:' + CN : '');
+      log.debug(domain, 'certificate is created or creating, return the cached promise');
     }
 
-    return cert;
+    return promise;
   },
 
   _createCertificate: function (caCert, domain, options, certInfo) {
@@ -197,6 +214,30 @@ module.exports = {
       publicKeyPem: pki.publicKeyToPem(keys.publicKey),
       certificatePem: pki.certificateToPem(cert)
     };
+  },
+
+  /**
+   * 获取线上证书的信息
+   */
+  getCertInfoByHostsName: function (hostname, callback) {
+    return new Promise(function (resolve, reject) {
+      var options = {
+        host: hostname,
+        port: 443,
+        method: 'GET'
+      };
+
+      var req = https.request(options, function (res) {
+        resolve(res.connection.getPeerCertificate());
+      });
+
+      req.on('error', function (err) {
+        log.error('get certificate info for', hostname, 'error: ', err);
+        resolve({});
+      });
+
+      req.end();
+    });
   }
 };
 
