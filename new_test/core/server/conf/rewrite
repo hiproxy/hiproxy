@@ -1,0 +1,5 @@
+domain hiproxy.org {
+  location / {
+    echo "Just A Test.";
+  }
+}

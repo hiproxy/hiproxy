@@ -219,7 +219,7 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  openBrowser: function (browserName, url, usePacProxy) {
+  openBrowser: /* istanbul ignore next */ function (browserName, url, usePacProxy) {
     var self = this;
 
     if (usePacProxy) {
@@ -233,7 +233,7 @@ ProxyServer.prototype = {
     return this;
   },
 
-  _open: function (browserName, url, usePacProxy) {
+  _open: /* istanbul ignore next */ function (browserName, url, usePacProxy) {
     var proxyURL = 'http://127.0.0.1:' + this.httpPort;
     var dataDir = path.join(dirtool.getHiproxyDir(), 'data-dir');
 
@@ -284,16 +284,6 @@ ProxyServer.prototype = {
 
   disableConfFile: function (type, filePath) {
     this[type] && this[type].disableFile(filePath);
-  },
-
-  updateConfFileContent: function (type, content) {
-    // TODO
-  },
-
-  getDisabledConfFile: function (type, filePaths) {
-    // TODO
-    // get Host/Rewrite file status
-    return null;
   },
 
   /**

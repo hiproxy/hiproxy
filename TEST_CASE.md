@@ -14,12 +14,23 @@
   - [x] get rewrite rule
 
 * hiproxy core
-  * server create
-  * server api
-    * start
-    * stop
-    * restart
-    * openBrowser
+  - [x] server create
+    - [x] HTTP server
+    - [x] HTTPS server
+    - [x] specified port
+    - [x] random port
+    - [x] callbacks
+  - [ ] server api
+    - [x] start
+    - [x] stop
+    - [x] restart
+    - [ ] openBrowser
+    - [x] addCallback
+    - [x] addRule
+    - [x] enableConfFile
+    - [x] disableConfFile
+    - [x] addRewriteFile
+    - [x] addHostsFile
   * proxy
     * GET requests
       * query string
