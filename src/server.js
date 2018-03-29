@@ -98,7 +98,10 @@ ProxyServer.prototype = {
   start: function (config) {
     var hiproxy = this;
     var ip = getLocalIP();
+
     hiproxy.localIP = ip;
+    hiproxy.lastConfig = config || {};
+
     return new Promise(function (resolve, reject) {
       initFlow.use(function (ctx, next) {
         resolve([hiproxy.httpServer, hiproxy.httpsServer]);
@@ -106,7 +109,7 @@ ProxyServer.prototype = {
       });
       initFlow.run({
         localIP: ip,
-        args: config || {}
+        args: hiproxy.lastConfig
       }, null, hiproxy);
     });
   },
@@ -137,8 +140,8 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  restart: function () {
-    return this.stop().start();
+  restart: function (config) {
+    return this.stop().start(config || this.lastConfig || {});
   },
 
   /**
@@ -192,20 +195,20 @@ ProxyServer.prototype = {
    * @return {ProxyServer}
    * @public
    */
-  addRewriteRule: function (source) {
-    /**
-     * Emitted when add rewrite file.
-     * @event ProxyServer#addRewriteRule
-     * @property {Array|String} filePath rewrite file path(s)
-     */
-    this.emit('addRewriteRule', source);
+  // addRewriteRule: function (source) {
+  //   /**
+  //    * Emitted when add rewrite file.
+  //    * @event ProxyServer#addRewriteRule
+  //    * @property {Array|String} filePath rewrite file path(s)
+  //    */
+  //   this.emit('addRewriteRule', source);
 
-    this.logger.debug('add rewrite rule: ' + source);
+  //   this.logger.debug('add rewrite rule: ' + source);
 
-    this.rewrite.addRule(source);
-    this.createPacFile();
-    return this;
-  },
+  //   this.rewrite.addRule(source);
+  //   this.createPacFile();
+  //   return this;
+  // },
 
   /**
    * 打开浏览器窗口
