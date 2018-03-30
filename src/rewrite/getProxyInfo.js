@@ -116,7 +116,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     hostname: hostname,
     port: port,
     path: path,
-    method: request.method,
+    method: proxyInfo.method || request.method,
+    // TODO 确保request不能被修改，比如headers、method
     headers: request.headers,
     protocol: protocol,
 

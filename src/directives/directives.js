@@ -46,7 +46,7 @@ module.exports = {
 
   'proxy_method': function (key) {
     log.debug('proxy_method -', key);
-    this.req.method = key.toUpperCase();
+    this.proxy.method = key.toUpperCase();
   },
 
   'proxy_set_body': function (body) {
