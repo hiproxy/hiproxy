@@ -16,7 +16,7 @@ describe('#server - API', function () {
   });
 
   it('# start() - should start the HTTP and HTTPS service', function () {
-    proxyServer = new Proxy(8850, 10010);
+    proxyServer = new Proxy(8850, 0);
     return proxyServer.start().then(function () {
       assert.equal(true, proxyServer.httpServer.listening);
       assert.equal(true, proxyServer.httpsServer.listening);
@@ -26,7 +26,7 @@ describe('#server - API', function () {
   });
 
   it('# stop() - Should stop all the service', function () {
-    proxyServer = new Proxy(8850, 10010);
+    proxyServer = new Proxy(8850, 0);
     return proxyServer.start().then(function () {
       proxyServer.stop();
 

@@ -9,7 +9,7 @@ describe('#server', function () {
 
   describe('create http server', function (done) {
     it('should create the HTTP server and HTTPS server', function (done) {
-      proxyServer = new Proxy(8850, 10010);
+      proxyServer = new Proxy(8850, 0);
       proxyServer.start().then(function () {
         assert.equal(true, proxyServer.httpServer instanceof http.Server);
         assert.equal(true, proxyServer.httpsServer instanceof https.Server);
@@ -22,10 +22,10 @@ describe('#server', function () {
     });
 
     it('Should use the user-specified port number', function (done) {
-      proxyServer = new Proxy(8850, 10010);
+      proxyServer = new Proxy(8850, 6457);
       proxyServer.start().then(function () {
         assert.equal(8850, proxyServer.httpServer.address().port);
-        assert.equal(10010, proxyServer.httpsServer.address().port);
+        assert.equal(6457, proxyServer.httpsServer.address().port);
 
         done();
         proxyServer.stop();
