@@ -232,7 +232,9 @@ function getRequestOption (proxyInfo) {
   var options = {};
 
   httpRequestOptions.concat(additionalOptions).forEach(function (key) {
-    options[key] = proxyInfo[key];
+    if (key in proxyInfo) {
+      options[key] = proxyInfo[key];
+    }
   });
 
   return options;
