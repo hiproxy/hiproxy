@@ -109,12 +109,14 @@
       - [x] support form
       - [ ] support file upload
     - [ ] proxy_append_body
-      - [ ] merge body (form)
-      - [ ] merge body (json)
-    - [ ] proxy_replace_body
-      - [ ] replace body content
-      - [ ] replace all
-      - [ ] replace once
+      - [x] merge body (form)
+      - [x] merge body (json)
+      - [ ] object key path(`a.b.c`)
+    - [x] proxy_replace_body
+      - [x] replace body content
+      - [x] replace all
+      - [x] replace once
+      - [x] ignore case
     - [x] proxy_timeout
       - [x] timeout
       - [x] discard invalid value

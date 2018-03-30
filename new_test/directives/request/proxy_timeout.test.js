@@ -30,6 +30,7 @@ describe('#directives - proxy_timeout', function () {
   });
 
   it('should set request header and send to remote server', function () {
+    // proxy_timeout 2889;
     return request({
       uri: 'http://hiproxy.org/tiemout/',
       proxy: 'http://127.0.0.1:8848',
@@ -40,6 +41,7 @@ describe('#directives - proxy_timeout', function () {
   });
 
   it('should discard the invalid value', function () {
+    // proxy_timeout abce;
     return request({
       uri: 'http://hiproxy.org/tiemout_invalid/',
       proxy: 'http://127.0.0.1:8848',

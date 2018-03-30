@@ -4,7 +4,7 @@ var Proxy = require('../../../src/server');
 var testServer = require('../../testServer');
 var request = require('../../request');
 
-describe('#directives - proxy_set_header', function () {
+describe('#directives - proxy_append_body', function () {
   var proxyServer;
   var rewriteFile = path.join(__dirname, 'conf', 'body.rewrite');
 
@@ -22,9 +22,10 @@ describe('#directives - proxy_set_header', function () {
     proxyServer.stop();
   });
 
-  it('should cover the original body', function () {
+  it('should append single filed to the body', function () {
+    // proxy_append_body uid 1234567890;
     return request({
-      uri: 'http://hiproxy.org/set_body/',
+      uri: 'http://hiproxy.org/append_body_once/',
       proxy: 'http://127.0.0.1:8848',
       method: 'POST',
       body: {
@@ -35,13 +36,20 @@ describe('#directives - proxy_set_header', function () {
     }).then(function (res) {
       var body = res.body.body;
 
-      assert.deepEqual({'package': 'hiproxy', 'version': 'v2.0.0'}, body);
+      assert.deepEqual({
+        location: 'beijing',
+        from: 'admin@hiproxy.org',
+        uid: '1234567890'
+      }, body);
     });
   });
 
-  it('should use the last set content', function () {
+  it('should append mutiple filed to the body', function () {
+    // proxy_append_body uid 1234567890;
+    // proxy_append_body uid 34567;
+    // proxy_append_body uname zdying;
     return request({
-      uri: 'http://hiproxy.org/set_body_multi_times/',
+      uri: 'http://hiproxy.org/append_body_multiple/',
       proxy: 'http://127.0.0.1:8848',
       method: 'POST',
       body: {
@@ -52,13 +60,20 @@ describe('#directives - proxy_set_header', function () {
     }).then(function (res) {
       var body = res.body.body;
 
-      assert.deepEqual({'package': 'hemsl', 'version': 'v1.0.0'}, body);
+      assert.deepEqual({
+        location: 'beijing',
+        from: 'admin@hiproxy.org',
+        uid: '34567',
+        uname: 'zdying'
+      }, body);
     });
   });
 
-  it('should support the same format as the querystring body', function () {
+  it('should append mutiple filed to the body (form)', function () {
+    // proxy_append_body uid 34567;
+    // proxy_append_body uname zdying;
     return request({
-      uri: 'http://hiproxy.org/set_body_form/',
+      uri: 'http://hiproxy.org/append_body_form/',
       proxy: 'http://127.0.0.1:8848',
       method: 'POST',
       form: {
@@ -66,8 +81,19 @@ describe('#directives - proxy_set_header', function () {
         from: 'admin@hiproxy.org'
       }
     }).then(function (res) {
-      var body = JSON.parse(res.body).body;
-      assert.deepEqual({'package': 'hiproxy', 'version': 'v2.0.0'}, body);
+      var body = JSON.parse(res.body);
+
+      assert.equal(
+        'location=beijing&from=admin%40hiproxy.org&uid=34567&uname=zdying',
+        body.rawBody
+      );
+
+      assert.deepEqual({
+        location: 'beijing',
+        from: 'admin@hiproxy.org',
+        uid: '34567',
+        uname: 'zdying'
+      }, body.body);
     });
   });
 });

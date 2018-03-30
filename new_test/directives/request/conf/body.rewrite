@@ -15,4 +15,52 @@ domain hiproxy.org {
     proxy_set_body 'package=hiproxy&version=v2.0.0';
     proxy_pass http://127.0.0.1:6789/;
   }
+
+  ## proxy_replace_body
+  location /replace_body/ {
+    proxy_replace_body 'beijing' 'wuhan';
+    proxy_replace_body 'admin@hiproxy.org' 'master@hiproxy.org';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /replace_body_global/ {
+    proxy_replace_body 'beijing' 'wuhan' g;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /replace_body_ignore/ {
+    proxy_replace_body 'beijing' 'wuhan' i;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /replace_body_global_ignore/ {
+    proxy_replace_body 'beijing' 'wuhan' gi;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /replace_body_default_flag/ {
+    proxy_replace_body 'beijing' 'wuhan' sgi;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  ## proxy_append_body
+  location /append_body_once/ {
+    proxy_append_body uid 1234567890;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /append_body_multiple/ {
+    proxy_append_body uid 1234567890;
+    proxy_append_body uid 34567;
+    proxy_append_body uname zdying;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  # TODO save field
+  location /append_body_form/ {
+    # proxy_append_body uid 1234567890;
+    proxy_append_body uid 34567;
+    proxy_append_body uname zdying;
+    proxy_pass http://127.0.0.1:6789/;
+  }
 }

@@ -25,6 +25,7 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change GET to POST', function () {
+    // proxy_method POST;
     return request({
       uri: 'http://hiproxy.org/get_to_post/',
       proxy: 'http://127.0.0.1:8848',
@@ -36,6 +37,7 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change GET to POST and pass the original query string', function () {
+    // proxy_method POST;
     return request({
       uri: 'http://hiproxy.org/get_to_post/?type=get',
       proxy: 'http://127.0.0.1:8848',
@@ -48,6 +50,9 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change GET to POST and pass the body(JSON)', function () {
+    // proxy_method POST;
+    // proxy_set_header Content-Type application/json;
+    // proxy_set_body '{"package":"hiproxy", "ver": "v2.0.0"}';
     return request({
       uri: 'http://hiproxy.org/get_to_post_body_json/?type=get',
       proxy: 'http://127.0.0.1:8848',
@@ -61,6 +66,8 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change GET to POST and pass the body(Form)', function () {
+    // proxy_method POST;
+    // proxy_set_body 'package=hiproxy&ver=v2.0.0';
     return request({
       uri: 'http://hiproxy.org/get_to_post_body_form/?type=get',
       proxy: 'http://127.0.0.1:8848',
@@ -74,6 +81,7 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change POST to GET', function () {
+    // proxy_method GET;
     return request({
       uri: 'http://hiproxy.org/post_to_get/',
       proxy: 'http://127.0.0.1:8848',
@@ -86,6 +94,7 @@ describe('#directives - proxy_method', function () {
   });
 
   it('should change POST to GET and pass the original query string', function () {
+    // proxy_method GET;
     return request({
       uri: 'http://hiproxy.org/post_to_get/?type=get',
       proxy: 'http://127.0.0.1:8848',

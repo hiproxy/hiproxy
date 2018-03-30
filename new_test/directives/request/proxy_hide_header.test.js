@@ -23,6 +23,8 @@ describe('#directives - proxy_hide_header', function () {
   });
 
   it('should hide request header and NOT send to remote server', function () {
+    // proxy_hide_header Will-Hide;
+    // proxy_hide_header Will-Hide-Too;
     return request({
       uri: 'http://hiproxy.org/hide_header/',
       proxy: 'http://127.0.0.1:8848',
@@ -44,6 +46,8 @@ describe('#directives - proxy_hide_header', function () {
   });
 
   it('should ignore case of header field name', function () {
+    // proxy_hide_header WILL-Hide;
+    // proxy_hide_header wILl-HIDE-ToO;
     return request({
       uri: 'http://hiproxy.org/hide_header_ignore_case/',
       proxy: 'http://127.0.0.1:8848',
