@@ -7,19 +7,36 @@ var fs = require('fs');
 var path = require('path');
 var setHeader = require('./setHeader');
 
+// https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
+var FIELDS_SHOULD_BE_OVERWRITTEN = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag', 'expires', 'from',
+  'host', 'if-modified-since', 'if-unmodified-since', 'last-modified', 'location',
+  'max-forwards', 'proxy-authorization', 'referer', 'retry-after', 'user-agent'
+];
+
 module.exports = {
   // proxy request config
   'proxy_set_header': function (key, value) {
-    // TODO array value and values are joined together with ', '
-    // see: https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
     log.debug('proxy_set_header -', key, value);
     var headers = this.req.headers;
-    var oldValue = headers[key];
+    var keyLower = key.toLowerCase();
+    var oldValue = headers[keyLower];
 
-    if (Array.isArray(oldValue)) {
-      oldValue.push(value);
+    if (keyLower in headers) {
+      if (FIELDS_SHOULD_BE_OVERWRITTEN.indexOf(keyLower) !== -1) {
+        // re-set the value
+        headers[keyLower] = value;
+      } else if (keyLower === 'set-cookie') {
+        oldValue.push(value);
+      } else {
+        headers[keyLower] = oldValue + ', ' + value;
+      }
     } else {
-      headers[key] = value;
+      if (keyLower === 'set-cookie') {
+        headers[keyLower] = [value];
+      } else {
+        headers[keyLower] = value;
+      }
     }
   },
   'proxy_hide_header': function (key, value) {
