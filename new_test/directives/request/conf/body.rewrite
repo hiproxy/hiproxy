@@ -1,0 +1,18 @@
+domain hiproxy.org {
+  ## proxy_set_body
+  location /set_body/ {
+    proxy_set_body '{"package": "hiproxy", "version": "v2.0.0"}';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /set_body_multi_times/ {
+    proxy_set_body '{"package": "hiproxy", "version": "v2.0.0"}';
+    proxy_set_body '{"package": "hemsl", "version": "v1.0.0"}';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /set_body_form/ {
+    proxy_set_body 'package=hiproxy&version=v2.0.0';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}

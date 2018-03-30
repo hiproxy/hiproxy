@@ -6,7 +6,7 @@ var request = require('../../request');
 
 describe('#directives - proxy_timeout', function () {
   var proxyServer;
-  var rewriteFile = path.join(__dirname, 'rewrite');
+  var rewriteFile = path.join(__dirname, 'conf', 'timeout.rewrite');
   var proxyInfo = null;
 
   before(function () {

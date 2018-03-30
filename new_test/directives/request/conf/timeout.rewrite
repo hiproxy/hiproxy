@@ -1,0 +1,12 @@
+domain hiproxy.org {
+  ## proxy_timeout
+  location /tiemout/ {
+    proxy_timeout 2889;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /tiemout_invalid/ {
+    proxy_timeout abcd;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}

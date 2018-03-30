@@ -6,7 +6,7 @@ var request = require('../../request');
 
 describe('#directives - proxy_hide_header', function () {
   var proxyServer;
-  var rewriteFile = path.join(__dirname, 'rewrite');
+  var rewriteFile = path.join(__dirname, 'conf', 'req_headers.rewrite');
 
   before(function () {
     testServer.listen(6789);

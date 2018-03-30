@@ -1,0 +1,30 @@
+domain hiproxy.org {
+  ## proxy_method
+  location /get_to_post/ {
+    proxy_method POST;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_post_body_json/ {
+    proxy_method POST;
+    proxy_set_header Content-Type application/json;
+    proxy_set_body '{"package":"hiproxy", "ver": "v2.0.0"}';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_post_body_form/ {
+    proxy_method POST;
+    proxy_set_body 'package=hiproxy&ver=v2.0.0';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /post_to_get/ {
+    proxy_method GET;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_head/ {
+    proxy_method HEAD;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}

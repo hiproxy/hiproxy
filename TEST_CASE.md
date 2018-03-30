@@ -103,8 +103,18 @@
       - [x] POST to GET and query string
       - [ ] to HEAD
     - [ ] proxy_set_body
+      - [x] cover original body
+      - [x] set body multi-times
+      - [x] support json
+      - [x] support form
+      - [ ] support file upload
     - [ ] proxy_append_body
+      - [ ] merge body (form)
+      - [ ] merge body (json)
     - [ ] proxy_replace_body
+      - [ ] replace body content
+      - [ ] replace all
+      - [ ] replace once
     - [x] proxy_timeout
       - [x] timeout
       - [x] discard invalid value

@@ -71,17 +71,17 @@ module.exports = {
     this.req.body = body;
   },
 
-  'proxy_replace_body': function (oldValue, newValue) {
+  'proxy_replace_body': function (oldValue, newValue, flag) {
     log.debug('proxy_replace_body -', oldValue, newValue);
 
     var body = this.req.body || '';
-    // TODO 正则表达式
+    // TODO 使用flag决定是否替换所有还送替换一次
     this.req.body = body.replace(oldValue, newValue);
   },
 
   'proxy_append_body': function (body) {
     log.debug('proxy_append_body -', body);
-
+    // TODO 合并body，而不是简单的字符串相加
     var _body = this.req.body || '';
     this.req.body = _body + body;
   },
