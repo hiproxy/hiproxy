@@ -5,6 +5,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var querystring = require('querystring');
 var setHeader = require('./setHeader');
 
 // https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
@@ -87,11 +88,26 @@ module.exports = {
     this.req.body = body.replace(oldValue, newValue);
   },
 
-  'proxy_append_body': function (body) {
-    log.debug('proxy_append_body -', body);
-    // TODO 合并body，而不是简单的字符串相加
-    var _body = this.req.body || '';
-    this.req.body = _body + body;
+  'proxy_append_body': function (key, value) {
+    log.debug('proxy_append_body -', key, value);
+    var headers = this.req.headers || {};
+    var contentType = headers['content-type'];
+    var body = this.req.body;
+    var formURL = 'application/x-www-form-urlencoded';
+    var formData = 'multipart/form-data';
+    var json = 'application/json';
+
+    if (contentType.indexOf(json) !== -1) {
+      // TODO support key path (`a.b.c`)
+      body = JSON.parse(body || '{}');
+      body[key] = value;
+      body = JSON.stringify(body);
+    } else if (contentType.indexOf(formURL) !== -1 || contentType.indexOf(formData) !== -1) {
+      body = querystring.parse(body || '');
+      body[key] = value;
+      body = querystring.stringify(body);
+    }
+    this.req.body = body;
   },
 
   'proxy_timeout': function (value) {
