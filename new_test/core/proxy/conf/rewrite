@@ -5,4 +5,12 @@ domain hiproxy.org {
     proxy_set_header From test_case;
     proxy_pass http://127.0.0.1:6789/;
   }
+
+  location /2https/ {
+    proxy_pass https://127.0.0.1:1234/;
+  }
+
+  location /2http/ {
+    proxy_pass http://127.0.0.1:6789/;
+  }
 }

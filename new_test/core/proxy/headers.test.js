@@ -4,7 +4,7 @@ var Proxy = require('../../../src/server');
 var testServer = require('../../testServer');
 var request = require('../../request');
 
-describe('#proxy - proxy GET request', function () {
+describe('#proxy - request and response headers', function () {
   var proxyServer;
   var rewriteFile = path.join(__dirname, 'conf', 'rewrite');
 
@@ -22,27 +22,34 @@ describe('#proxy - proxy GET request', function () {
     proxyServer.stop();
   });
 
-  it('should send GET request to the remote server', function () {
+  it('#request header - should send the original headers to remote server', function () {
+    return request({
+      uri: 'http://hiproxy.org/',
+      proxy: 'http://127.0.0.1:8848',
+      json: true,
+      headers: {
+        'Proxy-Server': 'hiproxy',
+        'Custom-Field': 'value'
+      }
+    }).then(function (res) {
+      var body = res.body;
+      var headers = body.headers;
+
+      assert.equal('hiproxy', headers['proxy-server']);
+      assert.equal('value', headers['custom-field']);
+    });
+  });
+
+  it('#response header - should send the original remote server headers to client', function () {
     return request({
       uri: 'http://hiproxy.org/',
       proxy: 'http://127.0.0.1:8848',
       json: true
     }).then(function (res) {
-      var body = res.body;
-      assert.equal('GET', body.method);
-    });
-  });
+      var headers = res.response.headers;
 
-  it('should send the original query string to the remote server', function () {
-    return request({
-      uri: 'http://hiproxy.org/?from=test&env=TEST',
-      proxy: 'http://127.0.0.1:8848',
-      json: true
-    }).then(function (res) {
-      var body = res.body;
-
-      assert.equal('test', body.query.from);
-      assert.equal('TEST', body.query.env);
+      assert.equal('hiproxy', headers['i-love']);
+      assert.equal('Hiproxy Test Server', headers['server']);
     });
   });
 });

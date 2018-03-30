@@ -6,12 +6,16 @@
   - [x] add hosts files
   - [x] add hosts rule
   - [x] get hosts rule
+  - [ ] rule order
 
 * rewrite
   - [ ] find rewrite files
   - [x] add rewrite files
   - [x] add rewrite rule
   - [x] get rewrite rule
+  - [ ] rule order
+  - [ ] rule merge
+  - [ ] built-in variables
 
 * hiproxy core
   - [x] server create
@@ -46,20 +50,19 @@
       - [x] multipart/form-data
       - [x] application/x-www-form-urlencoded
       - [x] file upload
-    - [ ] POST to GET
-    - [ ] GET to POST
-    - [ ] request headers
-    - [ ] response headers
-    - [ ] built-in variables    
-    - [ ] HTTP requsts
-      - [ ] reverse proxy
+    - [x] request headers
+    - [x] response headers
+    - [ ] built-in variables 
+    - [x] HTTP requsts
+      - [x] reverse proxy
     - [ ] HTTPS requests
-      - [ ] certificate auto generation
-      - [ ] certificate cache
-      - [ ] Tunnel proxy
-      - [ ] Reverse proxy
-    - [ ] HTTPS to HTTP
-    - [ ] HTTP to HTTPS
+      - [x] reverse proxy
+      - [x] certificate auto generation
+      - [x] certificate cache
+      - [x] Tunnel proxy
+      - [ ] ...
+    - [x] HTTPS to HTTP
+    - [x] HTTP to HTTPS
     - [ ] proxy rule order
   * events
     * request

@@ -3,12 +3,21 @@
  * @author zdying
  */
 
+var fs = require('fs');
+var path = require('path');
 var http = require('http');
+var https = require('https');
 var url = require('url');
 var zlib = require('zlib');
 var querystring = require('querystring');
 
-var server = http.createServer(function (req, res) {
+var server = http.createServer(cbk.bind(null, 'http'));
+var serverHTTPS = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'localhost.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'localhost.pem'))
+}, cbk.bind(null, 'https'));
+
+function cbk (type, req, res) {
   var body = '';
   req.on('data', function (chunk) {
     body += chunk.toString();
@@ -28,6 +37,7 @@ var server = http.createServer(function (req, res) {
     }
 
     var info = {
+      serverType: type,
       url: req.url,
       headers: req.headers,
       query: query,
@@ -53,6 +63,7 @@ var server = http.createServer(function (req, res) {
         res.writeHead(statusCode, {
           'Content-Type': query.contentType || 'application/json',
           'Server': 'Hiproxy Test Server',
+          'I-Love': 'hiproxy',
           'Content-Encoding': 'gzip'
         });
         res.end(result);
@@ -60,12 +71,13 @@ var server = http.createServer(function (req, res) {
     } else {
       res.writeHead(query.statusCode || 200, {
         'Content-Type': query.contentType || 'application/json',
-        'Server': 'Hiproxy Test Server'
+        'Server': 'Hiproxy Test Server',
+        'I-Love': 'hiproxy'
       });
       res.end(query.responseBody || JSON.stringify(info));
     }
   });
-});
+}
 
 exports.listen = function () {
   server.listen.apply(server, arguments);
@@ -75,4 +87,13 @@ exports.close = function (callback) {
   server.close(callback);
 };
 
+exports.listenHTTPS = function () {
+  serverHTTPS.listen.apply(serverHTTPS, arguments);
+};
+
+exports.closeHTTPS = function (callback) {
+  serverHTTPS.close(callback);
+};
+
 // exports.listen(4000)
+// exports.listenHTTPS(4001)
