@@ -75,7 +75,15 @@ module.exports = {
     log.debug('proxy_replace_body -', oldValue, newValue);
 
     var body = this.req.body || '';
-    // TODO 使用flag决定是否替换所有还送替换一次
+    var reg = /^[igm]+$/;
+
+    if (flag && !reg.test(flag)) {
+      log.warn('Invalid `proxy_replace_body` replace flag : ' + flag + ', the valid flags is `i`(ignore case) and `g`(global).');
+      flag = '';
+    }
+
+    oldValue = new RegExp(oldValue, flag);
+
     this.req.body = body.replace(oldValue, newValue);
   },
 
