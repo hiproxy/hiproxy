@@ -84,16 +84,23 @@
     * source image
 
 * directives
-  * request
-    * proxy_set_header
-    * proxy_hide_header
-    * proxy_set_cookie
-    * proxy_hide_cookie
-    * proxy_method
-    * proxy_set_body
-    * proxy_append_body
-    * proxy_replace_body
-    * proxy_timeout
+  - [ ] request
+    - [ ] proxy_set_header
+      - [x] set header
+      - [ ] array value
+      - [ ] joined together with ', '
+    - [x] proxy_hide_header
+      - [x] hide header
+      - [x] ignore case of field name
+    - [ ] proxy_set_cookie
+    - [ ] proxy_hide_cookie
+    - [ ] proxy_method
+    - [ ] proxy_set_body
+    - [ ] proxy_append_body
+    - [ ] proxy_replace_body
+    - [x] proxy_timeout
+      - [x] timeout
+      - [x] discard invalid value
   * response
     * set_header
     * set_cookie

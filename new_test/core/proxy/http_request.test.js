@@ -6,7 +6,7 @@ var request = require('../../request');
 
 describe('#proxy - HTTP request proxy', function () {
   var proxyServer;
-  var rewriteFile = path.join(__dirname, 'conf', 'rewrite');
+  var rewriteFile = path.join(__dirname, 'rewrite');
 
   before(function () {
     testServer.listen(6789);

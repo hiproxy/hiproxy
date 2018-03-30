@@ -1,0 +1,36 @@
+domain hiproxy.org {
+  location / {
+    proxy_set_header From Test_Case;
+    proxy_set_header Date 2018-03-30;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  ## duplicates headers 
+  ## https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
+  location /array_header/ {
+    proxy_set_header UID zdying hiproxy;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_header/ {
+    proxy_hide_header Will-Hide;
+    proxy_hide_header Will-Hide-Too;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_header_ignore_case/ {
+    proxy_hide_header WILL-Hide;
+    proxy_hide_header wILl-HIDE-ToO;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /tiemout/ {
+    proxy_timeout 2889;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /tiemout_invalid/ {
+    proxy_timeout abcd;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}

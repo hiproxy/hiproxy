@@ -4,13 +4,20 @@ var Proxy = require('../../../src/server');
 var testServer = require('../../testServer');
 var request = require('../../request');
 
-describe('#proxy - proxy GET request', function () {
+describe('#directives - proxy_timeout', function () {
   var proxyServer;
   var rewriteFile = path.join(__dirname, 'rewrite');
+  var proxyInfo = null;
 
   before(function () {
     testServer.listen(6789);
-    proxyServer = new Proxy(8848);
+    proxyServer = new Proxy({
+      httpPort: 8848,
+      onBeforeRequest: function (detail) {
+        var proxy = detail.proxy;
+        proxyInfo = proxy;
+      }
+    });
     global.log = proxyServer.logger;
 
     proxyServer.addRewriteFile(rewriteFile);
@@ -22,27 +29,23 @@ describe('#proxy - proxy GET request', function () {
     proxyServer.stop();
   });
 
-  it('should send GET request to the remote server', function () {
+  it('should set request header and send to remote server', function () {
     return request({
-      uri: 'http://hiproxy.org/',
+      uri: 'http://hiproxy.org/tiemout/',
       proxy: 'http://127.0.0.1:8848',
       json: true
     }).then(function (res) {
-      var body = res.body;
-      assert.equal('GET', body.method);
+      assert.equal(2889, proxyInfo.timeout);
     });
   });
 
-  it('should send the original query string to the remote server', function () {
+  it('should discard the invalid value', function () {
     return request({
-      uri: 'http://hiproxy.org/?from=test&env=TEST',
+      uri: 'http://hiproxy.org/tiemout_invalid/',
       proxy: 'http://127.0.0.1:8848',
       json: true
     }).then(function (res) {
-      var body = res.body;
-
-      assert.equal('test', body.query.from);
-      assert.equal('TEST', body.query.env);
+      assert.equal(undefined, proxyInfo.timeout);
     });
   });
 });

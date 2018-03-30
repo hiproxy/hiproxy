@@ -4,7 +4,7 @@ var Proxy = require('../../../src/server');
 var testServer = require('../../testServer');
 var request = require('../../request');
 
-describe('#proxy - proxy GET request', function () {
+describe('#directives - proxy_set_header', function () {
   var proxyServer;
   var rewriteFile = path.join(__dirname, 'rewrite');
 
@@ -22,27 +22,20 @@ describe('#proxy - proxy GET request', function () {
     proxyServer.stop();
   });
 
-  it('should send GET request to the remote server', function () {
+  it('should set request header and send to remote server', function () {
     return request({
       uri: 'http://hiproxy.org/',
       proxy: 'http://127.0.0.1:8848',
       json: true
     }).then(function (res) {
       var body = res.body;
-      assert.equal('GET', body.method);
+      var headers = body.headers;
+
+      assert.equal('Test_Case', headers.from);
+      assert.equal('2018-03-30', headers.date);
     });
   });
 
-  it('should send the original query string to the remote server', function () {
-    return request({
-      uri: 'http://hiproxy.org/?from=test&env=TEST',
-      proxy: 'http://127.0.0.1:8848',
-      json: true
-    }).then(function (res) {
-      var body = res.body;
-
-      assert.equal('test', body.query.from);
-      assert.equal('TEST', body.query.env);
-    });
-  });
+  // TODO array value and values are joined together with ', '
+  // see: https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
 });

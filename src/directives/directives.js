@@ -10,6 +10,8 @@ var setHeader = require('./setHeader');
 module.exports = {
   // proxy request config
   'proxy_set_header': function (key, value) {
+    // TODO array value and values are joined together with ', '
+    // see: https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
     log.debug('proxy_set_header -', key, value);
     var headers = this.req.headers;
     var oldValue = headers[key];
