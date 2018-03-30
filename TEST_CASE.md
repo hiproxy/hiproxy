@@ -87,8 +87,9 @@
   - [ ] request
     - [ ] proxy_set_header
       - [x] set header
-      - [ ] array value
-      - [ ] joined together with ', '
+      - [x] array value
+      - [x] joined together with ', '
+      - [x] over written value
     - [x] proxy_hide_header
       - [x] hide header
       - [x] ignore case of field name

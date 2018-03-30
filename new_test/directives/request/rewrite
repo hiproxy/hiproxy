@@ -8,8 +8,25 @@ domain hiproxy.org {
 
   ## duplicates headers 
   ## https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
+  location /over_written_header/ {
+    proxy_set_header host test.hiproxy.org;
+    proxy_set_header host hiproxy.org;
+
+    proxy_set_header from test@hiproxy.org;
+    proxy_set_header from admin@hiproxy.org;
+
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
   location /array_header/ {
-    proxy_set_header UID zdying hiproxy;
+    proxy_set_header set-cookie 'uname=zdying';
+    proxy_set_header set-cookie 'role=admin';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /join_header/ {
+    proxy_set_header UIDs zdying;
+    proxy_set_header UIDs hiproxy;
     proxy_pass http://127.0.0.1:6789/;
   }
 

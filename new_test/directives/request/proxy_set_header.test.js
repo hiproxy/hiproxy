@@ -36,6 +36,43 @@ describe('#directives - proxy_set_header', function () {
     });
   });
 
-  // TODO array value and values are joined together with ', '
-  // see: https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
+  it('should cover the values ​​of fields named host, age, authorization, content-length ...', function () {
+    return request({
+      uri: 'http://hiproxy.org/over_written_header/',
+      proxy: 'http://127.0.0.1:8848',
+      json: true
+    }).then(function (res) {
+      var body = res.body;
+      var headers = body.headers;
+
+      assert.equal('admin@hiproxy.org', headers.from);
+      assert.equal('hiproxy.org', headers.host);
+    });
+  });
+
+  it('should make a Array when name is `set-cookie`', function () {
+    return request({
+      uri: 'http://hiproxy.org/array_header/',
+      proxy: 'http://127.0.0.1:8848',
+      json: true
+    }).then(function (res) {
+      var body = res.body;
+      var headers = body.headers;
+
+      assert.deepEqual(['uname=zdying', 'role=admin'], headers['set-cookie']);
+    });
+  });
+
+  it('should join the values with `, ` ​​of other fields', function () {
+    return request({
+      uri: 'http://hiproxy.org/join_header/',
+      proxy: 'http://127.0.0.1:8848',
+      json: true
+    }).then(function (res) {
+      var body = res.body;
+      var headers = body.headers;
+
+      assert.equal('zdying, hiproxy', headers.uids);
+    });
+  });
 });
