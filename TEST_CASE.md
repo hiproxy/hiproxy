@@ -95,6 +95,12 @@
     - [ ] proxy_set_cookie
     - [ ] proxy_hide_cookie
     - [ ] proxy_method
+      - [x] GET to POST
+      - [x] GET to POST and body (form)
+      - [x] GET to POST and body (json)
+      - [x] POST to GET
+      - [x] POST to GET and query string
+      - [ ] to HEAD
     - [ ] proxy_set_body
     - [ ] proxy_append_body
     - [ ] proxy_replace_body

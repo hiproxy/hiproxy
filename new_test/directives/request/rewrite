@@ -1,4 +1,5 @@
 domain hiproxy.org {
+  ## proxy_set_header
   location / {
     proxy_set_header From Test_Case;
     proxy_set_header Date 2018-03-30;
@@ -12,6 +13,7 @@ domain hiproxy.org {
     proxy_pass http://127.0.0.1:6789/;
   }
 
+  ## proxy_hide_header
   location /hide_header/ {
     proxy_hide_header Will-Hide;
     proxy_hide_header Will-Hide-Too;
@@ -24,6 +26,7 @@ domain hiproxy.org {
     proxy_pass http://127.0.0.1:6789/;
   }
 
+  ## proxy_timeout
   location /tiemout/ {
     proxy_timeout 2889;
     proxy_pass http://127.0.0.1:6789/;
@@ -31,6 +34,35 @@ domain hiproxy.org {
 
   location /tiemout_invalid/ {
     proxy_timeout abcd;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  ## proxy_method
+  location /get_to_post/ {
+    proxy_method POST;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_post_body_json/ {
+    proxy_method POST;
+    proxy_set_header Content-Type application/json;
+    proxy_set_body '{"package":"hiproxy", "ver": "v2.0.0"}';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_post_body_form/ {
+    proxy_method POST;
+    proxy_set_body 'package=hiproxy&ver=v2.0.0';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /post_to_get/ {
+    proxy_method GET;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /get_to_head/ {
+    proxy_method HEAD;
     proxy_pass http://127.0.0.1:6789/;
   }
 }
