@@ -123,6 +123,7 @@ describe('#http server', function () {
         assert.equal('hiproxy', reqHeaders.proxy_app);
 
         assert.equal('1', resHeaders.set_header_field_1);
+        console.log(resHeaders);
         assert.deepEqual(['cookie1=c1', 'cookie2=c2'].sort(), resHeaders['set-cookie'].sort());
 
         done();
@@ -203,7 +204,7 @@ describe('#http server', function () {
         proxy: 'http://127.0.0.1:8850'
       }, function (err, response, body) {
         assert.equal(err, null);
-        assert.equal(response.headers.str, 'str_domain_scope, str_location_scope');
+        assert.equal(response.headers.str, 'str_location_scope');
 
         done();
       });

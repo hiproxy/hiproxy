@@ -74,6 +74,8 @@ function cbk (type, req, res) {
           'Content-Type': query.contentType || 'application/json',
           'Server': 'Hiproxy Test Server',
           'I-Love': 'hiproxy',
+          'Res-Header-1': '1',
+          'Res-Header-2': '2',
           'Content-Encoding': 'gzip'
         });
         res.end(result);
@@ -82,7 +84,9 @@ function cbk (type, req, res) {
       res.writeHead(query.statusCode || 200, {
         'Content-Type': query.contentType || 'application/json',
         'Server': 'Hiproxy Test Server',
-        'I-Love': 'hiproxy'
+        'I-Love': 'hiproxy',
+        'Res-Header-1': '1',
+        'Res-Header-2': '2'
       });
       res.end(query.responseBody || JSON.stringify(info));
     }

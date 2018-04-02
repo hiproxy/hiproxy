@@ -5,13 +5,20 @@
 'use strict';
 
 module.exports = function setHeader (response, name, value) {
+  var keyLower = name.toLowerCase();
   var header = response.getHeader(name);
 
-  if (!Array.isArray(header)) {
-    header = header ? [header] : [];
+  if (value == null) {
+    return;
   }
 
-  header.push(value);
+  if (keyLower === 'set-cookie') {
+    if (header) {
+      value = [].concat(header).concat(value);
+    } else {
+      value = [value];
+    }
+  }
 
-  response.setHeader(name, header);
+  response.setHeader(name, value);
 };
