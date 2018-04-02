@@ -27,6 +27,7 @@ function cbk (type, req, res) {
     var urlObj = url.parse(req.url, true);
     var query = urlObj.query;
     var contentType = req.headers['content-type'] || '';
+    var cookie = req.headers.cookie || '';
     var isJSON = contentType.indexOf('application/json') !== -1;
     var bodyObj = {};
 
@@ -44,7 +45,9 @@ function cbk (type, req, res) {
       method: req.method,
       httpVersion: req.httpVersion,
       body: bodyObj,
-      rawBody: body
+      rawBody: body,
+      cookie: parseCookie(cookie),
+      rawCookie: cookie
     };
 
     var acceptEncoding = req.headers['accept-encoding'];
@@ -77,6 +80,16 @@ function cbk (type, req, res) {
       res.end(query.responseBody || JSON.stringify(info));
     }
   });
+}
+
+function parseCookie (str) {
+  return str.split(';').map(function (field) {
+    var arr = field.trim().split('=');
+    return [arr[0], arr.slice(1).join('=')];
+  }).reduce(function (acc, curr) {
+    acc[curr[0]] = curr[1];
+    return acc;
+  }, {});
 }
 
 exports.listen = function () {

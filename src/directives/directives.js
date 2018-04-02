@@ -47,11 +47,11 @@ module.exports = {
   'proxy_set_cookie': function (key, value) {
     log.debug('proxy_set_cookie -', key, value);
 
-    var str = key + '=' + value;
+    var str = key + '=' + (value || '');
     var headers = this.req.headers;
     var cookie = headers.cookie || '';
 
-    headers.cookie = cookie + '; ' + str;
+    headers.cookie = (cookie ? cookie + '; ' : '') + str;
   },
   'proxy_hide_cookie': function (key) {
     log.debug('proxy_hide_cookie -', key);
