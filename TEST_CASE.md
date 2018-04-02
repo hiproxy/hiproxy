@@ -51,7 +51,10 @@
       - [x] application/x-www-form-urlencoded
       - [x] file upload
     - [x] request headers
-    - [x] response headers
+      - [x] send server headers to client
+    - [ ] response headers
+      - [x] send server headers to client
+      - [ ] content length
     - [ ] built-in variables 
     - [x] HTTP requsts
       - [x] reverse proxy
@@ -147,6 +150,10 @@
       - [x] hide all matched fields
       - [ ] hide `cookie` header
     * echo
+      - [ ] write normal string
+      - [ ] write html
+      - [ ] multiple echo
+      - [ ] use variables
     * send_file
     * sub_filter
     * sub_filter_once
