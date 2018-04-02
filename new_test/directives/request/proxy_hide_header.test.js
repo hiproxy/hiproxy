@@ -67,4 +67,26 @@ describe('#directives - proxy_hide_header', function () {
       assert.equal(undefined, headers['will-hide-too']);
     });
   });
+
+  it('should hide all matched headers', function () {
+    // proxy_hide_header will-hide will-hide-too;
+    return request({
+      uri: 'http://hiproxy.org/hide_header_all/',
+      proxy: 'http://127.0.0.1:8848',
+      json: true,
+      headers: {
+        'Will-Not-Hide': 'true',
+        'Will-HIDE': 'true',
+        'WIll-HIDe-Too': 'true',
+        'Date': Date.now()
+      }
+    }).then(function (res) {
+      var body = res.body;
+      var headers = body.headers;
+
+      assert.equal('true', headers['will-not-hide']);
+      assert.equal(undefined, headers['will-hide']);
+      assert.equal(undefined, headers['will-hide-too']);
+    });
+  });
 });

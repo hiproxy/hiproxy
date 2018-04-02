@@ -30,6 +30,8 @@ function cbk (type, req, res) {
     var cookie = req.headers.cookie || '';
     var isJSON = contentType.indexOf('application/json') !== -1;
     var bodyObj = {};
+    var cookieObj = parseCookie(cookie);
+    var resCookie = [];
 
     try {
       bodyObj = isJSON ? JSON.parse(body) : querystring.parse(body);
@@ -46,9 +48,14 @@ function cbk (type, req, res) {
       httpVersion: req.httpVersion,
       body: bodyObj,
       rawBody: body,
-      cookie: parseCookie(cookie),
+      cookie: cookieObj,
       rawCookie: cookie
     };
+
+    for (var key in cookieObj) {
+      resCookie.push(key + '=' + cookieObj[key]);
+    }
+    res.setHeader('Set-Cookie', resCookie);
 
     var acceptEncoding = req.headers['accept-encoding'];
     if (!acceptEncoding) {
@@ -83,6 +90,9 @@ function cbk (type, req, res) {
 }
 
 function parseCookie (str) {
+  if (!str) {
+    return {};
+  }
   return str.split(';').map(function (field) {
     var arr = field.trim().split('=');
     return [arr[0], arr.slice(1).join('=')];

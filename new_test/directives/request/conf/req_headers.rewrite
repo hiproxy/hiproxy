@@ -42,4 +42,9 @@ domain hiproxy.org {
     proxy_hide_header wILl-HIDE-ToO;
     proxy_pass http://127.0.0.1:6789/;
   }
+
+  location /hide_header_all/ {
+    proxy_hide_header will-hide will-hide-too;
+    proxy_pass http://127.0.0.1:6789/;
+  }
 }

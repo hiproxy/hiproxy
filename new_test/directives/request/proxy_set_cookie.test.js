@@ -27,7 +27,6 @@ describe('#directives - proxy_set_cookie', function () {
     return request({
       uri: 'http://hiproxy.org/set_cookie/',
       proxy: 'http://127.0.0.1:8848',
-      method: 'POST',
       json: true
     }).then(function (res) {
       var cookie = res.body.cookie;
@@ -42,11 +41,10 @@ describe('#directives - proxy_set_cookie', function () {
     return request({
       uri: 'http://hiproxy.org/set_cookie/',
       proxy: 'http://127.0.0.1:8848',
-      method: 'POST',
-      json: true,
       headers: {
         cookie: 'server=hiproxy; version=v2.0.0'
-      }
+      },
+      json: true
     }).then(function (res) {
       var cookie = res.body.cookie;
 
@@ -62,7 +60,6 @@ describe('#directives - proxy_set_cookie', function () {
     return request({
       uri: 'http://hiproxy.org/set_cookie/',
       proxy: 'http://127.0.0.1:8848',
-      method: 'POST',
       json: true,
       headers: {
         cookie: 'uname=123456'
@@ -80,7 +77,6 @@ describe('#directives - proxy_set_cookie', function () {
     return request({
       uri: 'http://hiproxy.org/set_more_cookie/',
       proxy: 'http://127.0.0.1:8848',
-      method: 'POST',
       json: true,
       headers: {
         cookie: 'uname=123456'

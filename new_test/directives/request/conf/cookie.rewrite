@@ -10,4 +10,31 @@ domain hiproxy.org {
     proxy_set_cookie uid 1234567890;
     proxy_pass http://127.0.0.1:6789/;
   }
+
+  # proxy_hide_cookie
+  location /hide_cookie/ {
+    proxy_hide_cookie u-name;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_all/ {
+    proxy_hide_cookie uname from;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_all_m/ {
+    proxy_hide_cookie uname;
+    proxy_hide_cookie from;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_no_param/ {
+    proxy_hide_cookie;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_not_exists/ {
+    proxy_hide_cookie cookie-not-exist;
+    proxy_pass http://127.0.0.1:6789/;
+  }
 }

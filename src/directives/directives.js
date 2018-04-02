@@ -40,9 +40,15 @@ module.exports = {
       }
     }
   },
-  'proxy_hide_header': function (key, value) {
-    log.debug('proxy_hide_header -', key, value);
-    delete this.req.headers[key.toLowerCase()];
+  'proxy_hide_header': function (key) {
+    var keys = [].slice.call(arguments, 0);
+    var headers = this.req.headers;
+
+    log.debug('proxy_hide_header -', keys.join(','));
+
+    keys.forEach(function (key) {
+      delete headers[key.toLowerCase()];
+    });
   },
   'proxy_set_cookie': function (key, value) {
     log.debug('proxy_set_cookie -', key, value);
@@ -54,12 +60,33 @@ module.exports = {
     headers.cookie = (cookie ? cookie + '; ' : '') + str;
   },
   'proxy_hide_cookie': function (key) {
-    log.debug('proxy_hide_cookie -', key);
-
     var headers = this.req.headers;
-    var cookie = headers.cookie || '';
+    var cookie = headers.cookie;
+    var keys = [].slice.call(arguments, 0);
+    var cookies = [];
+    var newCookie = [];
 
-    headers.cookie = cookie.replace(new RegExp('(;.*)?' + key + ' *= *([^;]*) *'), '');
+    log.debug('proxy_hide_cookie -', keys.join(','));
+
+    if (cookie) {
+      cookies = cookie.split('; ');
+    }
+
+    if (cookies.length === 0) {
+      return;
+    }
+
+    if (arguments.length === 0) {
+      headers.cookie = '';
+    } else {
+      cookies.forEach(function (_cookie) {
+        if (keys.indexOf(_cookie.split('=')[0]) === -1) {
+          newCookie.push(_cookie);
+        }
+      });
+
+      headers.cookie = newCookie.join('; ');
+    }
   },
 
   'proxy_method': function (key) {

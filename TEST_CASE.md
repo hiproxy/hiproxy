@@ -93,9 +93,13 @@
     - [x] proxy_hide_header
       - [x] hide header
       - [x] ignore case of field name
-    - [ ] proxy_set_cookie
-      - [ ] set cookie
-    - [ ] proxy_hide_cookie
+      - [x] hide all matched headers
+    - [x] proxy_set_cookie
+      - [x] set cookie
+    - [x] proxy_hide_cookie
+      - [x] hide cookie
+      - [x] hide all matched fields
+      - [x] hide `cookie` header
     - [ ] proxy_method
       - [x] GET to POST
       - [x] GET to POST and body (form)
