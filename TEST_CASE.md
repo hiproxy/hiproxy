@@ -90,6 +90,7 @@
       - [x] array value
       - [x] joined together with ', '
       - [x] over written value
+      - [ ] use variables
     - [x] proxy_hide_header
       - [x] hide header
       - [x] ignore case of field name
@@ -113,22 +114,33 @@
       - [x] support json
       - [x] support form
       - [ ] support file upload
+      - [ ] use variables
     - [ ] proxy_append_body
       - [x] merge body (form)
       - [x] merge body (json)
       - [ ] object key path(`a.b.c`)
+      - [ ] use variables
     - [x] proxy_replace_body
       - [x] replace body content
       - [x] replace all
       - [x] replace once
       - [x] ignore case
+      - [ ] use variables
     - [x] proxy_timeout
       - [x] timeout
       - [x] discard invalid value
   * response
-    * set_header
+    - [ ] set_header
+      - [x] set header
+      - [x] array value
+      - [x] over written value
+      - [ ] over written default header value
+      - [ ] use variables
+    - [x] hide_header
+      - [x] hide header
+      - [x] ignore case of field name
+      - [x] hide all matched headers
     * set_cookie
-    * hide_header
     * hide_cookie
     * echo
     * send_file

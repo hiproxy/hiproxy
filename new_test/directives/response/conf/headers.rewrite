@@ -1,0 +1,44 @@
+domain hiproxy.org {
+  ## set_header
+  location / {
+    set_header From admin@hiproxy.org;
+    set_header User admin;
+    set_header Date 2018-08-08;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  ## duplicates headers 
+  location /over_written_header/ {
+    set_header host test.hiproxy.org;
+    set_header host hiproxy.org;
+
+    set_header from test@hiproxy.org;
+    set_header from admin@hiproxy.org;
+
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /array_header/ {
+    set_header set-cookie 'uname=zdying';
+    set_header set-cookie 'role=admin';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  ## hide_header
+  location /hide_header/ {
+    hide_header res-header-1;
+    hide_header res-header-2;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_header_ignore_case/ {
+    hide_header Res-Header-1;
+    hide_header RES-HeADer-2;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_header_all/ {
+    hide_header res-header-1 res-header-2;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}

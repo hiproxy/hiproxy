@@ -153,11 +153,16 @@ module.exports = {
 
     setHeader(this.res, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
   },
-  'hide_header': function (key, value) {
-    log.debug('hide_header -', key, value);
+  'hide_header': function (key) {
+    var keys = [].slice.call(arguments, 0);
+    var ctx = this;
 
-    delete this.res.headers[key.toLowerCase()];
-    this.res.removeHeader(key);
+    log.debug('hide_header -', keys.join(','));
+
+    keys.forEach(function (key) {
+      delete ctx.res.headers[key.toLowerCase()];
+      ctx.res.removeHeader(key);
+    });
   },
   'set_header': function (key, value) {
     log.debug('set_header -', key, value);
