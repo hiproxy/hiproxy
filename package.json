@@ -57,7 +57,8 @@
     "mocha": "^3.2.0",
     "nyc": "^10.3.2",
     "request": "^2.79.0",
-    "semistandard": "^10.0.0"
+    "semistandard": "^10.0.0",
+    "set-cookie-parser": "^2.1.1"
   },
   "config": {
     "ghooks": {

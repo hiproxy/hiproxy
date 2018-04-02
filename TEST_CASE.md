@@ -140,8 +140,12 @@
       - [x] hide header
       - [x] ignore case of field name
       - [x] hide all matched headers
-    * set_cookie
-    * hide_cookie
+    - [x] set_cookie
+      - [x] set cookie
+    - [ ] hide_cookie
+      - [x] hide cookie
+      - [x] hide all matched fields
+      - [ ] hide `cookie` header
     * echo
     * send_file
     * sub_filter

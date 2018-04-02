@@ -6,7 +6,7 @@
 
 module.exports = function setHeader (response, name, value) {
   var keyLower = name.toLowerCase();
-  var header = response.getHeader(name);
+  var header = response.getHeader(name) || response.headers[keyLower];
 
   if (value == null) {
     return;
@@ -21,4 +21,5 @@ module.exports = function setHeader (response, name, value) {
   }
 
   response.setHeader(name, value);
+  response.headers[name] = value;
 };

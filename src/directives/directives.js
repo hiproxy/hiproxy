@@ -148,10 +148,14 @@ module.exports = {
   },
 
   // response config
-  'hide_cookie': function (key) {
-    log.debug('hide_cookie -', key);
-
-    setHeader(this.res, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
+  'hide_cookie': function () {
+    var self = this;
+    var keys = [].slice.call(arguments, 0);
+    log.debug('hide_cookie -', keys.join(','));
+    // TODO hide all cookie when key in empty
+    keys.forEach(function (key) {
+      setHeader(self.res, 'Set-Cookie', key + '=; Expires=' + new Date(1).toGMTString());
+    });
   },
   'hide_header': function (key) {
     var keys = [].slice.call(arguments, 0);
@@ -171,7 +175,7 @@ module.exports = {
   },
   'set_cookie': function (key, value) {
     log.debug('set_cookie -', key, value);
-
+    // TODO expires support
     setHeader(this.res, 'Set-Cookie', key + '=' + value);
   },
 

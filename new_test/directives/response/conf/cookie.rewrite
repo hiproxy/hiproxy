@@ -1,0 +1,46 @@
+domain hiproxy.org {
+  ## set_cookie
+  location /set_cookie/ {
+    set_cookie uname zdying;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /set_more_cookie/ {
+    set_cookie uname zdying;
+    set_cookie uid 1234567890;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  # hide_cookie
+  location /hide_cookie/ {
+    hide_cookie u-name;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_multiple_cookie/ {
+    hide_cookie uname from;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_multiple_cookie_2/ {
+    hide_cookie uname;
+    hide_cookie from;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_all_m/ {
+    hide_cookie uname;
+    hide_cookie from;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_no_param/ {
+    hide_cookie;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /hide_cookie_not_exists/ {
+    hide_cookie cookie-not-exist;
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}
