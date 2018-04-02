@@ -149,11 +149,11 @@
       - [x] hide cookie
       - [x] hide all matched fields
       - [ ] hide `cookie` header
-    * echo
-      - [ ] write normal string
-      - [ ] write html
-      - [ ] multiple echo
-      - [ ] use variables
+    - [x] echo
+      - [x] write normal string
+      - [x] write html
+      - [x] multiple echo
+      - [x] use variables
     * send_file
     * sub_filter
     * sub_filter_once

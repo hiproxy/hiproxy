@@ -1,0 +1,45 @@
+domain hiproxy.org {
+  location / {
+    echo 'It Works!';
+  }
+
+  location /html/ {
+    echo '<p style="color: red;">good afternoon.</p>';
+  }
+
+  location /multiple_echo/ {
+    echo 1;
+    echo 2;
+    echo 'string';
+    echo true;
+    echo '<div style="color: orange;">finish</div>';
+  }
+
+  location /multiple_echo_me/ {
+    echo 1 2 'string' true '<div style="color: orange;">finish</div>';
+  }
+
+  location /has_target_url/ {
+    echo 'It Works!';
+    echo '<script>alert(123);</script>';
+    proxy_pass http://127.0.0.1:6789/has_target_url/;
+    echo 'Echo finish.';    
+  }
+
+  location /use_variables/ {
+    set_header Content-Type application/json;
+    echo '{';
+    echo   '"host": "$host",';
+    echo   '"query_string": "$query_string",';
+    echo   '"path_name": "$path_name"';
+    echo '}';
+  }
+
+  location /use_custom_variables/ {
+    set $server hiproxy;
+    echo '{';
+    echo   '"host": "$host",';
+    echo   '"server": "$server"';
+    echo '}';
+  }
+}
