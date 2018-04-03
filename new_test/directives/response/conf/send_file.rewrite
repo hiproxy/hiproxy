@@ -10,7 +10,11 @@ domain hiproxy.org {
 
   location /content_type/ {
     send_file ../files/index.html;
-    # proxy_pass http://127.0.0.1:6789/with_target_url/;
+    proxy_pass http://127.0.0.1:6789/content_type/;
+  }
+
+  location /def_content_type/ {
+    send_file ../files/rewrite.hiproxy;
   }
 
   location /relative/ {
