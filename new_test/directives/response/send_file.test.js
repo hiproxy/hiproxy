@@ -32,7 +32,7 @@ describe('#directives - send_file', function () {
       }).then(function (res) {
         var body = res.body;
         var index = body.indexOf('<p>it works!</p>');
-  
+
         assert.notEqual(-1, index);
       });
     });
