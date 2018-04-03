@@ -17,6 +17,8 @@ var serverHTTPS = https.createServer({
   cert: fs.readFileSync(path.join(__dirname, 'localhost.pem'))
 }, cbk.bind(null, 'https'));
 
+var resString = 'This is some test text for hiproxy TEST Case. Only for test.';
+
 function cbk (type, req, res) {
   var body = '';
   req.on('data', function (chunk) {
@@ -49,7 +51,8 @@ function cbk (type, req, res) {
       body: bodyObj,
       rawBody: body,
       cookie: cookieObj,
-      rawCookie: cookie
+      rawCookie: cookie,
+      resString: resString
     };
 
     for (var key in cookieObj) {
@@ -76,7 +79,8 @@ function cbk (type, req, res) {
           'I-Love': 'hiproxy',
           'Res-Header-1': '1',
           'Res-Header-2': '2',
-          'Content-Encoding': 'gzip'
+          'Content-Encoding': 'gzip',
+          'last-modified': new Date().toUTCString()
         });
         res.end(result);
       });
@@ -86,7 +90,8 @@ function cbk (type, req, res) {
         'Server': 'Hiproxy Test Server',
         'I-Love': 'hiproxy',
         'Res-Header-1': '1',
-        'Res-Header-2': '2'
+        'Res-Header-2': '2',
+        'last-modified': new Date().toUTCString()
       });
       res.end(query.responseBody || JSON.stringify(info));
     }

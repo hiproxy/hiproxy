@@ -1,0 +1,74 @@
+domain hiproxy.org {
+  ## sub_filter
+  location / {
+    sub_filter 'This is' 'That are';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+
+  location /once/ {
+    sub_filter_once on;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  ## sub_filter_once
+  location /all/ {
+    sub_filter_once off;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  location /once_def/ {
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  location /invalid/ {
+    sub_filter_once false;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  ## sub_filter_last_modified
+  location /lm_on/ {
+    sub_filter_last_modified on;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  location /lm_off/ {
+    sub_filter_last_modified off;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  location /lm_invalid/ {
+    sub_filter_last_modified 123;
+    sub_filter 'is' 'are';
+    proxy_pass http://127.0.0.1:6789/g/;
+  }
+
+  ## sub_filter_types
+  location /spec_type/ {
+    proxy_pass http://127.0.0.1:6789/spec_type/;
+    sub_filter 'spec_type' 'SPCE_TYPE';
+  }
+
+  location /should_not_replace/ {
+    proxy_pass http://127.0.0.1:6789/;
+    sub_filter_types text/html text/css;    
+    sub_filter '"url":"/"' '"url":"/a/b/c/d"';
+  }
+
+  location /should_replace/ {
+    proxy_pass http://127.0.0.1:6789/;
+    sub_filter_types text/html text/css *;    
+    sub_filter '"url":"/"' '"url":"/a/b/c/d"';
+  }
+
+  location /css/ {
+    proxy_pass http://127.0.0.1:6789/?contentType=text/css;
+    sub_filter_types text/html text/css;    
+    sub_filter '"url":"/?contentType=text/css"' '"url":"/a/b/c/d"';
+  }
+}

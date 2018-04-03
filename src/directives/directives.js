@@ -222,6 +222,7 @@ module.exports = {
   },
 
   'sub_filter': function (oldValue, newValue) {
+    // TODO 支持第三个参数，flag => igm
     var body = this.res.body;
     var source = oldValue;
     var variables = this.rewriteRule.variables;
