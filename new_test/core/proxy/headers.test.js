@@ -22,34 +22,38 @@ describe('#proxy - request and response headers', function () {
     proxyServer.stop();
   });
 
-  it('#request header - should send the original headers to remote server', function () {
-    return request({
-      uri: 'http://hiproxy.org/',
-      proxy: 'http://127.0.0.1:8848',
-      json: true,
-      headers: {
-        'Proxy-Server': 'hiproxy',
-        'Custom-Field': 'value'
-      }
-    }).then(function (res) {
-      var body = res.body;
-      var headers = body.headers;
+  describe('#request header', function () {
+    it('should send the original headers to remote server', function () {
+      return request({
+        uri: 'http://hiproxy.org/',
+        proxy: 'http://127.0.0.1:8848',
+        json: true,
+        headers: {
+          'Proxy-Server': 'hiproxy',
+          'Custom-Field': 'value'
+        }
+      }).then(function (res) {
+        var body = res.body;
+        var headers = body.headers;
 
-      assert.equal('hiproxy', headers['proxy-server']);
-      assert.equal('value', headers['custom-field']);
+        assert.equal('hiproxy', headers['proxy-server']);
+        assert.equal('value', headers['custom-field']);
+      });
     });
   });
 
-  it('#response header - should send the original remote server headers to client', function () {
-    return request({
-      uri: 'http://hiproxy.org/',
-      proxy: 'http://127.0.0.1:8848',
-      json: true
-    }).then(function (res) {
-      var headers = res.response.headers;
+  describe('#response header', function () {
+    it('should send the original remote server headers to client', function () {
+      return request({
+        uri: 'http://hiproxy.org/',
+        proxy: 'http://127.0.0.1:8848',
+        json: true
+      }).then(function (res) {
+        var headers = res.response.headers;
 
-      assert.equal('hiproxy', headers['i-love']);
-      assert.equal('Hiproxy Test Server', headers['server']);
+        assert.equal('hiproxy', headers['i-love']);
+        assert.equal('Hiproxy Test Server', headers['server']);
+      });
     });
   });
 });
