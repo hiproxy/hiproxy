@@ -1,0 +1,6 @@
+domain hiproxy.org {
+  location / {
+    status 202 'Accepted Your Money';
+    proxy_pass http://127.0.0.1:6789/;
+  }
+}
