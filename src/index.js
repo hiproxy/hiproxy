@@ -4,7 +4,7 @@
  */
 'use strict';
 
-module.exports = {
+var hiproxy = {
   commands: require('./commands'),
   directives: require('./directives'),
   plugin: require('./plugin'),
@@ -15,3 +15,7 @@ module.exports = {
   Rewrite: require('./rewrite'),
   Server: require('./server')
 };
+
+global.hiproxy = hiproxy;
+
+module.exports = hiproxy;

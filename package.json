@@ -14,7 +14,7 @@
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
     "t": "nyc mocha test/proxy/httpserver.test.js && nyc report --reporter=lcov --reporter=html",
-    "nt": "nyc mocha 'new_test/**/*.test.js' --timeout 10000 && nyc report --reporter=lcov --reporter=html"
+    "nt": "cross-env NPM_TEST=true nyc mocha 'new_test/core/router/*.test.js' --timeout 10000 && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
