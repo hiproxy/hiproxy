@@ -74,27 +74,5 @@ module.exports = {
           });
       });
     });
-  },
-
-  /**
-   * 获取线上证书的信息
-   */
-  _getCertInfoByHostsName: function (hostname, callback) {
-    var https = require('https');
-    var options = {
-      host: hostname,
-      port: 443,
-      method: 'GET'
-    };
-
-    var req = https.request(options, function (res) {
-      callback(null, res.connection.getPeerCertificate());
-    });
-
-    req.on('error', function (err) {
-      callback(err, null);
-    });
-
-    req.end();
   }
 };
