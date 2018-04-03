@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
 var setHeader = require('./setHeader');
+var getMimeType = require('simple-mime')('application/octet-stream');
 
 // https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
 var FIELDS_SHOULD_BE_OVERWRITTEN = [
@@ -185,7 +186,7 @@ module.exports = {
 
   'send_file': function (value) {
     var filePath = '';
-    var self = this;
+    var res = this.res;
 
     if (path.isAbsolute(value)) {
       // absolute path
@@ -201,14 +202,19 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       fs.readFile(filePath, 'utf-8', function (err, data) {
         if (err) {
+          log.error(err);
           data = 'File send error: <br/>' + err.stack;
-          self.res.writeHead(err.code === 'ENOENT' ? 404 : 500, {
+          res.writeHead(err.code === 'ENOENT' ? 404 : 500, {
             'Content-Type': 'text/html'
           });
+        } else {
+          if (!res.getHeader('content-type') && !res.headers['content-type']) {
+            res.setHeader('Content-Type', getMimeType(filePath));
+          }
         }
 
         // TODO fix bug：调用两次的后果
-        self.res.end(data);
+        res.end(data);
         // self.res.write(data);
         resolve(data);
       });

@@ -1,0 +1,9 @@
+{
+  "ret": true,
+  "data": {
+    "users": [
+      {"name": "zdying", "location": "beijing"},
+      {"name": "tom", "location": "wuhan"}
+    ]
+  }
+}

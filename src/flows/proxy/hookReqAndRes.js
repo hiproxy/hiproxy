@@ -44,6 +44,7 @@ function hookResponse (hiproxy, ctx) {
   var req = ctx.req;
   var onData = hiproxy.options.onData;
   var onBeforeResponse = hiproxy.options.onBeforeResponse;
+  var executed = false;
 
   // 缓存res原始的write和end方法
   var oldWrite = res.write;
@@ -118,70 +119,74 @@ function hookResponse (hiproxy, ctx) {
     // 第一次收集：将远程请求的数据（如果有）合并，以便在 **指令** 执行时能获取到最新的数据
     body = Buffer.concat(cache);
 
-    // 监听data的改变
-    // 如果改变了data的值，将cache重置为[data]
-    Object.defineProperty(res, 'body', {
-      get: function () {
-        return body;
-      },
+    if (!executed) {
+      executed = true;
 
-      set: function (value) {
-        body = value;
-        if (typeof value === 'string') {
-          cache = [new Buffer(value)];
-        } else {
-          cache = [value];
-        }
-      }
-    });
+      // 监听body的改变
+      // 如果改变了body的值，将cache重置为[body]
+      Object.defineProperty(res, 'body', {
+        get: function () {
+          return body;
+        },
 
-    /*
-     * 执行response指令，这时候修改响应内容有三种方式：
-     * 1. 调用`response.write(chunk)`方法：此时直接收集write的内容（`cache.push(chunk)`）。
-     * 2. 直接设置`context.data`的值：重置收集的内容（`cache=[value]`）。
-     * 3. 同时使用1和2的方式：按先后顺序，收集或者重置内容。
-     */
-    execDirectives(ctx.proxy.rewriteRule, context, 'response').then(function () {
-      // 第二次收集：将指令执行完毕后的响应内容合并，以便在 **回掉函数** 执行时能获取到最新的数据
-      body = Buffer.concat(cache);
-
-      onBeforeResponse.forEach(function (cbk) {
-        if (typeof cbk === 'function') {
-          cbk.call(hiproxy, context);
-          // 第三次收集：将回掉函数执行完毕后的响应内容合并，以便在 **response事件** 回掉函数执行时能获取到最新的数据，同时推送到浏览器中
-          body = Buffer.concat(cache);
+        set: function (value) {
+          body = value;
+          if (typeof value === 'string') {
+            cache = [new Buffer(value)];
+          } else {
+            cache = [value];
+          }
         }
       });
 
-      /**
-       * Emitted when a response is end. This event is emitted only once.
-       * @event ProxyServer#response
-       * @property {Object} detail event detail data
-       * @property {Buffer|String} detail.data response data
-       * @property {http.IncomingMessage} detail.req request object
-       * @property {http.ServerResponse} detail.res response object
-       * @property {Object|Null} detail.proxy proxy info
-       * @property {String|Undefined} detail.encoding data encoding
-       */
-      hiproxy.emit('response', {
-        req: req,
-        res: res,
-        proxy: ctx.proxy,
-        encoding: encoding
+      /*
+      * 执行response指令，这时候修改响应内容有三种方式：
+      * 1. 调用`response.write(chunk)`方法：此时直接收集write的内容（`cache.push(chunk)`）。
+      * 2. 直接设置`context.data`的值：重置收集的内容（`cache=[value]`）。
+      * 3. 同时使用1和2的方式：按先后顺序，收集或者重置内容。
+      */
+      execDirectives(ctx.proxy.rewriteRule, context, 'response').then(function () {
+        // 第二次收集：将指令执行完毕后的响应内容合并，以便在 **回掉函数** 执行时能获取到最新的数据
+        body = Buffer.concat(cache);
+
+        onBeforeResponse.forEach(function (cbk) {
+          if (typeof cbk === 'function') {
+            cbk.call(hiproxy, context);
+            // 第三次收集：将回掉函数执行完毕后的响应内容合并，以便在 **response事件** 回掉函数执行时能获取到最新的数据，同时推送到浏览器中
+            body = Buffer.concat(cache);
+          }
+        });
+
+        /**
+         * Emitted when a response is end. This event is emitted only once.
+         * @event ProxyServer#response
+         * @property {Object} detail event detail data
+         * @property {Buffer|String} detail.data response data
+         * @property {http.IncomingMessage} detail.req request object
+         * @property {http.ServerResponse} detail.res response object
+         * @property {Object|Null} detail.proxy proxy info
+         * @property {String|Undefined} detail.encoding data encoding
+         */
+        hiproxy.emit('response', {
+          req: req,
+          res: res,
+          proxy: ctx.proxy,
+          encoding: encoding
+        });
+
+        // correct the `Content-Length` header
+        if ('content-length' in res.headers) {
+          res.headers['content-length'] = body.length;
+        }
+        // write headers to the browser
+        res.writeHead(res.statusCode, res.statusMessage, res.headers);
+
+        // call `oldEnd()` will call `res.write()` again，so we shold resotre the `write()` method.
+        res.write = oldWrite;
+        res.end = oldEnd;
+        // 最后一次性推送数据到浏览器
+        oldEnd.call(res, body);
       });
-
-      // correct the `Content-Length` header
-      if ('content-length' in res.headers) {
-        res.headers['content-length'] = body.length;
-      }
-      // write headers to the browser
-      res.writeHead(res.statusCode, res.statusMessage, res.headers);
-
-      // call `oldEnd()` will call `res.write()` again，so we shold resotre the `write()` method.
-      res.write = oldWrite;
-      res.end = oldEnd;
-      // 最后一次性推送数据到浏览器
-      oldEnd.call(res, body);
-    });
+    }
   };
 }

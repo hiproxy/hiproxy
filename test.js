@@ -1,8 +1,8 @@
 var http = require('http');
 
 http.createServer(function (req, res) {
-  res.setHeader('Content-Length', 1);
-  res.setHeader('Content-Length', 2);
+  // res.setHeader('Content-Length', 1);
+  // res.setHeader('Content-Length', 2);
 
   res.setHeader('A', '1');
   res.setHeader('A', '2');
@@ -12,4 +12,6 @@ http.createServer(function (req, res) {
   res.headers.B = 1;
 
   res.end('ok');
+
+  res.end('不OK');
 }).listen(9900);

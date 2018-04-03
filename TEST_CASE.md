@@ -154,7 +154,15 @@
       - [x] write html
       - [x] multiple echo
       - [x] use variables
-    * send_file
+    - [x] send_file
+      - [x] send file content
+      - [x] content type detect
+      - [x] absolte path
+      - [x] relative path
+      - [x] work with `proxy_pass`
+      - [x] work with `echo`
+      - [x] 404
+      - [x] 500
     * sub_filter
     * sub_filter_once
   * domain

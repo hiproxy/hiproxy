@@ -1,0 +1,38 @@
+## rewrite rules for `send_file` directive
+domain hiproxy.org {
+  location / {
+    send_file ../files/index.html;
+  }
+
+  location /json/ {
+    send_file ../files/data.json;
+  }
+
+  location /content_type/ {
+    send_file ../files/index.html;
+    # proxy_pass http://127.0.0.1:6789/with_target_url/;
+  }
+
+  location /relative/ {
+    send_file ../files/index.html;
+  }
+
+  location /relative_1/ {
+    send_file send_file.rewrite;
+  }
+
+  location /404/ {
+    send_file ../files/file-not-exists.html;
+  }
+
+  location /with_target_url/ {
+    send_file ../files/index.html;
+    proxy_pass http://127.0.0.1:6789/with_target_url/;
+  }
+
+  location /with_target_url_echo/ {
+    send_file ../files/index.html;
+    echo 'content from echo';
+    proxy_pass http://127.0.0.1:6789/with_target_url/;
+  }
+}
