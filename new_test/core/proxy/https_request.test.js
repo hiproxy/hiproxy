@@ -91,8 +91,8 @@ describe('#proxy - HTTPS request proxy', function () {
       //   O: 'Hiproxy',
       //   OU: 'Development'
       // }
-      assert(subject.CN, 'hiproxy.org');
-      assert(issuer.CN, 'Hiproxy Custom CA');
+      assert.equal(subject.CN, 'hiproxy.org');
+      assert.equal(issuer.CN, 'Hiproxy Custom CA');
       done();
     });
 

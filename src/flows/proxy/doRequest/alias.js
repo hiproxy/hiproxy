@@ -39,8 +39,8 @@ module.exports = {
       var rewrite = proxyInfo.rewriteRule;
 
       if (stats.isDirectory()) {
-        log.debug('isDirectory and add root:' + (rewrite.variables.default || 'index.html'));
-        filePath = path.join(filePath, rewrite.variables.default || 'index.html');
+        log.debug('isDirectory and add root:' + (rewrite.variables.$default || 'index.html'));
+        filePath = path.join(filePath, rewrite.variables.$default || 'index.html');
       }
 
       // TODO 如果没有root，列出目录

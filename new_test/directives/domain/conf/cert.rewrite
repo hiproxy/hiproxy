@@ -1,0 +1,20 @@
+domain doc.hiproxy.org {
+  ssl_certificate     ../cert/hiproxy.org.crt;
+  ssl_certificate_key ../cert/hiproxy.org.key;
+
+  location / {
+    proxy_pass http://127.0.0.1:6789/doc/;
+  }
+
+  location /echo/ {
+    echo 'echo content';
+  }
+
+  location /alias/ {
+    alias ../files/;
+  }
+
+  location /send_file/ {
+    send_file ../files/data.json;
+  }
+}

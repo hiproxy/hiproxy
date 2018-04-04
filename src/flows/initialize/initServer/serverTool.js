@@ -41,12 +41,12 @@ module.exports = {
           var domainRewriteRule = rewriteRules[domain] || [];
           var certObj = domainRewriteRule.length > 0 && domainRewriteRule[0].variables;
 
-          if (certObj && certObj.ssl_certificate_key && certObj.ssl_certificate) {
+          if (certObj && certObj.$ssl_certificate_key && certObj.$ssl_certificate) {
             // 如果配置了证书，使用配置的证书
             // TODO 缓存证书内容，避免每次都去读取
             cb(null, tls.createSecureContext({
-              key: fs.readFileSync(certObj.ssl_certificate_key),
-              cert: fs.readFileSync(certObj.ssl_certificate)
+              key: fs.readFileSync(certObj.$ssl_certificate_key),
+              cert: fs.readFileSync(certObj.$ssl_certificate)
             }));
             log.debug('SNI callback [', domain.bold.green, ']:', JSON.stringify(certObj));
           } else {
