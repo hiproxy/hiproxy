@@ -40,9 +40,9 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     Transform.replaceVar(rewrite, rewrite.variables, ['extends']);
 
     var rewriteProps = rewrite.variables;
-    var proxyPass = rewriteProps.proxy_pass || '';
+    var proxyPass = rewriteProps.$proxy_pass || '';
     var isBaseRule = rewrite.isBaseRule;
-    var alias = rewriteProps.alias;
+    var alias = rewriteProps.$alias;
     var proxyUrlObj = url.parse(proxyPass);
     var protocolReg = /^(\w+:\/\/)/;
     var newUrl = '';

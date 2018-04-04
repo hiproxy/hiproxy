@@ -285,22 +285,22 @@ module.exports = {
 
   // location commands
   'proxy_pass': function (value) {
-    if (this.variables.alias !== true) {
-      this.variables['proxy_pass'] = value;
+    if (this.variables.$alias !== true) {
+      this.variables.$proxy_pass = value;
     }
   },
   'alias': function (value) {
-    this.variables.alias = true;
+    this.variables.$alias = true;
 
     if (path.isAbsolute(value)) {
       // absolute path
-      this.variables.proxy_pass = value;
+      this.variables.$proxy_pass = value;
     } else {
       // relative path
       var currentFilePath = this.extends.filePath;
       var dirname = path.dirname(currentFilePath);
 
-      this.variables.proxy_pass = path.join(dirname, value);
+      this.variables.$proxy_pass = path.join(dirname, value);
     }
   },
   'root': function (value) {
