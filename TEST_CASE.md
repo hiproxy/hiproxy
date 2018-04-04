@@ -165,15 +165,15 @@
       - [x] 500
     - [x] sub_filter
     - [x] sub_filter_once
-  * domain
-    * set
+  - [x] domain
+    - [x] set
     - [x] ssl_certificate
     - [x] ssl_certificate_key
-  * global
-    * set
-  * location
-    * set
-    * proxy_pass
+  - [x] global
+    - [x] set
+  - [x] location
+    - [x] set
+    - [x] proxy_pass
     - [x] alias
       - [x] basic
       - [x] relative path

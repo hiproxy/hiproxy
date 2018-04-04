@@ -1,0 +1,20 @@
+set $domain h1.hiproxy.org;
+
+domain hiproxy.org {
+  set $domain h2.hiproxy.org;
+
+  location /use_location/ {
+    set $domain h3.hiproxy.org;
+    echo $domain;
+  }
+
+  location /use_domain/ {
+    echo $domain;
+  }
+}
+
+domain doc.hiproxy.org {
+  location /use_global/ {
+    echo $domain;
+  }
+}

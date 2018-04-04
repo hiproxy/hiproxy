@@ -1,0 +1,36 @@
+test.example.com => {
+    location / {
+        proxy_pass http://127.0.0.1:6789/test/;
+    }
+}
+
+domain hiproxy.org {
+    location / {
+        proxy_pass http://127.0.0.1:6789/blog/;
+    }
+
+    location /ssl/ {
+        proxy_pass https://127.0.0.1:8849/;
+        proxy_set_header Host 127.0.0.1:8849;
+    }
+
+    location ~ /\/api\// {
+        proxy_pass http://127.0.0.1:6789/test/api/;
+    }
+
+    location ~ /post {
+        proxy_pass http://127.0.0.1:6789/article/post;
+    }
+
+    location ~ /post/(.*) {
+        proxy_pass http://127.0.0.1:6789/test/post/$1;
+    }
+
+    location ~ ^/article/(.*) {
+        proxy_pass http://127.0.0.1:6789/test/article/$1;
+    }
+
+    location ~ /(.*)\.html$ {
+        proxy_pass http://127.0.0.1:6789/html/$1;
+    }
+}
