@@ -10,11 +10,11 @@
   "scripts": {
     "doc": "jsdoc2md src/*.js src/listeners/*.js src/listeners/request/*.js",
     "pretest": "node scripts/pretest.js",
-    "test": "cross-env NPM_TEST=true nyc mocha 'test/**/*.test.js' --timeout 10000",
+    "test": "cross-env NPM_TEST=true nyc mocha 'old_test/**/*.test.js' --timeout 10000 && nyc report --reporter=lcov --reporter=html",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "report": "npm test && nyc report --reporter=lcov --reporter=html",
     "t": "nyc mocha test/proxy/httpserver.test.js && nyc report --reporter=lcov --reporter=html",
-    "nt": "cross-env NPM_TEST=true nyc mocha 'new_test/directives/domain/*.test.js' --timeout 10000 && nyc report --reporter=lcov --reporter=html"
+    "nt": "cross-env NPM_TEST=true nyc mocha 'test/**/*.test.js' --timeout 10000 && nyc report --reporter=lcov --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -93,6 +93,7 @@
       "src/helpers/showImage.js",
       "src/helpers/getLocalIP.js",
       "src/helpers/dirTool.js",
+      "src/commands/",
       "test"
     ]
   }

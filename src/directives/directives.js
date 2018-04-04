@@ -73,10 +73,6 @@ module.exports = {
       cookies = cookie.split('; ');
     }
 
-    if (cookies.length === 0) {
-      return;
-    }
-
     if (arguments.length === 0) {
       headers.cookie = '';
     } else {

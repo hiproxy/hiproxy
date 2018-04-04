@@ -167,8 +167,8 @@
     - [x] sub_filter_once
   * domain
     * set
-    * ssl_certificate
-    * ssl_certificate_key
+    - [x] ssl_certificate
+    - [x] ssl_certificate_key
   * global
     * set
   * location
