@@ -193,5 +193,8 @@
   * update config file
 
 * plugins
-  * plugin find
-  * plugin load
+  - [x] plugin find
+  - [x] plugin load
+    - [x] add directives
+    - [x] add page router
+    - [x] add cli command

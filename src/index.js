@@ -8,6 +8,7 @@ var hiproxy = {
   commands: require('./commands'),
   directives: require('./directives'),
   plugin: require('./plugin'),
+  router: require('./routers'),
   dataProvider: require('./dataProvider'),
   glob: require('./helpers/glob'),
   Hemsl: require('hemsl'),

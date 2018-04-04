@@ -1,0 +1,45 @@
+set $str str_global;
+
+t.ttt.com => {
+    ssl_certificate_key ../ssl/example.com.key;
+    ssl_certificate     ../ssl/example.com.crt;
+
+    set $str str_domain_scope;
+    set_header STR $str;
+
+    location / {
+        proxy_pass http://127.0.0.1:61234/;
+        set $str str_location_scope;
+        set_header STR $str;
+    }
+
+    location /t/ {
+        proxy_pass http://127.0.0.1:61234/test/;
+
+        proxy_set_header Host t.ttt.com;
+        proxy_set_header Proxy_App hiproxy;
+
+        proxy_hide_header 'accept-encoding';
+        proxy_set_cookie cookie1 'cc1';
+        proxy_hide_cookie cookie2;
+
+
+        set_header set_header_field_1 1;
+        set_cookie cookie1 c1;
+        set_cookie cookie2 c2;
+    }
+
+    location /source/ {
+        alias ../static/;
+        root  index.html;
+
+        set_header server hiproxy_static;
+
+        hide_cookie user;
+        hide_header expires;
+    }
+
+    location /publish/ {
+        alias /usr/local/;
+    }
+}
