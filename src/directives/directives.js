@@ -285,7 +285,9 @@ module.exports = {
 
   // location commands
   'proxy_pass': function (value) {
-    this.variables['proxy_pass'] = value;
+    if (this.variables.alias !== true) {
+      this.variables['proxy_pass'] = value;
+    }
   },
   'alias': function (value) {
     this.variables.alias = true;

@@ -1,0 +1,27 @@
+domain hiproxy.org {
+  ## alias
+  location / {
+    alias ../files/;
+  }
+
+  location /echo/ {
+    echo 'echo content';
+    alias ../files/;
+  }
+
+  location /proxy/ {
+    alias ../files/;
+    proxy_pass http://127.0.0.1:6789/proxy/;
+  }
+
+  location /send/ {
+    alias ../files/;
+    send_file ../files/data.json;
+  }
+
+  ## root
+  location /root/ {
+    root index.htm;
+    alias ../files/;
+  }
+}

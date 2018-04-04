@@ -81,10 +81,10 @@
     * onBeforeRequest
     * onData
     * onBeforeResponse
-  * router
-    * system page
-    * api router
-    * source image
+  - [x] router
+    - [x] system page
+    - [x] api router
+    - [x] source image
 
 * directives
   - [ ] request
@@ -163,8 +163,8 @@
       - [x] work with `echo`
       - [x] 404
       - [x] 500
-    * sub_filter
-    * sub_filter_once
+    - [x] sub_filter
+    - [x] sub_filter_once
   * domain
     * set
     * ssl_certificate
@@ -174,8 +174,16 @@
   * location
     * set
     * proxy_pass
-    * alias
-    * root
+    - [x] alias
+      - [x] basic
+      - [x] relative path
+      - [x] absolute path
+      - [x] default file
+      - [x] content-type
+      - [x] error handle
+      - [x] work with `echo`
+      - [x] ignore `proxy_pass`
+    - [x] root
 
 * web api
   * open browser

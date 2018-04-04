@@ -8,10 +8,6 @@ module.exports = function setHeader (response, name, value) {
   var keyLower = name.toLowerCase();
   var header = response.getHeader(name) || response.headers[keyLower];
 
-  if (value == null) {
-    return;
-  }
-
   if (keyLower === 'set-cookie') {
     if (header) {
       value = [].concat(header).concat(value);

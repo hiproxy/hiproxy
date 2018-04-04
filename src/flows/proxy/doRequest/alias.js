@@ -8,7 +8,7 @@
 var fs = require('fs');
 var path = require('path');
 
-var getMimeType = require('simple-mime')('text/plain');
+var getMimeType = require('simple-mime')('application/octet-stream');
 // var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
@@ -47,9 +47,9 @@ module.exports = {
       var stream = fs.createReadStream(filePath);
       response.setHeader('Content-Type', getMimeType(filePath));
 
-      stream.on('error', function (e) {
-        response.statusCode = 404;
-        response.end('404 Not Found: <br><pre>' + e.stack + '</pre>');
+      stream.on('error', /* istanbul ignore next */ function (e) {
+        response.statusCode = 500;
+        response.end('500 Server Internal Error: <br><pre>' + e.stack + '</pre>');
 
         next();
       });
