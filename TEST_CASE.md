@@ -67,6 +67,8 @@
     - [x] HTTPS to HTTP
     - [x] HTTP to HTTPS
     - [ ] proxy rule order
+    - others
+      - [ ] default Host header
   * events
     * request
       * request start
