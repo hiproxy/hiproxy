@@ -28,7 +28,9 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules);
   var host = !!hostsRules && hostsRules[uri.hostname];
   var hostname, port, path, proxyName, protocol;
-  var proxyInfo = {};
+  var proxyInfo = {
+    headers: request.headers
+  };
 
   protocol = uri.protocol;
 
@@ -74,10 +76,17 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       rewriteRule: rewrite
     };
 
-    execDirectives(rewrite, context, 'request');
-
     log.debug('newURL ==>', newUrl);
     log.debug('alias  ==>', alias);
+
+    // pre-request
+    // set default `Host` header
+    if (proxyUrlObj.host) {
+      proxyInfo.headers.host = proxyUrlObj.host;
+    }
+    // pre-request
+
+    execDirectives(rewrite, context, 'request');
 
     if (alias) {
       // 本地文件系统路径, 删除前面的协议部分
@@ -118,7 +127,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     path: path,
     method: proxyInfo.method || request.method,
     // TODO 确保request不能被修改，比如headers、method
-    headers: request.headers,
+    // headers: request.headers,
     protocol: protocol,
 
     proxyType: rewrite ? 'rewrite' : (host ? 'hosts' : 'other'),
