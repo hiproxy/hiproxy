@@ -362,8 +362,6 @@ ProxyServer.prototype = {
   testWebAPI: function () {
     if (process.env.NPM_TEST) {
       this.testWebAPICalled = true;
-    } else {
-      throw Error('The `testWebAPI()` should not be called in production evn.');
     }
   }
 };
