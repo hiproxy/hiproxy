@@ -25,6 +25,7 @@ module.exports = function parseHosts (source) {
   var hosts = source;
 
   hosts.toString().split(/\n\r?/).forEach(function (line) {
+    // TODO why does this NOT work in windows ???
     // line = line.replace(/#.*$/, '');
     line = line.split('#')[0];
 
