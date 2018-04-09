@@ -130,6 +130,4 @@ describe('# plugin'.bold.green, function () {
       });
     });
   });
-
-  // TODO 使用网络请求进一步验证
 });

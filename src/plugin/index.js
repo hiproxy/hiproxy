@@ -11,15 +11,15 @@ var childProcess = require('child_process');
 // var directives = require('../directives');
 // var routers = require('../routers');
 var pluginPrefix = 'hiproxy-plugin-';
-var cache = null;
+var cache = {};
 
 module.exports = {
   getInstalledPlugins: function (root) {
-    if (cache) {
-      return Promise.resolve(cache);
-    }
-
     root = root || childProcess.execSync('npm root -g').toString().trim();
+
+    if (cache[root]) {
+      return Promise.resolve(cache[root]);
+    }
 
     return new Promise(function (resolve, reject) {
       fs.readdir(root, function (err, files) {
@@ -43,7 +43,7 @@ module.exports = {
           });
         }
 
-        cache = plugins;
+        cache[root] = plugins;
 
         resolve(plugins);
       });

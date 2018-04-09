@@ -121,15 +121,14 @@ describe('#directives - proxy_pass', function () {
       });
     });
 
-    it('should return 404', function () {
+    it('should return 500', function () {
       return request({
-        uri: 'http://ajfalbjclamkll',
+        uri: 'http://127.0.0.1:6789/just/test/?statusCode=500',
         proxy: 'http://127.0.0.1:8848',
         json: true
       }).then(function (res) {
         var response = res.response;
-
-        assert.equal(response.statusCode, 404);
+        assert.equal(response.statusCode, 500);
       });
     });
   });
