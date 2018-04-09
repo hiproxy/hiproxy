@@ -13,5 +13,5 @@ module.exports = function (err) {
   console.log(err.stack);
   console.log();
 
-  process.exit();
+  // process.exit();
 };
