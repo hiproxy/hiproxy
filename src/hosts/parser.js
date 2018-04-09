@@ -25,7 +25,8 @@ module.exports = function parseHosts (source) {
   var hosts = source;
 
   hosts.toString().split(/\n\r?/).forEach(function (line) {
-    line = line.replace(/#.*$/, '');
+    // line = line.replace(/#.*$/, '');
+    line = line.split('#')[0];
 
     if (line.trim() === '') {
       return;
