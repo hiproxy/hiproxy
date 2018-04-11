@@ -54,7 +54,7 @@
       - [x] send server headers to client
     - [ ] response headers
       - [x] send server headers to client
-      - [ ] content length
+      - [x] content length
     - [ ] built-in variables 
     - [x] HTTP requsts
       - [x] reverse proxy
@@ -67,6 +67,8 @@
     - [x] HTTPS to HTTP
     - [x] HTTP to HTTPS
     - [ ] proxy rule order
+    - [x] emoji
+    - [x] CJK Unified Ideographs
     - others
       - [ ] default Host header
   * events
@@ -83,6 +85,8 @@
     * onBeforeRequest
     * onData
     * onBeforeResponse
+    * call multiple times res.end()
+    * call multiple times res.write()
   - [x] router
     - [x] system page
     - [x] api router
@@ -187,6 +191,10 @@
       - [x] work with `echo`
       - [x] ignore `proxy_pass`
     - [x] root
+  * execute
+    - [ ] exec scope directives
+    - [ ] call multiple times res.end()
+    - [ ] call multiple times res.write()
 
 * web api
   * open browser

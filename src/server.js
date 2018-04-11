@@ -356,6 +356,10 @@ ProxyServer.prototype = {
     }
   },
 
+  removeCallback: function (type /* , fn1, fn2, ... */) {
+    // TODO
+  },
+
   /**
    * for web api test
    */

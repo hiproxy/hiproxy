@@ -18,6 +18,8 @@ var serverHTTPS = https.createServer({
 }, cbk.bind(null, 'https'));
 
 var resString = 'This is some test text for hiproxy TEST Case. Only for test.';
+var str = '你好！ Hello привет สวัสดี 안녕하세요. こんにちは';
+var emoji = '🌍🔗🎈';
 
 function cbk (type, req, res) {
   var body = '';
@@ -52,7 +54,9 @@ function cbk (type, req, res) {
       rawBody: body,
       cookie: cookieObj,
       rawCookie: cookie,
-      resString: resString
+      resString: resString,
+      str: str,
+      emoji: emoji
     };
 
     for (var key in cookieObj) {
@@ -65,8 +69,10 @@ function cbk (type, req, res) {
       acceptEncoding = '';
     }
 
-    if (acceptEncoding.match(/\bgzip\b/)) {
-      zlib.gzip(query.responseBody || JSON.stringify(info), function (err, result) {
+    var resResult = query.responseBody || JSON.stringify(info);
+
+    if (acceptEncoding.match(/\bgzip\b/) && query.gzip !== 'false') {
+      zlib.gzip(resResult, function (err, result) {
         var statusCode = query.statusCode || 200;
         if (err) {
           statusCode = 500;
@@ -91,9 +97,10 @@ function cbk (type, req, res) {
         'I-Love': 'hiproxy',
         'Res-Header-1': '1',
         'Res-Header-2': '2',
-        'last-modified': new Date().toUTCString()
+        'last-modified': new Date().toUTCString(),
+        'Content-Length': Buffer.byteLength(resResult)
       });
-      res.end(query.responseBody || JSON.stringify(info));
+      res.end(resResult);
     }
   });
 }
