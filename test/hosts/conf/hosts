@@ -12,3 +12,7 @@
 # 非法格式
 11.22.33.44 hiproxy.org/def
 12.34.56.78
+
+# 重复的域名
+22.33.44.55 file.hiproxy.org
+33.44.55.66 file.hiproxy.org

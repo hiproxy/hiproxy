@@ -41,8 +41,12 @@ describe('#hosts - Parse rules', function () {
     assert.equal('192.168.0.1:89', rules['home.hiproxy.org']);
   });
 
-  it('Rules: # 192.168.0.1:81 hiproxy.hiproxy.org', function () {
+  it('should ignore annotated ules: # 192.168.0.1:81 hiproxy.hiproxy.org', function () {
     assert.ok(!('hiproxy.hiproxy.org' in rules));
+  });
+
+  it('should ignore duplicate rules', function () {
+    assert.equal('22.33.44.55', rules['file.hiproxy.org']);
   });
 
   it('Invalid rule: 11.22.33.44 hiproxy.org/def', function () {

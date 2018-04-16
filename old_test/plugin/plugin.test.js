@@ -6,10 +6,11 @@ var assert = require('assert');
 var path = require('path');
 var Args = require('hemsl');
 
-var Proxy = require('../../src/server');
+var hiproxy = require('../../src/index');
+var Proxy = hiproxy.Server;
 var testServer = require('../testServer');
-var pluginManager = require('../../src/plugin');
-var routes = require('../../src/routers');
+var pluginManager = hiproxy.plugin;
+var routes = hiproxy.router;
 var directives = require('../../src/directives');
 
 describe('# plugin'.bold.green, function () {

@@ -39,7 +39,9 @@ module.exports = function parseHosts (source) {
       log.warn('hosts -', line.bold.yellow, 'ignored');
     } else {
       for (var i = 1, len = arr.length; i < len; i++) {
-        hostRules[arr[i]] = arr[0];
+        if (!(arr[i] in hostRules)) {
+          hostRules[arr[i]] = arr[0];
+        }
       }
     }
   });
