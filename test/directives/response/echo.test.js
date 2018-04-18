@@ -122,7 +122,7 @@ describe('#directives - echo', function () {
         {
           host: 'hiproxy.org',
           query_string: 'a=1&b=2',
-          path_name: '/use_variables/?a=1&b=2_name'
+          path_name: '/use_variables/'
         },
         body
       );
