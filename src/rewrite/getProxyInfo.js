@@ -262,8 +262,8 @@ function setBuiltInVars (rewrite, request) {
     $request_uri: urlObj.href,
     $path: urlObj.path,
     $path_name: urlObj.pathname || '',
-    $base_name: path.basename(urlObj.path),
-    $dir_name: path.dirname(urlObj.path),
+    $base_name: path.basename(urlObj.pathname),
+    $dir_name: path.dirname(urlObj.pathname),
     $hash: urlObj.hash || '',
     $hash_value: (urlObj.hash || '').replace('#', ''),
     $uri: urlObj.href
