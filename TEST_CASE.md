@@ -6,7 +6,7 @@
   - [x] add hosts files
   - [x] add hosts rule
   - [x] get hosts rule
-  - [ ] rule order
+  - [x] rule order
 
 * rewrite
   - [ ] find rewrite files
