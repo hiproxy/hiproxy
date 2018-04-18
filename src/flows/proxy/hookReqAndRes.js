@@ -33,7 +33,7 @@ function hookRequest (hiproxy, ctx, next) {
     }
     body.push(chunk);
   }).on('end', function () {
-    body = Buffer.concat(body).toString();
+    body = Buffer.concat(body);
     req.body = body;
     next();
   });
