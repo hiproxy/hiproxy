@@ -15,7 +15,7 @@
   - [x] get rewrite rule
   - [ ] rule order
   - [ ] rule merge
-  - [ ] built-in variables
+  - [x] built-in variables
 
 * hiproxy core
   - [x] server create
