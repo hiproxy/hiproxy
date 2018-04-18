@@ -18,4 +18,32 @@ hiproxy.org => {
     echo    '"hash_value": "$hash_value"'
     echo '}'; 
   }
+
+  location /cookie/ {
+    set_header Content-Type application/json;
+    echo '{';
+    echo    '"pkg": "$cookie_pkg",'
+    echo    '"version": "$cookie_version",'
+    echo    '"sign": "$cookie_sign",'
+    echo    '"size": "$cookie_size"'
+    echo '}'; 
+  }
+
+  location /header/ {
+    set_header Content-Type application/json;
+    echo '{';
+    echo    '"custom_header": "$http_custom_header",'
+    echo    '"user_agent": "$http_user_agent",'
+    echo    '"host": "$http_host"'
+    echo '}'; 
+  }
+
+  location ~ /regexp/(\w+)/([^?#&]+)(.*) {
+    set_header Content-Type application/json;
+    echo '{';
+    echo    '"type": "$1",'
+    echo    '"name": "$2",'
+    echo    '"others": "$3"'
+    echo '}'; 
+  }
 }
