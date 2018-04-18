@@ -109,7 +109,7 @@ module.exports = {
 
     oldValue = new RegExp(oldValue, flag);
 
-    this.req.body = body.replace(oldValue, newValue);
+    this.req.body = String(body).replace(oldValue, newValue);
   },
 
   'proxy_append_body': function (key, value) {
@@ -123,11 +123,11 @@ module.exports = {
 
     if (contentType.indexOf(json) !== -1) {
       // TODO support key path (`a.b.c`)
-      body = JSON.parse(body || '{}');
+      body = JSON.parse(body.toString() || '{}');
       body[key] = value;
       body = JSON.stringify(body);
     } else if (contentType.indexOf(formURL) !== -1 || contentType.indexOf(formData) !== -1) {
-      body = querystring.parse(body || '');
+      body = querystring.parse(body.toString() || '');
       body[key] = value;
       body = querystring.stringify(body);
     }
