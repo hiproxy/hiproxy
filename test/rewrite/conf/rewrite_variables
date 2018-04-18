@@ -1,0 +1,21 @@
+hiproxy.org => { 
+  location / {
+    set_header Content-Type application/json;
+    echo '{';
+    echo    '"host": "$host",'
+    echo    '"hostname": "$hostname",'
+    echo    '"search": "$search",'
+    echo    '"query_string": "$query_string",'
+    echo    '"server_port": "$server_port",'
+    echo    '"scheme": "$scheme",'
+    echo    '"request_uri": "$request_uri",'
+    echo    '"uri": "$uri",'
+    echo    '"path": "$path",'
+    echo    '"path_name": "$path_name",'
+    echo    '"base_name": "$base_name",'
+    echo    '"dir_name": "$dir_name",'
+    echo    '"hash": "$hash",'
+    echo    '"hash_value": "$hash_value"'
+    echo '}'; 
+  }
+}
