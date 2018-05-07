@@ -91,7 +91,9 @@
     - [x] system page
     - [x] api router
     - [x] source image
-  - [ ] data provider
+  - [x] data provider
+    - [x] get
+    - [x] set
 
 * directives
   - [ ] request
