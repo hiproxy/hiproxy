@@ -55,7 +55,7 @@
     - [ ] response headers
       - [x] send server headers to client
       - [x] content length
-    - [ ] built-in variables 
+    - [x] built-in variables 
     - [x] HTTP requsts
       - [x] reverse proxy
     - [ ] HTTPS requests
