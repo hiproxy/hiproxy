@@ -71,7 +71,6 @@ function getPkgInfos (plgs, rootURL) {
       pkgJSON = require(path.join(plg, 'package.json'));
       repository = pkgJSON.repository;
 
-      /* istanbul ignore next */
       if (typeof repository !== 'string' || !repository.match(/^https?:\/\/.+/)) {
         repository = repository && repository.url && repository.url.replace('git+', '');
       }

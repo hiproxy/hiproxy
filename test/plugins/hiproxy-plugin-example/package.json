@@ -1,0 +1,9 @@
+{
+  "name": "hiproxy-plugin-example",
+  "version": "1.1.1",
+  "description": "hiproxy plugin example.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiproxy/hiproxy_plg_example.git"
+  }
+}
