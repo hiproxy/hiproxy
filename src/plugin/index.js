@@ -15,7 +15,14 @@ var cache = {};
 
 module.exports = {
   getInstalledPlugins: function (root) {
-    root = root || childProcess.execSync('npm root -g').toString().trim();
+    var env = process.env;
+
+    if (env.NPM_TEST === 'true' && !root && !env.PLUGIN_ROOT) {
+      root = path.join(__dirname, '..', 'test', 'plugins');
+    } else {
+      // TODO add documentation
+      root = root || env.PLUGIN_ROOT || childProcess.execSync('npm root -g').toString().trim();
+    }
 
     if (cache[root]) {
       return Promise.resolve(cache[root]);
