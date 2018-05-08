@@ -18,7 +18,7 @@ module.exports = {
     var env = process.env;
 
     if (env.NPM_TEST === 'true' && !root && !env.PLUGIN_ROOT) {
-      root = path.join(__dirname, '..', 'test', 'plugins');
+      root = path.join(__dirname, '..', '..', 'test', 'plugins');
     } else {
       // TODO add documentation
       root = root || env.PLUGIN_ROOT || childProcess.execSync('npm root -g').toString().trim();
