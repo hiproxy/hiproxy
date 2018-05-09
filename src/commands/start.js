@@ -148,6 +148,10 @@ function _startServer (ctx) {
     },
     onData: function (detail) {
       // ...
+    },
+    onError: function (err, ctx) {
+      var req = ctx.req;
+      console.log('Bug：'.red, (req ? req.url : ''), err.message);
     }
   });
 
