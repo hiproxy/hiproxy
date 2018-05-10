@@ -81,12 +81,11 @@
     * response
       * data
       * response
-  * callback
-    * onBeforeRequest
-    * onData
-    * onBeforeResponse
-    * call multiple times res.end()
-    * call multiple times res.write()
+  - [ ] callback
+    - [ ] onBeforeRequest
+    - [ ] onData
+    - [ ] onBeforeResponse
+    - [x] onError
   - [x] router
     - [x] system page
     - [x] api router
