@@ -25,41 +25,45 @@ module.exports = function (err, ctx) {
   }
 
   var messages = [
+    '\n****************** ' + 'hiproxy Error'.red + ' ******************\n',
     'Error: ' + (err.message || '').red.underline,
     '',
     'If you need help, you may report this error at:',
-    '     ' + 'https://github.com/hiproxy/hiproxy/issues/new'.cyan.underline
+    '  ' + 'https://github.com/hiproxy/hiproxy/issues/new'.cyan.underline,
+    ''
   ];
+  var detail = '';
 
-  fs.writeFile(filePath, errDetail, function (err) {
-    if (!err) {
+  fs.writeFile(filePath, errDetail, function (error) {
+    if (!error) {
       messages.push(
-        '',
-        'Please include the following file with any support request:',
-        '     ' + filePath.underline
+        'Please include the following file with any support request:'
       );
+      detail = filePath.cyan.underline;
     } else {
       messages.push(
-        '',
-        'Please include the following detail with any support request:',
-        '',
-        errDetail
+        'Please include the following detail with any support request:'
       );
+      detail = errDetail;
     }
 
-    console.log('\n****************** ' + 'hiproxy Error'.red + ' ******************\n');
-
-    messages.forEach(function (msg) {
-      console.log(msg);
-    });
-
-    console.log('');
+    // TODO add documentation
+    if (options.errorTips !== false) {
+      console.log(messages.join('\n'));
+      console.log('  ' + detail);
+      console.log('');
+    }
 
     if (!res) {
       // only exit the process when it's initialize flow.
       // hiproxy has two work flow: initialize and proxy.
       // only the proxy flow's context has the `res` property.
       process.exit();
+    } else {
+      // TODO update error page
+      res.end(
+        '<pre>' + messages.concat('  ' + detail).join('\n').replace(/\[\d+m/g, '') + '</pre>'
+      );
     }
   });
 };
