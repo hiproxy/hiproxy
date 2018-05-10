@@ -10,7 +10,7 @@ var initEnv = require('./initEnv');
 var initServer = require('./initServer');
 var findConfigFiles = require('./findConfigFiles');
 var initEvent = require('./initEvent');
-var errorHandler = require('./errorHandler');
+var errorHandler = require('../errorHandler');
 
 initFlow
   .use('InitEnv', initEnv)

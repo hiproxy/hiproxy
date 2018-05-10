@@ -14,7 +14,7 @@ var getProxyInfo = require('./getProxyInfo');
 // var setReqOption = require('./setReqOption');
 var doRequest = require('./doRequest');
 var printLog = require('./printLog');
-var errorHandler = require('./errorHandler');
+var errorHandler = require('../errorHandler');
 
 proxyFlow
   .use('SystemRouter', systemRoter)
