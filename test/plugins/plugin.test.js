@@ -32,18 +32,18 @@ describe('# plugin'.bold.green, function () {
   });
 
   describe('# get installed plugin', function () {
-    it('# should get all installed plugin', function () {
-      var promise = pluginManager.getInstalledPlugins(__dirname);
+    // it('# should get all installed plugin', function () {
+    //   var promise = pluginManager.getInstalledPlugins(__dirname);
 
-      return promise.then(function (plugins) {
-        var plg1 = path.join(__dirname, 'hiproxy-plugin-example');
-        var plg2 = path.join(__dirname, 'hiproxy-plugin-demo');
+    //   return promise.then(function (plugins) {
+    //     var plg1 = path.join(__dirname, 'hiproxy-plugin-example');
+    //     var plg2 = path.join(__dirname, 'hiproxy-plugin-demo');
 
-        assert.equal(plugins.length, 2);
-        assert.notEqual(plugins.indexOf(plg1), -1);
-        assert.notEqual(plugins.indexOf(plg2), -1);
-      });
-    });
+    //     assert.equal(plugins.length, 2);
+    //     assert.notEqual(plugins.indexOf(plg1), -1);
+    //     assert.notEqual(plugins.indexOf(plg2), -1);
+    //   });
+    // });
 
     it('# should not include dir name that not begin with `hiproxy-plugin-`', function () {
       var promise = pluginManager.getInstalledPlugins(__dirname);
