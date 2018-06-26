@@ -104,7 +104,7 @@ describe('#directives - proxy_set_header', function () {
       },
       json: true
     }).then(function (res) {
-      let body = res.body;
+      var body = res.body;
       assert.equal('POST', originalReq.method);
       assert.equal('{"a":1,"b":22,"c":333}', originalReq.body);
       assert.deepEqual({'a': 1, 'b': 22, 'c': 333}, body.body);
