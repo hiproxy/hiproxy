@@ -59,6 +59,7 @@ module.exports = {
 
     log.debug('request remote server proxy info', JSON.stringify(proxyInfo));
     log.debug('request remote server request option', JSON.stringify(requestOptions));
+    log.debug('request original info', JSON.stringify(request.originReq));
 
     var proxy = (isHTTPS ? https : http).request(requestOptions, function (res) {
       log.debug('request remote result', JSON.stringify(res.headers));

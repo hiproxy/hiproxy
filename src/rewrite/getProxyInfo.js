@@ -137,7 +137,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     hostName: uri.hostname,
     rewriteRule: rewrite,
     alias: alias,
-    newUrl: newUrl
+    url: newUrl
   };
 
   for (var key in _proxyInfo) {

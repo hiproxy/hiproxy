@@ -34,7 +34,10 @@ function hookRequest (hiproxy, ctx, next) {
     body.push(chunk);
   }).on('end', function () {
     body = Buffer.concat(body);
+
     req.body = body;
+    req.originReq = getOriginalReqInfo(req);
+
     next();
   });
 }
@@ -189,4 +192,34 @@ function hookResponse (hiproxy, ctx) {
       });
     }
   };
+}
+
+/**
+ * Get the original request info. The info object is freezed.
+ * @param {http.IncomingMessage} req http request message object
+ */
+function getOriginalReqInfo (req) {
+  var originReq = {};
+  var props = [
+    'aborted',
+    'headers',
+    'httpVersion',
+    'method',
+    'rawHeaders',
+    'rawTrailers',
+    'statusCode',
+    'statusMessage',
+    'trailers',
+    'url',
+    'body'
+  ];
+
+  props.forEach(function (prop) {
+    var type = typeof req[prop];
+    var val = type === 'object' ? JSON.parse(JSON.stringify(req[prop])) : req[prop];
+
+    originReq[prop] = val;
+  });
+
+  return originReq;
 }

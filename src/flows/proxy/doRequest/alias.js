@@ -17,7 +17,7 @@ module.exports = {
     var proxyInfo = ctx.proxy;
     // var rewriteRule = proxyInfo.rewriteRule;
 
-    log.info(request.url + ' ==> ' + proxyInfo.newUrl);
+    log.info(request.url + ' ==> ' + proxyInfo.url);
 
     response.headers = response.headers || {};
 
@@ -34,8 +34,8 @@ module.exports = {
     hiproxy.emit('setResponse', response);
 
     try {
-      var stats = fs.statSync(proxyInfo.newUrl);
-      var filePath = proxyInfo.newUrl;
+      var stats = fs.statSync(proxyInfo.url);
+      var filePath = proxyInfo.url;
       var rewrite = proxyInfo.rewriteRule;
 
       if (stats.isDirectory()) {
