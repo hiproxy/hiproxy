@@ -76,7 +76,7 @@ module.exports = {
       response.statusCode = res.statusCode;
       response.statusMessage = res.statusMessage;
 
-      response.originRes = {
+      response.originalInfo = {
         headers: JSON.parse(JSON.stringify(res.headers)),
         statusCode: res.statusCode,
         statusMessage: res.statusMessage
@@ -136,7 +136,7 @@ module.exports = {
       });
 
       stream.on('end', function () {
-        response.originRes.body = Buffer.concat(originData);
+        response.originalInfo.body = Buffer.concat(originData);
         next();
       });
     });

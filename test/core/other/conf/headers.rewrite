@@ -5,4 +5,12 @@ domain hiproxy.org {
     proxy_set_header Date 2018-03-30;
     proxy_pass http://127.0.0.1:6789/;
   }
+
+  location /res/ {
+    set_header From admin@hiproxy.org;
+    set_header User admin;
+    set_header Date 2018-08-08;
+
+    proxy_pass http://127.0.0.1:6789/?responseBody=it%20works;
+  }
 }

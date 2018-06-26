@@ -19,7 +19,7 @@ describe('#directives - proxy_set_header', function () {
 
     proxyServer.on('response', function (data) {
       var req = data.req;
-      originalReq = req.originReq;
+      originalReq = req.originalInfo;
     });
   });
 
