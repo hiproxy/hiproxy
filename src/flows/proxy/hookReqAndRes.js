@@ -35,7 +35,7 @@ function hookRequest (hiproxy, ctx, next) {
   }).on('end', function () {
     body = Buffer.concat(body);
 
-    req.body = body;
+    req.body = body.toString();
     req.originReq = getOriginalReqInfo(req);
 
     next();

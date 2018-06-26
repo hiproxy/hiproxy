@@ -35,7 +35,7 @@
     - [x] disableConfFile
     - [x] addRewriteFile
     - [x] addHostsFile
-  * proxy
+  - [ ] proxy
     - [x] GET requests
       - [x] method
       - [x] query string
@@ -93,6 +93,9 @@
   - [x] data provider
     - [x] get
     - [x] set
+  - [ ] others
+    - [x] original request info object
+    - [ ] original response info object
 
 * directives
   - [ ] request
