@@ -69,9 +69,18 @@ module.exports = {
       var needUnZip = encoding === 'gzip' || encoding === 'deflate';
       var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
 
+      var stream = null;
+      var originData = [];
+
       response.headers = res.headers;
       response.statusCode = res.statusCode;
       response.statusMessage = res.statusMessage;
+
+      response.originRes = {
+        headers: JSON.parse(JSON.stringify(res.headers)),
+        statusCode: res.statusCode,
+        statusMessage: res.statusMessage
+      };
 
       if (needUnZip) {
         delete res.headers['content-encoding'];
@@ -108,9 +117,7 @@ module.exports = {
       if (needUnZip && isTextFile) {
         var unzipStream = encoding === 'gzip' ? zlib.createUnzip() : zlib.createInflate();
 
-        // unzipStream.on('data', function (chunk) {
-        //   self.emit('data', chunk, request, response);
-        // });
+        stream = unzipStream;
 
         /* istanbul ignore next */
         unzipStream.on('error', function (err) {
@@ -118,58 +125,20 @@ module.exports = {
         });
 
         res.pipe(unzipStream).pipe(response);
-        // .on('end', function () {
-        // request.res = res;
-
-        // /**
-        //  * Emitted when a response is end. This event is emitted only once.
-        //  * @event ProxyServer#response
-        //  * @property {http.ServerResponse} response response object
-        //  */
-        // self.emit('response', request, response);
-
-        // next();
-        // });
       } else {
-        // res.on('data', function (chunk) {
-        //   /**
-        //    * Emitted whenever the response stream received some chunk of data.
-        //    * @event ProxyServer#data
-        //    * @property {Buffer} data response data
-        //    */
-        //   self.emit('data', chunk, request, response);
-        // });
-
-        // res.on('end', function () {
-        //   request.res = res;
-
-        //   /**
-        //    * Emitted when a response is end. This event is emitted only once.
-        //    * @event ProxyServer#response
-        //    * @property {http.ServerResponse} response response object
-        //    */
-        //   self.emit('response', request, response);
-
-        //   next();
-        // });
+        stream = res;
 
         res.pipe(response);
       }
 
-      res.on('end', function () {
-        // request.res = res;
-
-        // /**
-        //  * Emitted when a response is end. This event is emitted only once.
-        //  * @event ProxyServer#response
-        //  * @property {http.ServerResponse} response response object
-        //  */
-        // self.emit('response', request, response);
-
-        next();
+      stream.on('data', function (chunk) {
+        originData.push(chunk);
       });
 
-      // res.pipe(response);
+      stream.on('end', function () {
+        response.originRes.body = Buffer.concat(originData);
+        next();
+      });
     });
 
     proxy.on('error', function (e) {
