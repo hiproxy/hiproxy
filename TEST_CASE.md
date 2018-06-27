@@ -95,7 +95,7 @@
     - [x] set
   - [ ] others
     - [x] original request info object
-    - [ ] original response info object
+    - [x] original response info object
 
 * directives
   - [ ] request
