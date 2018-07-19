@@ -26,11 +26,13 @@ module.exports = {
     }
     root = [root];
     // TODO 添加yarn全局安装的插件的检测
-    try {
-      var yarnDir = path.join(childProcess.execSync('yarn global dir').toString().trim(), 'node_modules');
-      root.push(yarnDir);
-    } catch (e) {
-      console.debug('未使用yarn工具');
+    if (env.NPM_TEST === 'true' && !root) {
+      try {
+        var yarnDir = path.join(childProcess.execSync('yarn global dir').toString().trim(), 'node_modules');
+        root.push(yarnDir);
+      } catch (e) {
+        console.debug('未使用yarn工具');
+      }
     }
     if (cache[root]) {
       return Promise.resolve(cache[root]);
