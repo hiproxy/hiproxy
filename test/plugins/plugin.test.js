@@ -38,7 +38,7 @@ describe('# plugin'.bold.green, function () {
       return promise.then(function (plugins) {
         var plg1 = path.join(__dirname, 'hiproxy-plugin-example');
         var plg2 = path.join(__dirname, 'hiproxy-plugin-demo');
-        console.log('plugins: ', plugins);
+
         assert.equal(plugins.length, 2);
         assert.notEqual(plugins.indexOf(plg1), -1);
         assert.notEqual(plugins.indexOf(plg2), -1);
