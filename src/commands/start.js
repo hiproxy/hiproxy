@@ -195,7 +195,7 @@ function _startServer (ctx) {
 
     var open = cliArgs.open;
     var browser = open === true ? 'chrome' : open;
-    browser && proxy.openBrowser(browser, proxy.localIP + ':' + port, cliArgs.pacProxy);
+    browser && proxy.openBrowser(browser, 'https://hi.proxy/', cliArgs.pacProxy);
 
     // proxy.addRule('rewrite', ['test.abc.com => {', '  location / {', '    echo "it works";', '  }', '}'].join('\n'));
     // proxy.addRule('hosts', ['127.0.0.1:8000 eight.hiproxy.org', '127.0.0.1 hiproxy.org'].join('\n'));

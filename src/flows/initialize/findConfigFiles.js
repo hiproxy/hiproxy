@@ -34,6 +34,15 @@ module.exports = function (ctx, next) {
 
     // 将找到的rewrite文件解析并加入缓存
     this.addRewriteFile(rewriteFiles);
+
+    // 添加内置的rewrite规则
+    this.rewrite.addRule([
+      'domain hi.proxy {',
+      '  location / {',
+      '    proxy_pass http://127.0.0.1:' + (args.port || 5525) + '/;',
+      '  }',
+      '}'
+    ].join('\n'), 'hiproxy-internal-rewrite');
   }
 
   next();

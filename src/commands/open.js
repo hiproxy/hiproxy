@@ -37,11 +37,12 @@ module.exports = {
       var args = info.args;
       var port = args.port || 5525;
       var proxyURL = 'http://127.0.0.1:' + port;
+      var homePage = 'https://hi.proxy/';
 
       if (parsedArgs.pacProxy) {
-        openBrowser.open(parsedArgs.browser || 'chrome', proxyURL, '', proxyURL + '/proxy.pac');
+        openBrowser.open(parsedArgs.browser || 'chrome', homePage, '', proxyURL + '/proxy.pac');
       } else {
-        openBrowser.open(parsedArgs.browser || 'chrome', proxyURL, proxyURL, '');
+        openBrowser.open(parsedArgs.browser || 'chrome', homePage, proxyURL, '');
       }
 
       console.log('Browser opened');

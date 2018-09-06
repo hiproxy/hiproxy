@@ -90,7 +90,7 @@ module.exports = {
       case 'open':
         this.openBrowser(
           params.browser || 'chrome',
-          '127.0.0.1:' + this.httpPort,
+          'https://hi.proxy/',
           params.pacProxy === 'true'
         );
         break;
