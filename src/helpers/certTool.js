@@ -131,7 +131,7 @@ module.exports = {
 
     options = options || {};
 
-    var days = options.days || 365;
+    var days = options.days || 365 * 5;
     var isCa = options.isCa || false;
     var subject = certInfo ? certInfo.subject || {} : {};
     var hasSubjectAltName = certInfo && typeof certInfo.subjectaltname === 'string';
