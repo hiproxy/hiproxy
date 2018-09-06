@@ -192,6 +192,15 @@ function hookResponse (hiproxy, ctx) {
       });
     }
   };
+
+  // hook `res.headers`，保证通过`res.setHeader()`设置的属性能通过`res.headers()`获取到
+  Object.defineProperty(res, 'headers', {
+    get: function () {
+      return res.getHeaders();
+    },
+
+    set: function (val) {}
+  });
 }
 
 /**
