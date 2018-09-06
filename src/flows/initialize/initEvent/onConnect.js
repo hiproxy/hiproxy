@@ -35,9 +35,9 @@ module.exports = function connectHandler (request, socket, head) {
   if (rewriteRule || hostRule) {
     hostname = '127.0.0.1';
     port = middleManPort;
-    log.info('https proxy -', request.url.bold.green, '==>', hostname.bold.green, 'rule type:', (rewriteRule ? 'rewrite' : 'hosts').bold.green);
+    log.debug('https proxy -', request.url.bold.green, '==>', hostname.bold.green, 'rule type:', (rewriteRule ? 'rewrite' : 'hosts').bold.green);
   } else {
-    log.info('https direc -', request.url.bold);
+    log.debug('https direc -', request.url.bold);
     log.access(request);
   }
 

@@ -242,16 +242,23 @@ function writeServerInfoToFile () {
  */
 function showLog (level, msg) {
   var args = global.args;
-  var logLevel = (args.logLevel || 'access,proxy').split(',');
+  var logLevel = getLevels();
   var grep = args.grep || '';
   var colorMap = {
     access: 'green',
-    info: 'blue',
     warn: 'yellow',
     debug: 'magenta',
-    detail: 'cyan',
+    detail: 'blue',
     error: 'red',
     proxy: 'cyan'
+  };
+  var levelMap = {
+    access: 'ACCES',
+    warn: 'WARN!',
+    debug: 'DEBUG',
+    detail: 'DTAIL',
+    error: 'ERROR',
+    proxy: 'PROXY'
   };
   var prefix = '';
   var color = '';
@@ -262,10 +269,30 @@ function showLog (level, msg) {
       msg = msg.replace(new RegExp('(' + grep + ')', 'g'), grep.bold.magenta.underline);
     }
 
-    prefix = '[' + level + ']';
+    prefix = '[' + levelMap[level] + ']';
     color = colorMap[level] || 'white';
     consoleMethod = level === 'error' ? 'error' : 'log';
 
     console[consoleMethod](prefix.bold[color], msg);
   }
+}
+
+/**
+ * Get global log levels config.
+ */
+function getLevels() {
+  var args = global.args;
+
+  if (!args.__log_levels) {
+    let levels = ['access', 'proxy'];
+    ['warn', 'error', 'debug', 'detail'].forEach(function(level) {
+      if (args[level]) {
+        levels.push(level);
+      }
+    });
+
+    args.__log_levels = levels;
+  }
+
+  return args.__log_levels;
 }

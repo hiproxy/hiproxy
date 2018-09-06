@@ -17,7 +17,7 @@ module.exports = {
     var proxyInfo = ctx.proxy;
     // var rewriteRule = proxyInfo.rewriteRule;
 
-    log.info(request.url + ' ==> ' + proxyInfo.url);
+    log.debug(request.url + ' ==> ' + proxyInfo.url);
 
     response.headers = response.headers || {};
 

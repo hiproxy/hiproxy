@@ -73,26 +73,26 @@ function run () {
   _args
     .version(packageInfo.version)
     .bin('hiproxy')
-    // .option('debug', {
-    //   alias: 'd',
-    //   describe: '显示调试信息'
-    // })
-    // .option('detail', {
-    //   alias: 'D',
-    //   describe: '显示详细调试信息'
-    // })
+    .option('debug', {
+      describe: 'Show hiproxy debug log, label: [DEBUG]'
+    })
+    .option('detail', {
+      describe: 'Show hiproxy detail debug log, label: [DTAIL]'
+    })
+    .option('error', {
+      describe: 'Show hiproxy error log, label: [ERROR]'
+    })
+    .option('warn', {
+      describe: 'Show hiproxy warning log, label: [WARN!]'
+    })
     .option('log-dir <dir>', {
       describe: 'The log directory when run in background, default: user home directory'
     })
     .option('log-time', {
       describe: 'Show time info before every log message'
     })
-    .option('log-level', {
-      describe: 'Log levels,format:<level1>[,<lavel2[,...]], available values: access,proxy,info,warn,error,debug,detail',
-      default: 'access,proxy'
-    })
     .option('grep <content>', {
-      describe: 'Filter the log data'
+      describe: 'Filter all the hiproxy log data'
     });
 
   // 解析参数，但是不执行命令
