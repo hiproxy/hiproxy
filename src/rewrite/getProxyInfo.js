@@ -27,7 +27,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   var uri = url.parse(originUrl);
   var rewrite = !!rewriteRules && getRewriteRule(uri, rewriteRules);
   var host = !!hostsRules && hostsRules[uri.hostname];
-  var hostname, port, path, proxyName, protocol;
+  var hostname, port, path, protocol;
   var proxyInfo = {
     headers: request.headers
   };
@@ -101,8 +101,6 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       path = newUrlObj.path;
       proxyType = proxyPass ? 'REWRITE' : 'DIRECTIVE';
     }
-
-    proxyName = 'hiproxy';
   } else if (host) {
     // TODO 这里的协议，到底应该用什么?
     protocol = 'http:';
@@ -110,7 +108,6 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     // port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
     port = host.split(':')[1] || uri.port || (protocol === 'https:' ? 443 : 80);
     path = uri.path;
-    proxyName = 'hiproxy';
     proxyType = 'HOSTS';
   } else {
     hostname = uri.hostname;
@@ -135,7 +132,6 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
     proxyType: proxyType,
     proxyPass: proxyPass,
-    PROXY: proxyName,
     hostsRule: host,
     hostName: uri.hostname,
     rewriteRule: rewrite,
