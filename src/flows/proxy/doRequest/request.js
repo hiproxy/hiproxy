@@ -52,6 +52,8 @@ module.exports = {
       // TODO 如果在指令中再次调用了`end()`方法，会导致调用两次end，能否优化？？？
       response.end('');
 
+      next();
+
       return;
     }
 
