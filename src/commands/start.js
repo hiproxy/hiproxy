@@ -280,12 +280,12 @@ function showLog (level, msg) {
 /**
  * Get global log levels config.
  */
-function getLevels() {
+function getLevels () {
   var args = global.args;
 
   if (!args.__log_levels) {
     let levels = ['access', 'proxy'];
-    ['warn', 'error', 'debug', 'detail'].forEach(function(level) {
+    ['warn', 'error', 'debug', 'detail'].forEach(function (level) {
       if (args[level]) {
         levels.push(level);
       }
