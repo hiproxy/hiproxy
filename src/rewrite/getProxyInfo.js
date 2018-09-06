@@ -31,6 +31,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
   var proxyInfo = {
     headers: request.headers
   };
+  var proxyType = 'DIRECT';
 
   protocol = uri.protocol;
 
@@ -91,12 +92,14 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     if (alias) {
       // 本地文件系统路径, 删除前面的协议部分
       newUrl = newUrl.replace(/^(\w+:\/\/)/, '').split('?')[0];
+      proxyType = 'ALIAS';
     } else {
       newUrlObj = url.parse(newUrl);
 
       hostname = newUrlObj.hostname || '';
       port = newUrlObj.port;
       path = newUrlObj.path;
+      proxyType = proxyPass ? 'REWRITE' : 'DIRECTIVE';
     }
 
     proxyName = 'hiproxy';
@@ -108,6 +111,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     port = host.split(':')[1] || uri.port || (protocol === 'https:' ? 443 : 80);
     path = uri.path;
     proxyName = 'hiproxy';
+    proxyType = 'HOSTS';
   } else {
     hostname = uri.hostname;
     port = uri.port;
@@ -126,11 +130,10 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     port: port,
     path: path,
     method: proxyInfo.method || request.method,
-    // TODO 确保request不能被修改，比如headers、method
     // headers: request.headers,
     protocol: protocol,
 
-    proxyType: rewrite ? 'rewrite' : (host ? 'hosts' : 'other'),
+    proxyType: proxyType,
     proxyPass: proxyPass,
     PROXY: proxyName,
     hostsRule: host,

@@ -8,20 +8,32 @@ module.exports = function (ctx, next) {
   var req = ctx.req;
   var proxy = ctx.proxy;
   var target = '';
-  // TODO 使用另一个标示来标志是否经过代理
-  if (proxy.PROXY) {
-    if (proxy.alias) {
+  var proxyType = proxy.proxyType;
+
+  switch (proxyType) {
+    case 'ALIAS':
       target = proxy.proxyPass ? '(alias to ' + proxy.proxyPass + ')' : '(alias directive)';
-    } else if (proxy.proxyType === 'rewrite') {
+      break;
+
+    case 'DIRECTIVE':
+      target = '(content by directive)';
+      break;
+
+    case 'REWRITE':
       target = (proxy.protocol || 'http:') + '//' + proxy.hostname + (proxy.port ? ':' + proxy.port : '') + proxy.path;
-    } else if (proxy.proxyType === 'hosts') {
+      break;
+
+    case 'HOSTS':
       target = 'hosts: ' + proxy.hostsRule + ' ' + proxy.hostName;
-    } else {
-      target = '(local file system or echo)';
-    }
-    log.access(req, proxy, target);
-  } else {
-    log.access(req, proxy);
+      break;
+
+    case 'DIRECT':
+      target = '';
+      break;
+
+    default:
+      target = '(content by local file system or echo directive)';
   }
+  log.access(req, proxy, target);
   next();
 };
