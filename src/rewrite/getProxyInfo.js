@@ -102,10 +102,8 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
       proxyType = proxyPass ? 'REWRITE' : 'DIRECTIVE';
     }
   } else if (host) {
-    // TODO 这里的协议，到底应该用什么?
-    protocol = 'http:';
+    protocol = uri.protocol || 'http:';
     hostname = host.split(':')[0];
-    // port = (protocol === 'https:') ? 443 : Number(uri.port || host.split(':')[1]);
     port = host.split(':')[1] || uri.port || (protocol === 'https:' ? 443 : 80);
     path = uri.path;
     proxyType = 'HOSTS';
