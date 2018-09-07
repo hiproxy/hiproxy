@@ -22,7 +22,7 @@ describe('#directives - set_header', function () {
     proxyServer.stop();
   });
 
-  it('should set request header and send to remote server', function () {
+  it('should set response header and send to client', function () {
     // set_header From admin@hiproxy.org;
     // set_header User admin;
     // set_header Date 2018-08-08;
