@@ -12,7 +12,7 @@ var zlib = require('zlib');
 // var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (ctx, request, response, next) {
+  response: function (ctx, req, res, next) {
     var proxyInfo = ctx.proxy;
     // var rewriteRule = proxyInfo.rewriteRule;
     var isHTTPS = proxyInfo.protocol === 'https:';
@@ -30,7 +30,7 @@ module.exports = {
     }
 
     if (!proxyInfo.proxyPass && !proxyInfo.hostname) {
-      log.debug(request.url, 'has no proxy_pass');
+      log.debug(req.url, 'has no proxy_pass');
       // execResult = execDirectives(rewriteRule, {
       //   response: response,
       //   rewriteRule: rewriteRule
@@ -50,7 +50,7 @@ module.exports = {
       //   next();
       // });
       // TODO 如果在指令中再次调用了`end()`方法，会导致调用两次end，能否优化？？？
-      response.end('');
+      res.end('');
 
       next();
 
@@ -61,33 +61,33 @@ module.exports = {
 
     log.debug('request remote server proxy info', JSON.stringify(proxyInfo));
     log.debug('request remote server request option', JSON.stringify(requestOptions));
-    log.debug('request original info', JSON.stringify(request.originReq));
+    log.debug('request original info', JSON.stringify(req.originReq));
 
-    var proxy = (isHTTPS ? https : http).request(requestOptions, function (res) {
-      log.debug('request remote result', JSON.stringify(res.headers));
+    var proxy = (isHTTPS ? https : http).request(requestOptions, function (response) {
+      log.debug('request remote result', JSON.stringify(response.headers));
 
-      var contentType = res.headers['content-type'];
-      var encoding = res.headers['content-encoding'];
+      var contentType = response.headers['content-type'];
+      var encoding = response.headers['content-encoding'];
       var needUnZip = encoding === 'gzip' || encoding === 'deflate';
       var isTextFile = /(text|xml|html|plain|json|javascript|css)/.test(contentType);
 
       var stream = null;
       var originData = [];
 
-      response.headers = res.headers;
-      response.statusCode = res.statusCode;
-      response.statusMessage = res.statusMessage;
+      res.headers = response.headers;
+      res.statusCode = response.statusCode;
+      res.statusMessage = response.statusMessage;
 
-      response.originalInfo = {
-        headers: JSON.parse(JSON.stringify(res.headers)),
-        statusCode: res.statusCode,
-        statusMessage: res.statusMessage
+      res.originalInfo = {
+        headers: JSON.parse(JSON.stringify(response.headers)),
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage
       };
 
       if (needUnZip) {
-        delete res.headers['content-encoding'];
-        delete res.headers['content-length'];
-        res.headers['x-hiproxy-origin-content-encoding'] = encoding;
+        delete response.headers['content-encoding'];
+        delete response.headers['content-length'];
+        response.headers['x-hiproxy-origin-content-encoding'] = encoding;
       }
 
       // 这里暂时不执行
@@ -101,7 +101,7 @@ module.exports = {
        * @event ProxyServer#setResponse
        * @property {http.ServerResponse} response request object
        */
-      self.emit('setResponse', response);
+      self.emit('setResponse', res);
 
       // response.pipe(res)
 
@@ -126,11 +126,11 @@ module.exports = {
           log.error('error ==>', err);
         });
 
-        res.pipe(unzipStream).pipe(response);
+        response.pipe(unzipStream).pipe(res);
       } else {
-        stream = res;
+        stream = response;
 
-        res.pipe(response);
+        response.pipe(res);
       }
 
       stream.on('data', function (chunk) {
@@ -138,7 +138,7 @@ module.exports = {
       });
 
       stream.on('end', function () {
-        response.originalInfo.body = Buffer.concat(originData);
+        res.originalInfo.body = Buffer.concat(originData);
         next();
       });
     });
@@ -146,14 +146,14 @@ module.exports = {
     proxy.on('error', function (e) {
       /* istanbul ignore next */
       if (e.code === 'ENOTFOUND') {
-        response.statusCode = 404;
+        res.statusCode = 404;
       } else {
-        response.statusCode = 500;
+        res.statusCode = 500;
       }
 
-      response.end(e.stack);
+      res.end(e.stack);
 
-      log.error('proxy error:', request.url);
+      log.error('proxy error:', req.url);
       log.detail(e.stack);
 
       // self.emit('response', request, response);
@@ -161,7 +161,7 @@ module.exports = {
       next();
     });
 
-    proxy.end(request.body);
+    proxy.end(req.body);
   }
 };
 

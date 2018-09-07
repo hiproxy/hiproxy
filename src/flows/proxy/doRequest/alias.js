@@ -12,14 +12,14 @@ var getMimeType = require('simple-mime')('application/octet-stream');
 // var execDirectives = require('../../../directives').execDirectives;
 
 module.exports = {
-  response: function (ctx, request, response, next) {
+  response: function (ctx, req, res, next) {
     var hiproxy = this;
     var proxyInfo = ctx.proxy;
     // var rewriteRule = proxyInfo.rewriteRule;
 
-    log.debug(request.url + ' ==> ' + proxyInfo.url);
+    log.debug(req.url + ' ==> ' + proxyInfo.url);
 
-    response.headers = response.headers || {};
+    res.headers = res.headers || {};
 
     // 执行response作用域的command
     // execDirectives(rewriteRule, {
@@ -31,7 +31,7 @@ module.exports = {
      * @event ProxyServer#setResponse
      * @property {http.ServerResponse} response request object
      */
-    hiproxy.emit('setResponse', response);
+    hiproxy.emit('setResponse', res);
 
     try {
       var stats = fs.statSync(proxyInfo.url);
@@ -45,11 +45,11 @@ module.exports = {
 
       // TODO 如果没有root，列出目录
       var stream = fs.createReadStream(filePath);
-      response.setHeader('Content-Type', getMimeType(filePath));
+      res.setHeader('Content-Type', getMimeType(filePath));
 
       stream.on('error', /* istanbul ignore next */ function (e) {
-        response.statusCode = 500;
-        response.end('500 Server Internal Error: <br><pre>' + e.stack + '</pre>');
+        res.statusCode = 500;
+        res.end('500 Server Internal Error: <br><pre>' + e.stack + '</pre>');
 
         next();
       });
@@ -76,17 +76,17 @@ module.exports = {
         next();
       });
 
-      return stream.pipe(response);
+      return stream.pipe(res);
     } catch (err) {
       log.error(err);
-      response.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Type', 'text/html');
 
       if (err.code === 'ENOENT') {
-        response.statusCode = 404;
-        response.end('404 Not Found: <br><pre>' + err.stack + '</pre>');
+        res.statusCode = 404;
+        res.end('404 Not Found: <br><pre>' + err.stack + '</pre>');
       } else {
-        response.statusCode = 500;
-        response.end('500 Server Internal Error: <br><pre>' + err.stack + '</pre>');
+        res.statusCode = 500;
+        res.end('500 Server Internal Error: <br><pre>' + err.stack + '</pre>');
       }
 
       // hiproxy.emit('response', response);
