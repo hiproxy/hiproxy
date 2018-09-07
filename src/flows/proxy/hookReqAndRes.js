@@ -201,7 +201,7 @@ function hookResponse (hiproxy, ctx) {
     },
 
     set: function () {
-      // ignore 
+      // ignore
     }
   });
 }

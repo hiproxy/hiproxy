@@ -19,7 +19,7 @@ module.exports = function (request, response) {
   var httpsPort = this.httpsPort;
   var dir = this.dir;
   var pkg = require('../../package.json');
-  var homeTemplate = path.join(__dirname, 'index.html');
+  var homeTemplate = path.join(__dirname, 'source', 'index.html');
   var errMsg = '<p style="">hiproxy home page load error. Please refresh the page.</p>';
 
   response.writeHead(200, {
@@ -32,6 +32,7 @@ module.exports = function (request, response) {
       var renderData = {};
       /* istanbul ignore if */
       if (err) {
+        log.error(err.stack);
         html = errMsg;
       } else {
         renderData = {
@@ -81,7 +82,7 @@ function getPkgInfos (plgs, rootURL) {
     return {
       name: plgName,
       displayName: displayName,
-      root: rootURL + '/' + displayName.toLowerCase(),
+      root: '/' + displayName.toLowerCase(),
       logoLetter: logoLetter,
       logoColor: colors[Math.floor(Math.random() * colors.length)],
       logoURL: plugin.logoURL,
