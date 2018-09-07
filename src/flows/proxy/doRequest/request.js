@@ -74,7 +74,6 @@ module.exports = {
       var stream = null;
       var originData = [];
 
-      res.headers = response.headers;
       res.statusCode = response.statusCode;
       res.statusMessage = response.statusMessage;
 
@@ -89,6 +88,8 @@ module.exports = {
         delete response.headers['content-length'];
         response.headers['x-hiproxy-origin-content-encoding'] = encoding;
       }
+
+      setOriginalHeader(res, response.headers);
 
       // 这里暂时不执行
       // execDirectives(rewriteRule, {
@@ -210,4 +211,13 @@ function getRequestOption (proxyInfo) {
   });
 
   return options;
+}
+
+function setOriginalHeader (res, headers) {
+  var key = '';
+  var newKey = '';
+  for (key in headers) {
+    newKey = key.replace(/^\w|-\w/g, (match) => match.toUpperCase());
+    res.setHeader(newKey, headers[key]);
+  }
 }

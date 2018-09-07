@@ -6,7 +6,7 @@
 
 module.exports = function setHeader (response, name, value) {
   var keyLower = name.toLowerCase();
-  var header = response.getHeader(name) || response.headers[keyLower];
+  var header = response.getHeader(name);
 
   if (keyLower === 'set-cookie') {
     if (header) {
@@ -17,5 +17,4 @@ module.exports = function setHeader (response, name, value) {
   }
 
   response.setHeader(name, value);
-  response.headers[name] = value;
 };

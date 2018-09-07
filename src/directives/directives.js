@@ -161,7 +161,6 @@ module.exports = {
     log.debug('hide_header -', keys.join(','));
 
     keys.forEach(function (key) {
-      delete ctx.res.headers[key.toLowerCase()];
       ctx.res.removeHeader(key);
     });
   },
@@ -204,7 +203,7 @@ module.exports = {
             'Content-Type': 'text/html'
           });
         } else {
-          if (!res.getHeader('content-type') && !res.headers['content-type']) {
+          if (!res.getHeader('content-type')) {
             res.setHeader('Content-Type', getMimeType(filePath));
           }
         }
@@ -223,8 +222,7 @@ module.exports = {
     var source = oldValue;
     var variables = this.rewriteRule.variables;
     var res = this.res;
-    var headers = res.headers;
-    var contentType = (headers['content-type'] || '').split(/\s*;\s*/)[0];
+    var contentType = (res.getHeader('Content-Type') || '').split(/\s*;\s*/)[0];
     var subFilterTypes = variables.sub_filter_types || '*';
     var subFilterOnce = variables.sub_filter_once;
     var subFilterLastModified = variables.sub_filter_last_modified;
@@ -240,7 +238,6 @@ module.exports = {
       // if `sub_filter_last_modified` is NOT `on`, remove the `Last-Modified` header.
       if (subFilterLastModified !== 'on') {
         res.removeHeader('last-modified');
-        delete res.headers['last-modified'];
       }
     }
   },

@@ -178,11 +178,12 @@ function hookResponse (hiproxy, ctx) {
         });
 
         // correct the `Content-Length` header
-        if ('content-length' in res.headers) {
-          res.headers['content-length'] = body.length;
+        if (res.getHeader('Content-Length')) {
+          res.setHeader('Content-Length', body.length);
         }
+
         // write headers to the browser
-        res.writeHead(res.statusCode, res.statusMessage, res.headers);
+        res.writeHead(res.statusCode, res.statusMessage, res.getHeaders());
 
         // call `oldEnd()` will call `res.write()` again，so we shold resotre the `write()` method.
         res.write = oldWrite;
@@ -193,13 +194,15 @@ function hookResponse (hiproxy, ctx) {
     }
   };
 
-  // hook `res.headers`，保证通过`res.setHeader()`设置的属性能通过`res.headers()`获取到
+  // hook `res.headers`，保证通过`res.setHeader()`设置的属性能通过`res.headers`获取到
   Object.defineProperty(res, 'headers', {
     get: function () {
       return res.getHeaders();
     },
 
-    set: function (val) {}
+    set: function () {
+      // ignore 
+    }
   });
 }
 

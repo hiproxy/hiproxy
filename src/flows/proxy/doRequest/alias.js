@@ -19,8 +19,6 @@ module.exports = {
 
     log.debug(req.url + ' ==> ' + proxyInfo.url);
 
-    res.headers = res.headers || {};
-
     // 执行response作用域的command
     // execDirectives(rewriteRule, {
     //   res: response

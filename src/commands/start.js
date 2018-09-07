@@ -133,7 +133,7 @@ function _startServer (ctx) {
       var res = detail.res;
       // var req = detail.req;
       var body = res.body;
-      var headers = res.headers || {};
+      var headers = res.getHeaders();
       var contentType = headers['content-type'];
 
       if (contentType && contentType.indexOf('text/html') !== -1) {
@@ -142,7 +142,10 @@ function _startServer (ctx) {
       // modify body
       res.body = body;
       // set header
-      res.headers['I-Love'] = 'hiproxy';
+      // not work
+      res.headers['abc'] = 'def';
+      // works
+      res.setHeader('I-Love', 'hiproxy');
 
       return detail;
     },
