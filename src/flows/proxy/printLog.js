@@ -24,7 +24,7 @@ module.exports = function (ctx, next) {
       break;
 
     case 'HOSTS':
-      target = 'hosts: ' + proxy.hostsRule + ' ' + proxy.hostName;
+      target = 'hosts: ' + proxy.hostsRule;
       break;
 
     case 'DIRECT':

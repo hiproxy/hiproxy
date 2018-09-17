@@ -130,8 +130,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
 
     proxyType: proxyType,
     proxyPass: proxyPass,
-    hostsRule: host,
-    hostName: uri.hostname,
+    hostsRule: host + ' ' + uri.hostname,
     rewriteRule: rewrite,
     alias: alias,
     url: newUrl
