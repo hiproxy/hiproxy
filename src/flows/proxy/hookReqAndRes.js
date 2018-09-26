@@ -194,6 +194,13 @@ function hookResponse (hiproxy, ctx) {
     }
   };
 
+  // 兼容response.getHeaders的兼容性问题
+  if (typeof res.getHeaders !== 'function') {
+    res.getHeaders = function () {
+      return res._headers || {};
+    };
+  }
+
   // hook `res.headers`，保证通过`res.setHeader()`设置的属性能通过`res.headers`获取到
   Object.defineProperty(res, 'headers', {
     get: function () {
