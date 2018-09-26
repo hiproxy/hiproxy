@@ -190,6 +190,13 @@ function hookResponse (hiproxy, ctx) {
         res.end = oldEnd;
         // 最后一次性推送数据到浏览器
         oldEnd.call(res, body);
+      }).catch(function (err) {
+        log.error('exec directives error', err);
+        log.detail(err.stack);
+        res.writeHead(527, 'Proxy Error', {});
+        res.write = oldWrite;
+        res.end = oldEnd;
+        oldEnd.call(res, '<pre>' + err.stack + '</pre>');
       });
     }
   };

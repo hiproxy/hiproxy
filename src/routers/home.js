@@ -33,7 +33,7 @@ module.exports = function (request, response) {
       /* istanbul ignore if */
       if (err) {
         log.error(err.stack);
-        html = errMsg;
+        html = errMsg + '<pre>' + (err.stack || err.message) + '</pre>';
       } else {
         renderData = {
           localIP: localIP,
@@ -49,8 +49,9 @@ module.exports = function (request, response) {
 
       response.end(html);
     });
-  }).catch(function () {
-    response.end(errMsg);
+  }).catch(function (err) {
+    log.error('error:', err);
+    response.end(errMsg + '<pre>' + (err.stack || err.message) + '</pre>');
   });
 };
 
