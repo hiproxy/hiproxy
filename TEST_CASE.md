@@ -23,7 +23,13 @@
     - [x] HTTPS server
     - [x] specified port
     - [x] random port
-    - [x] callbacks
+    - [ ] callbacks
+      - [ ] onError
+      - [ ] onBeforeRequest
+      - [ ] onBeforeResponse
+      - [ ] onData
+    - [ ] res.getHeaders()
+    - [ ] res.headers
   - [ ] server api
     - [x] start
     - [x] stop
