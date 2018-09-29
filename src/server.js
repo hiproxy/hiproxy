@@ -4,6 +4,7 @@
  */
 
 require('colors');
+var url = require('url');
 var path = require('path');
 var EventEmitter = require('events');
 var openBrowser = require('op-browser');
@@ -367,6 +368,15 @@ ProxyServer.prototype = {
     if (process.env.NPM_TEST) {
       this.testWebAPICalled = true;
     }
+  },
+
+  isInternalRequest: function (req) {
+    var originalUrl = req.url;
+    var urlInfo = url.parse(originalUrl);
+    var hostname = urlInfo.hostname;
+    var internalHosts = ['127.0.0.1', 'hi.proxy'];
+
+    return internalHosts.indexOf(hostname) !== -1;
   }
 };
 

@@ -131,10 +131,14 @@ function _startServer (ctx) {
     onBeforeResponse: function (detail) {
       // var proxy = detail.proxy;
       var res = detail.res;
-      // var req = detail.req;
+      var req = detail.req;
       var body = res.body;
       var headers = res.getHeaders();
       var contentType = headers['content-type'];
+
+      if (this.isInternalRequest(req)) {
+        return detail;
+      }
 
       if (contentType && contentType.indexOf('text/html') !== -1) {
         body += '<script>console.log("💻 Hacked by hiproxy `onBeforesResponse()` callback. 内容已经被hiproxy的`onBeforeResponse()`修改！")</script>';
