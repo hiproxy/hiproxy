@@ -25,7 +25,10 @@ module.exports = function (req, res) {
    * @property {http.IncomingMessage} request request object
    * @property {http.ServerResponse} response response object
    */
-  this.emit('httpsRequest', req, res);
+  this.emit('httpsRequest', {
+    req: req,
+    res: res
+  });
   // this.emit('request', req, res);
 
   if (!url.match(/^\w+:\/\//)) {

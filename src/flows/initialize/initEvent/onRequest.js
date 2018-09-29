@@ -25,7 +25,10 @@ module.exports = function (req, res) {
    * @property {http.IncomingMessage} request request object
    * @property {http.ServerResponse} response response object
    */
-  this.emit('request', req, res);
+  this.emit('request', {
+    req: req,
+    res: res
+  });
 
   proxyFlow.run(ctx, null, this);
 };

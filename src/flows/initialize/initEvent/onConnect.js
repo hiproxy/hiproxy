@@ -30,7 +30,11 @@ module.exports = function connectHandler (request, socket, head) {
    * @property {net.Socket} socket socket object
    * @property {Buffer} head  head
    */
-  this.emit('connect', request, socket, head);
+  this.emit('connect', {
+    req: request,
+    socket: socket,
+    head: head
+  });
 
   if (rewriteRule || hostRule) {
     hostname = '127.0.0.1';

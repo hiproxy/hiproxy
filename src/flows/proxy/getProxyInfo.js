@@ -21,7 +21,11 @@ module.exports = function (ctx, next) {
    * @property {http.IncomingMessage} response request object
    * @property {http.ServerResponse} response response object
    */
-  hiproxy.emit('requestend', body, req, res);
+  hiproxy.emit('requestend', {
+    body: body,
+    req: req,
+    res: res
+  });
 
   ctx.proxy = getProxyInfo(req, hosts.getHost(), rewrite.getRule());
 

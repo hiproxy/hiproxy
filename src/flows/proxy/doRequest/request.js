@@ -102,7 +102,7 @@ module.exports = {
        * @event ProxyServer#setResponse
        * @property {http.ServerResponse} response request object
        */
-      self.emit('setResponse', res);
+      self.emit('setResponse', {res: res});
 
       // response.pipe(res)
 

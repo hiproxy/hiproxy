@@ -29,7 +29,7 @@ module.exports = {
      * @event ProxyServer#setResponse
      * @property {http.ServerResponse} response request object
      */
-    hiproxy.emit('setResponse', res);
+    hiproxy.emit('setResponse', {res: res});
 
     try {
       var stats = fs.statSync(proxyInfo.url);
