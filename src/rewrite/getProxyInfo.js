@@ -113,7 +113,7 @@ module.exports = function getProxyInfo (request, hostsRules, rewriteRules) {
     path = uri.path;
   }
 
-  request.headers['accept-encoding'] = 'gzip,deflate';
+  request.headers['accept-encoding'] = 'gzip, deflate';
   // TODO add test case.
   // correct the `Content-Length` value.
   if ('content-length' in request.headers) {

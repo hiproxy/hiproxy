@@ -19,7 +19,7 @@ module.exports = {
     var self = this;
     // var execResult;
 
-    // proxyInfo.headers['accept-encoding'] = 'gzip,deflate';
+    // proxyInfo.headers['accept-encoding'] = 'gzip, deflate';
     // if ('content-length' in proxyInfo.headers) {
     //   proxyInfo.headers['content-length'] = Buffer.byteLength(request.body || '');
     // }
