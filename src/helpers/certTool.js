@@ -6,6 +6,7 @@
 'use strict';
 
 var fs = require('fs');
+var os = require('os');
 var https = require('https');
 var path = require('path');
 var forge = require('node-forge');
@@ -36,7 +37,8 @@ var defaultAttrs = [
     value: 'Development'
   }
 ];
-var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
+var DEFAULT_CA_NAME = 'Hiproxy_Custom_CA_' + os.hostname().replace(/\./g, '_');
+// var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
 var _cache = {};
 
 mkdirp(certDir);

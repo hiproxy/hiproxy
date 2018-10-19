@@ -1,5 +1,6 @@
 var assert = require('assert');
 var path = require('path');
+var os = require('os');
 var Logger = require('../../src/logger');
 require('colors');
 
@@ -52,7 +53,8 @@ describe('#auto generate ssl certificate', function () {
       //   OU: 'Development'
       // }
       assert(subject.CN, 'example.io');
-      assert(issuer.CN, 'Hiproxy Custom CA');
+      var DEFAULT_CA_NAME = 'Hiproxy_Custom_CA_' + os.hostname().replace(/\./g, '_');
+      assert(issuer.CN, DEFAULT_CA_NAME);
       done();
     });
 
