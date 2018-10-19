@@ -38,7 +38,6 @@ var defaultAttrs = [
   }
 ];
 var DEFAULT_CA_NAME = 'Hiproxy_Custom_CA_' + os.hostname().replace(/\./g, '_');
-// var DEFAULT_CA_NAME = 'Hiproxy Custom CA';
 var _cache = {};
 
 mkdirp(certDir);

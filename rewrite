@@ -1,0 +1,5 @@
+domain m.flight.qunar.com{
+    location /{
+        echo "lalll"
+    }
+}
