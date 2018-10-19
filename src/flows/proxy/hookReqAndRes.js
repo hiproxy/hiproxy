@@ -233,8 +233,6 @@ function getOriginalReqInfo (req) {
     'method',
     'rawHeaders',
     'rawTrailers',
-    'statusCode',
-    'statusMessage',
     'trailers',
     'url',
     'body'
