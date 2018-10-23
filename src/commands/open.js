@@ -21,7 +21,7 @@ module.exports = {
     'browser <browser>': {
       alias: 'b',
       validate: /^(chrome|firefox|opera)$/,
-      describe: 'Browser name, default: chrome. Valid alues: chrome,firefox,opera'
+      describe: 'Browser name, default: chrome. Valid values: chrome,firefox,opera'
     },
     'pac-proxy': {
       describe: 'Use Proxy auto-configuration (PAC)'
