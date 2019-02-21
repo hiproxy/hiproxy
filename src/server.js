@@ -82,9 +82,9 @@ ProxyServer.prototype = {
     var options = this.options;
 
     callbackNames.forEach(function (cbk) {
-      var cbks = options[cbk] || (options[cbk] = []);
-      if (!Array.isArray(cbks)) {
-        options[cbk] = [cbks];
+      var cbkFn = options[cbk] || (options[cbk] = []);
+      if (!Array.isArray(cbkFn)) {
+        options[cbk] = [cbkFn];
       }
     });
   },
@@ -264,10 +264,10 @@ ProxyServer.prototype = {
 
     /**
      * Emitter when the `pac` proxy file is created or updated.
-     * @event ProxyServer#creatPacFile
+     * @event ProxyServer#createPacFile
      * @property {Object} domains domain list
      */
-    this.emit('creatPacFile', domains);
+    this.emit('createPacFile', domains);
 
     return createPacFile(this.httpPort, this.localIP, domains)
       .then(function () {
