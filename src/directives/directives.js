@@ -199,9 +199,11 @@ module.exports = {
         if (err) {
           log.error(err);
           data = 'File send error: <br/>' + err.stack;
-          res.writeHead(err.code === 'ENOENT' ? 404 : 500, {
-            'Content-Type': 'text/html'
-          });
+          res.setHeader('Content-Type', 'text/html');
+          res.statusCode = err.code === 'ENOENT' ? 404 : 500;
+          // res.writeHead(err.code === 'ENOENT' ? 404 : 500, {
+          //   'Content-Type': 'text/html'
+          // });
         } else {
           if (!res.getHeader('content-type')) {
             res.setHeader('Content-Type', getMimeType(filePath));
