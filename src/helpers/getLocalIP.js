@@ -11,9 +11,10 @@ module.exports = function () {
 
   if (process.platform === 'darwin' || process.platform === 'linux') {
     for (var key in interfaces) {
-      interfaces[key].forEach(function (details) {
+      interfaces[key].find(function (details) {
         if (details.family === 'IPv4' && key === 'en0' && details.address !== '127.0.0.1') {
           IPv4 = details.address;
+          return true;
         }
       });
     }
