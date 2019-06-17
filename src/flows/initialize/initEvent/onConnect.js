@@ -39,13 +39,13 @@ module.exports = function connectHandler (request, socket, head) {
   if (rewriteRule || hostRule) {
     hostname = '127.0.0.1';
     port = middleManPort;
-    log.debug('https proxy -', request.url.bold.green, '==>', hostname.bold.green, 'rule type:', (rewriteRule ? 'rewrite' : 'hosts').bold.green);
+    log.debug('https proxy -', request.url.bold.green, '==>', hostname.bold.green, String(port).bold.green, 'rule type:', (rewriteRule ? 'rewrite' : 'hosts').bold.green);
   } else {
     log.debug('https direc -', request.url.bold);
     log.access(request);
   }
 
-  log.debug('connect to:', port, hostname);
+  log.debug('connect to:', hostname, port, 'original info:', JSON.stringify(urlObj));
   // if (!this.httpsPort || !this.httpsServer) {
   //   socket.write('HTTP/1.1 200 Error\r\n\r\nThe HTTPS server has not been started.');
   //   socket.end();
@@ -61,7 +61,7 @@ module.exports = function connectHandler (request, socket, head) {
     log.detail('proxy error', e.stack);
     socket.end();
   }).on('data', function (data) {
-    // console.log('proxy socker data:', data.toString());
+    //  console.log('proxy socker data:', hostname, port, data.toString());
     // socket.write(data);
   });
 

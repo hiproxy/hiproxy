@@ -120,6 +120,11 @@ function _startServer (ctx) {
 
   var httpsPort = https !== 'false' ? cliArgs.middleManPort || 10010 : 0;
 
+  process.on('uncaughtException', function (err) {
+    log.error('uncaughtException', err);
+    log.detail(err.stack || err);
+  });
+
   var workspace = cliArgs.workspace || process.cwd();
   var proxy = new Proxy({
     httpPort: port,
@@ -141,7 +146,7 @@ function _startServer (ctx) {
       }
 
       if (contentType && contentType.indexOf('text/html') !== -1) {
-        body += '<script>console.log("💻 Hacked by hiproxy `onBeforesResponse()` callback. 内容已经被hiproxy的`onBeforeResponse()`修改！")</script>';
+        // body += '<script>console.log("💻 Hacked by hiproxy `onBeforesResponse()` callback. 内容已经被hiproxy的`onBeforeResponse()`修改！")</script>';
       }
       // modify body
       res.body = body;
