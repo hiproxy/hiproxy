@@ -1,5 +1,6 @@
 var path = require('path');
 var https = require('https');
+var os = require('os');
 var assert = require('assert');
 var Proxy = require('../../../src/server');
 var testServer = require('../../testServer');
@@ -92,7 +93,7 @@ describe('#proxy - HTTPS request proxy', function () {
       //   OU: 'Development'
       // }
       assert.equal(subject.CN, 'hiproxy.org');
-      assert.equal(issuer.CN, 'Hiproxy Custom CA');
+      assert.equal(issuer.CN, 'Hiproxy_Custom_CA_' + os.hostname().replace(/\./g, '_'));
       done();
     });
 

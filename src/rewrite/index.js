@@ -260,6 +260,9 @@ Rewrite.prototype = {
 };
 
 Rewrite.parse = function (sourceCode, file) {
+  if (!sourceCode) {
+    return;
+  }
   var filePath = file || this._getSnippetName();
   var AST = (new hiproxyConfParser.Parser(sourceCode, filePath)).parseToplevel();
   var tree = new hiproxyConfParser.Transform().transform(AST, filePath);
