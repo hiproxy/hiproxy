@@ -1,5 +1,59 @@
 # Change Log
 
+## [2.0.0] - 2019-08-??
+
+### Added
+
+* Support multiple hiproxy certificates for the same device, see [#57](https://github.com/hiproxy/hiproxy/issues/57).
+* Support plugins installed by yarn, see [#53](https://github.com/hiproxy/hiproxy/pull/53) 增加yarn全局插件检测.
+* Support `onError()` callback.
+* Support `onBeforeRequest()` callback.
+* Support `onData()` callback.
+* Support `onBeforeResponse()` callback;
+* Add `addCallback()` api for hiproxy.
+* Ignore duplicate hosts rules(TODO ? keep this or remove it? #b3d0a3bfa9c47565e9ab37e5ba1fcaf247fe546e).
+* Add default `Host` header.
+* The `send_file` directive now send `Content-Type` header.
+* The `proxy_append_body` directive now will auto detect `JSON` and `form` data.
+* The `proxy_replace_body` directive now support flag `igm`.
+* Add new directive `proxy_timeout timeout`.
+* Add direcitive `sub_filter_last_modified on|off`.
+* Add directive `sub_filter_types types`.
+* Add directive `sub_filter_once on|off`.
+* hiproxy home page use <https://hi.proxy/>.
+
+### Fixed
+
+* Fix [#59](https://github.com/hiproxy/hiproxy/issues/59) haeder设置重复.
+* Fix: Empty rewrite file error when starting hiproxy.
+* Fix: hosts domain https request error.
+* Fix: content by echo directive has no proxy log.
+* Fix: hiproxy home page charset.
+* Fix: file upload and Non-text file damaged.
+* Fix: windows 7 hosts parse error.
+
+### Updated
+
+* Update hiproxy log prefix label.
+* CLI add `--error`/`--warn`/`--detail`/`--debug` opts, and remove `--log-level` opt.
+* Update event params format, user object instead.
+* `res.headers` now can get values setted by `res.setHeader()`.
+* The validity period of the certificate is changed from **1 year** to **5 years**.
+
+
+
+
+
+
+
+
+## [1.3.1] - 2018-03-26
+
+### Fixed
+
+* fix bug [#45](https://github.com/hiproxy/hiproxy/issues/45).
+
+
 ## [1.3.0] - 2018-03-15
 
 ### Added
