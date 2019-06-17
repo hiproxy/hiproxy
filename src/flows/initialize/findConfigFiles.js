@@ -39,7 +39,7 @@ module.exports = function (ctx, next) {
     this.rewrite.addRule([
       'domain hi.proxy {',
       '  location / {',
-      '    proxy_pass http://127.0.0.1:' + (args.port || 5525) + '/;',
+      '    proxy_pass http://127.0.0.1:' + (config.port || 5525) + '/;',
       '  }',
       '}'
     ].join('\n'), 'hiproxy-internal-rewrite');
