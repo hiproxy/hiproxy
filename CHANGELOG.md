@@ -2,6 +2,26 @@
 
 ## [2.0.0] - 2019-08-??
 
+上次更新到现在已经很长时间了.对不起，我迟到了。
+
+hiproxy 2.0版本更新了很多功能细节，修复了很多问题，对代码进行了重构，重新规划、编写了自动化测试用例，也更新了一部分文档。
+
+这需要耗费相对较多的时间，除了写代码，我业余时间还需要拍一些照片，这是我新的爱好！
+
+hiproxy现在基本功能已经算是稳定，但是hiproxy还能做很多事情，需要继续优化的也还有很多。希望喜爱hiproxy的人能一起参与，为hiproxy做出一些贡献。
+
+如果你愿意为hiproxy贡献一份自己的力量，请提出你的issue。
+
+It has been a long time since the last update. Sorry, I am late.
+
+The hiproxy 2.0 version updates a lot of feature details, fixes a lot of problems, refactors the code, re-plans, writes automated test cases, and updates some of the documentation.
+
+This takes a relatively long time. In addition to writing code, I still need to take some photos in my spare time. This is my new hobby!
+
+Hiproxy is now basically stable, but hiproxy can do a lot of things, and there are still many things that need to be optimized. I hope that people who love hiproxy can participate and contribute to hiproxy.
+
+If you are willing to contribute a power to hiproxy, please submit your issue.
+
 ### Added
 
 * Support multiple hiproxy certificates for the same device, see [#57](https://github.com/hiproxy/hiproxy/issues/57).
