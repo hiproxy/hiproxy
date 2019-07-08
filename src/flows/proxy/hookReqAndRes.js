@@ -35,7 +35,7 @@ function hookRequest (hiproxy, ctx, next) {
   }).on('end', function () {
     body = Buffer.concat(body);
 
-    req.body = body.toString();
+    req.body = body;
     req.originalInfo = getOriginalReqInfo(req);
 
     next();
@@ -225,7 +225,9 @@ function hookResponse (hiproxy, ctx) {
  * @param {http.IncomingMessage} req http request message object
  */
 function getOriginalReqInfo (req) {
-  var originReq = {};
+  var originReq = {
+    body: req.body
+  };
   var props = [
     'aborted',
     'headers',
@@ -234,8 +236,7 @@ function getOriginalReqInfo (req) {
     'rawHeaders',
     'rawTrailers',
     'trailers',
-    'url',
-    'body'
+    'url'
   ];
 
   props.forEach(function (prop) {

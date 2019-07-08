@@ -106,7 +106,7 @@ describe('#directives - proxy_set_header', function () {
     }).then(function (res) {
       var body = res.body;
       assert.equal('POST', originalReq.method);
-      assert.equal('{"a":1,"b":22,"c":333}', originalReq.body);
+      assert.equal('{"a":1,"b":22,"c":333}', originalReq.body.toString());
       assert.deepEqual({'a': 1, 'b': 22, 'c': 333}, body.body);
     });
   });
