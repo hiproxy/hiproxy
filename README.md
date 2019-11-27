@@ -207,7 +207,7 @@ Please read [CONTRIBUTING.md](https://github.com/hiproxy/hiproxy/blob/master/CON
 
 * __zdying__ - _HTML/JavaScript/CSS/Node.js developer_ [zdying](https://github.com/zdying)
 * __zhouhailong__ - _HTML/JavaScript/CSS/Node.js developer_ [zhouhailong](https://github.com/zhouhailong)
-* __Alfred Sang (aka i5ting)__ - _CTO of Aircos, top trainer of StuQ, author of the open source project Moa.js, and also an evangelist of Node.js._
+* __Alfred Sang (aka i5ting)__ -  a full-stack developer and Node.js evangelist. He works for Alibaba Group as a Principal Front-End Developer and runs a self-media on the topic of Full-stack Node.js. His book “The Marvelous Node.js” (Part I) was published in July 2019.._
 
 See also the list of [contributors](https://github.com/hiproxy/hiproxy/graphs/contributors) who participated in this project.
 
