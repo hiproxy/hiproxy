@@ -74,6 +74,19 @@ module.exports = {
         },
         {
           name: 'subjectKeyIdentifier'
+        },
+        {
+          name: 'subjectAltName',
+          altNames: [
+            {
+              type: 6, // URI
+              value: 'http://hiproxy.org/'
+            },
+            {
+              type: 2, // DNS
+              value: CAName
+            }
+          ]
         }
       ];
       return this._createCert(attrs, attrs, exts, null, CAName);
@@ -204,10 +217,7 @@ module.exports = {
     cert.publicKey = keys.publicKey;
     cert.serialNumber = certId;
     cert.validity.notBefore = new Date();
-    cert.validity.notAfter = new Date();
-    cert.validity.notAfter.setFullYear(
-      cert.validity.notAfter.getFullYear() + 100
-    );
+    cert.validity.notAfter = new Date(Date.now () + 824 * 24 * 3600 * 1000);
 
     cert.setSubject(attrs);
     cert.setIssuer(issuers);
@@ -280,6 +290,7 @@ module.exports = {
         codeSigning: true,
         emailProtection: true,
         timeStamping: true
+        // 'id-kp-serverAuth': 'OLD'
       },
       {
         name: 'authorityKeyIdentifier'
