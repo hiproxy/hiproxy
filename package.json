@@ -63,7 +63,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "./node_modules/.bin/semistandard",
+      "pre-commit-1": "./node_modules/.bin/semistandard",
       "pre-push": "npm test"
     }
   },
@@ -86,6 +86,10 @@
       "afterEach",
       "before",
       "after"
+    ],
+    "ignore": [
+      "/test/",
+      "/old_test/"
     ]
   },
   "nyc": {

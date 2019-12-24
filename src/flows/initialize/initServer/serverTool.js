@@ -30,7 +30,7 @@ module.exports = {
     var tls = require('tls');
 
     // get default local certificate
-    return certTool.createCertificate('localhost', null, {
+    return certTool.getDomainCertificate('localhost', null, {
       subjectaltname: 'IP:127.0.0.1,DNS:localhost'
     }).then(function (defaultCert) {
       var option = {
@@ -51,7 +51,7 @@ module.exports = {
             log.debug('SNI callback [', domain.bold.green, ']:', JSON.stringify(certObj));
           } else {
             // 如果没有配置证书，自动生成证书
-            certTool.createCertificate(domain, null).then(function (cert) {
+            certTool.getDomainCertificate(domain, null).then(function (cert) {
               cb(null, tls.createSecureContext({
                 key: cert.privateKeyPem, // fs.readFileSync(defaultCert.key),
                 cert: cert.certificatePem // fs.readFileSync(defaultCert.cert)
