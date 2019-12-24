@@ -71,7 +71,7 @@ describe('#system router', function () {
         'http://127.0.0.1:9991/ssl-certificate',
         {
           'content-type': 'application/force-download',
-          'content-disposition': 'attachment; filename="Hiproxy_Custom_CA_Certificate_' + os.hostname().replace(/\./g, '_') + '.crt"'
+          'content-disposition': 'attachment; filename="Hiproxy-Custom-CA-Certificate-' + os.hostname().replace(/[\._]/g, '-') + '.crt"'
         }
       );
     });
