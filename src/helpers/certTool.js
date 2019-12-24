@@ -197,7 +197,7 @@ module.exports = {
   _createCert(attrs, issuers, exts, caCert, domain) {
     log.debug('Generate new certificate:', domain);
 
-    var keys = pki.rsa.generateKeyPair(1024);
+    var keys = pki.rsa.generateKeyPair(2048);
     var cert = pki.createCertificate();
     var certId = md5.create().update(domain).digest().toHex();
 
