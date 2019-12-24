@@ -61,6 +61,9 @@ Well, yes. Meet **hiproxy**!
 npm install -g hiproxy
 ```
 
+> If you want to experience the latest features of hiproxy, you can install the next version.
+> ```npm install -g hiproxy@next```
+
 ## Usage
 
 ### CLI
