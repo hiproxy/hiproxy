@@ -93,7 +93,7 @@ describe('#proxy - HTTPS request proxy', function () {
       //   OU: 'Development'
       // }
       assert.equal(subject.CN, 'hiproxy.org');
-      assert.equal(issuer.CN, 'Hiproxy_Custom_CA_' + os.hostname().replace(/\./g, '_'));
+      assert.equal(issuer.CN, 'Hiproxy-Custom-CA-' + os.hostname().replace(/[\._]/g, '-'));
       done();
     });
 
