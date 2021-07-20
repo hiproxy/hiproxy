@@ -360,5 +360,5 @@ function getFileNameByCN(CN) {
 // test
 // var log = {debug: function(){}};
 // var tool = module.exports;
-// var cert = tool.createCertificate('www.fuck-you.com');
+// var cert = tool.createCertificate('www.test.com');
 // console.log(cert);
